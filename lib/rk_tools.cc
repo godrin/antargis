@@ -22,6 +22,7 @@
 #include "rk_debug.h"
 
 #include <sstream>
+#include <cstdlib>
 
 int toInt(const std::string &s)
   {

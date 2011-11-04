@@ -16,25 +16,7 @@
 #ifndef AG_BASE_H
 #define AG_BASE_H
 
-#ifdef WIN32
-#ifdef AGIMPORT
-#define AGEXPORT __declspec(dllimport)
-#else
-#undef AGEXPORT
-#define AGEXPORT __declspec(dllexport)
-#endif // AGIMPORT
-#else
-
-#undef AGEXPORT
-#define AGEXPORT
-
-#endif // WIN32
-
-#ifdef SWIG
-#undef AGEXPORT
-#define AGEXPORT
-#endif
-
+#include "rk_export.h"
 #include <iostream>
 
 class AGRubyObject;
@@ -46,6 +28,8 @@ enum IsRubyObject {
 AGEXPORT IsRubyObject isRubyObject(void *o);
 AGEXPORT bool saveDelete(AGRubyObject *o);
 
+
+#ifdef USE_RUBY_DELETE
 
 /** checkedDelete deletes o, but checks before if o is a AGRubyObject
  **/
@@ -80,5 +64,22 @@ bool checkedDeleteArray(T *o) {
     return false;
   }
 }
+#else
+
+template<class T>
+bool checkedDelete(T *o) {
+  
+    delete o;
+    return true;
+  
+}
+
+template<class T>
+bool checkedDeleteArray(T *o) {
+    delete[] o;
+    return true;
+}
+
+#endif
 
 #endif

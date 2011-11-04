@@ -1,11 +1,9 @@
 #ifndef AG_VIDEO_BASE_H
 #define AG_VIDEO_BASE_H
 
-// INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
+#include <rk_base.h>
 
-#include <ag_singleton.h>
-
-class AGEXPORT AGVideoBase:public AGSingleton
+class AGEXPORT AGVideoBase
 {
  public:
   virtual ~AGVideoBase() throw();
@@ -14,6 +12,8 @@ class AGEXPORT AGVideoBase:public AGSingleton
 
   virtual int realWidth() const;
   virtual int realHeight() const;
+
+  virtual void initVideo(int w,int h,int d,bool fs,bool gl,int vw=-1,int vh=-1);
 
 };
 

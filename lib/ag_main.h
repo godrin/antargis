@@ -18,17 +18,14 @@
  * License along with this program.
  */
 
-// INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
-
 #ifndef __AG_MAIN
 #define __AG_MAIN
 
-#include <string>
-#include <rk_rubyobj.h>
-#include <ag_collector.h>
 #include <ag_rand_base.h>
 #include <ag_video_base.h>
 
+#include <string>
+#include <set>
 
 /**
  * \defgroup AntargisGUI AntargisGUI
@@ -55,7 +52,7 @@ class AGEXPORT AGRepeatedCall
   virtual void call();
 };
 
-class AGEXPORT AGMain:public AGRubyObject
+class AGEXPORT AGMain
 {
  public:
   AGMain();
@@ -66,7 +63,6 @@ class AGEXPORT AGMain:public AGRubyObject
   void setRand(AGRandomizerBase *pRand);
   AGRandomizerBase *getRand();
 
-  AGCollector *getCollector();
 
   AGVideoBase *getVideo();
   void setVideo(AGVideoBase *p);
@@ -76,13 +72,9 @@ class AGEXPORT AGMain:public AGRubyObject
   void delay(int ms);
 
  protected:
-#ifndef SWIG
-  virtual void mark() throw();
-#endif
 
  private:
   AGVideoBase *mVideo;
-  AGCollector *mCollector;
 
   const SDL_VideoInfo *videoInfo;
 

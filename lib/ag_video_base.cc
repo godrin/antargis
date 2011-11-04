@@ -24,3 +24,8 @@ int AGVideoBase::realHeight() const
     return 1;
 }
 
+void AGVideoBase::initVideo(int w, int h, int d, bool fs, bool gl, int vw, int vh)
+{
+
+}
+

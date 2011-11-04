@@ -45,28 +45,11 @@ bool quited=false;
 void newInstanceKiller();
 void deleteInstanceKiller();
 
-#ifdef DRMUSER
-std::string gUserName=DRMUSER;
-bool gDRMok=false;
-#endif
-
-//FIXME: discard this function!
-bool hasQuit()
-  {
-    return quited;
-  }
-/*
-bool glMode()
-{
-  return lastGL;
-}*/
-
-
 /**
    creates an AGMain object.
  */
 AGMain::AGMain():
-  mCollector(0),mRand(0)
+  mRand(0)
   {
     assert(mAGMain==0);
     mAGMain=this;
@@ -93,28 +76,15 @@ AGMain::AGMain():
 AGMain::~AGMain() throw()
   {
     CTRACE;
-    saveDelete(mVideo);
+    checkedDelete(mVideo);
     deleteInstanceKiller();
     mAGMain=0;
     cdebug("QUIT");
     SDL_Quit();
     quited=true;
-    setQuitting();
-
-    //  saveDelete(mRand);
-
 
     setRubyRaising(true);
   }
-
-
-AGCollector *AGMain::getCollector()
-  {
-    if(!mCollector)
-      mCollector=new AGCollector;
-    return mCollector;
-  }
-
 
 
 bool hasMain()
@@ -156,12 +126,6 @@ long AGMain::getTicks() const
   return SDL_GetTicks();
 }
 
-
-void AGMain::mark() throw()
-  {
-    markObject(getCollector());
-    markObject(mRand);
-  }
 
 void AGMain::setRand(AGRandomizerBase *pRand)
   {

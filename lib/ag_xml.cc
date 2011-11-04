@@ -22,7 +22,6 @@
 #include "ag_fs.h"
 
 #include "rk_debug.h"
-#include "rk_rubyobj.h"
 
 #include "ag_profiler.h"
 

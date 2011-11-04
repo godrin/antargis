@@ -8,6 +8,7 @@
 #include "rk_singleton.h"
 #include <set>
 #include <typeinfo>
+#include <cstdlib>
 
 std::map<std::string, RKSingletonBase*> RKSingletonBase::mSingletons;
 
