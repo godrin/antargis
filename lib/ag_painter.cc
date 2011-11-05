@@ -289,11 +289,23 @@ void AGPainter::tile(const AGTexture &pSource, const AGRect2 &pDest) {
 }
 
 void AGPainter::tile(const AGTexture &pSource, const AGRect2 &pDest, const AGRect2 &pSrc) {
+  
   STACKTRACE;
   float x, y;
+  if (!dynamic_cast<AGGLScreen*> (mTarget)) {
+#warning "remove this and implement in agtexture*"
+    for (y = pDest.y0(); y < pDest.y1(); y += pSrc.h())
+      for (x = pDest.x0(); x < pDest.x1(); x += pSrc.w()) {
+        float w = std::min(pSrc.w(), pDest.x1() - x);
+        float h = std::min(pSrc.h(), pDest.y1() - y);
+        blit(pSource, AGRect2(x, y, w, h), AGRect2(pSrc.x0(), pSrc.y0(), w, h));
+      }
+  } else {
     mTarget->tile(pSource, mCurrent.project(pDest), AGColor(0xff, 0xff, 0xff, 0xff));
-}
+  }
 
+
+}
 
 // AGSurface-painting
 

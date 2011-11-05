@@ -225,8 +225,13 @@ void parseChildren(AGWidget *pParent,const Node &pNode)
         for(;i!=pNode.end();i++)
           {
             AGWidget *w=parseNode(pParent,**i);
-            if(w)
+            if(w) {
+              cdebug("added some child:"<<w);
               pParent->addChild(w);
+            }
+            else {
+              cdebug("Could create child for node:"<<((*i)->getName()));
+            }
           }
       }
   }
