@@ -26,6 +26,7 @@
 #include "ag_profiler.h"
 
 #include "ag_surface_internal.h"
+#include "ag_screen.h"
 
 #include <SDL_ttf.h>
 
@@ -378,3 +379,8 @@ int AGFontEngine::getHeight(const AGFont &pFont,const AGStringUtf8 &pText)
     return h;
   }
 
+
+  
+AGFontEngine *getFontEngine() {
+ return getScreen().getFontEngine();
+}

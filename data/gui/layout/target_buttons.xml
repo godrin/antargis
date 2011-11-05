@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout name="ButtonPanel">
+	<antButtonPanel name="antButtonPanel">
+		<table cols="1" rows="2">
+			<rowsize row="0" relative="2"/>
+			<rowsize row="1" relative="1"/>
+			<radioGroup col="0" row="0" name="TargetGroup">
+				<table cols="4" rows="2">
+					<radio  col="0" row="0" name="doPoint" caption-image="data/gui/pointer3.png" tooltip="Point"/>
+					<radio  col="1" row="0" name="doMove" caption-image="data/gui/move.png" tooltip="Move"/>
+					<radio  col="2" row="0" name="doFight" caption-image="data/gui/sword.png" tooltip="Attack"/>
+					<radio  col="3" row="0" name="doInvent" caption-image="data/gui/invent.png" tooltip="Invent"/>
+					<radio  col="0" row="1" name="doRecruit" caption-image="data/gui/recruit.png" tooltip="Recruit"/>
+					<radio  col="1" row="1" name="doDismiss" caption-image="data/gui/dismiss.png" tooltip="Dismiss"/>
+					<radio  col="2" row="1" name="doRest" caption-image="data/gui/bed.png" tooltip="Rest"/>
+				</table>
+			</radioGroup>
+		</table>
+	</antButtonPanel>
+</layout>

@@ -456,6 +456,7 @@ void AGGLScreen::clip(const AGRect2 &r)
     cw=(GLint)m.width();
     ch=(GLint)m.height(); // +2
 
+    assertGL;
     glScissor(x0,y0,cw,ch);
     assertGL;
     glEnable(GL_SCISSOR_TEST);

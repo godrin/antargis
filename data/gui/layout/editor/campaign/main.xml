@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<layout name="CampaignEditorLayout">
+
+  <dragEnvironment name="dragEnvironment">
+    <table cols="1" rows="2">
+      <rowsize row="0" fixed="50"/>
+  
+      <cell col="0" row="0">
+        <toolBar name="toolbar">
+          <toolButton text="New" name="new" caption="muh" caption-image="gui/folder.png"/>
+          <toolButton text="Save" name="save" caption="muh" caption-image="gui/save.png" visible="true"/>
+          <toolButton text="Load" name="load" caption="muh" caption-image="gui/load.png" visible="true"/>
+          <!--<toolButton text="LoadOk" name="loadok" caption="muh" caption-image="gui/images/basic/haken.png" visible="true"/>-->
+          <toolEdit name="campaignName" text="noname" width="3" maxwidth="5"/>
+          <toolEdit name="campaignDescription" text="none" width="3" maxwidth="6" height="7"/>
+          <toolButton text="Quit" name="quit" caption-image="gui/door.png"/>
+          <!--<toolCombo name="campaignFile"/>-->
+        </toolBar>
+      </cell>
+  
+      <cell col="0" row="1">
+        <table cols="2" rows="2" name="bigTable">
+          <colsize col="0" fixed="100"/>
+          <rowsize row="1" fixed="0"/>
+    
+          <cell col="0" row="0">
+            <table cols="1" rows="4">
+              <rowsize row="0" fixed="100"/>
+              <rowsize row="1" fixed="100"/>
+              <rowsize row="2" fixed="100"/>
+              <cell col="0" row="0">
+                <dragSource name="levelSource" class="DragBoxLevel" text="Level"/>
+              </cell>
+        
+              <cell col="0" row="1">
+                <dragSource name ="storySource" class="DragBoxStory" text="Story"/>
+              </cell>
+        
+            </table>
+          </cell>
+    
+    
+          <cell col="1" row="0">
+            <scrollingWidget clientRect="(0,0,1600,1024)">
+              <dragGrid name="dragGrid" cellWidth="100" hoverColor='#9999FF' edit="textEdit"/>
+            </scrollingWidget>
+          </cell>
+    
+    
+    
+          <cell col="1" row="1" name="a">
+            <table cols="3" rows="1" name="b">
+              <colsize col="0" fixed="50"/>
+              <colsize col="2" fixed="50"/>
+              <cell col="0" row="0">
+                <button name="trash" caption-image="data/gui/images/basic/cross.png"/>
+              </cell>
+              <cell col="1" row="0">
+                <edit name="textEdit"/>
+              </cell>
+              <cell col="2" row="0">
+                <button name="edit" caption-image="data/gui/options.png"/>
+              </cell>
+            </table>
+          </cell>
+    
+        </table>
+      </cell>
+    </table>
+    <appearEffect name="showEdit" table="bigTable" row="1" size="40" duration="0.2"/>
+    <hideEffect name="hideEdit" table="bigTable" row="1" size="40" duration="0.2"/>
+  </dragEnvironment>
+<!--  <storyEditor name="storyEditor" visible="false"/>-->
+
+</layout>

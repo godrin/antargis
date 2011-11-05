@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<layout geometry="(0,0,1024,768)" name="OptionsMenu">
+	<table cols="1" rows="4">
+		<colsize col="0" relative="1"/>
+		<rowsize row="0" fixed="200"/>
+		<rowsize row="1" fixed="30"/>
+		<rowsize row="2" relative="1"/>
+		<rowsize row="3" fixed="34"/>
+		<image col="0" row="0" filename="data/gui/antargisLogo.png" enabled="false"/>
+		<table col="0" row="2" cols="5" rows="1">
+			<colsize col="0" fixed="10"/>
+			<colsize col="2" fixed="50"/>
+			<colsize col="4" fixed="10"/>
+			<colsize col="3" relative="0.3"/>
+			
+			<cell col="1" row="0">
+				<!--<text caption="No options here for the time being"/>-->
+				<table cols="2" rows="13" name="VideoOptionsMenu" visible="false">
+					<colsize col="0" relative="0.6"/>
+					<colsize col="1" relative="2"/>
+					<!--<rowsize row="0" relative="5"/>
+					<rowsize row="2" relative="5"/>
+					<rowsize row="4" relative="5"/>
+					<rowsize row="6" relative="5"/>
+					<rowsize row="8" relative="5"/>
+					<rowsize row="10" relative="5"/>-->
+					<button col="0" row="0" caption="Toggle fullscreen" name="fullscreen"/>
+					<button col="0" row="2" caption="640 x 480" name="640"/>
+					<button col="0" row="4" caption="800 x 600" name="800"/>
+					<button col="0" row="6" caption="1024 x 768" name="1024"/>
+					<button col="0" row="8" caption="1280 x 1024" name="1280"/>
+					<button col="0" row="10" caption="1400 x 1050" name="1400"/>
+					
+					<cell col="1" row="0">
+						<table cols="3" rows="1">
+							<colsize col="0" fixed="30"/>
+							<cell col="1" row="0">
+								<text caption="Texture quality"/>
+							</cell>
+							<cell col="2" row="0">
+								<frame border="button.border.normal" visible="true">
+									<comboBox name="textureQuality" cache="false">
+										<item id="low" text="low"/>
+										<item id="medium" text="medium"/>
+										<item id="high" text="high"/>
+									</comboBox>
+								</frame>
+							</cell>
+						</table>
+					</cell>
+					<cell col="1" row="1">
+						<table cols="3" rows="1">
+							<colsize col="0" fixed="30"/>
+							<cell col="1" row="0">
+								<text caption="Use frame buffer objects"/>
+							</cell>
+							<cell col="2" row="0">
+								<checkBox name="UseFBO" disabledImage="gui/images/basic/box.png" enabledImage="gui/images/basic/box_cross.png" theme="none"/>
+							</cell>
+						</table>
+					</cell>
+					<cell col="1" row="2">
+						<table cols="3" rows="1">
+							<colsize col="0" fixed="30"/>
+							<cell col="1" row="0">
+								<text caption="Use animations"/>
+							</cell>
+							<cell col="2" row="0">
+								<checkBox name="UseAnim" disabledImage="gui/images/basic/box.png" enabledImage="gui/images/basic/box_cross.png" theme="none"/>
+							</cell>
+						</table>
+					</cell>
+					<cell col="1" row="3">
+						<table cols="3" rows="1">
+							<colsize col="0" fixed="30"/>
+							<cell col="1" row="0">
+								<text caption="Use particle effects"/>
+							</cell>
+							<cell col="2" row="0">
+								<checkBox name="UseParticle" disabledImage="gui/images/basic/box.png" enabledImage="gui/images/basic/box_cross.png" theme="none"/>
+							</cell>
+						</table>
+					</cell>
+				</table>
+				<table cols="6" rows="6" name="GameOptionsMenu" visible="true">
+					<colsize col="1" relative="3"/>
+					<text col="1" row="0" caption="Play intro on start" valign="center"/>
+					<cell col="2" row="0">
+						<frame width="6">
+							<checkBox name="optionIntro" disabledImage="gui/images/basic/box.png" enabledImage="gui/images/basic/box_cross.png" theme="none"/>
+						</frame>
+					</cell>
+				</table>
+				<table cols="5" rows="6" name="AudioOptionsMenu" visible="false">
+				</table>
+			</cell>
+			
+			<radioGroup col="3" row="0" name="TypeGroup">
+				<table cols="1" rows="9">
+					<rowsize row="0" fixed="20"/>
+					<rowsize row="2" fixed="20"/>
+					<rowsize row="4" fixed="20"/>
+					<rowsize row="6" fixed="20"/>
+					<radio col="0" row="1" name="gameOptions" caption="Game" enabled="true" checked="true"/>
+					<radio col="0" row="3" name="videoOptions" caption="Video"/>
+					<radio col="0" row="5" name="audioOptions" caption="Audio" enabled="false"/>
+					
+					<button col="0" row="7" name="exit" caption="Exit"/>
+				</table>
+			</radioGroup>
+		</table>
+		<text col="0" row="3" font="yellow.font" align="center" enabled="false" caption="(C) 2005-2007 by the Antargis-team"/>
+	</table>
+</layout>

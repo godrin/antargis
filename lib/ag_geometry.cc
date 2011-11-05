@@ -30,7 +30,6 @@
 #include <ag_stringstream.h>
 #include <ag_gauss.h>
 
-#include <ruby.h>
 
 #define MAXF 100000.0f
 

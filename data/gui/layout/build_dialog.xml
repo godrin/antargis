@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<layout name="BuildDialog">
+	<table cols="3" rows="3"><!-- center window -->
+		<colsize col="1" fixed="220"/>
+		<rowsize row="1" fixed="170"/>
+		<window col="1" row="1" name="window" title="Build">
+			<table cols="1" rows="3">
+				<rowsize row="0" relative="2"/>
+				<rowsize row="1" fixed="10"/>
+				<cell col="0" row="0">
+					<table cols="5" rows="2">
+						<cell col="0" row="0">
+							<button name="AntBakery" caption-image="data/gui/editor/entities/AntBakery.png"/>
+						</cell>
+						<cell col="1" row="0">
+							<button name="AntFarm" caption-image="data/gui/editor/entities/AntFarm.png"/>
+						</cell>
+						<cell col="2" row="0">
+							<button name="AntDwelling" caption-image="data/gui/editor/entities/AntDwelling.png"/>
+						</cell>
+						<cell col="3" row="0">
+							<button name="AntMill" caption-image="data/gui/editor/entities/AntMill.png"/>
+						</cell>
+						<cell col="4" row="0">
+							<button name="AntTower" caption-image="data/gui/editor/entities/AntTower.png"/>
+						</cell>
+						<cell col="0" row="1">
+							<button name="AntTownHall" caption-image="data/gui/editor/entities/AntTownHall.png"/>
+						</cell>
+						<cell col="1" row="1">
+							<button name="AntWorkshop" caption-image="data/gui/editor/entities/AntWorkshop.png"/>
+						</cell>
+					</table>
+				</cell>
+				<cell col="0" row="2">
+					<table cols="3" rows="1">
+						<colsize col="1" relative="6"/>
+						<cell col="1" row="0">
+							<button name="cancel" caption="Cancel"/>
+						</cell>
+					</table>
+				</cell>
+			</table>
+		</window>
+	</table>
+</layout>

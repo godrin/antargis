@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<layout name="EditLayout">
+	<table cols="2" rows="1" name="table1">
+		<colsize col="1" fixed="216"/>
+		<table col="1" row="0" cols="1" rows="7">
+			<rowsize row="0" relative="1"/>
+			<rowsize row="1" relative="2"/>
+			<rowsize row="2" relative="1"/>
+			<rowsize row="3" relative="1"/>
+			<rowsize row="4" relative="5"/>
+			<rowsize row="5" relative="1"/>
+			<rowsize row="6" fixed="216"/>
+			<table col="0" row="0" cols="4" rows="2">
+				<rowsize row="0" fixed="50"/>
+				<colsize col="0" fixed="50"/>
+				<colsize col="1" fixed="50"/>
+				<colsize col="2" fixed="50"/>
+				<button col="0" row="0" name="loadButton" caption-image="data/gui/load.png"/>
+				<button col="1" row="0" name="saveButton" caption-image="data/gui/save.png"/>
+				<!--<button col="2" row="0" theme="antButton" name="options" caption-image="data/gui/options.png"/>-->
+				<button col="2" row="0" name="playerButton" caption="P" tooltip="edit players"/>
+				<button col="3" row="0" theme="antButton" name="quit" caption-image="data/gui/door.png"/>
+			</table>
+			<cell col="0" row="1">
+				<button theme="antButton" name="doGen" caption="generate Terrain"/>
+			</cell>
+			<cell col="0" row="2">
+				<radioGroup name="SpecialGroup">
+					<table cols="5" rows="1">
+						<radio col="0" row="0" name="rubber" caption-image="data/gui/editor/rubber.png"/>
+						<radio col="1" row="0" name="pointer" caption-image="data/gui/pointer3.png"/>
+						<button col="2" row="0" name="new" caption-image="data/gui/new.png"/>
+						<button col="3" row="0" name="allGrass" caption-image="data/gui/editor/grass2.png"/>
+						<button col="4" row="0" name="allWater" caption-image="data/gui/editor/water2.png"/>
+					</table>
+				</radioGroup>
+			</cell>
+			<cell col="0" row="3">
+				<radioGroup name="ChooserGroup">
+					<table cols="2" rows="1">
+						<radio col="0" row="0" name="terrain" caption-image="data/gui/editor/grass_updown.png"/>
+						<radio col="1" row="0" name="entities" caption-image="data/gui/editor/fir.png"/>
+					</table>
+				</radioGroup>
+			</cell>
+			<cell col="0" row="4">
+				<antEntList name="entitiesTab"/>
+				
+				
+				<table cols="1" rows="5" name="terrainTab">
+					<rowsize row="1" relative="2"/>
+					<radioGroup col="0" row="0" name="SizeGroup">
+						<table cols="6" rows="1">
+							<radio col="0" row="0" name="edit1" caption-image="data/gui/editor/edit1.png" tooltip="size=1"/>
+							<radio col="1" row="0" name="edit2" caption-image="data/gui/editor/edit2.png" tooltip="size=2"/>
+							<radio col="2" row="0" name="edit3" caption-image="data/gui/editor/edit3.png" tooltip="size=3"/>
+							<radio col="3" row="0" name="edit5" caption-image="data/gui/editor/edit5.png" tooltip="size=5"/>
+							<radio col="4" row="0" name="edit10" caption-image="data/gui/editor/edit10.png" tooltip="size=10"/>
+							<radio col="5" row="0" name="edit15" caption-image="data/gui/editor/edit15.png" tooltip="size=15"/>
+						</table>
+					</radioGroup>
+					<radioGroup col="0" row="1" name="TerrainGroup">
+						<table cols="6" rows="2">
+							<radio col="0" row="0" name="editHeight" caption-image="data/gui/editor/grass_updown.png"/>
+							<radio col="1" row="0" name="editWater" caption-image="data/gui/editor/water2.png"/>
+							<radio col="2" row="0" name="editSand" caption-image="data/gui/editor/sand.png"/>
+							<radio col="3" row="0" name="editGround" caption-image="data/gui/editor/ground.png"/>
+							<radio col="1" row="1" name="editGrass" caption-image="data/gui/editor/grass2.png"/>
+							<radio col="2" row="1" name="editGrass2" caption-image="data/gui/editor/dark_grass2.png"/>
+							<radio col="3" row="1" name="editForest" caption-image="data/gui/editor/small_tree.png"/>
+							<radio col="4" row="1" name="editRock" caption-image="data/gui/editor/floor2.png"/>
+						</table>
+					</radioGroup>
+					<radioGroup col="0" row="2" name="HardGroup">
+						<table cols="6" rows="1">
+							<radio col="0" row="0" name="hard1" caption-image="data/gui/editor/hard1.png" tooltip="low influence"/>
+							<radio col="1" row="0" name="hard2" caption-image="data/gui/editor/hard2.png" tooltip="med influence"/>
+							<radio col="2" row="0" name="hard3" caption-image="data/gui/editor/hard3.png" tooltip="strong influence"/>
+						</table>
+					</radioGroup>
+				</table>
+
+				
+			</cell>
+			<cell col="0" row="6">
+				<frame border="button.border.normal">
+					<miniMap name="miniMap"/>
+				</frame>
+			</cell>
+			
+		</table>
+	</table>
+
+</layout>

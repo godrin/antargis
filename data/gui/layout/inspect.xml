@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<layout name="TellTale">
+	<table cols="3" rows="3"><!-- center window -->
+		<colsize col="1" fixed="400"/>
+		<rowsize row="1" fixed="200"/>
+		<window col="1" row="1" name="window" title="Playername" theme2="story">
+			<table cols="1" rows="2">
+				<colsize col="0" relative="1"/>
+				<rowsize row="0" relative="1"/>
+				<rowsize row="1" fixed="30"/>
+				<table col="0" row="0" cols="3" rows="1">
+					<colsize col="0" fixed="66"></colsize>
+					<colsize col="1" relative="1"></colsize>
+					<colsize col="2" fixed="66"></colsize>
+					<rowsize row="0" relative="1"></rowsize>
+					<button col="0" row="0" caption="huhu" theme="antButton" caption-image="data/gui/portraits/wesnoth1.png"/>
+					<text col="1" row="0" name="text"/>
+				</table>
+				<button col="0" row="1" name="ok" theme="antButton" caption="Ok"/>
+			</table>
+		</window>
+	</table>
+</layout>

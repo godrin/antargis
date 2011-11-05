@@ -37,8 +37,8 @@ class AGEXPORT AGFont
 
   enum Style {NORMAL,BOLD,UNDERLINE,ITALIC};
 
-  AGFont(AGFontEngine *pEngine);
-  AGFont(AGFontEngine *pEngine,const std::string &pFile,int size=14);//,int index=0);
+  AGFont();
+  AGFont(const std::string &pFile,int size=14);//,int index=0);
 
   void setColor(const AGColor &pColor);
   AGColor getColor() const;
@@ -75,7 +75,6 @@ class AGEXPORT AGFont
   std::string toString() const;
 
  private:
-   AGFontEngine *engine;
   Style mStyle;
   std::string mName;
   int mSize;

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout name="GenerateDialog">
+	<table cols="3" rows="3"><!-- center window -->
+		<colsize col="1" fixed="400"/>
+		<rowsize row="1" fixed="360"/>
+		<window col="1" row="1" name="window" title="Generate terrain">
+			<table cols="1" rows="2">
+				<rowsize row="1" fixed="30"/>
+				<cell col="0" row="0">
+					<frame width="5" name="frame"/>
+				</cell>
+				<cell row="1" col="0">
+					<table cols="2" rows="1">
+						<button col="0" row="0" name="ok" theme="antButton" caption="Ok"/>
+						<button col="1" row="0" name="cancel" theme="antButton" caption="Cancel"/>
+					</table>
+				</cell>
+			</table>
+		</window>
+	</table>
+</layout>

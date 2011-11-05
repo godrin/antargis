@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout name="DebugLayout">
+  <table geometry="(0,0,250,50)" cols="3" rows="1">
+		<button col="0" row="0" theme="antButton" name="load" caption-image="data/load.png"/>
+		<button col="1" row="0" theme="antButton" name="test1" caption-image="data/pointer1.png"/>
+		<button col="2" row="0" theme="antButton" name="save" caption-image="data/save.png"/>
+	</table>
+<!--	<table cols="3" rows="3">
+		<colsize col="0" fixed="300"/>
+		<rowsize row="2" fixed="200"/>
+		<button col="0" row="2"/>
+		<text col="0" row="2" name="debug" caption="schmuhl\nbla\n"/>
+	</table>-->
+</layout>

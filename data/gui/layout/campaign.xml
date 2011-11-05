@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<layout geometry="(0,0,1024,768)" name="CampaignMenu">
+	<table cols="1" rows="4">
+		<colsize col="0" relative="1"/>
+		<rowsize row="0" fixed="200"/>
+		<rowsize row="1" fixed="30"/>
+		<rowsize row="2" relative="1"/>
+		<rowsize row="3" fixed="34"/>
+		<image col="0" row="0" filename="data/gui/antargisLogo.png" enabled="false"/>
+		<!--<text col="0" row="1" caption="Start campaign" align="center" font="credits.font"/>-->
+		<table col="0" row="2" cols="5" rows="1">
+			<colsize col="0" fixed="10"/>
+			<colsize col="2" fixed="10"/>
+			<colsize col="4" fixed="10"/>
+			<colsize col="3" relative="0.3"/>
+			<rowsize row="0" relative="1"/>
+			
+			<table col="3" row="0" cols="1" rows="2">
+				<rowsize row="0" relative="3"/>
+				
+				<radioGroup col="0" row="0" name="campaignGroup">
+					<table cols="1" rows="12">
+						<rowsize row="1" fixed="20"/>
+						<rowsize row="3" fixed="20"/>
+						<rowsize row="5" fixed="20"/>
+						<rowsize row="7" fixed="20"/>
+						<rowsize row="9" fixed="20"/>
+						<rowsize row="11" fixed="20"/>
+					
+						<radio col="0" row="0"  name="campaign0"/>
+						<radio col="0" row="2"  name="campaign1"/>
+						<radio col="0" row="4"  name="campaign2"/>
+						<radio col="0" row="6"  name="campaign3"/>
+						<radio col="0" row="8"  name="campaign4"/>
+						<radio col="0" row="10" name="campaign5"/>
+					</table>
+				</radioGroup>
+				<table col="0" row="1" cols="1" rows="3">
+					<rowsize row="1" fixed="20"/>
+					<button row="0" col="0" name="start" caption="Start"/>
+					<button row="2" col="0" name="exit" caption="Exit"/>
+				</table>
+			</table>
+			
+			<table col="1" row="0" cols="1" rows="3">
+				<rowsize row="0" relative="5"/>
+				<rowsize row="1" fixed="20"/>
+				<rowsize row="2" relative="2"/>
+				<image col="0" row="0" name="campaignImage"/>
+				<text col="0" row="2" name="campaignDescription" font="story.font" align="center" enabled="false" caption=""/>
+			</table>
+		</table>
+		<text col="0" row="3" font="yellow.font" align="center" enabled="false" caption="(C) 2005-2007 by the Antargis-team"/>
+	</table>
+</layout>

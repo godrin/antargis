@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<layout name="OptionsMenu">
+	<table cols="3" rows="3"><!-- center window -->
+		<colsize col="1" fixed="400"/>
+		<rowsize row="1" fixed="220"/>
+		<window col="1" row="1" name="window" title="Edit Properties">
+			<table cols="1" rows="5">
+				<colsize col="0" relative="1"/>
+				<rowsize row="0" relative="1"/>
+				<rowsize row="1" relative="1"/>
+				<rowsize row="2" fixed="30"/>
+				<table col="0" row="0" cols="2" rows="3" name="t1">
+					<rowsize row="0" fixed="5"/>
+					<rowsize row="2" fixed="5"/>
+					<colsize col="0" fixed="100"/>
+					<text col="0" row="1" caption="Name:"/>
+					<edit col="1" tabindex="0" theme2="antButton" row="1" name="AntName" text="antName0"/>
+				</table>
+				<table col="0" row="1" cols="2" rows="3" name="t1">
+					<rowsize row="0" fixed="5"/>
+					<rowsize row="2" fixed="5"/>
+					<colsize col="0" fixed="100"/>
+					<text col="0" row="1" caption="Men:"/>
+					<edit col="1" tabindex="0" theme2="antButton" row="1" name="MenCount" text="0"/>
+				</table>
+				<table col="0" row="2" cols="2" rows="3" name="NpcTypeView">
+					<rowsize row="0" fixed="5"/>
+					<rowsize row="2" fixed="5"/>
+					<colsize col="0" fixed="100"/>
+					<text col="0" row="1" caption="NPCType:"/>
+					<edit col="1" tabindex="0" row="1" name="NpcType" text="0"/>
+				</table>
+				<cell col="0" row="3">
+					<table cols="2" rows="1">
+						<text col="0" row="0" caption="Player:"/>
+						<comboBox col="1" row="0" name="Player"/>
+					</table>
+				</cell>
+				<table col="0" row="4" cols="2" rows="1">
+					<button col="0" row="0" name="ok" theme="antButton" caption="Ok"/>
+					<button col="1" row="0" name="cancel" theme="antButton" caption="Cancel"/>
+				</table>
+			</table>
+		</window>
+	</table>
+</layout>

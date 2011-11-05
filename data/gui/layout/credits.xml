@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<layout geometry="(0,0,1024,768)" name="MainMenu">
+	<image geometry="(0,0,1024,768)" filename="data/gui/small_dark_forest.png" theme="none" enabled="false"/>
+	<table cols="1" rows="4">
+		<colsize col="0" relative="1"/>
+		<rowsize row="0" fixed="200"/>
+		<rowsize row="1" fixed="30"/>
+		<rowsize row="2" relative="1"/>
+		<rowsize row="3" fixed="34"/>
+		<image col="0" row="0" filename="data/gui/antargisLogo.png" enabled="false"/>
+		<table col="0" row="2" cols="3" rows="1">
+			<colsize col="0" relative="1"/>
+			<colsize col="1" relative="3"/>
+			<colsize col="2" relative="1"/>
+			<rowsize row="0" relative="1"/>
+			
+			<table col="1" row="0" cols="1" rows="3">
+				<rowsize row="0" relative="1"/>
+				<rowsize row="1" relative="7"/>
+				<rowsize row="2" relative="1"/>
+				<text row="0" col="0" caption="Credits" align="center" font="credits.font"/>
+				<cell row="1" col="0">
+					<antTicker name="ticker" text="
+_Design & Programming
+David Kamphausen
+
+_Arts
+David Kamphausen
+Jason Lutes (portraits from Wesnoth)
+
+_Music & Sounds
+Mr.Maudaline
+
+_Story
+David Kamphausen (Godrin)
+Gonzalo Baltanás (Nerian)
+Alexandru Lazar
+
+_Level design
+Gonzalo Baltanás (Nerian)
+David Kamphausen (Godrin)
+
+_Packaging
+Andreas Bresser (Pscho)
+
+_Contributions
+Alexandru Lazar (std)
+Yura Semashko (Yurand)
+Chris Smith (Sparky)
+Andreas Bresser (Pscho)
+Toby Haynes (Nexus6)
+others to be found in AUTHORS
+
+_Translators
+Gonzalo Baltanás (Nerian)
+Andreas Bresser (Pscho)
+
+
+_PPC testing
+Cyril Brulebois (KiBi)
+
+_Testing
+Shevegen (on many,many platforms)
+Sebastian Bertho
+Martin Kamphausen
+Maik-David Kroyer
+and many, many more
+
+_Thanks for inspiration go to
+Bullfrog
+Battle for Wesnoth
+(www.wesnoth.org)
+
+Daimonin
+(www.daimonin.net)
+
+_Special thanks for their support go to
+Claudia Kamphausen
+Maik-David Kroyer
+Charles Goodwin (charlieg)
+Visit his freegamer.blogspot.com
+
+_Thanks go to these for opening their source
+_and thus helping understand
+Lee Thomason
+(http://www.grinninglizard.com)
+
+Glest
+(www.glest.org)
+
+ParaGUI
+(www.paragui.org)
+
+If we have forgot you,
+give us a note.
+
+
+
+
+
+
+
+
+You're still there?
+
+
+
+
+
+
+
+
+
+Come on. If you are that interested,
+come over to the forums and help!
+
+
+
+" cfont="cr_bold.font" nfont="cr_name.font"/>
+				</cell>
+				<button row="2" col="0" name="exit" caption="Exit"/>
+			</table>
+		</table>
+	</table>
+</layout>

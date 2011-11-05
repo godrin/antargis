@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<layout geometry="(0,0,1024,768)" name="MainMenu">
+	<table cols="1" rows="4">
+		<colsize col="0" relative="1"/>
+		<rowsize row="0" fixed="200"/>
+		<rowsize row="1" fixed="30"/>
+		<rowsize row="2" relative="1"/>
+		<rowsize row="3" fixed="34"/>
+		<image col="0" row="0" filename="data/gui/antargisLogo.png" enabled="false"/>
+		<!--<text col="0" row="1" caption="Start campaign" align="center" font="credits.font"/>-->
+		<table col="0" row="2" cols="5" rows="1">
+			<colsize col="0" fixed="10"/>
+			<colsize col="2" fixed="10"/>
+			<colsize col="4" fixed="10"/>
+			<colsize col="3" relative="0.3"/>
+			<rowsize row="0" relative="1"/>
+			
+			<cell col="1" row="0">
+				<frame width="50">
+					<table cols="2" rows="1">
+						<cell col="0" row="0">
+							<listBox name="list"/>
+						</cell>
+						<cell col="1" row="0">
+							<frame width="20">
+								<table cols="1" rows="2">
+									<cell col="0" row="0">
+										<frame border="button.border.normal" visible="true">
+											<image name="screenshot"/>
+										</frame>
+									</cell>
+									<cell col="0" row="1">
+										<text caption="..." name="desc"/>
+									</cell>
+								</table>
+							</frame>
+						</cell>
+					</table>
+				</frame>
+			</cell>
+			
+			<table col="3" row="0" cols="1" rows="2">
+				<rowsize row="0" relative="3"/>
+				
+				<table col="0" row="1" cols="1" rows="3">
+					<rowsize row="1" fixed="20"/>
+					<button row="0" col="0" name="singleStart" caption="Start"/>
+					<button row="2" col="0" name="singleExit" caption="Exit"/>
+				</table>
+			</table>
+		</table>
+		<text col="0" row="3" font="yellow.font" align="center" enabled="false" caption="(C) 2005-2007 by the Antargis-team"/>
+	</table>
+</layout>

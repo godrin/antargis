@@ -20,10 +20,10 @@
 
 #include "ag_font.h"
 #include "ag_fontengine.h"
+#include "ag_screen.h"
 #include <sstream>
 
-AGFont::AGFont(AGFontEngine *pEngine,const std::string &pFile,int size):
-engine(pEngine),
+AGFont::AGFont(const std::string &pFile,int size):
   mName(pFile),mSize(size),mColor(0xFF,0xFF,0xFF)
   {
     mAlpha=0xFF;
@@ -33,9 +33,8 @@ engine(pEngine),
     inset=false;
   }
 
-AGFont::AGFont(AGFontEngine *pEngine)
+AGFont::AGFont()
   {
-    engine=pEngine;
     mName="FreeSans.ttf";
     mSize=14;
     mColor=AGColor(0xFF,0xFF,0xFF);
@@ -48,7 +47,6 @@ AGFont::AGFont(AGFontEngine *pEngine)
 
 AGFont &AGFont::operator=(const AGFont &f)
   {
-    engine=f.engine;
     mName=f.mName;
     mSize=f.mSize;
     mColor=f.mColor;
@@ -109,11 +107,11 @@ std::string AGFont::getName() const
 
 int AGFont::getWidth(const AGStringUtf8 &mText) const
 {
-  return engine->getWidth(*this,mText);
+  return getScreen().getFontEngine()->getWidth(*this,mText);
 }
 int AGFont::getHeight(const AGStringUtf8 &mText) const
 {
-  return engine->getHeight(*this,mText);
+  return getScreen().getFontEngine()->getHeight(*this,mText);
 }
 
 void AGFont::setEmbossed(bool e)

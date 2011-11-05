@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<layout name="PlayersDialog">
+	<table cols="3" rows="3"><!-- center window -->
+		<colsize col="1" fixed="600"/>
+		<rowsize row="1" fixed="290"/>
+		<window col="1" row="1" name="window" title="Edit players">
+			<table cols="2" rows="1">
+				<colsize col="1" relative="2"/>
+				<cell col="0" row="0">
+					<frame width="3">
+						<table cols="1" rows="2">
+							<rowsize row="1" fixed="30"/>
+							<cell col="0" row="0">
+								<listBox name="playerList"/>
+							</cell>
+							<cell col="0" row="1">
+								<button name="deletePlayer" caption="delete"/>
+							</cell>
+						</table>
+					</frame>
+				</cell>
+				<cell col="1" row="0">
+					<frame width="3">
+						<table cols="2" rows="5">
+							<rowsize row="1" relative="6"/>
+							<rowsize row="4" fixed="30"/>
+							<colsize col="1" relative="2"/>
+							<cell col="0" row="0">
+								<text caption="Name"/>
+							</cell>
+							<cell col="1" row="0">
+								<edit name="playerName" caption=""/>
+							</cell>
+							<cell col="0" row="1">
+								<text caption="type"/>
+							</cell>
+							<cell col="1" row="1">
+								<listBox name="playerType"/>
+							</cell>
+							
+							<cell col="0" row="4">
+								<button name="addPlayer" caption="add"/>
+							</cell>
+							<cell col="1" row="4">
+								<button name="changePlayer" caption="change"/>
+							</cell>
+						</table>
+					</frame>
+				</cell>
+			</table>
+		</window>
+	</table>
+</layout>

@@ -60,7 +60,9 @@ public:
 
   static AGString toHex(int i);
 
+#ifdef USE_RK_RTOOLS
   bool matches(const std::string &regex) const;
+#endif
 };
 
 #endif

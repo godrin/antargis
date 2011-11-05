@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<layout name="TellTale">
+	<table cols="3" rows="3"><!-- center window -->
+		<colsize col="1" fixed="400"/>
+		<rowsize row="0" relative="5"/>
+		<rowsize row="1" fixed="100"/>
+		<window col="1" row="1" name="window">
+			<table cols="1" rows="2">
+				<cell col="0" row="0">
+					<text caption="Loading..."/>
+				</cell>
+				<cell col="0" row="1">
+					<frame width="15">
+						<frame border="button.border.normal">
+							<bar color="#856c30" bgcolor="#333333" name="bar"/>
+						</frame>
+					</frame>
+				</cell>
+			</table>
+		</window>
+	</table>
+</layout>

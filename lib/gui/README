@@ -1,0 +1,39 @@
+== Overview
+AntargisGUI is a C++ GUI-library, that's aimed at usage in either C++ and Ruby.
+It's based upon libSDL and OpenGL and can be run in OpenGL-mode and plain SDL-mode, too.
+However within the Antargis-game only OpenGL-mode is used.
+
+Though being quiet small(TM) AntargisGUI provides a whole bunch of features, like:
+* widgets, windows, buttons, list-boxes, combo-boxes, dialogs, checkboxes, edits (single and multiline), tooltips
+* simple event-handling
+* file-system abstraction
+* UTF-8 and localization support
+* XML-based layouts
+* extendable through either C++ and Ruby
+* basic geometry-classes (2d and 3d)
+* encryption with AES
+* themeable
+
+Because the important parts are written in C++, the main documentation in done with doxygen.
+So for more detailed information and a complete API-documentation go to link:../api/html/index.html 
+
+== Dependencies (deprecated)
+
+This library is aimed at being used by a script language like ruby or python, but it should be still
+usable in plain c++.
+
+needed libraries:
+ruby(-dev)
+swig(-dev)
+libSDL
+libSDL_image
+libSDL_ttf
+libSDL_mixer
+libphysfs
+
+you have 2 possibilities to compile it
+1) use autotools:
+  ./configure && make && make install
+2) using extconf.rb /mkmf:
+  cd src && ruby extconf.rb && make && make install
+

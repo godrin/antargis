@@ -1,8 +1,9 @@
 #include <rk_string.h>
 #include <rk_debug.h>
 #include <rk_utf8.h>
+#ifdef USE_RK_RTOOLS
 #include <rk_rtools.h>
-
+#endif
 ///////////
 // AGString
 ///////////
@@ -227,12 +228,12 @@ AGString AGString::operator*(size_t p) const
 }
 
 
-
+#ifdef USE_RK_RTOOLS
 bool AGString::matches(const std::string &regex) const
 {
   return rubyMatchRegex(*this,regex);
 }
-
+#endif
 AGString AGString::last(size_t n) const
 {
 

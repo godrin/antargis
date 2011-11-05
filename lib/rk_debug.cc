@@ -26,15 +26,14 @@
 #ifdef __WIN32__
 #include <winsock2.h>
 #endif
-#include <ruby.h>
 #include <SDL.h>
 
 bool quietLog=false;
 void setQuiet()
-  {
+{
     quietLog=true;
-  }
-
+}
+/*
 static bool gRubyRaising=false;
 void agRaise(const std::string &s)
   {
@@ -49,17 +48,28 @@ void setRubyRaising(bool flag)
   {
     gRubyRaising=flag;
   }
+*/
+
+void agRaise(const std::string &s)
+{
+  cdebug("AG_RAISE:"<<s);
+    throw std::runtime_error(s);
+}
+
+void setRubyRaising(bool flag) {
+}
+
 
 size_t gDebugLevel=0;
 
 size_t getDebugLevel()
-  {
+{
     return gDebugLevel;
-  }
+}
 void setDebugLevel(size_t t)
-  {
+{
     gDebugLevel=t;
-  }
+}
 
 
 #ifndef MNDEBUG
@@ -68,42 +78,42 @@ int D::d=0;
 std::ofstream debugOFS("debug.txt");
 
 std::ostream &getDebug()
-  {
-    if(quietLog)
-      return debugOFS;
+{
+    if (quietLog)
+        return debugOFS;
     else
-      return std::cout;
-  }
+        return std::cout;
+}
 
 size_t gDebugIndex=0;
 
 size_t getDebugIndex()
-  {
+{
     return gDebugIndex;
-  }
+}
 
 
 
 D::D(std::string c):
-  m(c)
-  {
+        m(c)
+{
     indent();
     gDebugIndex++;
 
     debugout_checked(2,"start of:"<<c<<"("<<gDebugIndex<<")"<<std::endl);
     d++;
-  }
+}
 AGEXPORT D::~D()
-  {
+{
     d--;
     indent();
     debugout_checked(2,"end   of:"<<m<<std::endl);
-  }
+}
 void D::indent()
-  {
-    for(int i=0;i<d;i++)
-      debugout_checked(2,"  ");
-  }
+{
+    for (int i=0;i<d;i++)
+        debugout_checked(2,"  ");
+}
 
 
 #endif
@@ -114,27 +124,27 @@ void D::indent()
 
 #include "execinfo.h"
 void printStacktrace()
-  {
+{
     void* callstack[128];
     int i, frames = backtrace(callstack, 128);
     char** strs = backtrace_symbols(callstack, frames);
     printf("FRAMES:%d\n",frames);
     for (i = 0; i < frames; ++i) {
-      printf("%s\n", strs[i]);
+        printf("%s\n", strs[i]);
     }
     free(strs);
     /*
     struct nlist *nl;
     int result=nlist("antargis.bundle",nl);
     std::cout<<"RESULT:"<<result<<std::endl;
-*/
-  }
+    */
+}
 
 #else
 
 void printStacktrace()
-  {
-  }
+{
+}
 
 #endif
 

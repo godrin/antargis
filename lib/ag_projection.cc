@@ -1,6 +1,6 @@
 #include "ag_projection.h"
 #include "rk_debug.h"
-#include "ag_algebra.h"
+#include "math_algebra.h"
 
 AGProjection2D::AGProjection2D() :
   mInited(false)

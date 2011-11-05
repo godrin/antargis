@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<layout name="AudioOptionsDialog">
+	<table cols="3" rows="3"><!-- center window -->
+		<colsize col="1" fixed="500"/>
+		<rowsize row="1" fixed="220"/>
+		<window col="1" row="1" name="window" title="Audio Options">
+			<table cols="1" rows="2">
+				<colsize col="0" relative="1"/>
+				<rowsize row="0" relative="1"/>
+				<rowsize row="1" fixed="30"/>
+				<table col="0" row="0" cols="4" rows="5">
+					<rowsize row="1" relative="0.2"/>
+					<rowsize row="3" relative="0.2"/>
+					<colsize col="1" fixed="40"/>
+					<colsize col="3" fixed="40"/>
+					<text col="0" row="0" caption="Music volume"/>
+					<text col="0" row="2" caption="Ambient sound"/>
+					<text col="0" row="4" caption="Sound effects"/>
+					<button col="1" row="0" name="decMusic" caption="-"/>
+					<button col="3" row="0" name="incMusic" caption="+"/>
+					<button col="1" row="2" name="decAmbient" caption="-"/>
+					<button col="3" row="2" name="incAmbient" caption="+"/>
+					<button col="1" row="4" name="decSound" caption="-"/>
+					<button col="3" row="4" name="incSound" caption="+"/>
+					
+					<cell col="2" row="0">
+						<frame width="5">
+							<bar name="musicBar" value="0.4" color="#00AA00" bgcolor="#000000"/>
+						</frame>
+					</cell>
+					<cell col="2" row="2">
+						<frame width="5">
+							<bar name="ambientBar" value="0.8" color="#00AA00" bgcolor="#000000"/>
+						</frame>
+					</cell>
+					<cell col="2" row="4">
+						<frame width="5">
+							<bar name="soundBar" value="1.0" color="#00AA00" bgcolor="#000000"/>
+						</frame>
+					</cell>
+					<!--
+					<button theme="antButton" col="0" row="1" name="fullscreen" caption="Toggle fullscreen" tooltip="Use ALT+Return for toggling wherever you are."/>
+					<button theme="antButton" col="0" row="2" name="shadow" caption="Toggle shadow"/>
+					<button theme="antButton" col="0" row="3" name="particle" caption="Toggle particle effects"/>
+					<button theme="antButton" col="0" row="4" name="animation" caption="Toggle animation" tooltip="This won't be changed until restart."/>
+					
+					<button theme="antButton" col="1" row="1" name="1024" caption="1024x768" enabled="false" tooltip="Please use options in mainmenu for now."/>
+					<button theme="antButton" col="1" row="2" name="1280" caption="1280x1024" enabled="false" tooltip="Please use options in mainmenu for now."/>
+					<button theme="antButton" col="1" row="3" name="1400" caption="1400x1050" enabled="false" tooltip="Please use options in mainmenu for now."/>-->
+				</table>
+				<button col="0" row="1" name="ok" theme="antButton" caption="Ready"/>
+			</table>
+		</window>
+	</table>
+</layout>

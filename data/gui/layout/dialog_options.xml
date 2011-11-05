@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<layout name="OptionsMenu">
+	<table cols="3" rows="3"><!-- center window -->
+		<colsize col="1" fixed="400"/>
+		<rowsize row="1" fixed="170"/>
+		<window col="1" row="1" name="window" title="Options">
+			<table cols="1" rows="2">
+				<colsize col="0" relative="1"/>
+				<rowsize row="0" relative="1"/>
+				<rowsize row="1" fixed="30"/>
+				<table col="0" row="0" cols="2" rows="4">
+					<text col="0" row="0" caption="Game" align="center"/>
+					<text col="1" row="0" caption="Options" align="center"/>
+					<button theme="antButton" col="0" row="1" name="save" caption="Save"/>
+					<button theme="antButton" col="0" row="2" name="load" caption="Load"/>
+					<button theme="antButton" col="0" row="3" name="story" caption="Story log"/>
+					
+					<button theme="antButton" col="1" row="1" name="video" caption="Video"/>
+					<button theme="antButton" col="1" row="2" name="audio" caption="Audio"/>
+					<button theme="antButton" col="1" row="3" name="gameoptions" caption="Gameoptions" enabled="false"/>
+				</table>
+				<button col="0" row="1" name="ok" theme="antButton" caption="Ready"/>
+			</table>
+		</window>
+	</table>
+</layout>

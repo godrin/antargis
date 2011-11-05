@@ -196,7 +196,6 @@ AGLine2 AGPaintProjection::clipLine(AGLine2 l) const {
 /////////////////////////////////////////////////////////////////////////////////
 
 AGPainter::AGPainter() : mCurrent(getScreen().getRect()), mTarget(&getScreen()) {
-  CTRACE;
   mTarget->beginPaint();
 }
 
@@ -206,12 +205,10 @@ AGPainter::AGPainter(const AGPainter &p) : ps(p.ps), mCurrent(p.mCurrent), mTarg
 }
 
 AGPainter::AGPainter(AGPaintTarget &pTarget) : mCurrent(pTarget.getRect()), mTarget(&pTarget) {
-  CTRACE;
   mTarget->beginPaint();
 }
 
 AGPainter::~AGPainter() throw () {
-  CTRACE;
   if (mTarget) {
     mTarget->unclip();
     mTarget->endPaint();

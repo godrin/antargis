@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<layout name="ButtonPanel">
+	<frame border="button.border.normal" visible="true" background="button.background.disabled">
+<frame width="2">
+	<antButtonPanel name="antButtonPanel">
+		<table cols="1" rows="2">
+			<rowsize row="0" fixed="30"/>
+			<cell col="0" row="0">
+				<text caption="" name="heroName" enabled="false" align="center" font="invTitle.font"/>
+			</cell>
+			<cell col="0" row="1">
+				<table cols="4" rows="1">
+					<colsize col="1" relative="2"/>
+					<colsize col="2" fixed="5"/>
+					<cell row="0" col="0">
+						<table cols="1" rows="2">
+							<image col="0" row="0" name="jobView" enabled="false" theme="flatbutton" filename="data/gui/bed.png" tooltip="Current job"/>
+						</table>
+					</cell>
+					<cell row="0" col="1">
+						<radioGroup name="ButtonPanelGroup">
+							<table cols="2" rows="3">
+								<button  col="0" row="0" name="doRest" caption-image="data/gui/bed.png" tooltip="Rest"/>
+								<button  col="1" row="0" name="doDismiss" caption-image="data/gui/dismiss.png" tooltip="Dismiss"/>
+								<button  col="0" row="1" name="doDropFood" caption-image="data/gui/drop_apple.png" tooltip="Drop food"/>
+								<button  col="1" row="1" name="doDropWeapon" caption-image="data/gui/drop_weapon.png" tooltip="Drop weapons"/>
+								<radio  col="1" row="2" name="doBuild" caption-image="data/gui/build.png" tooltip="Build" enabled="true"/>
+							</table>
+						</radioGroup>
+					</cell>
+					<cell col="3" row="0">
+						<radioGroup name="ButtonPanelGroupAgg">
+							<table cols="1" rows="3">
+								<radio  col="0" row="0" name="doAgg0" caption-image="data/gui/sword.png" tooltip="Low aggression"/>
+								<radio  col="0" row="1" name="doAgg1" caption-image="data/gui/sword2.png" tooltip="Medium aggression"/>
+								<radio  col="0" row="2" name="doAgg2" caption-image="data/gui/sword3.png" tooltip="High aggression"/>
+							</table>-
+						</radioGroup>
+					</cell>
+				</table>
+			</cell>
+		</table>
+	</antButtonPanel>
+</frame>
+</frame>
+</layout>

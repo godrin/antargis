@@ -1,0 +1,490 @@
+<?xml version="1.0"?>
+<theme>
+	<button>
+			<border>
+				<normal>
+					<image name="image" file="data/gui/buttontest3.png"/>
+				</normal>
+				<disabled>
+					<image name="image" file="data/gui/buttontest3.png"/>
+				</disabled>
+				<lighted>
+					<image name="image" file="data/gui/buttontest3.png"/>
+				</lighted>
+				<pressed>
+					<image name="image" file="data/gui/buttontest3b.png"/>
+				</pressed>
+				<checked>
+					<image name="image" file="data/gui/buttontest3c.png"/>
+				</checked>
+				<checkedlighted>
+					<image name="image" file="data/gui/buttontest3c.png"/>
+				</checkedlighted>
+				<checkedpressed>
+					<image name="image" file="data/gui/buttontest3d.png"/>
+				</checkedpressed>
+			</border>
+			<background>
+				<normal>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#54555b'/>
+					<color name='gradientColor2' color='#3c3d41'/>
+					<color name='gradientColor3' color='#3c3d41'/>
+					<color name='gradientColor4' color='#12141c'/>
+				</normal>
+				<disabled>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#12141c'/>
+					<color name='gradientColor2' color='#12141c'/>
+					<color name='gradientColor3' color='#12141c'/>
+					<color name='gradientColor4' color='#12141c'/>
+				</disabled>
+				<lighted>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#515488'/>
+					<color name='gradientColor2' color='#434674'/>
+					<color name='gradientColor3' color='#434674'/>
+					<color name='gradientColor4' color='#262849'/>
+				</lighted>
+				<pressed>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#434674'/>
+					<color name='gradientColor2' color='#333664'/>
+					<color name='gradientColor3' color='#262849'/>
+					<color name='gradientColor4' color='#515488'/>
+				</pressed>
+				<checkedlighted>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#f3ac0e'/>
+					<color name='gradientColor2' color='#ffd272'/>
+					<color name='gradientColor3' color='#f3ac0e'/>
+					<color name='gradientColor4' color='#c18c1a'/>
+				</checkedlighted>
+				<checked>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#ffaa00'/>
+					<color name='gradientColor2' color='#ee9900'/>
+					<color name='gradientColor3' color='#dd8800'/>
+					<color name='gradientColor4' color='#aa6600'/>
+<!--					<color name='gradientColor1' color='#765f27'/>
+					<color name='gradientColor2' color='#614e20'/>
+					<color name='gradientColor3' color='#53431b'/>
+					<color name='gradientColor4' color='#443616'/>-->
+				</checked>
+				<checkedpressed>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#ee9900'/>
+					<color name='gradientColor2' color='#dd8800'/>
+					<color name='gradientColor3' color='#aa6600'/>
+					<color name='gradientColor4' color='#ffaa00'/>
+				</checkedpressed>
+			</background>
+		<text>
+			<font name="font" file="FreeSans.ttf" size="22" color="#f3ac0e" embossed="true" borderColor="#000000" borderWidth="3" inset="false"/>
+		</text>
+	</button>
+	
+	<flatbutton>
+		<button>
+			<border>
+				<normal>
+					<image name="image" file="data/gui/buttontest3.png"/>
+				</normal>
+<!--				<disabled>
+					<image name="image" file="data/gui/buttontest3.png"/>
+				</disabled>-->
+				<lighted>
+					<image name="image" file="data/gui/buttontest3.png"/>
+				</lighted>
+				<pressed>
+					<image name="image" file="data/gui/buttontest3b.png"/>
+				</pressed>
+				<!--<checked>
+					<image name="image" file="data/gui/buttontest3c.png"/>
+				</checked>-->
+				<checkedlighted>
+					<image name="image" file="data/gui/buttontest3c.png"/>
+				</checkedlighted>
+				<checkedpressed>
+					<image name="image" file="data/gui/buttontest3d.png"/>
+				</checkedpressed>
+			</border>
+			<background>
+				<normal>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#54555b'/>
+					<color name='gradientColor2' color='#3c3d41'/>
+					<color name='gradientColor3' color='#3c3d41'/>
+					<color name='gradientColor4' color='#12141c'/>
+				</normal>
+				<!--<disabled>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#12141c'/>
+					<color name='gradientColor2' color='#12141c'/>
+					<color name='gradientColor3' color='#12141c'/>
+					<color name='gradientColor4' color='#12141c'/>
+				</disabled>-->
+				<lighted>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#515488'/>
+					<color name='gradientColor2' color='#434674'/>
+					<color name='gradientColor3' color='#434674'/>
+					<color name='gradientColor4' color='#262849'/>
+				</lighted>
+				<pressed>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#434674'/>
+					<color name='gradientColor2' color='#333664'/>
+					<color name='gradientColor3' color='#262849'/>
+					<color name='gradientColor4' color='#515488'/>
+				</pressed>
+				<checkedlighted>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#f3ac0e'/>
+					<color name='gradientColor2' color='#ffd272'/>
+					<color name='gradientColor3' color='#f3ac0e'/>
+					<color name='gradientColor4' color='#c18c1a'/>
+				</checkedlighted>
+				<checked>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#ffaa00'/>
+					<color name='gradientColor2' color='#ee9900'/>
+					<color name='gradientColor3' color='#dd8800'/>
+					<color name='gradientColor4' color='#aa6600'/>
+				</checked>
+				<checkedpressed>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#ee9900'/>
+					<color name='gradientColor2' color='#dd8800'/>
+					<color name='gradientColor3' color='#aa6600'/>
+					<color name='gradientColor4' color='#ffaa00'/>
+				</checkedpressed>
+			</background>
+			<text>
+				<font name="font" file="FreeSans.ttf" size="22" color="#f3ac0e" embossed="true" borderColor="#000000" borderWidth="3" inset="false"/>
+			</text>
+		</button>
+	</flatbutton>
+	
+	<menu>
+		<background>
+			<normal>
+				<color name='gradientColor1' color='#E7E7E7FF'/>
+				<color name='gradientColor2' color='#E7E7E7FF'/>
+				<color name='gradientColor3' color='#E7E7E77F'/>
+				<color name='gradientColor4' color='#E7E7E77F'/>
+			</normal>
+			<image name="image" file="data/gui/bg_tile2.png"/>
+		</background>
+		<item>
+			<image name="image" file="data/gui/menu_house_small.png"/>
+		</item>
+	</menu>
+	
+	<edit>
+		<background>
+      <color name="color" color='#11111144'/>
+		</background>
+    <font name="font" file="FreeSans.ttf" size="14" color="#E7E7FF"/>
+	</edit>
+
+	<window>
+		<border>
+			<image name="image" file="data/gui/buttontest3.png" file2="win_border.png"/>
+		</border>
+		<title>
+			<font name="font" file="FreeSans.ttf" size="16" color='#FFFFFF'/>
+			<background>
+				<value name="border" value="0"/>
+				<color name='gradientColor1' color='#54555b'/>
+				<color name='gradientColor2' color='#3c3d41'/>
+				<color name='gradientColor3' color='#3c3d41'/>
+				<color name='gradientColor4' color='#12141c'/>
+			</background>
+		</title>
+		<buttons>
+			<image name="close" file="data/gui/close_button.png"/>
+		</buttons>
+		<background>
+			<value name="border" value="0"/>
+			<image name="image" file="data/gui/paper2.png"/>
+		</background>
+	</window>
+  <black>
+    <window>
+      <border>
+        <image name="image" file="data/gui/buttontest3.png"/>
+      </border>
+      <title>
+        <font name="font" file="FreeSans.ttf" size="16" color='#FFFFFF'/>
+        <background>
+          <value name="border" value="0"/>
+          <color name='gradientColor1' color='#54555b'/>
+          <color name='gradientColor2' color='#3c3d41'/>
+          <color name='gradientColor3' color='#3c3d41'/>
+          <color name='gradientColor4' color='#12141c'/>
+        </background>
+      </title>
+      <buttons>
+        <image name="close" file="data/gui/close_button.png"/>
+      </buttons>
+      <background>
+        <value name="border" value="0"/>
+        <color name="color" color='#000000'/>
+      </background>
+    </window>
+  </black>
+  <blue>
+    <window>
+      <border>
+        <image name="image" file="data/gui/buttontest3.png"/>
+      </border>
+      <title>
+        <font name="font" file="FreeSans.ttf" size="16" color='#FFFFFF'/>
+        <background>
+          <value name="border" value="0"/>
+          <color name='gradientColor1' color='#54555b'/>
+          <color name='gradientColor2' color='#3c3d41'/>
+          <color name='gradientColor3' color='#3c3d41'/>
+          <color name='gradientColor4' color='#12141c'/>
+        </background>
+      </title>
+      <buttons>
+        <image name="close" file="data/gui/close_button.png"/>
+      </buttons>
+      <background>
+        <value name="border" value="0"/>
+        <color name="color" color='#000088'/>
+      </background>
+    </window>
+  </blue>
+	
+	
+	<yellowButton>
+		<button>
+			<background>
+				<normal>
+					<color name='gradientColor1' color='#f6c108'/>
+					<color name='gradientColor2' color='#bc9716'/>
+					<color name='gradientColor3' color='#bc9716'/>
+					<color name='gradientColor4' color='#a08320'/>
+				</normal>
+			</background>
+			<border>
+				<color name="color1" color='#f6c108'/>
+				<color name="color2" color="#a08320"/>
+				<value name="width" value="1"/>
+			</border>
+			<text>
+				<font name='font' file="FreeSans.ttf" size="14" color='#000000'/>
+			</text>
+		</button>
+	</yellowButton>
+	
+	<antButton>
+		<button>
+			<border>
+				<normal>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3.png"/>
+				</normal>
+				<lighted>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3.png"/>
+				</lighted>
+				<pressed>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3b.png"/>
+				</pressed>
+				<checked>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3b.png"/>
+				</checked>
+				<checkedlighted>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3b.png"/>
+				</checkedlighted>
+				<disabled>
+					<image name="image" file="data/gui/buttontest3.png"/>
+				</disabled>
+			</border>
+			<background>
+				<normal>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#54555b'/>
+					<color name='gradientColor2' color='#3c3d41'/>
+					<color name='gradientColor3' color='#3c3d41'/>
+					<color name='gradientColor4' color='#12141c'/>
+				</normal>
+				<lighted>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#515488'/>
+					<color name='gradientColor2' color='#434674'/>
+					<color name='gradientColor3' color='#434674'/>
+					<color name='gradientColor4' color='#262849'/>
+				</lighted>
+				<disabled>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#12141c'/>
+					<color name='gradientColor2' color='#12141c'/>
+					<color name='gradientColor3' color='#12141c'/>
+					<color name='gradientColor4' color='#12141c'/>
+				</disabled>
+				<pressed>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#262849'/>
+					<color name='gradientColor2' color='#434674'/>
+					<color name='gradientColor3' color='#434674'/>
+					<color name='gradientColor4' color='#515488'/>
+				</pressed>
+				<checkedlighted>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#856c30'/>
+					<color name='gradientColor2' color='#6f5926'/>
+					<color name='gradientColor3' color='#6f5926'/>
+					<color name='gradientColor4' color='#645021'/>
+				</checkedlighted>
+				<checked>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#765f27'/>
+					<color name='gradientColor2' color='#614e20'/>
+					<color name='gradientColor3' color='#53431b'/>
+					<color name='gradientColor4' color='#443616'/>
+				</checked>
+			</background>
+		</button>
+	</antButton>
+	<combobox>
+		<font name="font" file="FreeSans.ttf" size="22" color="#DDDDDD"/>
+	</combobox>
+	<listbox>
+		<background>
+			<image name="image" file="data/gui/paper2.png"/>
+			<color name='gradientColor1' color='#54555b'/>
+			<color name='gradientColor2' color='#3c3d41'/>
+			<color name='gradientColor3' color='#3c3d41'/>
+			<color name='gradientColor4' color='#12141c'/>
+		</background>
+		<selected>
+			<color name='gradientColor1' color='#ffaa00'/>
+			<color name='gradientColor2' color='#ee9900'/>
+			<color name='gradientColor3' color='#dd8800'/>
+			<color name='gradientColor4' color='#aa6600'/>
+		</selected>
+		<font name="font" file="FreeSans.ttf" size="22" color="#000000"/>
+	</listbox>
+
+	<menuButton>
+		<button>
+			<text>
+				<lighted>
+					<font name="font" file="FreeSans.ttf" size="20" color='#FFFFFF'/>
+				</lighted>
+			</text>
+			<border>
+				<normal>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3.png"/>
+				</normal>
+				<lighted>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3.png"/>
+				</lighted>
+				<pressed>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3b.png"/>
+				</pressed>
+				<checked>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3b.png"/>
+				</checked>
+				<checkedlighted>
+					<image name="image" file2="win_border.png" file="data/gui/buttontest3b.png"/>
+				</checkedlighted>
+			</border>
+			<background>
+				<normal>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#54555b'/>
+					<color name='gradientColor2' color='#3c3d41'/>
+					<color name='gradientColor3' color='#3c3d41'/>
+					<color name='gradientColor4' color='#12141c'/>
+				</normal>
+				<lighted>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#515488'/>
+					<color name='gradientColor2' color='#434674'/>
+					<color name='gradientColor3' color='#434674'/>
+					<color name='gradientColor4' color='#262849'/>
+				</lighted>
+				<pressed>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#262849'/>
+					<color name='gradientColor2' color='#434674'/>
+					<color name='gradientColor3' color='#434674'/>
+					<color name='gradientColor4' color='#515488'/>
+				</pressed>
+				<checkedlighted>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#856c30'/>
+					<color name='gradientColor2' color='#6f5926'/>
+					<color name='gradientColor3' color='#6f5926'/>
+					<color name='gradientColor4' color='#645021'/>
+				</checkedlighted>
+				<checked>
+					<value name="border" value="4"/>
+					<color name='gradientColor1' color='#765f27'/>
+					<color name='gradientColor2' color='#614e20'/>
+					<color name='gradientColor3' color='#53431b'/>
+					<color name='gradientColor4' color='#443616'/>
+				</checked>
+			</background>
+		</button>
+	</menuButton>
+	<yellow>
+		<font name='font' file="FreeSans.ttf" size="17" color='#AAAAAA' embossed="true"/>
+	</yellow>
+	<credits>
+		<font name='font' file="FreeSans.ttf" size="28" color='#CCCCCC'/>
+	</credits>
+	<cr_name>
+		<font name='font' file="FreeSans.ttf" size="18" color='#AAAAAA'/>
+	</cr_name>
+	<cr_bold>
+		<font name='font' file="FreeSans.ttf" size="25" color='#f6c108'/>
+	</cr_bold>
+	<inventory>
+		<font name='font' file="FreeSans.ttf" size="14" style="bold" color='#f6c108' borderWidth="1" borderColor="#330000" embossed="true"/>
+	</inventory>
+	<invTitle>
+		<font name='font' file="FreeSans.ttf" size="20" style="bold" color='#f6c108' borderWidth="1" borderColor="#330000" embossed="true"/>
+	</invTitle>
+	<heroName>
+		<font name='font' file="FreeSans.ttf" size="17" color='#f6c108' embossed="true" borderWidth="1" borderColor="#330000"/>
+	</heroName>
+	<enemyHero>
+		<font name='font' file="FreeSans.ttf" size="17" color='#f66100' embossed="true" borderWidth="1" borderColor="#330000"/>
+	</enemyHero>
+	<intro>
+		<font name='font' file="FreeSans.ttf" size="35" color='#f6c108' embossed="true" borderWidth="3" borderColor="#AA0000"/>
+	</intro>
+	<story>
+		<button>
+			<border>
+				<normal>
+					<image name="image" file="data/gui/wood_border.png"/>
+				</normal>
+			</border>
+		</button>
+	</story>	
+	<story>
+		<font name='font' file="FreeSans.ttf" size="25" color='#DDDDDD' embossed="true" borderWidth="4" borderColor="#AA5555"/>
+	</story>
+	<text>	
+		<font name='font' file="FreeSans.ttf" size="17" color='#FFFFFF' embossed="true" borderWidth="1" borderColor="#330000"/>
+	</text>
+	<big_border>
+		<image name="image" file="data/gui/big_border.png"/>
+	</big_border>
+	<tooltip>	
+		<font name='font' file="FreeSans.ttf" size="17" color='#ffd272' embossed="true" borderWidth="1" borderColor="#330000"/>
+		<color name='bordercolor' color='#ffd272'/>
+		<color name='bgcolor' color='#111111'/>
+	</tooltip>
+	<wood>
+		<background>
+			<image name="image" file="data/gui/wood_bg.png"/>
+		</background>
+	</wood>
+</theme>

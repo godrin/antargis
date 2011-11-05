@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<layout name="StoryEditor">
+  <frame width="150" height="70">
+    <window theme="black">
+      <table rows="3" cols="1">
+        <rowsize row="0" relative="0.7"/>
+        <rowsize row="1" relative="3"/>
+        <cell col="0" row="0">
+          <imageList2D name="imageList"/>
+        </cell>
+        <cell col="0" row="1">
+          <frame width="20">
+            <image name="image" filename="data/gui/map1.png" scale="true"/>
+          </frame>
+        </cell>
+        <cell col="0" row="2">
+          <table rows="2" cols="3">
+            <colsize col="1" relative="8"/>
+            <rowsize row="1" relative="0.2"/>
+            <cell col="1" row="0">
+              <frame width="5">
+                <edit name="edit" text="caption" multi="true"/>
+              </frame>
+            </cell>
+            <cell col="0" row="0">
+              <table cols="1" rows="2">
+                <frame col="0" row="0" width="5">
+                  <button name="prev" caption-image="data/gui/arrow_left.png"/>
+                </frame>
+                <frame col="0" row="1" width="5">
+                  <button name="cancel" caption-image="data/gui/images/basic/cross.png"/>
+                </frame>
+              </table>
+            </cell>
+            <cell col="2" row="0">
+              <table cols="1" rows="2">
+                <frame col="0" row="0" width="5">
+                  <button name="next" caption-image="data/gui/arrow_right.png"/>
+                </frame>
+                <frame col="0" row="1" width="5">
+                  <button name="ok" caption-image="data/gui/images/basic/checkmark.png"/>
+                </frame>
+              </table>
+            </cell>
+            <cell col="1" row="1">
+              <text name="info"/>
+            </cell>
+          </table>
+        </cell>
+      </table>
+    </window>
+  </frame>
+ </layout>

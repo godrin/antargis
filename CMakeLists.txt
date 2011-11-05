@@ -6,7 +6,7 @@ find_package(SDL)
 find_package(SDL_image)
 find_package(SDL_ttf)
 find_package(SDL_mixer)
-find_package(Ruby)
+#find_package(Ruby)
 find_package(ZLIB)
 find_package(OpenGL)
 find_package(PNG)
@@ -23,30 +23,28 @@ link_libraries (
    ${SDLTTF_LIBRARY}
    SDLmain
    ${ZLIB_LIBRARY}
-   ${RUBY_LIBRARY}
+#   ${RUBY_LIBRARY}
    ${PNG_LIBRAY}
    ${OPENGL_gl_LIBRARY}
    ${OPENGL_glu_LIBRARY}
 )
-include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/lib
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/gui
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/sound
+)
 
 INCLUDE(${SWIG_USE_FILE})
 
 SET(CMAKE_SWIG_FLAGS "")
 
-SET_SOURCE_FILES_PROPERTIES(example.i PROPERTIES CPLUSPLUS ON)
-SET_SOURCE_FILES_PROPERTIES(example.i PROPERTIES SWIG_FLAGS "-includeall")
-SWIG_ADD_MODULE(example ruby example.i example.cxx)
-SWIG_LINK_LIBRARIES(example ${PYTHON_LIBRARIES})
-set_target_properties(example PROPERTIES PREFIX "")
-
-#add_subdirectory(lib)
+#SET_SOURCE_FILES_PROPERTIES(example.i PROPERTIES CPLUSPLUS ON)
+#SET_SOURCE_FILES_PROPERTIES(example.i PROPERTIES SWIG_FLAGS "-includeall")
+#SWIG_ADD_MODULE(example ruby example.i example.cxx)
+#SWIG_LINK_LIBRARIES(example ${PYTHON_LIBRARIES})
+#set_target_properties(example PROPERTIES PREFIX "")
 
 
-FILE(GLOB MYLIB_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.cc lib/*.c)
-FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h)
-
-#add_library(mylib )
+FILE(GLOB MYLIB_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.cc lib/*.c lib/gui/*.cc lib/sound/*.cc)
+FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h lib/gui/*.h lib/sound/*.h)
 
 add_executable(antargis2 main.cpp ${MYLIB_SOURCES})
-#target_link_libraries(antargis2 mylib)

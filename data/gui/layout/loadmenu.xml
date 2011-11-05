@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<layout geometry="(0,0,1024,768)" name="MainMenu">
+	<button geometry="(0,0,1024,768)" caption-image="data/gui/small_dark_forest.png" theme="none" enabled="false"/>
+	<table cols="1" rows="4">
+		<colsize col="0" relative="1"/>
+		<rowsize row="0" fixed="200"/>
+		<rowsize row="1" fixed="30"/>
+		<rowsize row="2" relative="1"/>
+		<rowsize row="3" fixed="34"/>
+		<image col="0" row="0" filename="data/gui/antargisLogo.png" enabled="false"/>
+		<table col="0" row="2" cols="3" rows="1">
+			<colsize col="0" relative="1"/>
+			<colsize col="1" relative="3"/>
+			<colsize col="2" relative="1"/>
+			<rowsize row="0" relative="1"/>
+			
+			<table col="1" row="0" cols="1" rows="4">
+				<rowsize row="0" relative="1"/>
+				<rowsize row="1" relative="7"/>
+				<rowsize row="2" relative="1"/>
+				<text row="0" col="0" caption="Load game" align="center" font="credits.font"/>
+				<cell row="1" col="0">
+					<table cols="3" rows="1">
+						<colsize col="1" fixed="20"/>
+						<cell col="0" row="0">
+							<frame border="button.border.normal" visible="true">
+								<listBox name="list"/>
+							</frame>
+						</cell>
+						<cell col="2" row="0">
+							<table cols="1" rows="3">
+								<rowsize row="1" fixed="10"/>
+								<rowsize row="2" fixed="40"/>
+								<cell col="0" row="0">
+									<text caption="" name="desc"/>
+								</cell>
+								<cell col="0" row="0">
+									<image name="screenshot"/>
+								</cell>
+								<cell col="0" row="2">
+									<button name="doLoad" caption="Load"/>
+								</cell>
+							</table>
+						</cell>
+					</table>
+				</cell>
+				<button row="3" col="0" name="exit" caption="Exit"/>
+			</table>
+		</table>
+	</table>
+</layout>

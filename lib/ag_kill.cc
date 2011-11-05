@@ -59,6 +59,7 @@ AGInstanceKiller::~AGInstanceKiller()
     std::set<AGInstanceBase*>::iterator i=bs.begin();
     for(;i!=bs.end();i++)
       {
+        std::cout<<"KILL:"<<*i<<std::endl;
         (*i)->kill();
           checkedDelete(*i);
       }
@@ -66,5 +67,6 @@ AGInstanceKiller::~AGInstanceKiller()
   }
 void AGInstanceKiller::reg(AGInstanceBase *b)
   {
+    std::cout<<"WHUT :"<<typeid(*b).name()<<std::endl;
     bs.insert(b);
   }

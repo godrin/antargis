@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<layout geometry="(0,0,1024,768)">
+	<frame width="10">
+		<table cols="1" rows="3">
+			<rowsize row="0" fixed="511"/>
+			<rowsize row="2" fixed="70"/>
+			<cell col="0" row="0">
+				<table cols="3" rows="1">
+					<colsize col="1" fixed="683"/>
+					<frame border="big_border" width="30" col="1" row="0" name="imageFrame">
+						<image name="image"/>
+					</frame>
+				</table>
+			</cell>
+			<frame width="30" col="0" row="1">
+				<text name="text" font="story.font"/>
+			</frame>
+			<frame width="5" col="0" row="2">
+				<table rows="1" cols="2">
+					<colsize col="1" relative="0.2"/>
+					<button col="1" row="0" name="continue" caption="Continue"/>
+				</table>
+			</frame>
+		</table>
+	</frame>
+</layout>

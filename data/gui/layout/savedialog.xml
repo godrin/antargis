@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<layout name="SaveDialog">
+	<table cols="3" rows="3"><!-- center window -->
+		<colsize col="1" fixed="400"/>
+		<rowsize row="1" fixed="90"/>
+		<window col="1" row="1" name="window" title="Save game">
+			<table cols="1" rows="2">
+				<colsize col="0" relative="1"/>
+				<rowsize row="0" relative="1"/>
+				<rowsize row="1" fixed="30"/>
+				<table col="0" row="0" cols="3" rows="3" name="t1">
+					<rowsize row="0" fixed="5"/>
+					<rowsize row="2" fixed="5"/>
+					<colsize col="2" fixed="25"/>
+					<colsize col="0" fixed="100"/>
+					<text col="0" row="1" caption="Filename:"/>
+					<edit col="1" tabindex="0" theme2="antButton" row="1" name="Filename" text="savegame0"/>
+					<button theme="antButton" col="2" row="1" name="screen" caption="..."/>
+				</table>
+				<table col="0" row="1" cols="2" rows="1">
+					<button col="0" row="0" name="ok" theme="antButton" caption="Ok"/>
+					<button col="1" row="0" name="cancel" theme="antButton" caption="Cancel"/>
+				</table>
+			</table>
+		</window>
+	</table>
+</layout>

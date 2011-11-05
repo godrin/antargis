@@ -27,8 +27,6 @@
 #include "ag_main.h"
 #include "ag_fs.h"
 
-#include <ruby.h>
-
 int lastWidth=0;
 int lastHeight=0;
 int lastVWidth=0;
@@ -102,7 +100,7 @@ AGMain *getMain()
         exit(1);
       }
 
-
+#ifdef EXPOSE_MAIN_TO_RUBY
     static bool registered=false;
     if(!registered)
       {
@@ -116,7 +114,7 @@ AGMain *getMain()
         registered=(rb_eval_string("if Antargis.respond_to?(:getMain) \n $agMain=getMain\n true \n else \n false \nend")==Qtrue);
         cdebug("registered:"<<registered);
       }
-
+#endif
 
     return mAGMain;
   }

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout geometry="(0,0,1024,768)" name="GameLayout">
+  <!-- main game layout -->
+<!--	<antView name="mainView"/>-->
+  <table geometry="(0,0,50,200)" cols="1" rows="4">
+    <button col="0" row="0" theme="antButton" name="pointer" caption-image="data/pointer1.png"/>
+    <button col="0" row="1" theme="antButton" name="edit" caption-image="data/edit.png"/>
+    <button col="0" row="2" theme="antButton" name="save" caption-image="data/save.png"/>
+    <button col="0" row="3" theme="antButton" name="load" caption-image="data/load.png"/>
+  </table>
+  <table geometry="(923,0,100,50)" cols="2" rows="1">
+    <button col="0" row="0" theme="antButton" name="quit" caption-image="data/door.png"/>
+    <button col="1" row="0" theme="antButton" name="pause" caption-image="data/pause.png"/>
+  </table>
+  <antMiniView name="miniMap" geometry="(808,551,216,216)"/>
+</layout>

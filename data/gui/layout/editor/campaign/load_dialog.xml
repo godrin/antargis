@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<layout>
+  <frame width="200">
+    <window theme="blue" title="Load">
+      <table cols="2" rows="3">
+        <rowsize row="0" fixed="0"/>
+        <rowsize row="2" fixed="60"/>
+        <colsize col="1" relative="2"/>
+        
+        <cell col="0" row="1" padding="10">
+          <text caption="Existing"/>
+        </cell>
+        <cell col="1" row="1" padding="10">
+          <listBox name="listBox"/>
+        </cell>
+        <cell col="0" row="2" padding="10">
+          <button name="cancel" caption-image="data/gui/images/basic/cross.png"/>
+        </cell>
+        <cell col="1" row="2" padding="10">
+          <button name="ok" caption-image="data/gui/images/basic/checkmark.png"/>
+        </cell>
+      </table>
+    </window>
+  </frame>
+</layout>

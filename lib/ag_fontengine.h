@@ -45,5 +45,7 @@ class AGEXPORT AGFontEngine
   std::map<std::pair<AGFont,AGStringUtf8>,AGTexture*> fontCache;
 };
 
+AGFontEngine *getFontEngine();
+
 #endif
 
