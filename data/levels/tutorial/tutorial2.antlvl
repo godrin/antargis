@@ -1,0 +1,109 @@
+<antargisLevel filename="levels/tutorial/tutorial2.hmap" height="128" width="128" scriptfile="levels/tutorial/tutorial2.rb" scriptclass='Level1'>
+  <antTower aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="Keep" onGround="true" men="10">
+    <position x="59.2397" y="71.2682" z="1.5455"/>
+    <resource wood="100" stone="100" food="200"/>
+  </antTower>
+  <antWorkshop aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="Workshop" onGround="true" men="1" village="small Village">
+    <position x="42.8217" y="21.9856" z="1.96389"/>
+    <resource/>
+  </antWorkshop>
+  <antMine aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true">
+    <position x="53.8217" y="30.9856" z="1.58425"/>
+    <resource coal="500" ore="500"/>
+  </antMine>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="0">
+    <position x="33.78" y="23.2946" z="1.10762"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="1">
+    <position x="35.7676" y="30.0127" z="1.89371"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="7">
+    <position x="42.7143" y="38.6284" z="1.21094"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="6">
+    <position x="47.7005" y="31.553" z="1.89154"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="3">
+    <position x="39.1573" y="30.5907" z="2.20891"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="10">
+    <position x="36.9131" y="26.2341" z="1.91227"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="5">
+    <position x="35.9631" y="26.3753" z="1.73926"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="10">
+    <position x="34.8353" y="25.5514" z="1.5021"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="10">
+    <position x="37.7051" y="18.0778" z="1.01438"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="1">
+    <position x="41.4662" y="18.0888" z="1.36807"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antHero aggression="1" appearance="hero" birthday="-2286.55173594538" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="Rowen" onGround="true" men="7" primary="true">
+    <position x="75.3675" y="25.6145" z="2.19586"/>
+    <resource/>
+  </antHero>
+  <antBoat aggression="1" appearance="hero" birthday="-2286.55173594538" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" onGround="false">
+    <position x="90.3675" y="25.6145" z="2.19586"/>
+    <resource/>
+  </antBoat>
+  <antFish aggression="1" appearance="hero" birthday="-2286.55173594538" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" onGround="false">
+    <position x="92.3675" y="25.6145" z="2.19586"/>
+    <resource/>
+  </antFish>
+  <antFish aggression="1" appearance="hero" birthday="-2286.55173594538" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" onGround="false">
+    <position x="92.3675" y="25.6145" z="2.19586"/>
+    <resource/>
+  </antFish>
+  <antFish aggression="1" appearance="hero" birthday="-2286.55173594538" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" onGround="false">
+    <position x="92.3675" y="25.6145" z="2.19586"/>
+    <resource/>
+  </antFish>
+  <antFish aggression="1" appearance="hero" birthday="-2286.55173594538" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" onGround="false">
+    <position x="92.3675" y="25.6145" z="2.19586"/>
+    <resource/>
+  </antFish>
+  <antFish aggression="1" appearance="hero" birthday="-2286.55173594538" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" onGround="false">
+    <position x="92.3675" y="25.6145" z="2.19586"/>
+    <resource/>
+  </antFish>
+  <antSack aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="73.8702" y="25.7409" z="2.29813"/>
+    <resource food="50" boat="4"/>
+  </antSack>
+  <antNewStone aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="0">
+    <position x="53.0409" y="25.4349" z="1.76004"/>
+    <resource/>
+  </antNewStone>
+  <antNewStone aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="0">
+    <position x="50.7676" y="27.4055" z="1.78074"/>
+    <resource/>
+  </antNewStone>
+  <antNewStone aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="1">
+    <position x="49.2801" y="29.3891" z="1.82828"/>
+    <resource/>
+  </antNewStone>
+  <antNewStone aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="0">
+    <position x="50.34" y="25.3938" z="1.82773"/>
+    <resource/>
+  </antNewStone>
+  <antNewStone aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" id="0" mode="" morale="1" name="" onGround="true" typeID="0">
+    <position x="49.2536" y="26.6742" z="1.87187"/>
+    <resource/>
+  </antNewStone>
+  <humanPlayer name="Rowen">
+    <hero name="Rowen"/>
+  </humanPlayer>
+</antargisLevel>

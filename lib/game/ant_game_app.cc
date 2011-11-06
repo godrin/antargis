@@ -14,4 +14,5 @@ void AntGameApp::init()
     setMainWidget(layout);
 
     mMap=new AntMap(&getScene(),32,32);
+    mMap->loadMap("data/levels/tutorial/tutorial0.antlvl");
 }

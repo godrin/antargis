@@ -1,0 +1,109 @@
+<antargisLevel filename="levels/tutorial/tutorial1.hmap" height="128" width="128" scriptfile="levels/tutorial/tutorial1.rb" scriptclass='Level1'>
+  <antFarm aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" men="2" morale="1" name="Farm" onGround="true">
+    <position x="40.2078" y="69.1662" z="1.79171"/>
+    <resource/>
+  </antFarm>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="10">
+    <position x="33.7341" y="67.3972" z="0.869465"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="5">
+    <position x="35.5002" y="61.4689" z="0.801318"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="10">
+    <position x="39.9966" y="61.2902" z="1.42557"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="2">
+    <position x="44.1196" y="77.046" z="1.7575"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="4">
+    <position x="48.1371" y="73.8637" z="2.67044"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="10">
+    <position x="46.0213" y="72.7531" z="2.51015"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="10">
+    <position x="37.6046" y="60.1199" z="0.940583"/>
+    <resource food="5" wood="40"/>
+  </antNewTree>
+  <antGrass aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="38.2827" y="60.9115" z="1.1208"/>
+    <resource/>
+  </antGrass>
+  <antGrass aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="40.2085" y="61.5288" z="1.5079"/>
+    <resource/>
+  </antGrass>
+  <antGrass aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="38.3943" y="59.2746" z="0.912748"/>
+    <resource/>
+  </antGrass>
+  <antGrass aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="47.4124" y="75.1048" z="2.49988"/>
+    <resource/>
+  </antGrass>
+  <antGrass aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="44.613" y="76.523" z="1.92301"/>
+    <resource/>
+  </antGrass>
+  <antGrass aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="49.1796" y="67.7045" z="2.67344"/>
+    <resource/>
+  </antGrass>
+  <antGrass aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="45.914" y="74.4916" z="2.38217"/>
+    <resource/>
+  </antGrass>
+  <antHero aggression="1" appearance="hero" birthday="-2104.14120287278" energy="1" food="1" healSpeed="0.1" men="5" morale="1" name="Rowen" onGround="true" primary="true">
+    <position x="44.4067" y="58.566" z="2.02858"/>
+    <resource/>
+  </antHero>
+  <antNewSheep aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="51.134" y="60.0258" z="2.67218"/>
+    <resource food="5"/>
+  </antNewSheep>
+  <antNewSheep aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="52.8702" y="46.7409" z="2.29813"/>
+    <resource food="5"/>
+  </antNewSheep>
+  <antSack aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="58.8702" y="44.7409" z="2.29813"/>
+    <resource food="20"/>
+  </antSack>
+  <antHighGrass aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="54.3027" y="46.4612" z="2.24882"/>
+    <resource/>
+  </antHighGrass>
+  <antBush aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="53.143" y="45.5628" z="1.99437"/>
+    <resource/>
+  </antBush>
+  <antBush aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="51.471" y="46.7903" z="2.2221"/>
+    <resource/>
+  </antBush>
+  <antBush aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true">
+    <position x="44.641" y="52.0062" z="1.78585"/>
+    <resource/>
+  </antBush>
+  <antNewStone aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="1">
+    <position x="41.8014" y="44.045" z="-0.402407"/>
+    <resource/>
+  </antNewStone>
+  <antNewStone aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="0">
+    <position x="40.5254" y="47.7019" z="-0.106882"/>
+    <resource/>
+  </antNewStone>
+  <antNewStone aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="1">
+    <position x="43.6842" y="43.4578" z="-0.12003"/>
+    <resource/>
+  </antNewStone>
+  <humanPlayer name="Rowen">
+    <hero name="Rowen"/>
+  </humanPlayer>
+</antargisLevel>
