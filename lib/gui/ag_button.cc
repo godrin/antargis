@@ -153,7 +153,6 @@ void AGButton::draw(AGPainter &p)
 
 bool AGButton::eventMouseEnter()
   {
-    CTRACE;
     AGWidget::eventMouseEnter();
     queryRedraw();
     if(!mEnabled)
@@ -166,7 +165,6 @@ bool AGButton::eventMouseEnter()
   }
 bool AGButton::eventMouseLeave()
   {
-    CTRACE;
     AGWidget::eventMouseLeave();
     queryRedraw();
     if(!mEnabled)

@@ -89,12 +89,10 @@ void AGLayoutFactory::removeCreator(const AGString &pName,AGLayoutCreator *creat
 */
 std::pair<AGWidget *,AGWidget*> AGLayoutFactory::create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
   {
-    std::cout<<"Search creator for:"<<pNode.getName()<<std::endl;
     AGLayoutCreator *creator=mCreators[pNode.getName()];
 
     if(creator)
       {
-        std::cout<<"FOUND"<<std::endl;
         AGWidget *outer,*inner;
         creator->create(pParent,pRect,pNode);
         outer=creator->getResult();

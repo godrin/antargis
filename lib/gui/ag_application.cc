@@ -210,8 +210,6 @@ SDL_Event AGApplication::getNewEvent()
 
 bool AGApplication::doEvent(const SDL_Event &event)
   {
-    STACKTRACE;
-    CTRACE;
     SDL_Event e;
 
     // eat up old mouse motion events

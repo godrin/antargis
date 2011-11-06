@@ -382,7 +382,6 @@ bool AGWidget::eventMouseMotion(AGEvent *e)
 
 bool AGWidget::eventMouseButtonDown(AGEvent *e)
   {
-    CTRACE;
     if(e->isSDLEvent())
       {
         if(getRect().contains(e->getRelMousePosition()))

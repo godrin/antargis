@@ -36,4 +36,21 @@ void AntMenuApp::init()
   layout=new AGLayout(0);
   layout->loadXML(loadFile("data/gui/layout/mainmenu.xml"));
   setMainWidget(layout);
+  
+  layout->getChild("quit")->sigClick.connect(slot(this,&AntMenuApp::eventQuitClicked));
 }
+
+bool AntMenuApp::eventQuitClicked(AGEvent* pEvent)
+{
+tryQuit();
+return false;
+}
+
+
+
+bool AntMenuApp::eventFrame(float pTime)
+{
+    SDL_Delay(10);
+    return AGApplication::eventFrame(pTime);
+}
+

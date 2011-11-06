@@ -29,6 +29,10 @@ public:
     virtual ~AntMenuApp() throw();
     
     void init();
+    
+    bool eventFrame(float pTime);
+    bool eventQuitClicked(AGEvent *pEvent);
+
 private:
   AGLayout *layout;
 };
