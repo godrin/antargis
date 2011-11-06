@@ -27,14 +27,14 @@ class AntMenuApp:public AGApplication
 public:
     AntMenuApp();
     virtual ~AntMenuApp() throw();
-    
+
     void init();
-    
+
     bool eventFrame(float pTime);
     bool eventQuitClicked(AGEvent *pEvent);
-
+    bool eventMusicFinished(AGEvent *pEvent);
 private:
-  AGLayout *layout;
+    AGLayout *layout;
 };
 
 #endif // ANT_MENU_APP_H

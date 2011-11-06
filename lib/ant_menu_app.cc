@@ -19,6 +19,7 @@
 
 #include "ant_menu_app.h"
 #include "ag_layout.h"
+#include "ag_mixer.h"
 
 AntMenuApp::AntMenuApp():AGApplication()
 {
@@ -38,7 +39,20 @@ void AntMenuApp::init()
   setMainWidget(layout);
   
   layout->getChild("quit")->sigClick.connect(slot(this,&AntMenuApp::eventQuitClicked));
+  getSoundManager()->sigMp3Finished.connect(slot(this,&AntMenuApp::eventMusicFinished));
+
+  
+  
 }
+
+bool AntMenuApp::eventMusicFinished(AGEvent* pEvent)
+{
+//    if @sound
+      getSoundManager()->playMp3("data/music/calm1.ogg");
+  //  end
+
+}
+
 
 bool AntMenuApp::eventQuitClicked(AGEvent* pEvent)
 {
