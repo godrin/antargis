@@ -16,10 +16,13 @@ int main(int argc, char **argv) {
     main.getVideo()->initVideo(1024,768,32,false,true);
     AGLayout::registerLayouts();
   
-    //AGApplication app;
-    AntMenuApp app;
-    app.init();
-    app.run();
+    AntIntroApp intro;
+    intro.init();
+    intro.run();
+    
+    AntMenuApp menu;
+    menu.init();
+    menu.run();
     
     return 0;
 }
