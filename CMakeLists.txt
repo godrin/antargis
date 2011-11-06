@@ -28,9 +28,12 @@ link_libraries (
    ${OPENGL_gl_LIBRARY}
    ${OPENGL_glu_LIBRARY}
 )
-include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/lib
+include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} 
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/gui
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/sound
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/3dengine
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/game
 )
 
 INCLUDE(${SWIG_USE_FILE})
@@ -44,7 +47,12 @@ SET(CMAKE_SWIG_FLAGS "")
 #set_target_properties(example PROPERTIES PREFIX "")
 
 
-FILE(GLOB MYLIB_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.cc lib/*.c lib/gui/*.cc lib/sound/*.cc)
-FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h lib/gui/*.h lib/sound/*.h)
+FILE(GLOB MYLIB_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.cc lib/*.c lib/gui/*.cc lib/sound/*.cc
+  lib/3dengine/*.cc lib/game/*.cc
+)
+FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h lib/gui/*.h lib/sound/*.h
+  lib/3dengine/*.h lib/game/*.h
+  
+)
 
 add_executable(antargis2 main.cpp ${MYLIB_SOURCES})

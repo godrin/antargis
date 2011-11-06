@@ -82,6 +82,11 @@ void append(std::vector<T> &l1,const std::vector<T> &l2)
     l1.push_back(*i);
 }
 
+
+AGEXPORT std::string binaryToHex(const std::string &s,bool separators=true);
+AGEXPORT std::string hexToBinary(const std::string &s);
+
+
 #define AGsign(x) ((x)<0?-1:(x)>0?1:0)
 
 #endif

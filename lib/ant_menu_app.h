@@ -32,6 +32,7 @@ public:
 
     bool eventFrame(float pTime);
     bool eventQuitClicked(AGEvent *pEvent);
+    bool eventTutorialClicked(AGEvent *pEvent);
     bool eventMusicFinished(AGEvent *pEvent);
 private:
     AGLayout *layout;

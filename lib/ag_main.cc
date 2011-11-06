@@ -27,6 +27,7 @@
 #include "ag_main.h"
 #include "ag_fs.h"
 
+
 int lastWidth=0;
 int lastHeight=0;
 int lastVWidth=0;
@@ -42,6 +43,29 @@ bool quited=false;
 // singleton-management
 void newInstanceKiller();
 void deleteInstanceKiller();
+
+#ifdef DRMUSER
+std::string gUserName=DRMUSER;
+bool gDRMok=false;
+#endif
+
+//FIXME: discard this function!
+bool hasQuit()
+  {
+    return quited;
+  }
+/*
+bool glMode()
+{
+  return lastGL;
+}*/
+
+bool mRubyQuitting = false;
+
+void setQuitting() {
+  mRubyQuitting = true;
+}
+
 
 /**
    creates an AGMain object.
@@ -80,9 +104,15 @@ AGMain::~AGMain() throw()
     cdebug("QUIT");
     SDL_Quit();
     quited=true;
+    setQuitting();
+
+    //  saveDelete(mRand);
+
 
     setRubyRaising(true);
   }
+
+
 
 
 bool hasMain()
@@ -100,21 +130,7 @@ AGMain *getMain()
         exit(1);
       }
 
-#ifdef EXPOSE_MAIN_TO_RUBY
-    static bool registered=false;
-    if(!registered)
-      {
-        // registered must be set here, so that we don't get into an endless recursion
-        registered=true;
 
-        // IMPORTANT:
-        //   put it into a global variable - so that it won't get garbage collected
-        rb_eval_string("include Antargis");
-        //rb_eval_string("Antargis");
-        registered=(rb_eval_string("if Antargis.respond_to?(:getMain) \n $agMain=getMain\n true \n else \n false \nend")==Qtrue);
-        cdebug("registered:"<<registered);
-      }
-#endif
 
     return mAGMain;
   }

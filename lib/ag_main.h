@@ -18,6 +18,8 @@
  * License along with this program.
  */
 
+// INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
+
 #ifndef __AG_MAIN
 #define __AG_MAIN
 
@@ -26,6 +28,7 @@
 
 #include <string>
 #include <set>
+
 
 /**
  * \defgroup AntargisGUI AntargisGUI
@@ -63,7 +66,6 @@ class AGEXPORT AGMain
   void setRand(AGRandomizerBase *pRand);
   AGRandomizerBase *getRand();
 
-
   AGVideoBase *getVideo();
   void setVideo(AGVideoBase *p);
 
@@ -71,7 +73,6 @@ class AGEXPORT AGMain
 
   void delay(int ms);
 
- protected:
 
  private:
   AGVideoBase *mVideo;

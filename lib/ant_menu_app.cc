@@ -20,6 +20,8 @@
 #include "ant_menu_app.h"
 #include "ag_layout.h"
 #include "ag_mixer.h"
+#include "ant_game_app.h"
+#include "ag_video.h"
 
 AntMenuApp::AntMenuApp():AGApplication()
 {
@@ -41,16 +43,25 @@ void AntMenuApp::init()
   layout->getChild("quit")->sigClick.connect(slot(this,&AntMenuApp::eventQuitClicked));
   getSoundManager()->sigMp3Finished.connect(slot(this,&AntMenuApp::eventMusicFinished));
 
-  
+  layout->getChild("tutorial")->sigClick.connect(slot(this,&AntMenuApp::eventTutorialClicked));
   
 }
+
+bool AntMenuApp::eventTutorialClicked(AGEvent* pEvent)
+{
+  AntGameApp app(getVideo()->width(),getVideo()->height());
+  app.init();
+  app.run();
+return false;
+}
+
 
 bool AntMenuApp::eventMusicFinished(AGEvent* pEvent)
 {
 //    if @sound
       getSoundManager()->playMp3("data/music/calm1.ogg");
   //  end
-
+return false;
 }
 
 
