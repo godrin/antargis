@@ -11,11 +11,10 @@ class AntHero:public AntPerson,public AntBoss {
 
         virtual void setupMesh();
         virtual void setupRing();
-        
-        virtual AntMap *getMap();
-            AGVector2 getPos2D() const;
-        virtual Resource &getResources();
 
+        virtual AntMap *getMap();
+        AGVector2 getPos2D() const;
+        virtual Resource &getResources();
 
     private:
 
@@ -24,8 +23,6 @@ class AntHero:public AntPerson,public AntBoss {
         AGString appearance;
         AGString meshState;
         float age;
-
-
 
 };
 

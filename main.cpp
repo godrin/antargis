@@ -17,11 +17,12 @@ int main(int argc, char **argv) {
     main.getVideo()->initVideo(1024,768,32,false,true);
     AGLayout::registerLayouts();
 
+    if(false) {
     
       AntGameApp app(getVideo()->width(),getVideo()->height());
   app.init();
   app.run();
-
+    }
     
     AntIntroApp intro;
     intro.init();

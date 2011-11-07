@@ -18,6 +18,4 @@
     <sprite name="" mesh="data/models/hero_lp.ant2" scale="0.08" texture="data/textures/models/hero_lp.png"/>
     <sprite name="grave_hero" mesh="data/models/grave.ant2" scale="0.2" texture="data/textures/models/grave3.png"/>
   </group>
-
-
 </staticMeshGroups>

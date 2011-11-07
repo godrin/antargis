@@ -31,7 +31,7 @@ StaticMeshes *loadStaticMeshes() {
                 StaticMeshDefinition smdef;
                 AGString spriteName= ( *sprite )->get ( "name" );
                 smdef.meshfile= ( *sprite )->get ( "mesh" );
-                smdef.culling=std::string ( "false" ) == ( *sprite )->get ( "culling" );
+                smdef.culling=std::string ( "true" ) == ( *sprite )->get ( "culling" );
                 smdef.texture= ( *sprite )->get ( "texture" );
                 smdef.scale= ( *sprite )->get ( "scale" ).toFloat();//FIXME
 
@@ -39,8 +39,10 @@ StaticMeshes *loadStaticMeshes() {
                 MeshData *md=new MeshData ( smdef.meshfile,smdef.scale,smdef.texture );
                 std::cout<<"LOADED:"<<smdef.meshfile<<std::endl;
 
-                if ( !smdef.culling )
-                    md->setCulling ( false );
+                //if (true || !smdef.culling ) {
+                    md->setCulling ( smdef.culling );
+                    md->setTransparent(true);
+                
                 smdef.data=md;
                 staticMeshes[std::make_pair ( groupName,spriteName ) ]=smdef;
             }
