@@ -13,6 +13,8 @@ public:
     void setupMeshBoss();
     virtual void setupMesh()=0;
     virtual void setupRing()=0;
+
+    virtual void init();
     
 private:
   std::vector<AntPerson*> men;

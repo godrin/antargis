@@ -154,6 +154,8 @@ class AGEXPORT AntEntity
 
     virtual void saveXML(Node &node) const;
     virtual void loadXML(const Node &node);
+  public:
+    virtual void init();
 
     // jobs
 
@@ -231,6 +233,7 @@ class AGEXPORT AntEntity
     void setMesh(SceneNode *pMesh);
     Meshes getMesh();
     SceneNode *getFirstMesh();
+    Scene *getScene();
     void addMesh(SceneNode *pMesh,const AGVector3 &v);
 
     // used only by *Jobs
@@ -272,7 +275,6 @@ class AGEXPORT AntEntity
     AGVector2 getTargetPos2D();
 
   private:
-    void init();
     void updatePos(const AGVector3 &p);
 
     void starve(float pTime);

@@ -3,8 +3,12 @@
 
 AntEntity *createEntity ( const Node &node,AntMap *map ) {
 
+    AntEntity *e=0;
     if ( node.getName() =="antHero" ) {
-        return new AntHero(map);
+        e=new AntHero ( map );
     }
-    return 0;
+
+    if ( e )
+        e->init();
+    return e;
 }

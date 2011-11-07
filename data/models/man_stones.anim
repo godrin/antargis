@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<animMesh model="data/models/man_stones.ant4" texture="data/textures/models/man_fight.png" scale="0.07">
+	<animation name="fight" begin="5" end="40" fps="30"/>
+</animMesh>

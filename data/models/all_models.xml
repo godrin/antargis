@@ -1,0 +1,13 @@
+<models>
+	<default name="modelPath" value="data/models"/>
+	<default name="texturePath" value="data/textures/models"/>
+	<model entityType="AntMan">
+		<view>
+			<mesh file="man_e_walk" anim="stand"/>
+		</view>
+		<view name="wood">
+			<mesh file="man_e_wood"/>
+		</view>
+	</model>
+</models>
+	

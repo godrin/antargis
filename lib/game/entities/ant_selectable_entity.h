@@ -7,7 +7,7 @@ class AntSelectableEntity:public AntEntity {
 public:
   void setupRing();
 private:
-  
+SceneNode *ring;  
 };
 
 #endif

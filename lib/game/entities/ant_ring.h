@@ -2,6 +2,8 @@
 #define __ANT_RING_H
 
 class Mesh;
-Mesh *makeRingMesh();
+class AntMap;
+Mesh *makeRingMesh(AntMap *map);
+Mesh *makeBigRingMesh(AntMap *map);
 
 #endif

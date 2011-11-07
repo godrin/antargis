@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<animMesh model="data/models/man_pick.ant4" texture="data/textures/models/man_fight.png" scale="0.07">
+	<animation name="fight" begin="1" end="48" fps="45">
+		<event frame="35" name="pick"/>
+	</animation>
+</animMesh>

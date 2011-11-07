@@ -28,7 +28,6 @@
 AntEntity::AntEntity(AntMap *pMap):mMap(pMap),mPos(0,0,0)
   {
     assert(mMap);
-    init();
   }
 
 void AntEntity::init()
@@ -430,6 +429,8 @@ int AntEntity::getID() const
 
 AGString AntEntity::xmlName() const
 {
+
+  
   return "antEntity";
 }
 std::string AntEntity::xmlName2() const
@@ -901,3 +902,9 @@ AntMap *AntEntity::getMap()
   {
     return mMap;
   }
+
+  
+Scene *AntEntity::getScene() {
+  return dynamic_cast<Scene*>(mMap->getScene());
+}
+

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<staticMeshGroups>
+  <group name="tree">
+    <sprite name="" mesh="data/models/fir2.ant2" scale="0.45" texture="data/textures/models/fir5.png"/>
+    <sprite name="stub" mesh="data/models/stub.ant2" scale="0.04"/>
+    <sprite name="0" mesh="data/models/fir2.ant2" scale="0.45" texture="data/textures/models/fir5.png" culling="false"/>
+    <sprite name="1" mesh="data/models/fir2.ant2" scale="0.45" texture="data/textures/models/fir7.png" culling="false"/>
+    <sprite name="2" mesh="data/models/tree5.ant2" scale="0.45" texture="data/textures/models/tree3.png" culling="false"/>
+    <sprite name="3" mesh="data/models/tree5.ant2" scale="0.45" texture="data/textures/models/tree5.png" culling="false"/>
+    <sprite name="4" mesh="data/models/tree5.ant2" scale="0.45" texture="data/textures/models/tree9.png" culling="false"/>
+    <sprite name="5" mesh="data/models/tree6.ant2" scale="0.45" texture="data/textures/models/tree5.png" culling="false"/>
+    <sprite name="6" mesh="data/models/tree5.ant2" scale="0.45" texture="data/textures/models/tree10.png" culling="false"/>
+    <sprite name="7" mesh="data/models/tree_simple1.ant2" scale="0.45" texture="data/textures/models/tree_simple1.png" culling="false"/>
+    <sprite name="8" mesh="data/models/tree_simple2.ant2" scale="0.45" texture="data/textures/models/tree_simple1.png" culling="false"/>
+    <sprite name="9" mesh="data/models/tree_simple5.ant2" scale="0.45" texture="data/textures/models/tree_simple5.png" culling="false"/>
+  </group>
+  <group name="hero">
+    <sprite name="" mesh="data/models/hero_lp.ant2" scale="0.08" texture="data/textures/models/hero_lp.png"/>
+    <sprite name="grave_hero" mesh="data/models/grave.ant2" scale="0.2" texture="data/textures/models/grave3.png"/>
+  </group>
+
+
+</staticMeshGroups>

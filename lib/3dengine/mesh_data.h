@@ -30,8 +30,11 @@ class AGEXPORT MeshData
  public:
   MeshData(const std::string &filename,float zoom,const std::string &pTexture="",bool pShadow=true);
   MeshData(const VertexArray &va,const std::string &pTexture,bool pShadow=true);
+  MeshData(const std::string &staticDefFilename);
   ~MeshData() throw();
 
+  
+  
   void draw(const AGVector4 &pColor);
   void drawShadow();
   void drawDepth();
@@ -61,6 +64,10 @@ class AGEXPORT MeshData
   void setOverdraw(bool o);
   void setCulling(bool c);
   void setColors(bool c);
+  
+private:
+  void loadFromAnt2File(const std::string &filename,float zoom,const std::string &pTexture,bool pShadow);
+
 };
 
 

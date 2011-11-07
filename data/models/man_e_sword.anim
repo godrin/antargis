@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<animMesh model="data/models/man_e_sword.ant4" texture="data/textures/models/man_elp.png" scale="0.07">
+	<animation name="fight" begin="105" end="125" fps="10">
+		<event frame="112" name="sword"/>
+		<event frame="121" name="sword"/>
+	</animation>
+</animMesh>

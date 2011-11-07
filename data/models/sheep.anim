@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<animMesh model="data/models/sheep.ant4" texture="data/textures/models/sheep.png" scale="0.1" debug="false">
+	<animation name="eat" begin="1" end="45" fps="25"/>
+	<animation name="go" begin="45" end="100" fps="60"/>
+</animMesh>

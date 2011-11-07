@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<animMesh model="data/models/man_walk2.ant4" texture="data/textures/models/man_fight.png" scale="0.07">
+	<animation name="walk" begin="10" end="55" fps="50"/>
+	<animation name="stand" begin="1" end="1" fps="25"/>
+	<animation name="sitdown" begin="70" end="75" fps="10" loop="false"/>
+	<animation name="sit" begin="75" end="75" fps="25"/>
+	<animation name="standup" begin="75" end="80" fps="10" loop="false"/>
+	
+</animMesh>
