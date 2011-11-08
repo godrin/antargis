@@ -1,4 +1,4 @@
 [Project]
-Name=Antargis2
 Manager=KDevCMakeManager
+Name=antargis
 VersionControl=kdevgit
