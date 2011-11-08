@@ -4,15 +4,19 @@
 #include "gl_app.h"
 
 class AntMap;
+class AntHero;
 
 class AntGameApp:public GLApp {
-public:
-    AntGameApp(int w, int h);
-    void init();
-    
-private:
-  AntMap *mMap;
-  AGLayout *layout;
+    public:
+        AntGameApp ( int w, int h );
+        void init();
+
+        virtual bool eventFrame ( float pTime );
+        
+        AntHero *getPlayerHero();
+    private:
+        AntMap *mMap;
+        AGLayout *layout;
 };
 
 #endif

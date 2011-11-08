@@ -54,3 +54,18 @@ void AntHero::setupRing() {
 Resource& AntHero::getResources() {
     return resource;
 }
+
+void AntHero::loadXML ( const Node& node ) {
+    AntEntity::loadXML ( node );
+    primary= ( AGString ( "true" ) ==node.get ( "primary" ) );
+    std::cout<<"PRIMARAY:"<<(primary?"true":"false")<<std::endl;
+}
+void AntHero::saveXML ( Node& node ) const {
+    AntEntity::saveXML ( node );
+    if ( primary ) {
+        node.set ( "primary","true" );
+    }
+}
+bool AntHero::isPrimary() const {
+    return primary;
+}
