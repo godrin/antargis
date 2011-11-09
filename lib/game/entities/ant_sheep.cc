@@ -31,6 +31,7 @@ void AntSheep::eventNoJob()
             getMap()->removeEntity(this);
         }
         wasdead=true;
+        return;
     }
     if (!giveBirth()) {
         if (rand()%10<5) {
@@ -83,4 +84,13 @@ void AntSheep::setMeshState(const AGString &name)
         mesh->setAnimation(name);
     else
         std::cout<<"no animmesh:"<<(typeid(*n).name())<<std::endl;
+}
+
+
+void AntSheep::die()
+{
+    AntAnimal::die();
+    setMesh(AntModels::createModel(getScene(),"sheep","rip"));
+    newRestJob(1);
+    setProvide("sheep",false);
 }

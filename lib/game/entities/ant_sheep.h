@@ -11,7 +11,7 @@ public:
     virtual void eventNoJob();
     virtual AntSheep *createOne();
     void setMeshState(const AGString& arg1);
-
+    virtual void die();
 private:
     AGVector2 getTargetPos();
 

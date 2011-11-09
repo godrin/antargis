@@ -9,7 +9,7 @@ public:
 
     virtual AntAnimal *createOne()=0;
     bool dead();
-    void die();
+    virtual void die();
 protected:
     bool giveBirth();
 private:
