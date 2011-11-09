@@ -16,6 +16,7 @@ private:
     AGVector2 getTargetPos();
 
     bool wasdead;
+    size_t food;
 };
 
 #endif

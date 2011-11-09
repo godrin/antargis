@@ -18,6 +18,7 @@ void AntSheep::init()
 {
     AntEntity::init();
     setMesh(AntModels::createModel(getScene(),"sheep",""));
+    food=0;
 }
 
 
@@ -41,6 +42,14 @@ void AntSheep::eventNoJob()
             playSound("sheep");
         }
     }
+    
+    food++;
+    if(food>3 && resource.get("food")<10) {
+      resource.add("food",1);
+      food=0;
+      std::cout<<"SHEEP FOOD:"<<resource.get("food")<<std::endl;
+    }
+    
 }
 AGVector2 AntSheep::getTargetPos()
 {
