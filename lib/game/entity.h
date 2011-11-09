@@ -178,6 +178,8 @@ class AGEXPORT AntEntity
 
     bool hasJob() const;
     AGString getJobName() const;
+    
+    void playSound(const AGString &name,float minDiff=0.5f);
 
     AGRect2 getRect() const;
 

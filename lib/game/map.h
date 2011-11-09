@@ -26,6 +26,8 @@
 #include "height_map.h"
 #include "heuristic.h"
 
+#include <auto_ptr.h>
+
 /**
  * \defgroup GameEngine BoA Game-Engine
  * \brief the C++ parts of the BoA game-engine
@@ -38,6 +40,11 @@ class QuadTree;
 class AnimMesh;
 class Mesh2D;
 class MeshBase;
+
+class AntEntitySelector {
+  public:
+  virtual bool ok(AntEntity*e)=0;
+};
 
 class AGEXPORT AntMap:public HeightMap
 {
@@ -58,6 +65,7 @@ class AGEXPORT AntMap:public HeightMap
   void newMap(int w,int h);
 
   EntityList getEntities(const AGRect2&r);
+  EntityList getSelectedEntities(std::auto_ptr<AntEntitySelector> selector);
   std::list<AntEntity*> getAllEntities();
   std::vector<AntEntity*> getEntities(const AGString &pName);
 

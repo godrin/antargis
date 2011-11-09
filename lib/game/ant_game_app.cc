@@ -24,6 +24,7 @@ bool AntGameApp::eventFrame ( float pTime ) {
     bool r=GLApp::eventFrame ( pTime );
 
     mMap->move ( pTime );
+    getScene().advance(pTime);
 
     return r;
 }

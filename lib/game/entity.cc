@@ -25,6 +25,8 @@
 #include "mesh.h"
 #include "anim_mesh.h"
 
+#include <ag_mixer.h>
+
 AntEntity::AntEntity(AntMap *pMap):mMap(pMap),mPos(0,0,0)
   {
     assert(mMap);
@@ -906,5 +908,18 @@ AntMap *AntEntity::getMap()
   
 Scene *AntEntity::getScene() {
   return dynamic_cast<Scene*>(mMap->getScene());
+}
+
+void AntEntity::playSound(const AGString& name, float minDiff)
+{
+  /*
+    float d=((getScene()->getCamera()->getPos2D-getPos2D()).length()-INNER_VOL_SIZE;
+    float vol=1;
+    if(d>0) {
+      vol=std:max((OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0);
+    }
+    AntSound.playSoundGlobal(name,vol,minDiff)
+    */
+  cdebug("NOT IMPLEMENTED");
 }
 
