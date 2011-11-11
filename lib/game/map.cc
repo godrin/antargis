@@ -38,32 +38,19 @@
 //////////////////////////////////////////////////////////////////////////
 // AntMap
 //////////////////////////////////////////////////////////////////////////
-/*
-AntMap *myAntargisMap=0;
-AntMap *getMap()
-  {
-    assert(myAntargisMap);
-    return myAntargisMap;
-  }
-*/
 AntMap::AntMap ( SceneBase *pScene,int w,int h ) :
         HeightMap ( pScene,w,h ),
         mEntQuad ( new QuadTree<AntEntity> ( AGRect2 ( 0,0,w,h ) ) ),
         mHeuristicFunction ( 0 ) {
-    //myAntargisMap=this;
     maxID=0;
 }
 AntMap::~AntMap() throw() {
     CTRACE;
-    //if(myAntargisMap==this)
-    //  myAntargisMap=0;
 }
 
 AGVector3 AntMap::getPos ( const AGVector2 &pPos ) const {
     return AGVector3 ( pPos[0],pPos[1],getHeight ( pPos[0],pPos[1] ) );
 }
-
-
 
 AntEntity *AntMap::getEntity ( int id ) const {
     EntityMap::const_iterator i=mEntityMap.find ( id );
@@ -338,9 +325,7 @@ void AntMap::saveMap ( const AGString &pFilename ) {
 }
 
 void AntMap::clear() throw() {
-    //  getScene()->clear();
     CTRACE;
-    //  mPlayers.clear();
 
     mEntQuad->clear();
     mEntityMap.clear();
@@ -360,22 +345,6 @@ void AntMap::mapChanged() {
     for ( EntityList::iterator i=mEntities.begin();i!=mEntities.end();i++ )
         ( *i )->setPos ( ( *i )->getPos2D() );
 }
-
-/*
-AntEntity *AntMap::getEntity(const MeshBase &pMesh)
-  {
-    //FIXME: this is a rather poor implementation
-
-    for(EntityList::iterator i=mEntities.begin();i!=mEntities.end();i++)
-      {
-        AntEntity::Meshes meshes=(*i)->getMesh();
-        if(std::find(meshes.begin(),meshes.end(),&pMesh)!=meshes.end())
-          return *i;
-      }
-    return 0;
-  }
-
-*/
 
 AntEntity *AntMap::getEntity ( const Mesh &pMesh ) {
     for ( EntityList::iterator i=mEntities.begin();i!=mEntities.end();i++ ) {

@@ -21,8 +21,6 @@
 #ifndef __MAP_H__
 #define __MAP_H__
 
-// INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
-
 #include "height_map.h"
 #include "heuristic.h"
 
@@ -68,9 +66,6 @@ class AGEXPORT AntMap:public HeightMap
   std::list<AntEntity*> getAllEntities();
   std::vector<AntEntity*> getEntities(const AGString &pName);
 
-
-  //AntEntity *getEntity(const MeshBase &pMesh);
-  
   AntEntity *getEntity(const Mesh &pMesh);
   AntEntity *getEntity(const AnimMesh &pMesh);
    
@@ -89,13 +84,14 @@ class AGEXPORT AntMap:public HeightMap
 
   void saveMap(const AGString &pFilename);
   virtual bool loadMap(const AGString &pFilename);
-  virtual bool loadMapFromMemory(const AGString &Memory);
+  virtual bool loadMapFromMemory(const AGString &pMemory);
 
+  /// advance every entity a single step of delta pTime
   void move(float pTime);
 
   AGVector3 getPos(const AGVector2 &pPos) const;
 
-
+  /// notify that (height)map was changed, reposition entities
   virtual void mapChanged();
 
  private:
@@ -105,13 +101,13 @@ class AGEXPORT AntMap:public HeightMap
   EntityMap mEntityMap;
   QuadTree<AntEntity> *mEntQuad;
 
+  /// a list of entities to be removed in the next frame
+  /// they're not deleted at once, because they may be used currently
   EntityList mToDel;
 
   int maxID;
 
   HeuristicFunction *mHeuristicFunction;
-
-
 };
 
 
