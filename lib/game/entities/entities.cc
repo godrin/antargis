@@ -24,8 +24,6 @@ AntEntity *createEntity ( const Node &node,AntMap *map ) {
     } else if ( node.getName() =="antTower" ) {
         e=new AntTower ( map );
     }
-    
-    
 
     if ( e ) {
         e->init();

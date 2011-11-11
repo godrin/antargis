@@ -27,7 +27,6 @@
 #include "terrain.h"
 #include "quadtree.h"
 #include "anim_mesh.h"
-#include "mesh_2d.h"
 #include "ag_profiler.h"
 #include "entities/entities.h"
 
@@ -388,15 +387,6 @@ AntEntity *AntMap::getEntity ( const Mesh &pMesh ) {
 }
 
 AntEntity *AntMap::getEntity ( const AnimMesh &pMesh ) {
-    for ( EntityList::iterator i=mEntities.begin();i!=mEntities.end();i++ ) {
-        AntEntity::Meshes meshes= ( *i )->getMesh();
-        if ( std::find ( meshes.begin(),meshes.end(),&pMesh ) !=meshes.end() )
-            return *i;
-    }
-    return 0;
-}
-
-AntEntity *AntMap::getEntity ( const Mesh2D &pMesh ) {
     for ( EntityList::iterator i=mEntities.begin();i!=mEntities.end();i++ ) {
         AntEntity::Meshes meshes= ( *i )->getMesh();
         if ( std::find ( meshes.begin(),meshes.end(),&pMesh ) !=meshes.end() )

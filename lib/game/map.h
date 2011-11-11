@@ -38,7 +38,6 @@ template<class T>
 class QuadTree;
 
 class AnimMesh;
-class Mesh2D;
 class MeshBase;
 
 class AntEntitySelector {
@@ -74,7 +73,6 @@ class AGEXPORT AntMap:public HeightMap
   
   AntEntity *getEntity(const Mesh &pMesh);
   AntEntity *getEntity(const AnimMesh &pMesh);
-  AntEntity *getEntity(const Mesh2D &pMesh);
    
   AntEntity *getEntity(int id) const;
   AntEntity *getByName(const AGString &pName);
