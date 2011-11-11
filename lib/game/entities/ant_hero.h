@@ -5,30 +5,36 @@
 #include "ant_person.h"
 
 class AntHero:public AntPerson,public AntBoss {
-    public:
-        AntHero ( AntMap* pMap );
-        virtual ~AntHero() throw();
+public:
+    AntHero ( AntMap* pMap );
+    virtual ~AntHero() throw();
 
-        virtual void setupMesh();
-        virtual void setupRing();
+    virtual void setupMesh();
+    virtual void setupRing();
 
-        virtual AntMap *getMap();
-        AGVector2 getPos2D() const;
-        virtual Resource &getResources();
+    // wrapper methods
+    virtual AntMap *getMap();
+    AGVector2 getPos2D() const;
+    virtual Resource &getResources();
+    virtual void playSound(const AGString &psoundName);
+    virtual void removeMeFromMap();
+    virtual void setStrength(float f);
+    virtual void setMoraleStrength(float f);
+    virtual void setDefense(float f);
 
-        virtual void saveXML ( Node &node ) const;
-        virtual void loadXML ( const Node &node );
-        
-        bool isPrimary() const;
+    virtual void saveXML ( Node &node ) const;
+    virtual void loadXML ( const Node &node );
 
-    private:
+    bool isPrimary() const;
 
-        void setMeshState ( const AGString &s );
+private:
 
-        AGString appearance;
-        AGString meshState;
-        float age;
-        bool primary;
+    void setMeshState ( const AGString &s );
+
+    AGString appearance;
+    AGString meshState;
+    float age;
+    bool primary;
 
 };
 

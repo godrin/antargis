@@ -1,6 +1,9 @@
 #include "ant_person.h"
 #include "resource.h"
 #include <map.h>
+#include "ant_grave.h"
+#include "ant_hero.h"
+#include "ant_sack.h"
 
 
 AntPerson::AntPerson() {
@@ -44,5 +47,53 @@ bool AntPerson::isOnWater() {
     AGVector2 p=getPos2D();
     AGVector3 p3=getMap()->getPos ( p );
     return p3.getZ() <0;
+
+}
+
+
+void AntPerson::simDeath()
+{
+    playSound("die");
+
+    // add grave
+    AntGrave *grave=new AntGrave(getMap(),dynamic_cast<AntHero*>(this)?AntGrave::HERO:AntGrave::NORMAL);
+    grave->init();
+    grave->setPos(getPos2D());
+    getMap()->insertEntity(grave);
+
+//# remove myself
+    removeMeFromMap();
+
+//# add sack if resources not empty
+    if (!getResources().empty()) {
+        AntSack *sack=new AntSack(getMap());
+        sack->init();
+        sack->setPos(getPos2D()+AGVector2(0.3,-0.3));
+        getMap()->insertEntity(sack);
+        sack->resource.takeAll(getResources());
+        sack->resourceChanged();
+    }
+
+}
+
+void AntPerson::checkResources()
+{
+    //# FIXME: maybe make hero a little stronger ???
+    //#        or even make experienced men stronger ???
+    if(getResources().get("bow")>0)  {
+      setStrength(0.03);
+      setMoraleStrength(0.04);
+    } else if(getResources().get("sword")>0) {
+      setStrength(0.024);
+      setMoraleStrength(0.03);
+    } else {
+      setStrength(0.015);
+      setMoraleStrength(0.02);
+    }
+    if(getResources().get("shield")==0) {
+      setDefense(1);
+    } else {
+      setDefense(1.5);
+    }
 
 }

@@ -29,6 +29,8 @@
 #include "anim_mesh.h"
 #include "ag_profiler.h"
 #include "entities/entities.h"
+#include "players/ant_players.h"
+#include "ant_human_player.h"
 
 #include <vector>
 #include <math.h>
@@ -162,6 +164,11 @@ void AntMap::processXMLNode ( const Node &node ) {
     AntEntity *e=createEntity ( node,this );
     if ( e ) {
         insertEntity ( e );
+    }
+
+    AntPlayer *player=createPlayer(node,this);
+    if (player) {
+        insertPlayer(player);
     }
 
 
@@ -379,4 +386,23 @@ AntMap::EntityList AntMap::getSelectedEntities(auto_ptr< AntEntitySelector > sel
         }
     }
     return l;
+}
+
+void AntMap::insertPlayer(AntPlayer* player)
+{
+    mPlayers.push_back(player);
+    AntHumanPlayer *humanPlayer=dynamic_cast<AntHumanPlayer*>(player);
+    if (humanPlayer) {
+        myPlayer=humanPlayer;
+    }
+}
+void AntMap::removePlayer(AntPlayer* player)
+{
+    mPlayers.remove(player);
+}
+
+
+AntPlayer* AntMap::getMyPlayer()
+{
+    return myPlayer;
 }

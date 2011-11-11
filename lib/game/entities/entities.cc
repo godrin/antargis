@@ -5,12 +5,15 @@
 #include "ant_tower.h"
 #include "ant_grass.h"
 #include "ant_bush.h"
+#include "ant_man.h"
 
 AntEntity *createEntity ( const Node &node,AntMap *map ) {
 
     AntEntity *e=0;
     if ( node.getName() =="antHero" ) {
         e=new AntHero ( map );
+    } else if ( node.getName() =="antMan" ) {
+        e=new AntMan ( map );
     } else if ( node.getName() =="antNewTree" ) {
         e=new AntTree ( map );
     } else if ( node.getName() =="antNewSheep" ) {

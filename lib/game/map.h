@@ -37,6 +37,8 @@ class QuadTree;
 
 class AnimMesh;
 class MeshBase;
+class AntPlayer;
+class AntHumanPlayer;
 
 class AntEntitySelector {
   public:
@@ -93,9 +95,15 @@ class AGEXPORT AntMap:public HeightMap
 
   /// notify that (height)map was changed, reposition entities
   virtual void mapChanged();
+  
+  AntPlayer *getMyPlayer();
 
  private:
-  typedef std::map<size_t,AntEntity*> EntityMap;
+    void insertPlayer(AntPlayer*player);
+    void removePlayer(AntPlayer *player);
+
+   
+   typedef std::map<size_t,AntEntity*> EntityMap;
 
   EntityList mEntities;
   EntityMap mEntityMap;
@@ -104,10 +112,15 @@ class AGEXPORT AntMap:public HeightMap
   /// a list of entities to be removed in the next frame
   /// they're not deleted at once, because they may be used currently
   EntityList mToDel;
+  
+  typedef std::list<AntPlayer*> PlayerList;
+  PlayerList mPlayers;
+  AntHumanPlayer *myPlayer;
 
   int maxID;
 
   HeuristicFunction *mHeuristicFunction;
+  
 };
 
 

@@ -25,6 +25,22 @@
   <group name="tower">
     <sprite name="" mesh="data/models/tower.ant2" scale="3" texture="data/textures/models/tower.png" rotation="-30"/>
   </group>
-  
-  
+  <group name="man">
+    <sprite name="" anim="data/models/man_e_walk.anim"/>
+    <sprite name="wood" anim="data/models/man_e_wood.anim"/>
+    <sprite name="stone" anim="data/models/man_e_stones.anim"/>
+    <sprite name="flour" anim="data/models/man_e_stones.anim"/>
+    <sprite name="corn" anim="data/models/man_e_stones.anim"/>
+    <sprite name="walk" anim="data/models/man_e_walk.anim"/>
+    <sprite name="sitdown" anim="data/models/man_e_walk.anim"/>
+    <sprite name="sit" anim="data/models/man_e_walk.anim"/>
+    <sprite name="stand" anim="data/models/man_e_walk.anim"/>
+    <sprite name="fight_dagger" anim="data/models/man_e_dagger.anim"/>
+    <sprite name="fight_shield" anim="data/models/man_e_shield.anim"/>
+    <sprite name="fight_sword" anim="data/models/man_e_sword.anim"/>
+    <sprite name="fight_bow" anim="data/models/man_e_bow.anim"/>
+    <sprite name="pick" anim="data/models/man_pick.anim"/>
+    <sprite name="axe" anim="data/models/man_axe.anim"/>
+    <sprite name="grave"  mesh="data/models/grave.ant2" scale="0.2" texture="data/textures/models/grave.png"/>
+  </group>
 </staticMeshGroups>

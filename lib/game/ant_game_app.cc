@@ -2,6 +2,7 @@
 #include "map.h"
 #include "ag_layout.h"
 #include "ant_hero.h"
+#include "ant_human_player.h"
 
 AntGameApp::AntGameApp ( int w, int h ) : GLApp ( w, h ) {
 }
@@ -13,7 +14,7 @@ void AntGameApp::init() {
     setMainWidget ( layout );
 
     mMap=new AntMap ( &getScene(),32,32 );
-    mMap->loadMap("data/levels/tutorial/tutorial0.antlvl");
+    mMap->loadMap("data/levels/tutorial/tutorial3.antlvl");
 //    mMap->loadMap ( "data/levels/birth/birth1.antlvl" );
 
     // FOCUS hero
@@ -30,12 +31,6 @@ bool AntGameApp::eventFrame ( float pTime ) {
 }
 
 AntHero* AntGameApp::getPlayerHero() {
-    std::list<AntEntity*> l=mMap->getAllEntities();
-    for ( std::list<AntEntity*>::iterator i=l.begin();i!=l.end();i++ ) {
-        AntHero *h=dynamic_cast<AntHero*> ( *i );
-        if ( h && h->isPrimary() )
-            return h;
-    }
+    return mMap->getMyPlayer()->getHeroes().front();
 
-    return 0;
 }

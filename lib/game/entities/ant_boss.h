@@ -4,6 +4,7 @@
 #include "entity.h"
 
 class AntPerson;
+class AntHLJob;
 
 class AntBoss:public AntEntity {
 public:
@@ -16,8 +17,14 @@ public:
 
     virtual void init();
     
+    void signUp(AntPerson*man);
+    void removeMan(AntPerson*man);
+    
+    void assignJob(AntPerson *man);
+    
 private:
-  std::vector<AntPerson*> men;
+  std::list<AntPerson*> men;
+  AntHLJob *hlJob;
 };
 
 #endif

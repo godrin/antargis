@@ -83,7 +83,13 @@ SceneNode* AntModels::createModel ( Scene *scene, std::string type, std::string 
     std::cout<<"m-size:"<<m->size() <<std::endl;
     std::pair<AGString,AGString> ref=std::make_pair ( type,subtype );
 
-    StaticMeshDefinition mdef=m->at(ref);
+    StaticMeshes::iterator i=m->find(ref);
+    if(i==m->end()) {
+      std::cout<<"Could not find mesh for "<<type<<"/"<<subtype<<std::endl;
+      throw int();
+    }
+    
+    StaticMeshDefinition mdef=i->second;
     MeshData* md=mdef.data;
     if (md) {
         std::cout<<"getting mesh for "<<type<<"/"<<subtype<<":"<<mdef.meshfile<<std::endl;

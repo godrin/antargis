@@ -290,8 +290,10 @@ void AntEntity::eventGotNewJob()
 void AntEntity::removeOldJobs()
   {
     std::list<Job*>::iterator i=mJobFinished.begin();
-    for(;i!=mJobFinished.end();i++)
+    for(;i!=mJobFinished.end();i++) {
+      assert(*i!=mJob);
       checkedDelete(*i);
+    }
     mJobFinished.clear();
   }
 
@@ -299,6 +301,7 @@ void AntEntity::removeOldJobs()
 /** do anything in given time frame */
 void AntEntity::move(float pTime)
   {
+    cdebug(typeid(*this).name());
     if(mJobFinished.size() || mEnergy==0.0)
       {
         removeOldJobs();

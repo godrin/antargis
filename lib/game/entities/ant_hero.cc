@@ -1,5 +1,6 @@
 #include "ant_hero.h"
 #include "ant_models.h"
+#include "map.h"
 
 AntHero::AntHero ( AntMap* pMap ) : AntBoss ( pMap ) {
 
@@ -69,3 +70,29 @@ void AntHero::saveXML ( Node& node ) const {
 bool AntHero::isPrimary() const {
     return primary;
 }
+
+void AntHero::playSound(const AGString& psoundName)
+{
+    AntEntity::playSound(psoundName);
+}
+
+void AntHero::removeMeFromMap()
+{
+    getMap()->removeEntity(this);
+}
+
+
+void AntHero::setDefense(float f)
+{
+    AntEntity::setDefense(f);
+}
+void AntHero::setMoraleStrength(float f)
+{
+    AntEntity::setMoraleStrength(f);
+}
+
+void AntHero::setStrength(float f)
+{
+    AntEntity::setStrength(f);
+}
+

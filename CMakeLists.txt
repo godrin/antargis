@@ -36,6 +36,7 @@ include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOUR
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/entities
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/hljobs
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/players
 )
 
 INCLUDE(${SWIG_USE_FILE})
@@ -54,9 +55,12 @@ FILE(GLOB MYLIB_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.cc lib/*.c li
   lib/game/*.cc
   lib/game/entities/*.cc
   lib/game/hljobs/*.cc
+  lib/game/players/*.cc
 )
 FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h lib/gui/*.h lib/sound/*.h
-  lib/3dengine/*.h lib/game/*.h
+  lib/3dengine/*.h
+  lib/game/*.h
+  lib/players/*.h
   
 )
 
