@@ -1,6 +1,6 @@
 
 cmake_minimum_required(VERSION 2.8)
-project(antargis2)
+project(antargis)
 
 find_package(SDL)
 find_package(SDL_image)
@@ -60,4 +60,31 @@ FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h lib/gui/*.h
   
 )
 
-add_executable(antargis2 main.cpp ${MYLIB_SOURCES})
+add_executable(antargis main.cpp ${MYLIB_SOURCES})
+
+INSTALL(TARGETS antargis DESTINATION /usr/bin)
+INSTALL(DIRECTORY data DESTINATION /usr/share/antargis)
+
+SET (CPACK_PACKAGING_INSTALL_PREFIX "/tmp")
+
+SET (CPACK_GENERATOR "DEB")
+#"TGZ" "RPM")
+
+SET(CPACK_PACKAGE_VERSION_MAJOR "0")
+SET(CPACK_PACKAGE_VERSION_MINOR "3")
+SET(CPACK_PACKAGE_VERSION_PATCH "0")
+
+SET (CPACK_PACKAGE_CONTACT "David Kamphausen <david.kamphausen@web.de> ")
+
+SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl-image1.2 (>=1.2.10-2.1), libsdl-mixer1.2 (>=1.2.8-6.3build1), 
+ libsdl-ttf2.0-0 (>=2.0.9-1build2)")
+
+
+SET(DEBIAN_PACKAGE_BUILDS_DEPENDS " libsdl-image1.2-dev (>=1.2.10-2.1)
+ libsdl-mixer1.2-dev (>=1.2.8-6.3build1)
+ libsdl-ttf2.0-dev (>=2.0.9-1build2)
+ libsdl1.2-dev (>=1.2.14-6.1ubuntu4)
+ libpng12-dev (>=1.2.46-3ubuntu1)
+ zlib1g-dev (>=1:1.2.3.4.dfsg-3ubuntu3)
+   g++ (>=4:4.6.1-2ubuntu5)")
+include(CPack)

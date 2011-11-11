@@ -216,6 +216,9 @@ bool HeightMap::loadXML(const Node &node)
     AGString filename=node.get("filename");
     if(filename.length())
       {
+        cdebug("FILENAME:"<<filename);
+        filename=findFile(filename);
+        cdebug("FILENAME:"<<filename);
         BinaryFileIn is(filename);
         loadBinary(is);
       }

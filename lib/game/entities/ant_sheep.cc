@@ -19,6 +19,7 @@ void AntSheep::init()
     AntEntity::init();
     setMesh(AntModels::createModel(getScene(),"sheep",""));
     food=0;
+    setSpeed(0.4);
 }
 
 

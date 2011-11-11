@@ -22,6 +22,9 @@
     <sprite name="" anim="data/models/sheep.anim"/>
     <sprite name="rip" mesh="data/models/rip.ant2" scale="0.2" texture="data/textures/models/rip.png"/>
   </group>
+  <group name="tower">
+    <sprite name="" mesh="data/models/tower.ant2" scale="3" texture="data/textures/models/tower.png" rotation="-30"/>
+  </group>
   
   
 </staticMeshGroups>

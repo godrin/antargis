@@ -112,6 +112,9 @@ void initFS(const char *argv0)
 #ifndef WIN32
     addPath("/usr/local/share/antargisgui/pics");
     addPath("/usr/local/share/antargisgui");
+    addPath("/usr/local/share/antargis");
+    addPath("/usr/share/antargis");
+    addPath("/usr/share/antargis/data");
     addPath("/usr/share/fonts/truetype/freefont/");
 #endif
     addPath(getWriteDir());
@@ -257,9 +260,9 @@ std::string loadFromPath(const std::string &pName)
     //    throw std::runtime_error("Not yet inited fs-paths!");
 
     for(std::list<AGString>::iterator i=gFilesystemPathes.begin();i!=gFilesystemPathes.end();i++)
-      dbout(0,"path:"<<*i);
+      cdebug("path:"<<*i);
 
-    dbout(0,"LOAD FAILED:"<<pName);
+    cdebug("LOAD FAILED:"<<pName);
 
     return r;
   }

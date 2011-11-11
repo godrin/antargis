@@ -21,7 +21,7 @@ std::string operator*(const std::string &s, size_t i) {
 template
 class RKSingleton<RKLogging>;
 
-RKLogging::RKLogging() : output("rk_log.txt", std::ios_base::app) {
+RKLogging::RKLogging() : output("/tmp/antargis_log.txt", std::ios_base::app) {
   mLastLevel = "init";
 
   std::string eq("=");

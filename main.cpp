@@ -6,6 +6,7 @@
 #include <ant_menu_app.h>
 #include <ag_layout.h>
 #include <ant_game_app.h>
+#include <ag_rand.h>
 
 int main ( int argc, char **argv ) {
     std::cout << "Hello, world!" << std::endl;
@@ -13,6 +14,7 @@ int main ( int argc, char **argv ) {
 
     AGMain main;
     main.setVideo ( new AGVideoManager() );
+    main.setRand(new AGRandomizer("abc"));
 
     main.getVideo()->initVideo ( 1024,768,32,false,true );
     AGLayout::registerLayouts();

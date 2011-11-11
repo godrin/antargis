@@ -12,6 +12,7 @@ struct StaticMeshDefinition {
     std::string meshfile,texture,animfile;
     bool culling;
     float scale;
+    float rotation;
     MeshData *data;
     AnimMeshData *animData;
 };
@@ -38,7 +39,8 @@ StaticMeshes *loadStaticMeshes() {
                 smdef.animfile= ( *sprite )->get ( "anim" );
                 smdef.culling=std::string ( "true" ) == ( *sprite )->get ( "culling" );
                 smdef.texture= ( *sprite )->get ( "texture" );
-                smdef.scale= ( *sprite )->get ( "scale" ).toFloat();//FIXME
+                smdef.scale= ( *sprite )->get ( "scale" ).toFloat();
+                smdef.rotation= ( *sprite )->get ( "rotation" ).toFloat();
                 smdef.data=0;
                 smdef.animData=0;
                 if (smdef.meshfile.length()>0) {
@@ -46,7 +48,6 @@ StaticMeshes *loadStaticMeshes() {
                     std::cout<<"LOADING:"<<smdef.meshfile<<" "<<smdef.scale<<" "<<smdef.texture<<"  "<< ( *sprite )->getName() <<std::endl;
                     MeshData *md=new MeshData ( smdef.meshfile,smdef.scale,smdef.texture );
                     std::cout<<"LOADED:"<<smdef.meshfile<<std::endl;
-
                     //if (true || !smdef.culling ) {
                     md->setCulling ( smdef.culling );
                     md->setTransparent(true);
@@ -86,7 +87,9 @@ SceneNode* AntModels::createModel ( Scene *scene, std::string type, std::string 
     MeshData* md=mdef.data;
     if (md) {
         std::cout<<"getting mesh for "<<type<<"/"<<subtype<<":"<<mdef.meshfile<<std::endl;
-        return new Mesh ( scene,*md,AGVector4(),angle );
+        Mesh *mesh=new Mesh ( scene,*md,AGVector4(),angle );
+        mesh->setRotation(mdef.rotation);
+        return mesh;
     } else {
         std::cout<<"getting mesh for "<<type<<"/"<<subtype<<":"<<mdef.animfile<<std::endl;
         AnimMeshData *amd=m->at(ref).animData;
