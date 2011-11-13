@@ -45,6 +45,7 @@ AntMap::AntMap ( SceneBase *pScene,int w,int h ) :
         mEntQuad ( new QuadTree<AntEntity> ( AGRect2 ( 0,0,w,h ) ) ),
         mHeuristicFunction ( 0 ) {
     maxID=0;
+    myPlayer=0;
 }
 AntMap::~AntMap() throw() {
     CTRACE;
@@ -164,16 +165,18 @@ void AntMap::processXMLNode ( const Node &node ) {
     AntEntity *e=createEntity ( node,this );
     if ( e ) {
         insertEntity ( e );
+    } else {
+
+        AntPlayer *player=createPlayer(node,this);
+        if (player) {
+            insertPlayer(player);
+        }
+        else {
+
+            //  AntEntity *e=0;
+            cdebug ( "type unknown:"<<node.getName() );
+        }
     }
-
-    AntPlayer *player=createPlayer(node,this);
-    if (player) {
-        insertPlayer(player);
-    }
-
-
-    //  AntEntity *e=0;
-    cdebug ( "type unknown:"<<node.getName() );
     //  return e;
 }
 AntMap::EntityList AntMap::getEntities ( const AGRect2&r ) {
@@ -393,6 +396,7 @@ void AntMap::insertPlayer(AntPlayer* player)
     mPlayers.push_back(player);
     AntHumanPlayer *humanPlayer=dynamic_cast<AntHumanPlayer*>(player);
     if (humanPlayer) {
+        cdebug("Inserted humanplayer:"<<humanPlayer);
         myPlayer=humanPlayer;
     }
 }

@@ -83,7 +83,7 @@ AGString Job::xmlName() const
  ************************************************************************/
 
 MoveJob::MoveJob():
-        mTargetEntity(0)
+        mTargetEntity(0),m3d(false)
 {
 }
 
@@ -250,6 +250,7 @@ void MoveJob::saveXML(Node &pNode) const
     pNode.set("pos",mTarget.toString());
     pNode.set("near",AGString(mNear));
     pNode.set("run",mRun?"true":"false");
+    pNode.set("m3d",m3d?"true":"false");
 }
 void MoveJob::loadXML(const Node &pNode)
 {
@@ -260,6 +261,8 @@ void MoveJob::loadXML(const Node &pNode)
         mNear=pNode.get("near").toFloat();
     if (pNode.get("run").length())
         mRun=pNode.get("run")=="true";
+    if (pNode.get("m3d").length())
+        m3d=pNode.get("m3d")=="true";
 }
 AGString MoveJob::xmlName() const
 {

@@ -7,6 +7,7 @@
 AntMan::AntMan(AntMap* pMap): AntEntity(pMap)
 {
     boss=0;
+    dead=false;
 }
 
 AntMan::~AntMan() throw()
@@ -83,7 +84,6 @@ void AntMan::eventNoJob()
     setFighting(false);
 
     if (!boss) {
-
         if (bossName.length()==0) {
             AntEntity *nextHouse=getMap()->getNext(this,"house");
             if (nextHouse) {
@@ -203,4 +203,12 @@ void AntMan::removeMeFromMap()
 void AntMan::setFighting(bool flag)
 {
     fighting=flag;
+}
+
+
+void AntMan::loadXML(const Node& n)
+{
+    AntEntity::loadXML(n);
+    bossName=n.get("bossName");
+      
 }

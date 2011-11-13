@@ -26,11 +26,17 @@ bool AntGameApp::eventFrame ( float pTime ) {
 
     mMap->move ( pTime );
     getScene().advance(pTime);
+    SDL_Delay(20);
 
     return r;
 }
 
 AntHero* AntGameApp::getPlayerHero() {
-    return mMap->getMyPlayer()->getHeroes().front();
-
+    AntPlayer *p=mMap->getMyPlayer();
+    cdebug("PLAYER:"<<p);
+    cdebug("heroes:"<<p->getHeroes().size());
+    AntHero *h=p->getHeroes().front();
+    cdebug("HERO:"<<h<<" "<<h->getName());
+    
+return h;
 }

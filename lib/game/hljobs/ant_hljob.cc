@@ -9,6 +9,7 @@ AntHLJob::AntHLJob(AntBoss* pBoss):mBoss(pBoss)
 
 void AntHLJob::assignJob(AntPerson* p)
 {
-    AntEntity *e=reinterpret_cast<AntEntity*>(p);
+    AntEntity *e=(AntEntity*)(p);
     e->newRestJob(10);
+    p->setMeshState("sit");
 }

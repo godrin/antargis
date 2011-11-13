@@ -301,7 +301,6 @@ void AntEntity::removeOldJobs()
 /** do anything in given time frame */
 void AntEntity::move(float pTime)
   {
-    cdebug(typeid(*this).name());
     if(mJobFinished.size() || mEnergy==0.0)
       {
         removeOldJobs();

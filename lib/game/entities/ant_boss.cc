@@ -1,6 +1,7 @@
 #include "ant_boss.h"
 #include "ant_hljob.h"
 #include "entity.h"
+#include "ant_person.h"
 
 
 AntBoss::AntBoss ( AntMap* pMap ) : AntEntity ( pMap ) {
@@ -32,11 +33,13 @@ void AntBoss::signUp(AntPerson* man)
 
 void AntBoss::assignJob(AntPerson* man)
 {
+//    std::cout<<"assign:"<<man<<" "<<typeid(*man).name()<<std::endl;
     if (hlJob) {
         hlJob->assignJob(man);
     } else {
-        AntEntity *e=reinterpret_cast<AntEntity*>(man);
-        e->newRestJob(10);
+        AntEntity *e=(AntEntity*)(man);
+        e->newRestJob(100);
+        man->setMeshState("sit");
     }
 
 }

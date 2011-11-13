@@ -23,6 +23,9 @@ public:
     virtual void setMoraleStrength(float f)=0;
     virtual void setDefense(float f)=0;
 
+    virtual void setMeshState(const AGString &p)=0;
+
+
     virtual bool haveBoat() ;
     AGString checkOnWater ( const AGString &name );
     void setOnWater ( bool f );

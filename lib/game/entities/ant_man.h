@@ -24,11 +24,15 @@ public:
     void init();
 
     void setFighting(bool flag);
+
+    void setMeshState(const AGString &p);
+    
+    void loadXML(const Node &n);
+
 protected:
     void eventNoJob();
 private:
 
-    void setMeshState(const AGString &p);
     void simDeath();
     AGString getWeapon();
 

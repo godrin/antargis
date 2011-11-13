@@ -62,8 +62,9 @@ void AntPlayer::loadXML(const Node& node)
     Node::NodeVector children=node.getChildren("hero");
     for (Node::NodeVector::iterator childIterator=children.begin();
             childIterator!=children.end();childIterator++) {
-        bossNames.push_back((*childIterator)->getName());
+        bossNames.push_back((*childIterator)->get("name"));
     }
+    cdebug("Antplayer::loadxml"<<bossNames.size());
 }
 
 void AntPlayer::move(float pTime)
@@ -79,10 +80,14 @@ void AntPlayer::initBosses() {
             if (b) {
                 bosses.push_back(b);
             } else {
-                cdebug("BOSS NOT FOUND:"<<*i);
+                cdebug("BOSS NOT FOUND 1:"<<*i);
                 notFound.push_back(*i);
             }
         }
+         else {
+                cdebug("BOSS NOT FOUND 2:"<<*i);
+                notFound.push_back(*i);
+            }
     }
     bossNames=notFound;
 }

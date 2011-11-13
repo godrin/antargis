@@ -9,6 +9,8 @@ public:
     AntHero ( AntMap* pMap );
     virtual ~AntHero() throw();
 
+    void init();
+
     virtual void setupMesh();
     virtual void setupRing();
 
@@ -22,14 +24,15 @@ public:
     virtual void setMoraleStrength(float f);
     virtual void setDefense(float f);
 
+    void setMeshState(const AGString &p);
+
+
     virtual void saveXML ( Node &node ) const;
     virtual void loadXML ( const Node &node );
 
     bool isPrimary() const;
-
 private:
 
-    void setMeshState ( const AGString &s );
 
     AGString appearance;
     AGString meshState;

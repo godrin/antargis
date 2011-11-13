@@ -10,6 +10,13 @@ AntHero::~AntHero() throw() {
 
 }
 
+void AntHero::init()
+{
+    AntBoss::init();
+    checkResources();
+}
+
+
 void AntHero::setupMesh() {
     setMeshState ( "normal" );
 }
