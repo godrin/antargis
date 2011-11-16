@@ -5,6 +5,7 @@
 #include "ant_human_player.h"
 
 AntGameApp::AntGameApp ( int w, int h ) : GLApp ( w, h ) {
+    controlsDisabled=false;
 }
 
 void AntGameApp::init() {
@@ -37,6 +38,48 @@ AntHero* AntGameApp::getPlayerHero() {
     cdebug("heroes:"<<p->getHeroes().size());
     AntHero *h=p->getHeroes().front();
     cdebug("HERO:"<<h<<" "<<h->getName());
-    
-return h;
+
+    return h;
 }
+
+void AntGameApp::eventEntitiesClicked(PickResult pNodes, int button)
+{
+  AntEntity *entity=0;
+  
+ resetJob();
+    // find first entity that's nearest to the camera
+    selectEntity(0);
+    for(PickResult::iterator pickIterator=pNodes.begin();pickIterator!=pNodes.end();pickIterator++) {
+      SceneNode *sceneNode=pickIterator->node;
+      if(dynamic_cast<Mesh*>(sceneNode) || dynamic_cast<AnimMesh*>(sceneNode)) {
+        entity=getMap()->getEntity(sceneNode);
+        if(entity) {
+          selectEntity(entity);
+          break;
+        }
+        
+      }
+    }
+
+    if(button==1) {
+      // left button == select
+    } else if(button==3 && entity) {
+      // right button == fight or goto
+      AntBoss *boss=dynamic_cast<AntBoss*>(entity);
+        if(boss) {
+          if(boss->getPlayer()!=getMap()->getMyPlayer()) {
+            getCurrentHero()->newHLFightJob(boss);
+            return
+          }
+        elsif @target.is_a?(AntAnimal)
+          @hero.newHLFightAnimalJob(@target)
+          return
+        end
+        # move near target
+        @hero.newHLMoveJob(0,@target.getPos2D,2)
+      end
+    }
+
+}
+
+

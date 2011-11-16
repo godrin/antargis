@@ -6,7 +6,7 @@
 #include "ant_formation.h"
 
 
-AntBoss::AntBoss ( ) {
+AntBoss::AntBoss ( ):hlJob(0) {
 }
 
 AntBoss::~AntBoss() throw() {

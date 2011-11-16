@@ -1,0 +1,42 @@
+development & art:
+David Kamphausen <david.kamphausen@web.de>
+
+contributors:
+Yura Semashko (Yurand) <yurand@land.ru>
+Alexandru Lazar (std) <std@cwazy.co.uk>
+Toby Haynes (Nexus6)
+Chris Smith (Sparky)
+Andreas Bresser (Pscho)
+
+Story:
+David Kamphausen (Godrin)
+Gonzalo Baltanás (Nerian)
+Alexandru Lazar
+
+Translators:
+Gonzalo Baltanás (Nerian)
+
+Music & Sounds:
+Mr.Maudaline
+
+Arts:
+Jason Lutes (portraits from Wesnoth)
+
+
+For more information on contributors or so have a look at the "People" page in the wiki:
+http://antargis.berlios.de/wiki/index.php/People
+
+some images were taken/inspired from the wesnoth-project (www.wesnoth.org)
+some authors are:
+Copyright (C) 2003,2004,2005 David White
+Copyright (C) 2005 Guillaume Melquiond
+Copyright (C) 2005 Philippe Plantier
+Copyright (C) 2005 Yann Dirson
+Copyright (C) 2005 Isaac Clerencia
+
+For more authors of images please have a look at their website.
+
+The gui/src/sge* files were taken from libSGE. Have a look at these files or at http://www.etek.chalmers.se/~e8cal1/sge/ for AUTHOR's information.
+LibSGE is published under LGPL, which corresponds to AntargisGUILib.
+
+The files under gui/src/mtwist are licensed under LGPL and are copyrighted to Geoff Kuenning. Download the sources from http://lasr.cs.ucla.edu/geoff/mtwist.html#downloading.
