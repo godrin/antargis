@@ -14,21 +14,15 @@ public:
     virtual void setupMesh();
     virtual void setupRing();
 
-    // wrapper methods
-    virtual AntMap *getMap();
-    AGVector2 getPos2D() const;
-    virtual Resource &getResources();
-    virtual void playSound(const AGString &psoundName);
-    virtual void removeMeFromMap();
-    virtual void setStrength(float f);
-    virtual void setMoraleStrength(float f);
-    virtual void setDefense(float f);
-
     void setMeshState(const AGString &p);
+    const AGString &getMeshState() const;
 
+    AntEntity *getEntity();
 
     virtual void saveXML ( Node &node ) const;
     virtual void loadXML ( const Node &node );
+    
+    virtual void eventNoHlJob();
 
     bool isPrimary() const;
 private:

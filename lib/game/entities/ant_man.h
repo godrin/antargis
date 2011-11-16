@@ -6,8 +6,10 @@
 
 class AntBoss;
 
-class AntMan:public AntEntity,public AntPerson {
+class AntMan:public AntPerson {
 public:
+    enum JobMode {WAITING,FIGHTING,MOVING,REST_SIT,REST_EAT};
+
     AntMan(AntMap* pMap);
     virtual ~AntMan() throw();
 
@@ -26,8 +28,13 @@ public:
     void setFighting(bool flag);
 
     void setMeshState(const AGString &p);
-    
+
     void loadXML(const Node &n);
+
+    void setMode(JobMode mode);
+    JobMode getMode();
+    
+    const AGString &getMeshState() const;
 
 protected:
     void eventNoJob();
@@ -36,10 +43,10 @@ private:
     void simDeath();
     AGString getWeapon();
 
+    AGString meshState;
     AntBoss *boss;
     AGString bossName;
-    enum JobMode {WAITING,FIGHTING,MOVING};
-    JobMode mode;
+    JobMode mMode;
     float age;
     bool dead;
     bool fighting;

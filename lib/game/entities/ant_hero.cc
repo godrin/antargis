@@ -1,8 +1,9 @@
 #include "ant_hero.h"
 #include "ant_models.h"
 #include "map.h"
+#include "ant_hljob_rest.h"
 
-AntHero::AntHero ( AntMap* pMap ) : AntBoss ( pMap ) {
+AntHero::AntHero ( AntMap* pMap ) : AntPerson ( pMap ) {
 
 }
 
@@ -12,6 +13,7 @@ AntHero::~AntHero() throw() {
 
 void AntHero::init()
 {
+    AntPerson::init();
     AntBoss::init();
     checkResources();
 }
@@ -46,22 +48,18 @@ void AntHero::setMeshState ( const AGString& pname ) {
 
 }
 
-
-AntMap* AntHero::getMap() {
-    return AntBoss::getMap();
+const AGString &AntHero::getMeshState() const
+{
+    return meshState;
 }
 
-AGVector2 AntHero::getPos2D() const {
-    return AntBoss::getPos2D();
-}
+
+
 
 void AntHero::setupRing() {
 
 }
 
-Resource& AntHero::getResources() {
-    return resource;
-}
 
 void AntHero::loadXML ( const Node& node ) {
     AntEntity::loadXML ( node );
@@ -78,28 +76,15 @@ bool AntHero::isPrimary() const {
     return primary;
 }
 
-void AntHero::playSound(const AGString& psoundName)
-{
-    AntEntity::playSound(psoundName);
-}
-
-void AntHero::removeMeFromMap()
-{
-    getMap()->removeEntity(this);
-}
 
 
-void AntHero::setDefense(float f)
+AntEntity* AntHero::getEntity()
 {
-    AntEntity::setDefense(f);
-}
-void AntHero::setMoraleStrength(float f)
-{
-    AntEntity::setMoraleStrength(f);
+    return this;
 }
 
-void AntHero::setStrength(float f)
+void AntHero::eventNoHlJob()
 {
-    AntEntity::setStrength(f);
+    CTRACE;
+    setHlJob(new AntHLJobRest(this,20));
 }
-

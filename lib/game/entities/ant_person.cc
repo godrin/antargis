@@ -5,9 +5,13 @@
 #include "ant_hero.h"
 #include "ant_sack.h"
 
-
-AntPerson::AntPerson() {
+AntPerson::AntPerson(AntMap *pMap):AntEntity(pMap) {
     mOnWater=false;
+}
+
+AntPerson::~AntPerson() throw()
+{
+
 }
 
 
@@ -35,7 +39,7 @@ void AntPerson::setOnWater ( bool f ) {
 }
 
 bool AntPerson::haveBoat() {
-    return getResources().get ( "boat" ) >=1;
+    return resource.get ( "boat" ) >=1;
 }
 
 bool AntPerson::isOnOpenWater() {
@@ -62,15 +66,15 @@ void AntPerson::simDeath()
     getMap()->insertEntity(grave);
 
 //# remove myself
-    removeMeFromMap();
+    getMap()->removeEntity(this);
 
 //# add sack if resources not empty
-    if (!getResources().empty()) {
+    if (!resource.empty()) {
         AntSack *sack=new AntSack(getMap());
         sack->init();
         sack->setPos(getPos2D()+AGVector2(0.3,-0.3));
         getMap()->insertEntity(sack);
-        sack->resource.takeAll(getResources());
+        sack->resource.takeAll(resource);
         sack->resourceChanged();
     }
 
@@ -80,20 +84,26 @@ void AntPerson::checkResources()
 {
     //# FIXME: maybe make hero a little stronger ???
     //#        or even make experienced men stronger ???
-    if(getResources().get("bow")>0)  {
-      setStrength(0.03);
-      setMoraleStrength(0.04);
-    } else if(getResources().get("sword")>0) {
-      setStrength(0.024);
-      setMoraleStrength(0.03);
+    if (resource.get("bow")>0)  {
+        setStrength(0.03);
+        setMoraleStrength(0.04);
+    } else if (resource.get("sword")>0) {
+        setStrength(0.024);
+        setMoraleStrength(0.03);
     } else {
-      setStrength(0.015);
-      setMoraleStrength(0.02);
+        setStrength(0.015);
+        setMoraleStrength(0.02);
     }
-    if(getResources().get("shield")==0) {
-      setDefense(1);
+    if (resource.get("shield")==0) {
+        setDefense(1);
     } else {
-      setDefense(1.5);
+        setDefense(1.5);
     }
 
+}
+
+void AntPerson::sitDown()
+{
+    newRestJob(0.4);
+    setMeshState("sitdown");
 }

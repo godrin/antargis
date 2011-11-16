@@ -4,7 +4,7 @@
 #include "ant_models.h"
 #include "anim_mesh.h"
 
-AntMan::AntMan(AntMap* pMap): AntEntity(pMap)
+AntMan::AntMan(AntMap* pMap): AntPerson(pMap)
 {
     boss=0;
     dead=false;
@@ -72,6 +72,7 @@ void AntMan::init()
 
 void AntMan::eventNoJob()
 {
+    CTRACE;
     AntEntity::eventNoJob();
 
     setVisible(true);
@@ -104,10 +105,17 @@ void AntMan::eventNoJob()
     }
 
     if (boss) {
+        CTRACE;
         boss->assignJob(this);
     }
 
 }
+
+const AGString &AntMan::getMeshState() const
+{
+    return meshState;
+}
+
 
 void AntMan::setMeshState(const AGString& pname)
 {
@@ -116,10 +124,10 @@ void AntMan::setMeshState(const AGString& pname)
         name="walk";
 
     name=checkOnWater(name);
-    AGString meshState=name;
+    meshState=name;
     float dir=getDirection();
     if (name=="fight") {
-        if (mode==MOVING) {
+        if (mMode==MOVING) {
             setMesh(AntModels::createModel(getScene(),"man","walk"));
             AnimMesh *m=dynamic_cast<AnimMesh*>(getFirstMesh());
             if (m)
@@ -210,5 +218,15 @@ void AntMan::loadXML(const Node& n)
 {
     AntEntity::loadXML(n);
     bossName=n.get("bossName");
-      
+
 }
+
+AntMan::JobMode AntMan::getMode()
+{
+    return mMode;
+}
+void AntMan::setMode(AntMan::JobMode mode)
+{
+    mMode=mode;
+}
+

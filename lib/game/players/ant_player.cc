@@ -97,6 +97,6 @@ void AntPlayer::saveXML(Node& node) const
     node.set("name",name);
     for (std::list<AntBoss*>::const_iterator i=bosses.begin();i!=bosses.end();i++) {
         Node &n=node.addChild("hero");
-        n.set("name",(*i)->getName());
+        n.set("name",(*i)->getEntity()->getName());
     }
 }
