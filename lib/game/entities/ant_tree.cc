@@ -24,6 +24,9 @@ void AntTree::init() {
 
     setProvide ( "wood",true );
     setProvide ( "fruit",true );
+    
+    resource.set("fruit",5);
+    resource.set("wood",20);
 }
 void AntTree::eventNoJob() {
     AntEntity::eventNoJob();

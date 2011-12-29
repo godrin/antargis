@@ -99,6 +99,7 @@ bool AntMap::loadXML ( const Node &node ) {
     for ( ;k!=mEntities.end();k++ )
         ( *k )->eventMapChanged();
 
+    
     return seemsok;
 }
 
@@ -306,6 +307,8 @@ bool AntMap::loadMapFromMemory ( const AGString &pMem ) {
         d.parseMemory ( pMem );
         return loadXML ( d.root() );
     }
+    
+    
     return false;
 }
 
@@ -356,19 +359,10 @@ void AntMap::mapChanged() {
         ( *i )->setPos ( ( *i )->getPos2D() );
 }
 
-AntEntity *AntMap::getEntity ( const Mesh &pMesh ) {
+AntEntity *AntMap::getEntity ( const SceneNode *pMesh ) {
     for ( EntityList::iterator i=mEntities.begin();i!=mEntities.end();i++ ) {
         AntEntity::Meshes meshes= ( *i )->getMesh();
-        if ( std::find ( meshes.begin(),meshes.end(),&pMesh ) !=meshes.end() )
-            return *i;
-    }
-    return 0;
-}
-
-AntEntity *AntMap::getEntity ( const AnimMesh &pMesh ) {
-    for ( EntityList::iterator i=mEntities.begin();i!=mEntities.end();i++ ) {
-        AntEntity::Meshes meshes= ( *i )->getMesh();
-        if ( std::find ( meshes.begin(),meshes.end(),&pMesh ) !=meshes.end() )
+        if ( std::find ( meshes.begin(),meshes.end(),pMesh ) !=meshes.end() )
             return *i;
     }
     return 0;
@@ -410,3 +404,14 @@ AntPlayer* AntMap::getMyPlayer()
 {
     return myPlayer;
 }
+
+AntPathFinderComplete* AntMap::getCompletePathFinder()
+{
+    return completePathFinder;
+}
+
+void AntMap::setCompletePathFinder(AntPathFinderComplete* finder)
+{
+    completePathFinder=finder;
+}
+

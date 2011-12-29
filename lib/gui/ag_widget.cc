@@ -72,7 +72,6 @@ AGWidget::AGWidget(AGWidget *pParent,const AGRect2 &r):
       allWidgets.insert(this);
 
       mEventsInited=false;
-      CTRACE;
       if(mParent)
         mParent->addChildRef(this);
 
@@ -86,7 +85,6 @@ AGWidget::AGWidget(AGWidget *pParent,const AGRect2 &r):
 AGWidget::~AGWidget() throw()
   {
     allWidgets.erase(this);
-    CTRACE;
 
     std::list<AGWidget*>::iterator i=mChildren.begin();
     for(;i!=mChildren.end();i++)

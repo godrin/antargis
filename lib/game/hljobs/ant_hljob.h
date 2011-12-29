@@ -10,6 +10,7 @@ class AntMan;
 class AntHero;
 class AntEntity;
 class AntPerson;
+class AntMap;
 
 class AntHLJob {
 public:
@@ -17,6 +18,7 @@ public:
   
   virtual void check(AntMan *p)=0;
   virtual void check(AntHero *p)=0;
+  virtual bool finished()=0;
   
   AntBoss *getBoss();
   AntEntity *getBossEntity();
@@ -24,7 +26,7 @@ public:
   std::vector<AntPerson*> getMenWithBoss();
   
 protected:
-  virtual AGVector2 basePos()=0;
+  virtual AntMap *getMap();
   
 private:
   AntBoss *mBoss;

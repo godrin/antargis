@@ -10,14 +10,18 @@ AntHLJobRest::AntHLJobRest(AntBoss* pBoss, float pTime): AntHLJob(pBoss),mTime(p
 {
     firstTime=true;
     spreadingThings=false;
+    jobFinished=false;
     getBoss()->setFormation(new AntFormationRest(getBoss()));
 }
 
 void AntHLJobRest::check(AntHero* man)
 {
     if (firstTime) {
-        man->newRestJob(10);
+        man->newRestJob(mTime);
         firstTime=false;
+    } else {
+        jobFinished=true;
+//     man->newRestJob(1000);
     }
     eat(man);
 }
@@ -25,7 +29,6 @@ void AntHLJobRest::check(AntHero* man)
 
 void AntHLJobRest::check(AntMan* man)
 {
-    CTRACE;
     switch (man->getMode()) {
     case AntMan::REST_EAT: {
         spreadThings();
@@ -181,4 +184,9 @@ void AntHLJobRest::sit(AntPerson* man)
 AGVector2 AntHLJobRest::basePos()
 {
     return getBossEntity()->getPos2D();
+}
+
+bool AntHLJobRest::finished()
+{
+    return jobFinished;
 }

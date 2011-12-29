@@ -7,15 +7,13 @@ class AntFormationRest:public AntFormation {
 public:
     AntFormationRest(AntBoss* pboss);
 
-    void computeFormation();
+    std::map<AntPerson*,AGVector2> computeFormation();
 
 
 protected:
     AGVector2 getPositionReal(AntPerson *p);
     void sortMen(std::vector<AntPerson*> &v);
 private:
-    std::map<AntPerson*,AGVector2> realPositions;
-    bool inited;
 };
 
 #endif

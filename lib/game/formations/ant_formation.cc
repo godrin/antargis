@@ -4,7 +4,7 @@
 
 AntFormation::AntFormation(AntBoss* pboss):boss(pboss)
 {
-
+    inited=false;
 }
 
 AGVector2 AntFormation::getPosition(AntPerson* man, const AGVector2& pos)
@@ -54,4 +54,11 @@ bool AntManSortBetterWeapon::operator()(AntPerson* a, AntPerson* b) const
     return (a->resource.get("bow")<b->resource.get("bow") || (
                 a->resource.get("bow")==b->resource.get("bow") &&
                 a->resource.get("sword")<b->resource.get("sword")));
+}
+
+AGVector2 AntFormation::getPositionReal(AntPerson* p)
+{
+    if (realPositions.find(p)==realPositions.end())
+        realPositions=computeFormation();
+    return realPositions[p];
 }

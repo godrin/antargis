@@ -3,6 +3,7 @@
 #include "mesh.h"
 #include "mesh_data.h"
 #include "mesh_optimizer.h"
+#include "ant_colored_mesh.h"
 
 #include <cmath>
 
@@ -56,43 +57,18 @@ MeshData *getRingData ( float w=1.0 ) {
     return ringData[w];
 }
 
-class ColoredMesh:public Mesh {
-    public:
-        ColoredMesh ( Scene *scene,MeshData *data,AGVector4 pos,float angle ) :
-                Mesh ( scene,*data,pos,angle ) {
 
-
-            t=0;
-            c0=AGVector4 ( 0.6,0.6,0.6,1 );
-            c1=AGVector4 ( 0.8,0.8,0.8,1 );
-        }
-        void setRingColor ( AGVector4 c ) {
-            c0=c;
-            c1=c*1.2;
-            c1.setW ( 1 );
-        }
-        void advance ( float time ) {
-            t+=time;
-            float v= ( cos ( t*5 ) +1 ) /2;
-            setColor ( c0*v+c1* ( 1-v ) );
-        }
-    private:
-        float t;
-        AGVector4 c0,c1;
-};
-
-
-Mesh* makeRingMesh ( AntMap *map ) {
+ColoredMesh* makeRingMesh ( AntMap *map ) {
     if ( !map->getScene() )
         return 0;
-    Mesh *mesh=new ColoredMesh ( dynamic_cast<Scene*> ( map->getScene() ),getRingData(),AGVector4 ( 0,0,0,0 ),0 );
+    ColoredMesh *mesh=new ColoredMesh ( dynamic_cast<Scene*> ( map->getScene() ),getRingData(),AGVector4 ( 0,0,0,0 ),0 );
     mesh->setOrder ( RING_Z );
     return mesh;
 }
-Mesh* makeBigRingMesh ( AntMap *map ) {
+ColoredMesh* makeBigRingMesh ( AntMap *map ) {
     if ( !map->getScene() )
         return 0;
-    Mesh *mesh=new ColoredMesh ( dynamic_cast<Scene*> ( map->getScene() ),getRingData ( 4 ),AGVector4 ( 0,0,0,0 ),0 );
+    ColoredMesh *mesh=new ColoredMesh ( dynamic_cast<Scene*> ( map->getScene() ),getRingData ( 4 ),AGVector4 ( 0,0,0,0 ),0 );
     mesh->setOrder ( RING_Z );
     return mesh;
 }

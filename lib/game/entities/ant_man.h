@@ -8,7 +8,6 @@ class AntBoss;
 
 class AntMan:public AntPerson {
 public:
-    enum JobMode {WAITING,FIGHTING,MOVING,REST_SIT,REST_EAT};
 
     AntMan(AntMap* pMap);
     virtual ~AntMan() throw();
@@ -31,10 +30,17 @@ public:
 
     void loadXML(const Node &n);
 
-    void setMode(JobMode mode);
-    JobMode getMode();
     
     const AGString &getMeshState() const;
+    
+    void setBoss(AntBoss *pBoss);
+    
+    void setFetchResource(const AGString &r);
+    AGString getFetchResource() const;
+    void digResource(const AGString &resource);
+    void collectResource(const AGString &resource);
+    float canCarry() const;
+    
 
 protected:
     void eventNoJob();
@@ -46,10 +52,10 @@ private:
     AGString meshState;
     AntBoss *boss;
     AGString bossName;
-    JobMode mMode;
     float age;
     bool dead;
     bool fighting;
+    AGString fetchResource;
 };
 
 #endif

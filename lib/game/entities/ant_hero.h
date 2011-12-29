@@ -21,10 +21,11 @@ public:
 
     virtual void saveXML ( Node &node ) const;
     virtual void loadXML ( const Node &node );
-    
-    virtual void eventNoHlJob();
 
+    virtual void eventNoHlJob();
+    virtual void eventNoJob();
     bool isPrimary() const;
+
 private:
 
 

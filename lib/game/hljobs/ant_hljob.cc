@@ -7,14 +7,6 @@ AntHLJob::AntHLJob(AntBoss* pBoss):mBoss(pBoss)
 {
 
 }
-/*
-void AntHLJob::assignJob(AntPerson* p)
-{
-    AntEntity *e=(AntEntity*)(p);
-    e->newRestJob(10);
-    p->setMeshState("sit");
-}
-*/
 
 AntBoss* AntHLJob::getBoss()
 {
@@ -23,12 +15,12 @@ AntBoss* AntHLJob::getBoss()
 
 std::vector< AntPerson* > AntHLJob::getMenWithBoss()
 {
-return mBoss->getMenWithBoss();
+    return mBoss->getMenWithBoss();
 }
 
 std::vector< AntPerson* > AntHLJob::getMenWithoutBoss()
 {
-return mBoss->getMenWithoutBoss();
+    return mBoss->getMenWithoutBoss();
 }
 
 
@@ -36,4 +28,9 @@ return mBoss->getMenWithoutBoss();
 AntEntity* AntHLJob::getBossEntity()
 {
     return mBoss->getEntity();
+}
+
+AntMap* AntHLJob::getMap()
+{
+    return getBossEntity()->getMap();
 }

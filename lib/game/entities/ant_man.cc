@@ -3,6 +3,8 @@
 #include "ant_house.h"
 #include "ant_models.h"
 #include "anim_mesh.h"
+#include "ant_boss.h"
+#include "ag_rand.h"
 
 AntMan::AntMan(AntMap* pMap): AntPerson(pMap)
 {
@@ -73,6 +75,7 @@ void AntMan::init()
 void AntMan::eventNoJob()
 {
     CTRACE;
+    cdebug("MANNNN NOJOB");
     AntEntity::eventNoJob();
 
     setVisible(true);
@@ -105,7 +108,6 @@ void AntMan::eventNoJob()
     }
 
     if (boss) {
-        CTRACE;
         boss->assignJob(this);
     }
 
@@ -127,7 +129,7 @@ void AntMan::setMeshState(const AGString& pname)
     meshState=name;
     float dir=getDirection();
     if (name=="fight") {
-        if (mMode==MOVING) {
+        if (getMode()==MOVING) {
             setMesh(AntModels::createModel(getScene(),"man","walk"));
             AnimMesh *m=dynamic_cast<AnimMesh*>(getFirstMesh());
             if (m)
@@ -145,7 +147,7 @@ void AntMan::setMeshState(const AGString& pname)
         if (m)
             m->setAnimation("sit");
         addMesh(AntModels::createModel(getScene(),"boat",""),AGVector3(0,0,0));
-    } else if (name=="name" || name=="axe" || name=="pick" || name=="wood" || name=="stone" || name=="flour"
+    } else if (name=="stand" || name=="axe" || name=="pick" || name=="wood" || name=="stone" || name=="flour"
                || name=="corn" || name=="walk" || name=="sitdown" || name=="sit") {
 
 
@@ -221,12 +223,49 @@ void AntMan::loadXML(const Node& n)
 
 }
 
-AntMan::JobMode AntMan::getMode()
+void AntMan::setBoss(AntBoss* pBoss)
 {
-    return mMode;
-}
-void AntMan::setMode(AntMan::JobMode mode)
-{
-    mMode=mode;
+    if (boss) {
+        boss->removeMan(this);
+    }
+    boss=pBoss;
+    boss->signUp(this);
 }
 
+AGString AntMan::getFetchResource() const
+{
+    return fetchResource;
+}
+void AntMan::setFetchResource(const AGString& r)
+{
+    fetchResource=r;
+}
+
+
+void AntMan::digResource(const AGString& res)
+{
+    newRestJob(2+agRand(2.0f),true);
+    if (res=="wood")  {
+        setMeshState("axe");
+    } else if (res=="fruit") {
+        setMeshState("stand");
+    } else {
+        setMeshState("pick");
+    }
+
+}
+void AntMan::collectResource(const AGString& res)
+{
+    if (res=="wood") {
+        setMeshState("wood");
+    } else if (res=="stone" || res=="ore" || res=="coal" || res=="food" || res=="corn" || res=="crop" || res=="flour") {
+        // FIXME new animation for other resources
+        setMeshState("stone");
+    }
+}
+
+
+float AntMan::canCarry() const
+{
+    return 3;
+}

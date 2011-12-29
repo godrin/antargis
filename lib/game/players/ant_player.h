@@ -15,6 +15,7 @@ class Node;
 class AntPlayer {
 public:
   AntPlayer(AntMap *pMap,const AGString &pName);
+  virtual ~AntPlayer();
   
   void saveXML(Node &node) const;
   void loadXML(const Node &node);

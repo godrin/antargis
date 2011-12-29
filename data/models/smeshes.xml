@@ -17,6 +17,10 @@
   <group name="hero">
     <sprite name="" mesh="data/models/hero_lp.ant2" scale="0.08" texture="data/textures/models/hero_lp.png"/>
     <sprite name="grave_hero" mesh="data/models/grave.ant2" scale="0.2" texture="data/textures/models/grave3.png"/>
+    <sprite name="boat" mesh="data/models/boat_simple.ant2" scale="0.12" texture="data/textures/models/boat_simple.png"/>
+  </group>
+  <group name="boat">
+    <sprite name="" mesh="data/models/boat_simple.ant2" scale="0.12" texture="data/textures/models/boat_simple.png"/>
   </group>
   <group name="sheep">
     <sprite name="" anim="data/models/sheep.anim"/>

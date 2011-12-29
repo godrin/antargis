@@ -46,7 +46,7 @@ void AntMenuApp::init() {
 
 bool AntMenuApp::eventTutorialClicked ( AGEvent* pEvent ) {
     AntGameApp app ( getVideo()->width(),getVideo()->height() );
-    app.init();
+    app.init("data/levels/tutorial/tutorial0.antlvl");
     app.run();
     return false;
 }

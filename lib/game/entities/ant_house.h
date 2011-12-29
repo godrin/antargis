@@ -16,7 +16,9 @@ public:
     virtual void init();
     virtual void removeMan(AntMan *man);
 
-    void setupRing();
+    virtual ColoredMesh *getRing();
+    virtual void setupRing();
+    virtual void loadXML(const Node &node);
 
     AntEntity *getEntity();
 

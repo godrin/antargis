@@ -37,6 +37,7 @@ class Mesh;
 class SceneNode;
 class Job;
 class AntMap;
+class ColoredMesh;
 
 #include "resource.h"
 
@@ -156,6 +157,12 @@ class AGEXPORT AntEntity
     virtual void loadXML(const Node &node);
   public:
     virtual void init();
+    
+    void hovered(bool flag);
+    bool hovered() const;
+    
+    void selected(bool flag);
+    bool selected() const;
 
     // jobs
 
@@ -240,6 +247,7 @@ class AGEXPORT AntEntity
 
     // used only by *Jobs
     void setDirection(float pAngle);
+    void setDirection(const AGAngle &a);
     float getDirection() const;
 
     void decEnergy(float amount);
@@ -275,6 +283,11 @@ class AGEXPORT AntEntity
 
     AntEntity *getTarget();
     AGVector2 getTargetPos2D();
+    
+  protected:
+    virtual ColoredMesh *getRing();
+    virtual void updateRingColor();
+    void setupRing();
 
   private:
     void updatePos(const AGVector3 &p);
@@ -284,6 +297,11 @@ class AGEXPORT AntEntity
     void loadJob(const Node &pNode);
 
     void removeOldJobs();
+    
+    
+    
+    bool mHovered,mSelected;
+    ColoredMesh *mRing;
   };
 
 typedef AntEntity *PAntEntity;

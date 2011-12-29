@@ -107,3 +107,16 @@ void AntPerson::sitDown()
     newRestJob(0.4);
     setMeshState("sitdown");
 }
+
+
+AntPerson::JobMode AntPerson::getMode()
+{
+    return mMode;
+}
+void AntPerson::setMode(AntPerson::JobMode mode)
+{
+    mMode=mode;
+}
+
+
+

@@ -7,7 +7,6 @@
 
 AntFormationRest::AntFormationRest(AntBoss* pboss): AntFormation(pboss)
 {
-    inited=false;
 }
 
 
@@ -26,10 +25,11 @@ size_t getRowsOfLine(size_t line) {
     }
 }
 
-void AntFormationRest::computeFormation()
+std::map<AntPerson*,AGVector2> AntFormationRest::computeFormation()
 {
     // virtual positions as map from man to pair of [row,line (circle)]
     std::map<AntPerson*,std::pair<size_t,size_t> >  vpos;
+    std::map<AntPerson*,AGVector2> rpos;
 
     std::vector<AntPerson*> men=getSortedMen();
 
@@ -50,21 +50,11 @@ void AntFormationRest::computeFormation()
         size_t row=curvpos->second.first,line=curvpos->second.second;
         float radius=line*1.2;
         float angle=((float)row)/linesizes[line]*M_PI*2.0;
-        realPositions[*menIterator]=AGVector2(cos(angle)*radius,sin(angle)*radius);
+        rpos[*menIterator]=AGVector2(cos(angle)*radius,sin(angle)*radius);
     }
-    realPositions[dynamic_cast<AntPerson*>(getBoss()->getEntity())]=AGVector2(0,0);
-    if (men.size()>0)
-        inited=true;
+    rpos[dynamic_cast<AntPerson*>(getBoss()->getEntity())]=AGVector2(0,0);
+    return rpos;
 
-
-}
-
-
-AGVector2 AntFormationRest::getPositionReal(AntPerson* p)
-{
-    if (realPositions.find(p)==realPositions.end())
-        computeFormation();
-    return realPositions[p];
 }
 
 void AntFormationRest::sortMen(std::vector< AntPerson* >& v)

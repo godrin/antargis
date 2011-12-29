@@ -27,6 +27,7 @@ private:
     float mTime;
     bool firstTime;
     bool spreadingThings;
+    bool jobFinished;
 };
 
 #endif

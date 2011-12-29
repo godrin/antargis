@@ -1,9 +1,9 @@
 #ifndef __ANT_RING_H
 #define __ANT_RING_H
 
-class Mesh;
+class ColoredMesh;
 class AntMap;
-Mesh *makeRingMesh(AntMap *map);
-Mesh *makeBigRingMesh(AntMap *map);
+ColoredMesh *makeRingMesh(AntMap *map);
+ColoredMesh *makeBigRingMesh(AntMap *map);
 
 #endif

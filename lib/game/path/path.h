@@ -293,9 +293,9 @@ class AGEXPORT Pathfinder
   Pathfinder(SimpleGraph *pGraph,HeuristicFunction *pHeuristic,PathDebugging *pDebugger=0);
 
 
-  std::vector<AGVector2> computePath(const AGVector2 &from, const AGVector2 &to);
+  std::list<AGVector2> computePath(const AGVector2 &from, const AGVector2 &to);
 
-  std::vector<AGVector2> refinePath(const std::vector<AGVector2> &p,MapPathWeighter *pWeighter);
+  std::list<AGVector2> refinePath(const std::list<AGVector2> &p,MapPathWeighter *pWeighter);
   
  private:
   SimpleGraph *mGraph;

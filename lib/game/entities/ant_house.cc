@@ -1,5 +1,6 @@
 #include "ant_house.h"
 #include "ant_hljob_fetching.h"
+#include "ant_ring.h"
 
 AntHouse::AntHouse(AntMap* pMap): AntEntity(pMap)
 {
@@ -25,8 +26,15 @@ void AntHouse::removeMan(AntMan* man)
 
 void AntHouse::setupRing()
 {
-    cdebug("NOT IMPLEMENTED");
+    AntEntity::setupRing();
 }
+
+
+ColoredMesh* AntHouse::getRing()
+{
+    return makeBigRingMesh(getMap());
+}
+
 
 AntEntity* AntHouse::getEntity()
 {
@@ -36,4 +44,10 @@ AntEntity* AntHouse::getEntity()
 void AntHouse::eventNoHlJob()
 {
     setHlJob(new AntHLJobFetching(this));
+}
+
+void AntHouse::loadXML(const Node& node)
+{
+    AntEntity::loadXML(node);
+    AntBoss::loadXMLBoss(node);
 }

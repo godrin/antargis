@@ -218,7 +218,6 @@ AGRect2 getLayoutGeometry(AGWidget *pParent,const Node &pNode)
 
 void parseChildren(AGWidget *pParent,const Node &pNode)
   {
-    TRACE;
     if(pParent)
       {
         Node::const_iterator i=pNode.begin();

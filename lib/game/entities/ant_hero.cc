@@ -65,6 +65,7 @@ void AntHero::loadXML ( const Node& node ) {
     AntEntity::loadXML ( node );
     primary= ( AGString ( "true" ) ==node.get ( "primary" ) );
     std::cout<<"PRIMARAY:"<<(primary?"true":"false")<<std::endl;
+    AntBoss::loadXMLBoss(node);
 }
 void AntHero::saveXML ( Node& node ) const {
     AntEntity::saveXML ( node );
@@ -88,3 +89,10 @@ void AntHero::eventNoHlJob()
     CTRACE;
     setHlJob(new AntHLJobRest(this,20));
 }
+
+void AntHero::eventNoJob()
+{
+    AntEntity::eventNoJob();
+    checkHlJobEnd();
+}
+

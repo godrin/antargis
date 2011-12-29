@@ -11,6 +11,14 @@ AntPlayer::AntPlayer(AntMap* pMap, const AGString& pName):map(pMap),
 
 }
 
+AntPlayer::~AntPlayer()
+{
+    for (std::list<AntBoss*>::iterator i=bosses.begin();i!=bosses.end();i++) {
+        (*i)->setPlayer(0);
+    }
+}
+
+
 void AntPlayer::add(AntBoss* boss)
 {
     bosses.push_back(boss);
@@ -79,15 +87,16 @@ void AntPlayer::initBosses() {
             AntBoss *b=dynamic_cast<AntBoss*>(e);
             if (b) {
                 bosses.push_back(b);
+                b->setPlayer(this);
             } else {
                 cdebug("BOSS NOT FOUND 1:"<<*i);
                 notFound.push_back(*i);
             }
         }
-         else {
-                cdebug("BOSS NOT FOUND 2:"<<*i);
-                notFound.push_back(*i);
-            }
+        else {
+            cdebug("BOSS NOT FOUND 2:"<<*i);
+            notFound.push_back(*i);
+        }
     }
     bossNames=notFound;
 }

@@ -22,8 +22,9 @@ int main ( int argc, char **argv ) {
     if ( true ) {
 
         AntGameApp app ( getVideo()->width(),getVideo()->height() );
-        app.init();
+        app.init("data/levels/tutorial/tutorial0.antlvl");
         app.run();
+        return 0;
     }
 
     AntIntroApp intro;
