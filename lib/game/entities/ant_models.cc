@@ -27,10 +27,8 @@ StaticMeshes *loadStaticMeshes() {
         Document doc;
         doc.parseMemory ( loadFile ( "data/models/smeshes.xml" ) );
         Node &root=doc.root();
-        std::cout<<"ROOT:"<<root.getName() <<std::endl;
         for ( Node::iterator groupNode=root.begin();groupNode!=root.end();groupNode++ ) {
             AGString groupName= ( *groupNode )->get ( "name" );
-            std::cout<<"NAME:"<<groupName<<"  "<< ( *groupNode )->getName() <<std::endl;
             Node::NodeVector sprites= ( *groupNode )->getChildren ( "sprite" );
             for ( Node::iterator sprite= sprites.begin();sprite!= sprites.end();sprite++ ) {
                 StaticMeshDefinition smdef;
@@ -45,16 +43,12 @@ StaticMeshes *loadStaticMeshes() {
                 smdef.animData=0;
                 if (smdef.meshfile.length()>0) {
 
-                    std::cout<<"LOADING:"<<smdef.meshfile<<" "<<smdef.scale<<" "<<smdef.texture<<"  "<< ( *sprite )->getName() <<std::endl;
                     MeshData *md=new MeshData ( smdef.meshfile,smdef.scale,smdef.texture );
-                    std::cout<<"LOADED:"<<smdef.meshfile<<std::endl;
-                    //if (true || !smdef.culling ) {
                     md->setCulling ( smdef.culling );
                     md->setTransparent(true);
 
                     smdef.data=md;
                 } else if (smdef.animfile.length()>0) {
-                    std::cout<<"LOADING animmesh:"<<smdef.animfile<<" to "<<groupName<<"/"<<spriteName<<std::endl;
                     AnimMeshData *md=new AnimMeshData(smdef.animfile);
                     smdef.animData=md;
                     md->setTransform(AGMatrix4(M_PI,
@@ -80,24 +74,21 @@ SceneNode* AntModels::createModel ( Scene *scene, std::string type, std::string 
     //if ( n ) return n;
 
     StaticMeshes *m=loadStaticMeshes();
-    std::cout<<"m-size:"<<m->size() <<std::endl;
     std::pair<AGString,AGString> ref=std::make_pair ( type,subtype );
 
     StaticMeshes::iterator i=m->find(ref);
-    if(i==m->end()) {
-      std::cout<<"Could not find mesh for "<<type<<"/"<<subtype<<std::endl;
-      throw int();
+    if (i==m->end()) {
+        std::cerr<<"Could not find mesh for "<<type<<"/"<<subtype<<std::endl;
+        throw int();
     }
-    
+
     StaticMeshDefinition mdef=i->second;
     MeshData* md=mdef.data;
     if (md) {
-        std::cout<<"getting mesh for "<<type<<"/"<<subtype<<":"<<mdef.meshfile<<std::endl;
         Mesh *mesh=new Mesh ( scene,*md,AGVector4(),angle );
         mesh->setRotation(mdef.rotation);
         return mesh;
     } else {
-        std::cout<<"getting mesh for "<<type<<"/"<<subtype<<":"<<mdef.animfile<<std::endl;
         AnimMeshData *amd=m->at(ref).animData;
 
         AnimMesh *m= new AnimMesh(scene,amd);

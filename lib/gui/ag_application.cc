@@ -58,7 +58,6 @@ AGApplication::AGApplication() :
 
 AGApplication::~AGApplication() throw()
   {
-    CTRACE;
     if(mainWidget)
       mainWidget->setApp(0);
     checkedDelete(mCursor);
@@ -259,7 +258,6 @@ void AGApplication::flushEventQueue()
 
 bool AGApplication::eventQuit(AGEvent *m)
   {
-    CTRACE;
     mRunning=false;
     return false;
   }
@@ -436,8 +434,6 @@ void AGApplication::tryQuit()
 
 bool AGApplication::eventKeyDown(AGEvent *m)
   {
-    CTRACE;
-    cdebug("M:"<<m->getKey());
     if (m->isSDLEvent())
       {
         SDLKey k=m->getKey();
@@ -512,7 +508,6 @@ AGWidget *AGApplication::getOverlay()
 
 void AGApplication::setOverlay(AGWidget *pOverlay)
   {
-    CTRACE;
     if (mOverlay)
       delCue.push_back(mOverlay);
     mOverlay=pOverlay;

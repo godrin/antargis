@@ -11,6 +11,7 @@
 #include "ant_hljob_fight_animal.h"
 #include "ant_path_finder_complete.h"
 
+#include "ant_action_widget.h"
 
 AntGameApp::AntGameApp ( int w, int h ) : AntBasicGameApp ( w, h )
 {
@@ -72,6 +73,15 @@ void AntGameApp::eventEntitiesClicked ( const PickResult &pNodes, int button )
     if ( button==1 )
     {
         // left button == select
+        
+        AntActionWidget *w=new AntActionWidget(getMainWidget(),AGRect2(50,0,140,40));
+	std::vector<AntActionWidget::Action> actions;
+	actions.push_back(AntActionWidget::FIGHT);
+	actions.push_back(AntActionWidget::HARVEST);
+	AGVector2 pos(100,90);
+	w->show(actions,pos);
+	//getMainWidget()->addChild(w);
+	getMainWidget()->addChild(w);
     }
     else if ( button==3 && entity )
     {
@@ -120,6 +130,8 @@ void AntGameApp::resetJob()
 void AntGameApp::eventMapClicked ( const AGVector2 &pos, int button )
 {
     CTRACE;
+    
+    selectEntity(0);
     //FIXME
     /*
       if @job and button==1 then

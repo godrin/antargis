@@ -267,7 +267,6 @@ AGEdit::AGEdit(AGWidget *pParent,const AGRect2 &pRect):
   mMultiLine(true),mWrapLines(true),
   sigModified(this,"sigModified")
     {
-      CTRACE;
       mInserting=true;
       mMaxLength=-1;
       mMutable=true;

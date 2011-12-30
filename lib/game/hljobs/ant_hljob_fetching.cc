@@ -67,7 +67,7 @@ void AntHLJobFetching::check(AntMan* man)
 	    man->setMeshState(man->getFetchResource());
         AGString res=man->getFetchResource();
         // take resource
-        if (!man->getTarget()) //e.target.nil? # FIXME: error while loading
+        if (!man->getTarget()) // FIXME: error while loading
         {
             return;
         }
@@ -119,7 +119,6 @@ bool AntHLJobFetching::checkFood(AntMan* man)
 
 void AntHLJobFetching::fetchForStock(std::vector<StockNeed> needed, AntMan* man)
 {
-    CTRACE;
     std::vector<StockNeed> needmap=neededStock();
     std::set<StockNeed> sortedNeed;
 
@@ -134,15 +133,11 @@ void AntHLJobFetching::fetchForStock(std::vector<StockNeed> needed, AntMan* man)
         factor=1;
     }
     for (std::set<StockNeed>::iterator current=sortedNeed.begin();current!=sortedNeed.end();current++) {
-        CTRACE;
         std::string resource=current->resource;
         float amount=current->amount;
         float need=current->currentNeed;
-
-	cdebug("RESOURCE:"<<resource<<":"<<amount<<":"<<need);
 	
         if (need>0 || (need>-amount*0.5 && mode==FETCH)) {
-            CTRACE;
             mode=FETCH;
             AntEntity *tent=0;
 
@@ -153,7 +148,6 @@ void AntHLJobFetching::fetchForStock(std::vector<StockNeed> needed, AntMan* man)
             }
             bool okToHarvest=true;
             if (tent) {
-                cdebug("found ent for "<<resource<<":"<<tent);
                 AntHouse *house=dynamic_cast<AntHouse*>(tent);
                 if (house) {
                     if (house->getPlayer() && house->getPlayer()!=getBoss()->getPlayer()) {
@@ -162,7 +156,6 @@ void AntHLJobFetching::fetchForStock(std::vector<StockNeed> needed, AntMan* man)
                 }
 
                 if (okToHarvest) {
-                    CTRACE;
                     man->newMoveJob(0,tent,0.5);
                     man->setMode(AntPerson::FETCHING);
 		    man->setMeshState("walk");

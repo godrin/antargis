@@ -43,7 +43,6 @@ AGButton::AGButton(AGWidget *pParent,const AGRect2 &r,const AGStringUtf8&pText,i
   AGWidget(pParent,r),
   mText(pText),mID(id),mState(NORMAL),mTextW(0)
   {
-    CTRACE;
     mImageW=0;
     setTheme("");
     AGFont font("FreeSans.ttf");
@@ -119,6 +118,7 @@ void AGButton::setTexture(const AGTexture &pTexture)
 
 void AGButton::draw(AGPainter &p)
   {
+    CTRACE;
     assert(mTextW);
     p.pushMatrix();
     p.transform(AGRect2(0,0,width(),height()).shrink(borderWidth));
@@ -290,7 +290,6 @@ void AGButton::setEnabled(bool pEnable)
 
 void AGButton::setTheme(const AGString &pTheme)
   {
-    CTRACE;
     queryRedraw();
     mTheme=addPoint(pTheme);
 

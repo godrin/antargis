@@ -38,7 +38,6 @@ void AntBasicGameApp::eventHover(const PickResult& pNodes, int button)
         Mesh *mesh=dynamic_cast<Mesh*>(snode);
         AnimMesh *animMesh=dynamic_cast<AnimMesh*>(snode);
         if (mesh||animMesh) {
-          cdebug("snode:"<<snode);
             AntEntity *ent=getMap()->getEntity(snode);
             if (ent) {
                 hoverEntity(ent);
@@ -53,8 +52,6 @@ void AntBasicGameApp::eventHover(const PickResult& pNodes, int button)
 
 void AntBasicGameApp::hoverEntity(AntEntity* e)
 {
-    CTRACE;
-    cdebug("e:"<<e);
     if (hover) {
         hover->hovered(false);
 

@@ -10,7 +10,7 @@ find_package(SDL_mixer)
 find_package(ZLIB)
 find_package(OpenGL)
 find_package(PNG)
-FIND_PACKAGE(SWIG REQUIRED)
+#FIND_PACKAGE(SWIG REQUIRED)
 
 if ( NOT SDL_FOUND )
    message ( FATAL_ERROR "Make sure that SDL is installed" )
@@ -39,9 +39,10 @@ include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOUR
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/players
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/formations
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/path
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/widgets
 )
 
-INCLUDE(${SWIG_USE_FILE})
+#INCLUDE(${SWIG_USE_FILE})
 
 SET(CMAKE_SWIG_FLAGS "")
 
@@ -60,6 +61,7 @@ FILE(GLOB MYLIB_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.cc lib/*.c li
   lib/game/players/*.cc
   lib/game/formations/*.cc
   lib/game/path/*.cc
+  lib/game/widgets/*.cc
 )
 FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h lib/gui/*.h lib/sound/*.h
   lib/3dengine/*.h
@@ -67,6 +69,7 @@ FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h lib/gui/*.h
   lib/players/*.h
   lib/formations/*.h
   lib/path/*.h
+  lib/game/widgets/*.h
   
 )
 

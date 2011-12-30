@@ -57,26 +57,19 @@ AGRandomizer::AGRandomizer(const std::string &pSeed)
 
 AGRandomizer::~AGRandomizer() throw()
   {
-    CTRACE;
   }
 
 float AGRandomizer::operator()(float f)
 {
-  //  CTRACE;
   float d=(float)mts_drand(&mState);
-  //  cdebug("d:"<<d<<" f:"<<f);
   d*=f;
-  //  cdebug("d2:"<<d);
 
   return d;
 }
 int AGRandomizer::operator()(int i)
 {
-  //  CTRACE;
   int r=mts_lrand(&mState);
-  //  cdebug("r:"<<r<<" i:"<<i);
   r%=i;
-  //  cdebug("r2:"<<r);
   return r;
 }
 

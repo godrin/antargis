@@ -74,8 +74,6 @@ void AntMan::init()
 
 void AntMan::eventNoJob()
 {
-    CTRACE;
-    cdebug("MANNNN NOJOB");
     AntEntity::eventNoJob();
 
     setVisible(true);

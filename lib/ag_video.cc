@@ -43,8 +43,6 @@ void AGVideoManager::flip()
  */
 void AGVideoManager::initVideo(int w,int h,int d,bool fs,bool gl,int vw,int vh)
   {
-    CTRACE;
-    cdebug("mScreen:"<<mScreen);
     if(mScreen)
       {
         getSurfaceManager()->clear();
@@ -172,8 +170,6 @@ void AGVideoManager::initVideo(int w,int h,int d,bool fs,bool gl,int vw,int vh)
 
 void AGVideoManager::toggleFull()
   {
-    CTRACE;
-    cdebug("lastGL:"<<lastGL);
     initVideo(lastWidth,lastHeight,lastDepth,!fullScreen,lastGL,lastVWidth,lastVHeight);
   }
 

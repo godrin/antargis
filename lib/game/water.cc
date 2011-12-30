@@ -32,8 +32,6 @@ WaterPiece::WaterPiece(SceneBase *pScene,HeightMap &map,int x,int y,int w,int h,
   SceneNode(pScene,pos,AGBox3()),
   mX(x),mY(y),mW(w),mH(h),mMap(&map)
   {
-    CTRACE;
-
     step=2;
     tex=getTextureCache()->get("data/textures/terrain/water.png");
 

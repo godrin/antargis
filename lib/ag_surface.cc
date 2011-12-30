@@ -372,7 +372,6 @@ AGSurface AGSurface::load(const std::string &pFilename) throw (FileNotFound)
 
 AGSurface AGSurface::scale(int w,int h) const
 {
-  CTRACE;
   AGSurface n(w,h);
 
   float ow=width();

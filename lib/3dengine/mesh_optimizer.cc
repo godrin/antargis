@@ -89,7 +89,6 @@ struct TriCompare
 
 VertexArray MeshOptimizer::getArray()
   {
-    CTRACE;
     VertexArray a;
     for(size_t i=0;i<mVertices.size();i++)
       {

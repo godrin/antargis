@@ -237,7 +237,7 @@ bool MapPathWeighter::accessible(const AGVector2 &a)
         }
     if (hmin<=thres)
     {
-        cdebug("not accessible:"<<a<<":"<<hmin);
+     //   cdebug("not accessible:"<<a<<":"<<hmin);
     }
 
     return hmin>thres;
