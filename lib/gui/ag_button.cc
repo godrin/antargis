@@ -40,9 +40,9 @@ using namespace std;
  */
 
 AGButton::AGButton(AGWidget *pParent,const AGRect2 &r,const AGStringUtf8&pText,int id):
-  AGWidget(pParent,r),
-  mText(pText),mID(id),mState(NORMAL),mTextW(0)
-  {
+        AGWidget(pParent,r),
+        mText(pText),mID(id),mState(NORMAL),mTextW(0)
+{
     mImageW=0;
     setTheme("");
     AGFont font("FreeSans.ttf");
@@ -61,63 +61,63 @@ AGButton::AGButton(AGWidget *pParent,const AGRect2 &r,const AGStringUtf8&pText,i
 
     mEnabled=true;
 
-    if(opengl())
-      setCaching(true);
+    if (opengl())
+        setCaching(true);
 
-  }
+}
 AGButton::~AGButton() throw()
-  {}
+{}
 
 
 
 void AGButton::setSurface(AGSurface pSurface,bool pChangeSize)
-  {
+{
     mSurface=pSurface;
     mGrayedSurface=mSurface.grayed();
-    if(!mImageW)
-      {
+    if (!mImageW)
+    {
         mImageW=new AGImage(this,getRect().origin(),mSurface,false);
         addChild(mImageW);
-      }
+    }
     else
-      {
+    {
         mImageW->setSurface(pSurface);
         mImageW->show();
-      }
+    }
     mTextW->hide();
-    if(pChangeSize)
-      {
+    if (pChangeSize)
+    {
         setWidth(mImageW->width()+2+2*borderWidth);
         setHeight(mImageW->height()+2+2*borderWidth);
-      }
+    }
 
     else
-      {
+    {
         // then center
         mImageW->setLeft((width()-mImageW->width())/2);
         mImageW->setTop((height()-mImageW->height())/2);
-      }
+    }
     queryRedraw();
-  }
+}
 
 void AGButton::setTexture(const AGTexture &pTexture)
-  {
-    if(!mImageW)
-      {
+{
+    if (!mImageW)
+    {
         mImageW=new AGImage(this,getRect().origin(),mSurface,false);
         addChild(mImageW);
-      }
+    }
     else
-      {
+    {
         //      mImageW->setSurface(pTexture);
         mImageW->show();
-      }
+    }
     mImageW->setTexture(pTexture);
-  }
+}
 
 
 void AGButton::draw(AGPainter &p)
-  {
+{
     CTRACE;
     assert(mTextW);
     p.pushMatrix();
@@ -127,8 +127,8 @@ void AGButton::draw(AGPainter &p)
     mBorder[mState].draw(pr,p);
     p.popMatrix();
 
-    if(borderWidth==0)
-      return;
+    if (borderWidth==0)
+        return;
 
     AGColor bc1;
     AGColor bc2;
@@ -143,116 +143,116 @@ void AGButton::draw(AGPainter &p)
 
     mr=getRect().origin();
 
-    if(mState==NORMAL || mState==LIGHTED)
-      p.drawBorder(mr,borderWidth,bc1,bc2);
+    if (mState==NORMAL || mState==LIGHTED)
+        p.drawBorder(mr,borderWidth,bc1,bc2);
     else
-      p.drawBorder(mr,borderWidth,bc2,bc1);
+        p.drawBorder(mr,borderWidth,bc2,bc1);
 
-  }
+}
 
 
 bool AGButton::eventMouseEnter()
-  {
+{
     AGWidget::eventMouseEnter();
     queryRedraw();
-    if(!mEnabled)
-      return false;
-    if(mChecked)
-      mState=CHECKEDLIGHTED;
+    if (!mEnabled)
+        return false;
+    if (mChecked)
+        mState=CHECKEDLIGHTED;
     else
-      mState=LIGHTED;
+        mState=LIGHTED;
     return false;
-  }
+}
 bool AGButton::eventMouseLeave()
-  {
+{
     AGWidget::eventMouseLeave();
     queryRedraw();
-    if(!mEnabled)
-      return false;
-    if(mChecked)
-      mState=CHECKED;
+    if (!mEnabled)
+        return false;
+    if (mChecked)
+        mState=CHECKED;
     else
-      mState=NORMAL;
+        mState=NORMAL;
     return false;
-  }
+}
 
 
 bool AGButton::eventMouseButtonDown(AGEvent *e)
-  {
-    if(e->isSDLEvent())
-      {
-        if(getScreenRect().contains(e->getMousePosition()))
-          {
-            if(mEnabled)
-              {
+{
+    if (e->isSDLEvent())
+    {
+        if (getScreenRect().contains(e->getMousePosition()))
+        {
+            if (mEnabled)
+            {
                 queryRedraw();
-                if(mChecked)
-                  mState=CHECKEDPRESSED;
+                if (mChecked)
+                    mState=CHECKEDPRESSED;
                 else
-                  mState=PRESSED;
+                    mState=PRESSED;
 
                 AGWidget::eventMouseButtonDown(e); // let it get the buttondown-info
-              }
+            }
 
             return true;
-          }
-      }
+        }
+    }
     return AGWidget::eventMouseButtonDown(e);
-  }
+}
 
 bool AGButton::eventMouseButtonUp(AGEvent *e)
-  {
-    if(e->isSDLEvent())
-      {
-        if(mEnabled)
-          {
+{
+    if (e->isSDLEvent())
+    {
+        if (mEnabled)
+        {
             queryRedraw();
-            if(getScreenRect().contains(e->getMousePosition()))
-              {
-                if(mChecked)
-                  mState=CHECKEDLIGHTED;
+            if (getScreenRect().contains(e->getMousePosition()))
+            {
+                if (mChecked)
+                    mState=CHECKEDLIGHTED;
                 else
-                  mState=LIGHTED;
-              }
+                    mState=LIGHTED;
+            }
             else
-              {
-                if(mChecked)
-                  mState=CHECKED;
+            {
+                if (mChecked)
+                    mState=CHECKED;
                 else
-                  mState=NORMAL;
-              }
-          }
+                    mState=NORMAL;
+            }
+        }
 
-      }
+    }
     return AGWidget::eventMouseButtonUp(e);
-  }
+}
 
 
 void AGButton::setRect(const AGRect2 &r)
-  {
+{
     AGWidget::setRect(r);
     updateClientRects();
-  }
+}
 
 void AGButton::setWidth(float w)
-  {
+{
     assert(w>=0);
     AGWidget::setWidth(w);
     updateClientRects();
-  }
+}
 void AGButton::setHeight(float h)
-  {
+{
     assert(h>=0);
     AGWidget::setHeight(h);
     updateClientRects();
-  }
+}
 
 void AGButton::updateClientRects()
-  {
+{
     std::list<AGWidget*>::iterator i=mChildren.begin();
-    for(;i!=mChildren.end();i++)
-      (*i)->setRect(getRect().origin().shrink(borderWidth));
-  }
+    for (;i!=mChildren.end();i++)
+        (*i)->setRect(getRect().origin().shrink(borderWidth));
+}
 
 
 /**
@@ -260,7 +260,7 @@ void AGButton::updateClientRects()
  */
 AGStringUtf8 AGButton::getCaption() const
 {
-  return mText;
+    return mText;
 }
 
 /**
@@ -271,25 +271,25 @@ AGStringUtf8 AGButton::getCaption() const
  */
 
 void AGButton::setEnabled(bool pEnable)
-  {
-    if(mEnabled!=pEnable)
-      {
+{
+    if (mEnabled!=pEnable)
+    {
         mEnabled=pEnable;
         setState(mState); // check
         queryRedraw();
-        if(mImageW)
-          {
-            if(mEnabled)
-              mImageW->setSurface(mSurface);
+        if (mImageW)
+        {
+            if (mEnabled)
+                mImageW->setSurface(mSurface);
             else
-              mImageW->setSurface(mGrayedSurface);
-          }
+                mImageW->setSurface(mGrayedSurface);
+        }
 
-      }
-  }
+    }
+}
 
 void AGButton::setTheme(const AGString &pTheme)
-  {
+{
     queryRedraw();
     mTheme=addPoint(pTheme);
 
@@ -312,70 +312,70 @@ void AGButton::setTheme(const AGString &pTheme)
     mBorder[CHECKEDPRESSED]=AGBorder(mTheme+"button.border.checkedpressed");
     mBorder[DISABLED]=AGBorder(mTheme+"button.border.disabled");
 
-    if(mTextW)
-      mTextW->setTheme(mTheme+"button.text");
+    if (mTextW)
+        mTextW->setTheme(mTheme+"button.text");
 
-  }
+}
 
 void AGButton::setCaption(const AGStringUtf8 &pCaption)
-  {
+{
     queryRedraw();
     mText=pCaption;
-    if(mTextW)
-      mTextW->setText(pCaption);
-    if(mImageW)
-      mImageW->hide();
-  }
+    if (mTextW)
+        mTextW->setText(pCaption);
+    if (mImageW)
+        mImageW->hide();
+}
 
 void AGButton::setState(const State &pState)
-  {
+{
     queryRedraw();
-    if(mEnabled)
-      {
-        if(mState==DISABLED)
-          mState=NORMAL;
+    if (mEnabled)
+    {
+        if (mState==DISABLED)
+            mState=NORMAL;
         else
-          mState=pState;
-      }
+            mState=pState;
+    }
     else
-      mState=DISABLED;
-  }
+        mState=DISABLED;
+}
 
 AGButton::State AGButton::getState() const
 {
-  return mState;
+    return mState;
 }
 
 
 void AGButton::setChecked(bool pChecked)
-  {
+{
     queryRedraw();
     mChecked=pChecked;
-    if(mChecked)
-      {
-        if(mState==LIGHTED || mState==CHECKEDLIGHTED)
-          setState(CHECKEDLIGHTED);
+    if (mChecked)
+    {
+        if (mState==LIGHTED || mState==CHECKEDLIGHTED)
+            setState(CHECKEDLIGHTED);
         else
-          setState(CHECKED);
-      }
+            setState(CHECKED);
+    }
     else
-      {
-        if(mState==LIGHTED || mState==CHECKEDLIGHTED)
-          setState(LIGHTED);
+    {
+        if (mState==LIGHTED || mState==CHECKEDLIGHTED)
+            setState(LIGHTED);
         else
-          setState(NORMAL);
-      }
-  }
+            setState(NORMAL);
+    }
+}
 bool AGButton::isChecked() const
 {
-  return mChecked;
+    return mChecked;
 }
 
 
 AGButton &toAGButton(AGWidget &pWidget)
-  {
+{
     return dynamic_cast<AGButton&>(pWidget);
-  }
+}
 
 /**
    \brief can this widget widget be focused.
@@ -384,7 +384,7 @@ AGButton &toAGButton(AGWidget &pWidget)
  */
 bool AGButton::canFocus() const
 {
-  return true;
+    return true;
 }
 
 /**
@@ -395,14 +395,27 @@ bool AGButton::canFocus() const
  */
 
 void AGButton::useTextures()
-  {
-    for(std::map<State,AGBackground>::iterator i=mBG.begin();i!=mBG.end();++i)
-      i->second.useTextures();
-    for(std::map<State,AGBorder>::iterator i=mBorder.begin();i!=mBorder.end();++i)
-      i->second.useTextures();
-  }
+{
+    for (std::map<State,AGBackground>::iterator i=mBG.begin();i!=mBG.end();++i)
+        i->second.useTextures();
+    for (std::map<State,AGBorder>::iterator i=mBorder.begin();i!=mBorder.end();++i)
+        i->second.useTextures();
+}
 
 bool AGButton::isOpaque() const
 {
-  return true;
+    return true;
+}
+
+
+AGButton *AGButton::create(AGWidget *pParent,const AGRect2 &pRect,AGStringUtf8 caption,AGString captionImage,bool enabled,AGString theme) {
+    AGButton *b;
+    b=new AGButton(pParent,pRect,caption);
+    if (captionImage.length())
+        b->setSurface(AGSurface::load(captionImage),false);
+    if (!enabled)
+        b->setEnabled(false);
+
+    b->setTheme(theme);
+    return b;
 }

@@ -6,6 +6,7 @@
 class AntMap;
 class AntHero;
 class AntEntity;
+class AntActionWidget;
 
 class AntGameApp:public AntBasicGameApp {
 public:
@@ -24,12 +25,12 @@ protected:
 private:
 
     void resetJob();
-    
+
     AntEntity *entity;
     AntMap *mMap;
     AGLayout *layout;
     AntHero *currentHero;
-
+    AntActionWidget *actionWidget;
 };
 
 #endif

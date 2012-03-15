@@ -44,77 +44,80 @@ class AGImage;
 
 class AGEXPORT AGButton:public AGWidget
 {
- public:
-  /// the different drawing states
-   enum State {
-     NORMAL,         //!< the normal state of a button
-     LIGHTED,        //!< the button is lighted or hovered
-     PRESSED,        //!< the button is pressed (typically hovered)
-     CHECKED,        //!< the button is checked (and not pressed)
-     CHECKEDLIGHTED, //!< a hovered and checked button
-     CHECKEDPRESSED, //!< hovered, checked and pressed
-     DISABLED        //!< the button disabled (greyed)
-   };
+public:
+    static AGButton *create(AGWidget *pParent,const AGRect2 &pRect,AGStringUtf8 caption,AGString captionImage,bool enabled,AGString theme);
 
-  AGButton(AGWidget *pParent,const AGRect2 &r,const AGStringUtf8&pText="",int id=-1);
-  virtual ~AGButton() throw();
 
-  void setSurface(AGSurface pSurface,bool pChangeSize=false);
-  void setTexture(const AGTexture &pTexture);
+    /// the different drawing states
+    enum State {
+        NORMAL,         //!< the normal state of a button
+        LIGHTED,        //!< the button is lighted or hovered
+        PRESSED,        //!< the button is pressed (typically hovered)
+        CHECKED,        //!< the button is checked (and not pressed)
+        CHECKEDLIGHTED, //!< a hovered and checked button
+        CHECKEDPRESSED, //!< hovered, checked and pressed
+        DISABLED        //!< the button disabled (greyed)
+    };
 
-  virtual void draw(AGPainter &p);
+    AGButton(AGWidget *pParent,const AGRect2 &r,const AGStringUtf8&pText="",int id=-1);
+    virtual ~AGButton() throw();
 
-  virtual bool eventMouseEnter();
-  virtual bool eventMouseLeave();
+    void setSurface(AGSurface pSurface,bool pChangeSize=false);
+    void setTexture(const AGTexture &pTexture);
 
-  virtual bool eventMouseButtonDown(AGEvent *m);
-  virtual bool eventMouseButtonUp(AGEvent *m);
+    virtual void draw(AGPainter &p);
 
-  virtual void setWidth(float w);
-  virtual void setHeight(float w);
-  void setRect(const AGRect2 &r);
+    virtual bool eventMouseEnter();
+    virtual bool eventMouseLeave();
 
-  virtual AGStringUtf8 getCaption() const;
+    virtual bool eventMouseButtonDown(AGEvent *m);
+    virtual bool eventMouseButtonUp(AGEvent *m);
 
-  void setEnabled(bool pEnable);
+    virtual void setWidth(float w);
+    virtual void setHeight(float w);
+    void setRect(const AGRect2 &r);
 
-  void setTheme(const AGString &pTheme);
+    virtual AGStringUtf8 getCaption() const;
 
-  void setCaption(const AGStringUtf8 &pCaption);
+    void setEnabled(bool pEnable);
 
-  /// sets the current state and ensures a redraw
-  virtual void setState(const State &pState);
-  State getState() const;
+    void setTheme(const AGString &pTheme);
 
-  virtual void setChecked(bool pChecked);
-  bool isChecked() const;
+    void setCaption(const AGStringUtf8 &pCaption);
 
-  bool canFocus() const;
+    /// sets the current state and ensures a redraw
+    virtual void setState(const State &pState);
+    State getState() const;
 
-  virtual void useTextures();
+    virtual void setChecked(bool pChecked);
+    bool isChecked() const;
 
-  bool isOpaque() const;
+    bool canFocus() const;
 
- private:
-   
-  void updateClientRects();
-  AGStringUtf8 mText;
-  int mID;
-  AGString mTheme;
-  State mState;
-  int borderWidth;
-  AGSurface mSurface;
-  AGSurface mGrayedSurface;
-  bool mHasSurface;
-  AGEdit *mTextW;
-  AGImage *mImageW;
+    virtual void useTextures();
 
-  bool lower;
-  bool mChecked;
+    bool isOpaque() const;
 
-  std::map<State,AGBackground> mBG;
-  std::map<State,AGBorder> mBorder;
-  bool mEnabled;
+private:
+
+    void updateClientRects();
+    AGStringUtf8 mText;
+    int mID;
+    AGString mTheme;
+    State mState;
+    int borderWidth;
+    AGSurface mSurface;
+    AGSurface mGrayedSurface;
+    bool mHasSurface;
+    AGEdit *mTextW;
+    AGImage *mImageW;
+
+    bool lower;
+    bool mChecked;
+
+    std::map<State,AGBackground> mBG;
+    std::map<State,AGBorder> mBorder;
+    bool mEnabled;
 };
 
 AGEXPORT AGButton &toAGButton(AGWidget &pWidget);

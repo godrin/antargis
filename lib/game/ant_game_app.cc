@@ -4,6 +4,7 @@
 #include "ant_hero.h"
 #include "ant_human_player.h"
 #include "ant_boss.h"
+#include "ant_house.h"
 #include "ant_animal.h"
 #include "mesh.h"
 #include "anim_mesh.h"
@@ -73,15 +74,18 @@ void AntGameApp::eventEntitiesClicked ( const PickResult &pNodes, int button )
     if ( button==1 )
     {
         // left button == select
-        
-        AntActionWidget *w=new AntActionWidget(getMainWidget(),AGRect2(50,0,140,40));
-	std::vector<AntActionWidget::Action> actions;
-	actions.push_back(AntActionWidget::FIGHT);
-	actions.push_back(AntActionWidget::HARVEST);
-	AGVector2 pos(100,90);
-	w->show(actions,pos);
-	//getMainWidget()->addChild(w);
-	getMainWidget()->addChild(w);
+
+        if (actionWidget==0) {
+            actionWidget=new AntActionWidget(getMainWidget(),AGRect2(50,0,140,40));
+            getMainWidget()->addChildBack(actionWidget);
+        }
+        std::vector<AntActionWidget::Action> actions;
+        actions.push_back(AntActionWidget::FIGHT);
+        if (dynamic_cast<AntHouse*>(entity))
+            actions.push_back(AntActionWidget::HARVEST);
+        AGVector2 pos(100,90);
+        actionWidget->show(actions,pos);
+        //getMainWidget()->addChild(w);
     }
     else if ( button==3 && entity )
     {
@@ -130,7 +134,9 @@ void AntGameApp::resetJob()
 void AntGameApp::eventMapClicked ( const AGVector2 &pos, int button )
 {
     CTRACE;
-    
+    if (actionWidget)
+        actionWidget->hide();
+
     selectEntity(0);
     //FIXME
     /*
