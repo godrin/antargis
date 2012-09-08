@@ -52,12 +52,13 @@ void AntBasicGameApp::eventHover(const PickResult& pNodes, int button)
 
 void AntBasicGameApp::hoverEntity(AntEntity* e)
 {
-    if (hover) {
-        hover->hovered(false);
-
-    }
-    hover=e;
-    if (hover) {
-        hover->hovered(true);
-    }
+      AntEntity *c=getMap()->getEntity(hoveredEntityId);
+      if(c) {
+	c->hovered(false);
+      }
+      if(e) {
+        hoveredEntityId=e->getID();
+        e->hovered(true);
+      } else
+	hoveredEntityId=-1;
 }

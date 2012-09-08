@@ -16,10 +16,16 @@
 
 AntGameApp::AntGameApp ( int w, int h ) : AntBasicGameApp ( w, h )
 {
+  // REVIEWED
+  mMap=0;
+  layout=0;
+  currentHeroId=-1;
+  actionWidget=0;
 }
 
 void AntGameApp::init(const std::string &level)
 {
+    actionWidget=0;
     layout=new AGLayout ( 0 );
     layout->loadXML ( loadFile ( "data/gui/layout/ant_layout.xml" ) );
     layout->setApp ( this );
@@ -33,7 +39,8 @@ void AntGameApp::init(const std::string &level)
     AntPathFinderComplete *pf=new AntPathFinderComplete ( mMap );
 
     mMap->setCompletePathFinder ( pf );
-    currentHero=mMap->getMyPlayer()->getHeroes().front();
+    AntHero *currentHero=mMap->getMyPlayer()->getHeroes().front();
+    currentHeroId=currentHero->getID();
     // FOCUS hero
     setCamera ( currentHero->getPos2D() );
 }
@@ -114,16 +121,22 @@ void AntGameApp::eventEntitiesClicked ( const PickResult &pNodes, int button )
 
 void AntGameApp::selectEntity ( AntEntity* e )
 {
-    if ( entity )
-        entity->selected ( false );
-    entity=e;
-    if ( entity )
-        entity->selected ( true );
+  AntEntity *entity=getMap()->getEntity(selectedEntityId);
+  if(entity)
+    entity->selected(false);
+  
+  if(e) {
+    e->selected(true);
+    selectedEntityId=e->getID();
+  } else
+    selectedEntityId=-1;
 }
 
 AntHero* AntGameApp::getCurrentHero()
 {
-    return currentHero;
+    AntEntity *e= mMap->getEntity(currentHeroId);
+    AntHero *h=dynamic_cast<AntHero*>(e);
+    return h;
 }
 
 void AntGameApp::resetJob()

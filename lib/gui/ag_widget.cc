@@ -84,6 +84,7 @@ AGWidget::AGWidget(AGWidget *pParent,const AGRect2 &r):
 
 AGWidget::~AGWidget() throw()
   {
+    CTRACE;
     allWidgets.erase(this);
 
     std::list<AGWidget*>::iterator i=mChildren.begin();
@@ -658,6 +659,7 @@ float AGWidget::left() const
 
 void AGWidget::show()
   {
+    CTRACE;
     mVisible=true;
     queryRedraw();
   }

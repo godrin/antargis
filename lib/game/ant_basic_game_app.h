@@ -18,7 +18,7 @@ protected:
     virtual void hoverEntity(AntEntity *e);
 private:
     bool controlsDisabled;
-    AntEntity *hover;
+    int hoveredEntityId;
 };
 
 #endif

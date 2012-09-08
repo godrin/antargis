@@ -7,20 +7,8 @@
 
 class AntActionWidget:public AGWidget {
 public:
-    enum Action {FIGHT,TAKE_FOOD,TAKE_WEAPONS,RECRUIT,INVENT,DISMISS,REST,SUPPORT,DROP_FOOD,DROP_WEAPONS};
-     const char *ActionImages[]={
-      "data/gui/sword.png",
-      "data/gui/take_apple.png",
-      "data/gui/take_weapon.png",
-      "data/gui/recruit.png",
-      "data/gui/construct.png",
-      "data/gui/dismiss.png",
-      "data/gui/bed.png",
-      "data/gui/support.png",
-      "data/gui/drop_apple.png",
-      "data/gui/drop_weapon.png"
-      
-    };
+    enum Action {FIGHT,TAKE_FOOD,TAKE_WEAPONS,RECRUIT,INVENT,DISMISS,REST,SUPPORT,DROP_FOOD,DROP_WEAPONS,HARVEST};
+    static const char *ActionImages[];
       /*
       
       										<button  col="0" row="0" name="doRecruit" caption-image="data/gui/recruit.png" tooltip="Recruit"/>

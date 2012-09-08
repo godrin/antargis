@@ -26,10 +26,10 @@ private:
 
     void resetJob();
 
-    AntEntity *entity;
+    int selectedEntityId;
     AntMap *mMap;
     AGLayout *layout;
-    AntHero *currentHero;
+    int currentHeroId;
     AntActionWidget *actionWidget;
 };
 
