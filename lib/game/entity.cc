@@ -34,11 +34,13 @@
 AntEntity::AntEntity ( AntMap *pMap ) :mMap ( pMap ),mPos ( 0,0,0 )
 {
     assert ( mMap );
+    mID=getMap()->getNewID();
+    mRing=0;
+    mJob=0;
 }
 
 void AntEntity::init()
 {
-    mID=getMap()->getNewID();
 
     mShowOnMinimap=false;
     onGround=true;
@@ -116,7 +118,7 @@ void AntEntity::saveXML ( Node &node ) const
     node.set ( "morale",AGString ( mMorale ) );
     node.set ( "aggression",AGString ( mAggression ) );
     node.set ( "food",AGString ( mFood ) );
-    node.set ( "id",AGString ( mID ) );
+    //node.set ( "id",AGString ( mID ) );
     node.set ( "exp",AGString ( experience ) );
     node.set ( "learnAmount",AGString ( learnAmount ) );
 
@@ -147,12 +149,14 @@ void AntEntity::loadXML ( const Node &node )
     for ( ;i!=v.end();i++ )
         mPos.loadXML ( **i );
 
+    /*
     AGString entID=node.get ( "entityID" );
     if ( entID.length() >0 )
         mID=entID.toInt();
     else
         mID=node.get ( "id" ).toInt();
     getMap()->useID ( mID );
+    */
     if ( node.get ( "morale" ) !="" )
         mMorale=node.get ( "morale" ).toFloat();
     else
@@ -948,7 +952,6 @@ void AntEntity::playSound ( const AGString& name, float minDiff )
 
 void AntEntity::hovered ( bool flag )
 {
-    CTRACE;
     mHovered=flag;
     updateRingColor();
 }

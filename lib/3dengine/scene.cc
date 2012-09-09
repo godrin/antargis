@@ -272,6 +272,7 @@ void Scene::drawScene()
             STACKTRACE;
             for(Nodes::iterator i=sorted.begin();i!=sorted.end();)
               {
+                assert((*i)->getScene()==this);
                 if(cFrustum.collides((*i)->bbox()))
                   i++;
                 else

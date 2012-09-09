@@ -780,7 +780,6 @@ bool AGWidget::eventGotFocus()
 
 bool AGWidget::eventLostFocus()
   {
-    CTRACE;
     if(mFocus)
       mFocus->eventLostFocus();
     mHasFocus=false;

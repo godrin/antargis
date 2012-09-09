@@ -8,24 +8,25 @@
 
 class AntMan;
 
-class AntHouse:public AntEntity,public AntBoss {
+class AntHouse:public AntEntity,public AntBoss
+{
 public:
-    AntHouse(AntMap* pMap);
-    virtual ~AntHouse() throw();
+  AntHouse ( AntMap* pMap );
+  virtual ~AntHouse() throw();
 
-    virtual void init();
-    virtual void removeMan(AntMan *man);
+  virtual void init();
+  virtual void removeMan ( AntMan *man );
 
-    virtual ColoredMesh *getRing();
-    virtual void setupRing();
-    virtual void loadXML(const Node &node);
+  virtual ColoredMesh *getRing();
+  virtual void setupRing();
+  virtual void loadXML ( const Node &node );
 
-    AntEntity *getEntity();
+  AntEntity *getEntity();
 
-    virtual void eventNoHlJob();
+  virtual void eventNoHlJob();
 
 private:
-    std::set<AntMan*> atHome;
+  std::set<AntMan*> atHome;
 
 };
 

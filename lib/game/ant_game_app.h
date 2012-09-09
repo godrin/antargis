@@ -15,14 +15,15 @@ public:
 
     virtual bool eventFrame ( float pTime );
 
-
     AntHero *getCurrentHero();
+    AntEntity *getSelectedEntity();
 protected:
     void eventMapClicked(const AGVector2 &pos, int button);
     void eventEntitiesClicked(const PickResult &pNodes, int button);
     void selectEntity(AntEntity *e);
     AntMap *getMap();
 private:
+    
 
     void resetJob();
 

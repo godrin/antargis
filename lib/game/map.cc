@@ -62,8 +62,8 @@ AntEntity *AntMap::getEntity ( int id ) const {
     return i->second;
 }
 
-// FIXME: exchange this function somehow!!
 int AntMap::getNewID() {
+  std::cout<<"getNewID:"<<maxID<<std::endl;
     return maxID++;
 }
 

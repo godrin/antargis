@@ -118,7 +118,6 @@ void AGButton::setTexture(const AGTexture &pTexture)
 
 void AGButton::draw(AGPainter &p)
 {
-    CTRACE;
     assert(mTextW);
     p.pushMatrix();
     p.transform(AGRect2(0,0,width(),height()).shrink(borderWidth));
