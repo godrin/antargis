@@ -87,6 +87,7 @@ void AntGameApp::eventEntitiesClicked ( const PickResult &pNodes, int button )
       if ( actionWidget==0 )
         {
           actionWidget=new AntActionWidget ( getMainWidget(),AGRect2 ( 50,200,140,40 ) );
+          actionWidget->setHandler ( this );
           getMainWidget()->addChildBack ( actionWidget );
         }
 
@@ -191,9 +192,6 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
 
   if ( target )
     {
-
-
-
       AntBoss *targetBoss=dynamic_cast<AntBoss*> ( target );
       if ( targetBoss )
         {
@@ -214,13 +212,23 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
             }
           else
             {
-              AntAnimal *targetAnimal=dynamic_cast<AntAnimal*> ( target );
-              if ( targetAnimal )
-                actions.push_back ( AntActionWidget::FIGHT );
+              actions.push_back ( AntActionWidget::FIGHT );
             }
         }
+      else
+        {
+          AntAnimal *targetAnimal=dynamic_cast<AntAnimal*> ( target );
+          if ( targetAnimal )
+            actions.push_back ( AntActionWidget::FIGHT );
+        }
+
     }
   return actions;
-
-
 }
+
+void AntGameApp::actionClicked ( AntActionWidget::Action a )
+{
+  actionWidget->hide();
+  std::cout<<"Action clicked:"<<a<<std::endl;
+}
+

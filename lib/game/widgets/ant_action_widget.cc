@@ -48,11 +48,14 @@ void AntActionWidget::show ( const std::vector< AntActionWidget::Action >& actio
     {
       //AGButton *b=new AGButton(this,AGRect2(pos,pos+size),"TEXT");
       const char *image=ActionImages[*i];
-      if(!image) {
-        throw std::string("No image found for action");
-      }
+      if ( !image )
+        {
+          throw std::string ( "No image found for action" );
+        }
       AGButton *b=AGButton::create ( this,AGRect2 ( pos,pos+size ),"",image,true,"" );
       addChild ( b );
+      actionButtons[b]=*i;
+      b->sigClick.connect ( slot ( this,&AntActionWidget::eventButtonClicked ) );
       pos+=stepping;
       allsize+=stepping;
     }
@@ -64,3 +67,16 @@ void AntActionWidget::show ( const std::vector< AntActionWidget::Action >& actio
   //setHeight(40);
 }
 
+bool AntActionWidget::eventButtonClicked ( AGEvent* m )
+{
+  CTRACE;
+  AGListener *l=m->getCaller();
+  AGButton *b=dynamic_cast<AGButton*> ( l );
+  if ( b )
+    {
+      std::cout<<"L:"<<l<<" "<<typeid ( *l ).name() <<std::endl;
+      if ( handler )
+        handler->actionClicked ( actionButtons[b] );
+    }
+  return AGWidget::eventMouseClick ( m );
+}

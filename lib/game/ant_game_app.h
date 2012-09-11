@@ -2,13 +2,14 @@
 #define __ANT_GAME_APP_H
 
 #include "ant_basic_game_app.h"
+#include "ant_action_widget.h"
 
 class AntMap;
 class AntHero;
 class AntEntity;
 class AntActionWidget;
 
-class AntGameApp:public AntBasicGameApp {
+class AntGameApp:public AntBasicGameApp,public AntActionWidget::Handler {
 public:
     AntGameApp ( int w, int h );
     void init(const std::string &level);
@@ -22,6 +23,7 @@ protected:
     void eventEntitiesClicked(const PickResult &pNodes, int button);
     void selectEntity(AntEntity *e);
     AntMap *getMap();
+    void actionClicked(AntActionWidget::Action a);
 private:
     
 
