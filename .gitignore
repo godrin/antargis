@@ -1,2 +1,10 @@
 build
 *~
+.kdev4
+CMakeCache.txt
+CMakeFiles/
+CPackConfig.cmake
+CPackSourceConfig.cmake
+Makefile
+cmake_install.cmake
+
