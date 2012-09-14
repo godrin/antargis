@@ -214,15 +214,12 @@ AGGLTexture *AGTexture::glTexture()
         if(s)
           if(s->glTexture && version==s->version)
             mTexture=s->glTexture;
-        cdebug(mTexture);
         if(!mTexture)
           {
-            cdebug(m3d);
             if(m3d)
               mTexture=new AGGLTexture(nextpow2(std::min(w,h)),nextpow2(std::min(w,h)),nextpow2(std::max(w,h)/std::min(w,h)));
             else
               mTexture=new AGGLTexture(nextpow2(w),nextpow2(h));
-            cdebug(mTexture);
             if(s)
               {
                 mTexture->setSurface(s);

@@ -14,14 +14,13 @@ public:
 
     void init();
 
-    virtual void check(AntMan *p);
-    virtual void check(AntHero *p);
     virtual bool finished();
 protected:
     virtual AntHero *getHero();
 
+    virtual void checkPerson(AntPerson *p);
+    virtual void eventMoveFinished();
 private:
-    void checkPerson(AntPerson *p);
 
     AGVector2 formatDir();
     std::vector< AntPerson* > getMen();

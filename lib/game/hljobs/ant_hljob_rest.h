@@ -19,7 +19,6 @@ public:
 private:
     bool heroHasFood();
     void eat(AntPerson* man);
-    void sit(AntPerson* man);
     void spreadThings();
     void spreadThing(const AGString &what);
     void spreadFood();

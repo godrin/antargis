@@ -24,6 +24,9 @@ public:
   AntEntity *getEntity();
 
   virtual void eventNoHlJob();
+  
+  AntMap *getMap();
+  int getID();
 
 private:
   std::set<AntMan*> atHome;

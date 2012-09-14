@@ -14,144 +14,162 @@ AntBoss::AntBoss ( ) :hlJob ( 0 ),menToAddCount ( 0 )
 
 AntBoss::~AntBoss() throw()
 {
-    getPlayer()->remove ( this );
+  getPlayer()->remove ( this );
 }
 
 void AntBoss::setupMeshBoss()
 {
-    setupMesh();
-    setupRing();
+  setupMesh();
+  setupRing();
 }
 
 void AntBoss::init()
 {
-    setupMeshBoss();
+  setupMeshBoss();
 
 }
 
 void AntBoss::removeMan ( AntMan* man )
 {
-    menWithoutBoss.remove ( man );
+  menWithoutBoss.remove ( man );
 }
 
 void AntBoss::signUp ( AntMan* man )
 {
-    menWithoutBoss.push_back ( man );
+  menWithoutBoss.push_back ( man );
 }
 
 
 void AntBoss::assignJob ( AntMan* man )
 {
-    if ( !hlJob )
-        eventNoHlJob();
+  if ( !hlJob )
+    eventNoHlJob();
 
 //    std::cout<<"assign:"<<man<<" "<<typeid(*man).name()<<std::endl;
-    if ( hlJob )
+  if ( hlJob )
     {
-        hlJob->check ( man );
+      hlJob->check ( man );
     }
-    else
+  else
     {
-        AntEntity *e= ( AntEntity* ) ( man );
-        e->newRestJob ( 100 );
-        man->setMeshState ( "sit" );
+      CTRACE;
+      cdebug ( "No hljob, so resting forever"<<man );
+      AntEntity *e= ( AntEntity* ) ( man );
+      e->newRestJob ( 100 );
+      man->setMeshState ( "sit" );
     }
 
 }
 void AntBoss::assignJob ( AntHero* man )
 {
 //    std::cout<<"assign:"<<man<<" "<<typeid(*man).name()<<std::endl;
-    if ( !hlJob )
-        eventNoHlJob();
+  if ( !hlJob )
+    eventNoHlJob();
 
-    if ( hlJob )
+  if ( hlJob )
     {
-        hlJob->check ( man );
+      hlJob->check ( man );
     }
-    else
+  else
     {
-        AntEntity *e= ( AntEntity* ) ( man );
-        e->newRestJob ( 100 );
-        //man->setMeshState("sit");
+      AntEntity *e= ( AntEntity* ) ( man );
+      e->newRestJob ( 100 );
+      //man->setMeshState("sit");
     }
 
 }
 
 std::vector< AntPerson* > AntBoss::getMenWithBoss()
 {
-    std::vector< AntPerson* > l;
-    l.push_back ( dynamic_cast<AntPerson*> ( getEntity() ) );
-    std::copy ( menWithoutBoss.begin(),menWithoutBoss.end(),std::back_inserter ( l ) );
-    return l;
+  std::vector< AntPerson* > l;
+  l.push_back ( dynamic_cast<AntPerson*> ( getEntity() ) );
+  std::copy ( menWithoutBoss.begin(),menWithoutBoss.end(),std::back_inserter ( l ) );
+  return l;
 }
 std::vector< AntPerson* > AntBoss::getMenWithoutBoss()
 {
-    std::vector< AntPerson* > l;
-    std::copy ( menWithoutBoss.begin(),menWithoutBoss.end(),std::back_inserter ( l ) );
-    return l;
+  std::vector< AntPerson* > l;
+  std::copy ( menWithoutBoss.begin(),menWithoutBoss.end(),std::back_inserter ( l ) );
+  return l;
 }
 
 AntFormation* AntBoss::getFormation()
 {
-    return formation;
+  return formation;
 }
 
 AGVector2 AntBoss::getFormation ( AntPerson* e, const AGVector2& v )
 {
-    cdebug ( "getFormation:"<<formation );
-    if ( formation )
+  cdebug ( "getFormation:"<<formation );
+  if ( formation )
     {
-        return formation->getPosition ( e,v );
+      return formation->getPosition ( e,v );
     }
-    else
-        return getEntity()->getPos2D();
+  else
+    return getEntity()->getPos2D();
 }
 
 void AntBoss::setHlJob ( AntHLJob* job )
 {
-    delete hlJob;
-    hlJob=job;
+  delete hlJob;
+  hlJob=job;
 }
 
 void AntBoss::setFormation ( AntFormation* pformation )
 {
-    formation=pformation;
+  formation=pformation;
 }
 
 AntPlayer* AntBoss::getPlayer()
 {
-    return player;
+  return player;
 }
 void AntBoss::setPlayer ( AntPlayer* pPlayer )
 {
-    player=pPlayer;
+  player=pPlayer;
 }
 
 void AntBoss::checkHlJobEnd()
 {
-    if ( hlJob )
+  if ( hlJob )
     {
-        if ( hlJob->finished() )
+      if ( hlJob->finished() )
         {
-            eventNoHlJob();
+          eventNoHlJob();
         }
     }
 }
 
 void AntBoss::loadXMLBoss ( const Node& node )
 {
-    if ( node.get ( "men" ).length() >0 ) {
-        menToAddCount=node.get ( "men" ).toInt();
+  if ( node.get ( "men" ).length() >0 )
+    {
+      menToAddCount=node.get ( "men" ).toInt();
 
-        for (size_t i=0;i<menToAddCount;i++) {
-            AntMan *man=new AntMan(getEntity()->getMap());
-            man->setPos(getEntity()->getPos2D());
-            man->init();
-            man->setBoss(this);
-            getEntity()->getMap()->insertEntity(man);
+      for ( size_t i=0; i<menToAddCount; i++ )
+        {
+          AntMan *man=new AntMan ( getEntity()->getMap() );
+          man->setPos ( getEntity()->getPos2D() );
+          man->init();
+          man->setBoss ( this );
+          getEntity()->getMap()->insertEntity ( man );
         }
 
-        menToAddCount=0;
+      menToAddCount=0;
     }
 
+}
+
+std::vector< AntPerson* > AntBoss::getRestingMenWithHero()
+{
+  std::vector< AntPerson* > restList;
+  if ( getEntity()->isResting() )
+    restList.push_back ( dynamic_cast<AntPerson*> ( getEntity() ) );
+  for ( std::list<AntMan*>::iterator manIterator=menWithoutBoss.begin(); manIterator!=menWithoutBoss.end(); manIterator++ )
+    {
+      if ( ( *manIterator )->isResting() )
+        restList.push_back ( *manIterator );
+
+    }
+  return restList;
 }

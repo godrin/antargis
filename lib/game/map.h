@@ -41,6 +41,7 @@ class AntPlayer;
 class AntHumanPlayer;
 class Pathfinder;
 class AntPathFinderComplete;
+class AntBoss;
 
 class AntEntitySelector {
 public:
@@ -73,6 +74,7 @@ public:
     AntEntity *getEntity(const SceneNode *pMesh);
 
     AntEntity *getEntity(int id) const;
+    AntBoss *getBoss(int id) const;
     AntEntity *getByName(const AGString &pName);
 
     AntEntity *getNext(AntEntity *me,const AGString &pType,size_t atLeast=0);

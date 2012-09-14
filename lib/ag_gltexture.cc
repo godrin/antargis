@@ -115,7 +115,7 @@ AGGLTexture::AGGLTexture(size_t W,size_t H,GLint format):w(W),h(H),d(1),m3d(fals
     assertGL;
     gUsedTexMemory+=w*h*4;
 
-    dbout(4,"used memory:"<<gUsedTexMemory);
+//    dbout(4,"used memory:"<<gUsedTexMemory);
 
     glTexParameteri(mTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     assertGL;

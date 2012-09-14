@@ -133,11 +133,6 @@ void printStacktrace()
         printf("%s\n", strs[i]);
     }
     free(strs);
-    /*
-    struct nlist *nl;
-    int result=nlist("antargis.bundle",nl);
-    std::cout<<"RESULT:"<<result<<std::endl;
-    */
 }
 
 #else

@@ -280,7 +280,7 @@ void Scene::drawScene()
               }
           }
 
-          sort(sorted.begin(),sorted.end(),SortOrder());
+          std::sort(sorted.begin(),sorted.end(),SortOrder());
           // draw opaque objects first, from front to back
           for(Nodes::iterator i=sorted.begin();i!=sorted.end();i++)
             {
@@ -295,7 +295,7 @@ void Scene::drawScene()
                     }
                 }
             }
-          sort(sorted.begin(),sorted.end(),SortDistance(mCamera.getCameraPosition().dim3()));
+          std::sort(sorted.begin(),sorted.end(),SortDistance(mCamera.getCameraPosition().dim3()));
           // draw transparent ones next from back to front
           for(Nodes::reverse_iterator i=sorted.rbegin();i!=sorted.rend();i++)
             {

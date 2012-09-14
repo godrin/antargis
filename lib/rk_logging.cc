@@ -155,8 +155,9 @@ namespace logger {
   Channel &Channel::operator<<(const Special &s) {
     check();
     if(mEnabled) {
-      if (s.getType() == Special::ENDL)
+      if (s.getType() == Special::ENDL) {
         flush();
+      }
     }
     return *this;
   }

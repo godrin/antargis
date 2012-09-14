@@ -10,6 +10,8 @@
 #include "anim_mesh.h"
 #include "ant_hljob_fighting.h"
 #include "ant_hljob_fight_animal.h"
+#include "ant_hljob_fetching.h"
+#include "ant_hljob_recruit.h"
 #include "ant_path_finder_complete.h"
 
 #include "ant_action_widget.h"
@@ -200,6 +202,8 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
             {
               actions.push_back ( AntActionWidget::TAKE_FOOD );
               actions.push_back ( AntActionWidget::TAKE_WEAPONS );
+              actions.push_back ( AntActionWidget::RECRUIT );
+              actions.push_back ( AntActionWidget::DISMISS );
               AntHouse *house=dynamic_cast<AntHouse*> ( targetBoss );
               if ( house )
                 {
@@ -207,7 +211,7 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
                 }
               else
                 {
-                  actions.push_back ( AntActionWidget::FIGHT );
+                  // actions.push_back ( AntActionWidget::FIGHT );
                 }
             }
           else
@@ -226,9 +230,51 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
   return actions;
 }
 
-void AntGameApp::actionClicked ( AntActionWidget::Action a )
+void AntGameApp::actionClicked ( AntActionWidget::Action action )
 {
   actionWidget->hide();
-  std::cout<<"Action clicked:"<<a<<std::endl;
+  std::cout<<"Action clicked:"<<action<<std::endl;
+  AntHero *hero=getCurrentHero();
+  AntEntity *target=getSelectedEntity();
+  AntBoss *targetBoss=dynamic_cast<AntBoss*> ( target );
+  AntAnimal *targetAnimal=dynamic_cast<AntAnimal*> ( target );
+  if ( hero && target )
+    {
+
+      switch ( action )
+        {
+        case AntActionWidget::FIGHT:
+        {
+          if ( targetBoss )
+            {
+              std::cout<<"Fight other boss"<<std::endl;
+              hero->setHlJob ( new AntHlJobFighting ( hero,targetBoss ) );
+            }
+          else if ( targetAnimal )
+            {
+              //hero->setHlJob ( new AntHLJobFightAnimal ( hero ) );
+              // TODO
+            }
+        }
+        break;
+        case AntActionWidget::TAKE_FOOD:
+        {
+          if ( targetBoss )
+            hero->setHlJob ( new AntHLJobFetching ( targetBoss ) );
+        }
+        break;
+        case AntActionWidget::RECRUIT:
+        {
+          if ( targetBoss ) {
+            std::cout<<"recruit..."<<std::endl;
+            hero->setHlJob ( new AntHlJobRecruit ( hero,targetBoss ) );
+          }
+        }
+        break;
+        }
+    }
+
+
+
 }
 

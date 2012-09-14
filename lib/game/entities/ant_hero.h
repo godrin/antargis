@@ -25,6 +25,9 @@ public:
     virtual void eventNoHlJob();
     virtual void eventNoJob();
     bool isPrimary() const;
+    
+    AntMap *getMap();
+    int getID();
 
 private:
 

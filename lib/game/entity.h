@@ -42,267 +42,268 @@ class ColoredMesh;
 #include "resource.h"
 
 class AGEXPORT AntEntity
-  {
-  public:
-    typedef std::list<SceneNode*> Meshes;
-  private:
-    AntMap *mMap;
+{
+public:
+  typedef std::list<SceneNode*> Meshes;
+private:
+  AntMap *mMap;
 
-    int mID;
-    AGString mName;
+  int mID;
+  AGString mName;
 
-    AGVector3 mPos;   // 3d-position
-    bool onGround;    // is this on the ground of the map?
-    bool onWater;
+  AGVector3 mPos;   // 3d-position
+  bool onGround;    // is this on the ground of the map?
+  bool onWater;
 
-    Job *mJob;        // current job
+  Job *mJob;        // current job
 
-    std::list<Job*> mJobFinished;  // finished jobs, in cue, so that they get deleted next time possible
+  std::list<Job*> mJobFinished;  // finished jobs, in cue, so that they get deleted next time possible
 
-    std::set<AGString> mProvides;
+  std::set<AGString> mProvides;
 
-    // energy and healing
-    float mEnergy;
-    float mHealSpeed;
+  // energy and healing
+  float mEnergy;
+  float mHealSpeed;
 
-    // morale and moralehealing
-    float mMorale;
-    float mMoraleHeal;
+  // morale and moralehealing
+  float mMorale;
+  float mMoraleHeal;
 
-    bool mMoraleFlag;
+  bool mMoraleFlag;
 
-    /// current food in stomach
-    float mFood;
-    /// food needed per second
-    float mHunger;
-    /// hunger impact on energy
-    float mHungerHitEnergy;
-    /// hunger impact on morale
-    float mHungerHitMorale;
+  /// current food in stomach
+  float mFood;
+  /// food needed per second
+  float mHunger;
+  /// hunger impact on energy
+  float mHungerHitEnergy;
+  /// hunger impact on morale
+  float mHungerHitMorale;
 
-    // moving
-    float mMoveSpeed;
+  // moving
+  float mMoveSpeed;
 
-    float mAggression;
+  float mAggression;
 
-    AGString mType;
+  AGString mType;
 
-    Meshes mMeshes;
-    std::map<SceneNode*,AGVector3> mMeshPos;
+  Meshes mMeshes;
+  std::map<SceneNode*,AGVector3> mMeshPos;
 
-    int mVirtualY;
+  int mVirtualY;
 
-    AGColor mMinimapColor;
-    bool mShowOnMinimap;
-    float mMinimapSize;
+  AGColor mMinimapColor;
+  bool mShowOnMinimap;
+  float mMinimapSize;
 
-    float mStrength;
-    float mMoraleStrength;
+  float mStrength;
+  float mMoraleStrength;
 
-    float mDefense;
+  float mDefense;
 
-    bool mDefeated;
-  public:
-    float experience;
-    float learnAmount;
+  bool mDefeated;
+public:
+  float experience;
+  float learnAmount;
 
 
-  public: //virtually protected
-    float mDir;  // direction in (0,360)
-    Resource resource;
+public: //virtually protected
+  float mDir;  // direction in (0,360)
+  Resource resource;
 
-  public:
-    AntEntity(AntMap *pMap);
-    virtual ~AntEntity() throw();
+public:
+  AntEntity ( AntMap *pMap );
+  virtual ~AntEntity() throw();
 
-    bool defeated() const;
+  bool defeated() const;
 
-    void setMinimapColor(const AGColor &c);
-    void setMinimapSize(float f);
-    AGColor getMinimapColor() const;
-    bool showOnMinimap() const;
-    float getMinimapSize() const;
+  void setMinimapColor ( const AGColor &c );
+  void setMinimapSize ( float f );
+  AGColor getMinimapColor() const;
+  bool showOnMinimap() const;
+  float getMinimapSize() const;
 
-    void setStrength(float f);
-    float getStrength() const;
-    void setMoraleStrength(float f);
-    float getMoraleStrength() const;
-    void setDefense(float f);
-    float getDefense() const;
+  void setStrength ( float f );
+  float getStrength() const;
+  void setMoraleStrength ( float f );
+  float getMoraleStrength() const;
+  void setDefense ( float f );
+  float getDefense() const;
 
-    void setMoraleFlag(bool f);
+  void setMoraleFlag ( bool f );
 
 
-    // Positions
-    AGVector3 getPos3D() const;
-    AGVector2 getPos2D() const;
-    virtual void setPos(const AGVector2 &p); // overwrite this only on static Entities, otherwise this gets called really (!) often
-    void setPos(const AGVector3 &p);
+  // Positions
+  AGVector3 getPos3D() const;
+  AGVector2 getPos2D() const;
+  virtual void setPos ( const AGVector2 &p ); // overwrite this only on static Entities, otherwise this gets called really (!) often
+  void setPos ( const AGVector3 &p );
 
-    // IDs, names and types
-    int getID() const;
+  // IDs, names and types
+  int getID() const;
 
-    AGString getName() const;
-    void setName(const AGString &pName);
+  AGString getName() const;
+  void setName ( const AGString &pName );
 
-    void setProvide(const AGString &pName,bool flag);
-    bool provides(const AGString &pName) const;
+  void setProvide ( const AGString &pName,bool flag );
+  bool provides ( const AGString &pName ) const;
 
-    // saving and loading
-    virtual AGString xmlName() const;
-    virtual std::string xmlName2() const;
-    virtual AGString xmlName3() const;
+  // saving and loading
+  virtual AGString xmlName() const;
+  virtual std::string xmlName2() const;
+  virtual AGString xmlName3() const;
 
-    virtual void saveXML(Node &node) const;
-    virtual void loadXML(const Node &node);
-  public:
-    virtual void init();
-    
-    void hovered(bool flag);
-    bool hovered() const;
-    
-    void selected(bool flag);
-    bool selected() const;
+  virtual void saveXML ( Node &node ) const;
+  virtual void loadXML ( const Node &node );
+public:
+  virtual void init();
 
-    // jobs
+  void hovered ( bool flag );
+  bool hovered() const;
 
-  private:
-    void setJob(Job *pJob); // only for internal use and reseting
+  void selected ( bool flag );
+  bool selected() const;
 
-  public:
-    virtual void newRestJob(float pTime,bool pWork=false);
-    virtual void newFetchJob(int p,AGVector2 &pTarget,const AGString &pWhat);
-    virtual void newFetchJob(int p,AntEntity *pTarget,const AGString &pWhat);
-    virtual void newMoveJob(int p,const AGVector2 &pTarget,float pnear=0.0);
-    virtual void newMoveJob(int p,const AGVector3 &pTarget,float pnear=0.0);
-    virtual void newMoveJob(int p,AntEntity *target,float pnear=0.0);
-    virtual void newFightJob(int p,AntEntity *target,float distance);
-    virtual void delJob();
+  // jobs
 
-    bool isMoving() const;
+private:
+  void setJob ( Job *pJob ); // only for internal use and reseting
 
-    virtual void resourceChanged();
+public:
+  virtual void newRestJob ( float pTime,bool pWork=false );
+  virtual void newFetchJob ( int p,AGVector2 &pTarget,const AGString &pWhat );
+  virtual void newFetchJob ( int p,AntEntity *pTarget,const AGString &pWhat );
+  virtual void newMoveJob ( int p,const AGVector2 &pTarget,float pnear=0.0 );
+  virtual void newMoveJob ( int p,const AGVector3 &pTarget,float pnear=0.0 );
+  virtual void newMoveJob ( int p,AntEntity *target,float pnear=0.0 );
+  virtual void newFightJob ( int p,AntEntity *target,float distance );
+  virtual void delJob();
 
-    bool hasJob() const;
-    AGString getJobName() const;
-    
-    void playSound(const AGString &name,float minDiff=0.5f);
+  bool isMoving() const;
 
-    AGRect2 getRect() const;
+  virtual void resourceChanged();
 
-    virtual void eventNoJob();
-    virtual void eventJobFinished();
-    virtual void eventGotNewJob();
-    virtual void eventGotFight(AntEntity*pOther);
+  bool hasJob() const;
+  AGString getJobName() const;
 
-    // set/get speeds
-    void setSpeed(float f);
-    float getSpeed() const;
+  void playSound ( const AGString &name,float minDiff=0.5f );
 
-    float getHealSpeed() const;
-    void setHealSpeed(float f);
+  AGRect2 getRect() const;
 
-    void setMoraleHealSpeed(float f);
+  virtual void eventNoJob();
+  virtual void eventJobFinished();
+  virtual void eventGotNewJob();
+  virtual void eventGotFight ( AntEntity*pOther );
 
-    void setHunger(float f);
+  // set/get speeds
+  void setSpeed ( float f );
+  float getSpeed() const;
 
-    // aggression - handling
+  float getHealSpeed() const;
+  void setHealSpeed ( float f );
 
-    void setAggression(float agg);
-    float getAggression() const;
+  void setMoraleHealSpeed ( float f );
 
-    virtual void eventDie(); // energy too low
-    virtual void eventDefeated(); // morale too low
-    virtual void eventHaveDefeated(AntEntity *e);
-    virtual void eventMoraleLow();
+  void setHunger ( float f );
 
-    // called by FightJob
-    virtual void eventStartFighting();
-    virtual void eventStartMoving();
+  // aggression - handling
 
-    // should return if it's ok to proceed
-    virtual bool eventHitWaterMark(bool fromAbove);
+  void setAggression ( float agg );
+  float getAggression() const;
 
-    void sigDefeated(); // morale too low
-    void sigJobFinished();
+  virtual void eventDie(); // energy too low
+  virtual void eventDefeated(); // morale too low
+  virtual void eventHaveDefeated ( AntEntity *e );
+  virtual void eventMoraleLow();
 
-    float getEnergy() const;
-    float getMorale() const;
+  // called by FightJob
+  virtual void eventStartFighting();
+  virtual void eventStartMoving();
 
-    bool canFight() const;
-    bool isFighting() const;
+  // should return if it's ok to proceed
+  virtual bool eventHitWaterMark ( bool fromAbove );
 
+  void sigDefeated(); // morale too low
+  void sigJobFinished();
 
-    virtual void experienceFull();
+  float getEnergy() const;
+  float getMorale() const;
 
+  bool canFight() const;
+  bool isFighting() const;
 
-    // anything below shouldn't be used by ruby-functions,
-    // thus they're not wrapped
 
-    void setMesh(SceneNode *pMesh);
-    Meshes getMesh();
-    SceneNode *getFirstMesh();
-    Scene *getScene();
-    void addMesh(SceneNode *pMesh,const AGVector3 &v);
+  virtual void experienceFull();
 
-    // used only by *Jobs
-    void setDirection(float pAngle);
-    void setDirection(const AGAngle &a);
-    float getDirection() const;
 
-    void decEnergy(float amount);
-    void decMorale(float amount);
-    void incMorale(float pTime);
+  // anything below shouldn't be used by ruby-functions,
+  // thus they're not wrapped
 
-    void incExperience(float amount);
+  void setMesh ( SceneNode *pMesh );
+  Meshes getMesh();
+  SceneNode *getFirstMesh();
+  Scene *getScene();
+  void addMesh ( SceneNode *pMesh,const AGVector3 &v );
 
-    float getFood() const;
-    void incFood(float v);
-    bool isStarving() const;
+  // used only by *Jobs
+  void setDirection ( float pAngle );
+  void setDirection ( const AGAngle &a );
+  float getDirection() const;
 
-    bool isOnWater() const;
-    bool isOnGround() const;
+  void decEnergy ( float amount );
+  void decMorale ( float amount );
+  void incMorale ( float pTime );
 
-    void setOnWater(bool p);
-    void setOnGround(bool p);
+  void incExperience ( float amount );
 
-    // used only by Map - so that Position gets updated, when onGround
-    void eventMapChanged();
-    void move(float pTime); // move entity FIXME: del move
+  float getFood() const;
+  void incFood ( float v );
+  bool isStarving() const;
 
-    void clear() throw();
-    void clearMeshes();
+  bool isOnWater() const;
+  bool isOnGround() const;
 
-    void setVisible(bool v);
+  void setOnWater ( bool p );
+  void setOnGround ( bool p );
 
-    virtual void animationEvent(const AGString &pName);
+  // used only by Map - so that Position gets updated, when onGround
+  void eventMapChanged();
+  void move ( float pTime ); // move entity FIXME: del move
 
-    void heal(float pTime);
+  void clear() throw();
+  void clearMeshes();
 
-    AntMap *getMap();
+  void setVisible ( bool v );
 
-    AntEntity *getTarget();
-    AGVector2 getTargetPos2D();
-    
-  protected:
-    virtual ColoredMesh *getRing();
-    virtual void updateRingColor();
-    void setupRing();
+  virtual void animationEvent ( const AGString &pName );
 
-  private:
-    void updatePos(const AGVector3 &p);
+  void heal ( float pTime );
 
-    void starve(float pTime);
+  AntMap *getMap();
 
-    void loadJob(const Node &pNode);
+  AntEntity *getTarget();
+  AGVector2 getTargetPos2D();
+  bool isResting();
 
-    void removeOldJobs();
-    
-    
-    
-    bool mHovered,mSelected;
-    ColoredMesh *mRing;
-  };
+protected:
+  virtual ColoredMesh *getRing();
+  virtual void updateRingColor();
+  void setupRing();
+
+private:
+  void updatePos ( const AGVector3 &p );
+
+  void starve ( float pTime );
+
+  void loadJob ( const Node &pNode );
+
+  void removeOldJobs();
+
+
+
+  bool mHovered,mSelected;
+  ColoredMesh *mRing;
+};
 
 typedef AntEntity *PAntEntity;
 

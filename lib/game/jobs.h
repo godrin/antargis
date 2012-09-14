@@ -22,6 +22,8 @@
 #define ANT_JOBS_H
 #include <ag_geometry.h>
 
+class AntMap;
+
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
 class AntEntity;
@@ -72,8 +74,8 @@ class AGEXPORT MoveJob:public Job
 {
   AGVector2 mTarget;
   AGVector3 mTarget3;
-  AGVector2 mNearTarget;
-  AntEntity *mTargetEntity;
+  //AGVector2 mNearTarget;
+  int mTargetEntityID;
   float mNear;
   bool mRun;
 
@@ -92,10 +94,7 @@ class AGEXPORT MoveJob:public Job
   virtual void loadXML(const Node &pNode);
   virtual AGString xmlName() const;
 
-  AntEntity *getTarget()
-    {
-      return mTargetEntity;
-    }
+  AntEntity *getTarget(AntMap *map);
   AGVector2 getTargetPos2D() const;
   
  private:
@@ -105,10 +104,9 @@ class AGEXPORT MoveJob:public Job
 // FIXME: implement near and far fighting (arrows)
 class AGEXPORT FightJob:public Job
 {
-  AntEntity *mTarget;
+  int mTargetID;
   float fightDistance;
   bool moving;
-  int mTargetID;
   
  public:
   FightJob();
@@ -117,10 +115,7 @@ class AGEXPORT FightJob:public Job
   virtual ~FightJob();
   void move(AntEntity *e,float ptime);
   virtual bool needsMorale() const;
-  AntEntity *getTarget()
-    {
-      return mTarget;
-    }
+  AntEntity *getTarget(AntMap *map);
   
   virtual void saveXML(Node &pNode) const;
   virtual void loadXML(const Node &pNode);

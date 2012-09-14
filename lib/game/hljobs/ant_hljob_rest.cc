@@ -154,33 +154,6 @@ void AntHLJobRest::spreadThing(const AGString& what)
 }
 
 
-void AntHLJobRest::sit(AntPerson* man)
-{
-    AGVector2 formationPos=getBoss()->getFormation(man,basePos());
-    cdebug("formation:"<<formationPos<<" "<<getBossEntity()->getPos2D());
-
-    AGVector2 diff=(man->getPos2D()-formationPos);
-    AntEntity *hero=getBossEntity();
-    float dist=diff.length2();
-    if (dist<0.1) {
-        man->setDirection(180-(hero->getPos2D()-man->getPos2D()).normalized().getAngle().angle*180.0/M_PI);
-        if (man->getPos3D().getZ()<0)  {// under water
-            man->newRestJob(5);
-            man->setMeshState("stand");
-        } else if (!(man->getMeshState()=="sitdown" || man->getMeshState()=="sit")) {
-            man->sitDown();
-        } else {
-            man->newRestJob(5);
-            man->setMeshState("sit");
-        }
-    }
-    else {
-        cdebug(man->getPos2D()<<" "<<formationPos<<" "<<dist<<" "<<diff);
-        man->newMoveJob(0,formationPos,0);
-
-    }
-
-}
 AGVector2 AntHLJobRest::basePos()
 {
     return getBossEntity()->getPos2D();

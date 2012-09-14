@@ -12,24 +12,29 @@ class AntEntity;
 class AntPerson;
 class AntMap;
 
-class AntHLJob {
+class AntHLJob
+{
 public:
-  AntHLJob(AntBoss *pBoss);
-  
-  virtual void check(AntMan *p)=0;
-  virtual void check(AntHero *p)=0;
-  virtual bool finished()=0;
-  
+  AntHLJob ( AntBoss *pBoss );
+
+  virtual void check ( AntMan *p );
+  virtual void check ( AntHero *p );
+  virtual void checkPerson ( AntPerson *p );
+  virtual bool finished() =0;
+
   AntBoss *getBoss();
   AntEntity *getBossEntity();
   std::vector<AntPerson*> getMenWithoutBoss();
   std::vector<AntPerson*> getMenWithBoss();
-  
+
 protected:
   virtual AntMap *getMap();
-  
+  void sit ( AntPerson* man );
+  virtual AGVector2 basePos();
+
 private:
-  AntBoss *mBoss;
+  AntMap *mMap;
+  int heroId;
 };
 
 #endif
