@@ -18,7 +18,7 @@ AntHlJobRecruit::AntHlJobRecruit ( AntBoss* pBoss, AntBoss* pTarget ) : AntHLJob
 void AntHlJobRecruit::doCollect()
 {
   CTRACE;
-  mBasePos=getHero()->getPos2D();
+  setBasePos();
   fetchingStarted=true;
   AntBoss *myBoss=getBoss();
   std::vector< AntPerson* > myMen=myBoss->getMenWithoutBoss();
@@ -45,6 +45,20 @@ void AntHlJobRecruit::doCollect()
 
     }
 }
+
+void AntHlJobRecruit::setBasePos()
+{
+  CTRACE;
+  AntBoss *boss=getBoss();
+  if ( mBasePos.getX() <0 )
+    {
+      cdebug ( "Settings base pos:"<<boss->getEntity()->getPos2D() );
+      mBasePos=boss->getEntity()->getPos2D();
+    }
+
+}
+
+
 void AntHlJobRecruit::checkPerson ( AntPerson* person )
 {
   CTRACE;
@@ -53,8 +67,7 @@ void AntHlJobRecruit::checkPerson ( AntPerson* person )
     {
       CTRACE;
       AntBoss *boss=getBoss();
-      if ( mBasePos.getX() <0 )
-        mBasePos=boss->getEntity()->getPos2D();
+      setBasePos();
       boss->setFormation ( new AntFormationRest ( boss ) );
       int personId=person->getID();
       if ( manMap.find ( personId ) !=manMap.end() )
@@ -63,9 +76,9 @@ void AntHlJobRecruit::checkPerson ( AntPerson* person )
           int otherId=manMap[personId];
           // in map
           AntEntity *other=getMap()->getEntity ( otherId );
-          AntMan *man=dynamic_cast<AntMan*> ( other );
-          cdebug ( "other man:"<<other<<"  type:"<<typeid ( *other ).name() <<"  man:"<<man<<" id:"<<personId );
-          if ( man )
+          AntMan *otherMan=dynamic_cast<AntMan*> ( other );
+          cdebug ( "other man:"<<other<<"  type:"<<typeid ( *other ).name() <<"  man:"<<otherMan<<" id:"<<personId );
+          if ( otherMan )
             {
               AGVector2 otherPos=other->getPos2D();
               float distance= ( otherPos-person->getPos2D() ).length();
@@ -73,12 +86,21 @@ void AntHlJobRecruit::checkPerson ( AntPerson* person )
               if ( distance <1 )
                 {
 
-                  man->setBoss ( getBoss() );
+                  otherMan->setBoss ( getBoss() );
+                  otherMan->delJob();
+                  person->delJob();
                   manMap.erase ( personId );
                   wantedMen--;
                   fetchingFinished=true;
+
+
+                  otherMan->setMeshState ( "walk" );
+                  person->newMoveJob ( 0,boss->getFormation()->getPosition ( person,mBasePos ),0 );
+                  otherMan->newMoveJob ( 0,boss->getFormation()->getPosition ( otherMan,mBasePos ),0 );
+
                 }
             }
+
 
         }
       else
@@ -88,10 +110,13 @@ void AntHlJobRecruit::checkPerson ( AntPerson* person )
           AGVector2 sitPoint=boss->getFormation()->getPosition ( person,mBasePos );
           if ( ( person->getPos2D()-sitPoint ).length() <0.2 )
             {
+              cdebug ( "sitPoint:"<<sitPoint );
               sit ( person );
             }
           else
             {
+              person->setMeshState ( "walk" );
+
               person->newMoveJob ( 0,sitPoint,0 );
             }
         }

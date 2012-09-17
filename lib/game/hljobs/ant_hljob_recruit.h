@@ -17,6 +17,7 @@ protected:
 private:
   void doCollect();
   AntBoss *getTargetBoss();
+  void setBasePos();
 
 
   int targetId;
