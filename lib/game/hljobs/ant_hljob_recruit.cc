@@ -17,7 +17,6 @@ AntHlJobRecruit::AntHlJobRecruit ( AntBoss* pBoss, AntBoss* pTarget ) : AntHLJob
 
 void AntHlJobRecruit::doCollect()
 {
-  CTRACE;
   setBasePos();
   fetchingStarted=true;
   AntBoss *myBoss=getBoss();
@@ -39,7 +38,6 @@ void AntHlJobRecruit::doCollect()
     {
       if ( i>wantedMen )
         break;
-      cdebug ( "fetching "<<myMen[i]->getID() <<" is "<<otherMen[i]->getID() );
       manMap[myMen[i]->getID()]=otherMen[i]->getID();
       myMen[i]->newMoveJob ( 0,otherMen[i],0.2 );
 
@@ -48,11 +46,9 @@ void AntHlJobRecruit::doCollect()
 
 void AntHlJobRecruit::setBasePos()
 {
-  CTRACE;
   AntBoss *boss=getBoss();
   if ( mBasePos.getX() <0 )
     {
-      cdebug ( "Settings base pos:"<<boss->getEntity()->getPos2D() );
       mBasePos=boss->getEntity()->getPos2D();
     }
 
@@ -61,28 +57,22 @@ void AntHlJobRecruit::setBasePos()
 
 void AntHlJobRecruit::checkPerson ( AntPerson* person )
 {
-  CTRACE;
-  cdebug ( "recruit::check"<<person<<" "<<typeid ( person ).name() );
   if ( AntHLJobMoving::finished() )
     {
-      CTRACE;
       AntBoss *boss=getBoss();
       setBasePos();
       boss->setFormation ( new AntFormationRest ( boss ) );
       int personId=person->getID();
       if ( manMap.find ( personId ) !=manMap.end() )
         {
-          CTRACE;
           int otherId=manMap[personId];
           // in map
           AntEntity *other=getMap()->getEntity ( otherId );
           AntMan *otherMan=dynamic_cast<AntMan*> ( other );
-          cdebug ( "other man:"<<other<<"  type:"<<typeid ( *other ).name() <<"  man:"<<otherMan<<" id:"<<personId );
           if ( otherMan )
             {
               AGVector2 otherPos=other->getPos2D();
               float distance= ( otherPos-person->getPos2D() ).length();
-              cdebug ( "distance:"<<distance );
               if ( distance <1 )
                 {
 
@@ -105,18 +95,15 @@ void AntHlJobRecruit::checkPerson ( AntPerson* person )
         }
       else
         {
-          CTRACE;
           // rest
           AGVector2 sitPoint=boss->getFormation()->getPosition ( person,mBasePos );
           if ( ( person->getPos2D()-sitPoint ).length() <0.2 )
             {
-              cdebug ( "sitPoint:"<<sitPoint );
               sit ( person );
             }
           else
             {
               person->setMeshState ( "walk" );
-
               person->newMoveJob ( 0,sitPoint,0 );
             }
         }
