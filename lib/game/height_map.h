@@ -97,7 +97,7 @@ class AGEXPORT HeightMap:public AGMessageObject
   void checkTerrain();
 
   void loadBinary(BinaryIn &s);
-  void saveBinary(BinaryOut &s) const;
+  void saveBinary(BinaryOut &s,int version) const;
 
 
   std::vector<float> mHeights;

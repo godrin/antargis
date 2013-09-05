@@ -43,88 +43,93 @@ class Pathfinder;
 class AntPathFinderComplete;
 class AntBoss;
 
-class AntEntitySelector {
+class AntEntitySelector
+{
 public:
-    virtual bool ok(AntEntity*e)=0;
+  virtual bool ok ( AntEntity*e ) =0;
 };
 
 class AGEXPORT AntMap:public HeightMap
 {
 public:
-    typedef std::list<AntEntity*> EntityList;
-    typedef AntEntity*PAntEntity;
+  typedef std::list<AntEntity*> EntityList;
+  typedef AntEntity*PAntEntity;
 
-    AntMap(SceneBase *pScene,int w,int h);
-    ~AntMap() throw();
+  AntMap ( SceneBase *pScene,int w,int h );
+  ~AntMap() throw();
 
-    virtual void insertEntity(AntEntity *e);
-    virtual void removeEntity(AntEntity *p);
-    void clear() throw();
+  virtual void insertEntity ( AntEntity *e );
+  virtual void removeEntity ( AntEntity *p );
+  void clear() throw();
 
-    int getNewID();
-    void useID(int id);
+  int getNewID();
+  void useID ( int id );
 
-    void newMap(int w,int h);
+  void newMap ( int w,int h );
 
-    EntityList getEntities(const AGRect2&r);
-    EntityList getSelectedEntities(std::auto_ptr<AntEntitySelector> selector);
-    std::list<AntEntity*> getAllEntities();
-    std::vector<AntEntity*> getEntities(const AGString &pName);
+  EntityList getEntities ( const AGRect2&r );
+  EntityList getSelectedEntities ( std::auto_ptr<AntEntitySelector> selector );
+  std::list<AntEntity*> getAllEntities();
+  std::vector<AntEntity*> getEntities ( const AGString &pName );
 
-    AntEntity *getEntity(const SceneNode *pMesh);
+  AntEntity *getEntity ( const SceneNode *pMesh );
 
-    AntEntity *getEntity(int id) const;
-    AntBoss *getBoss(int id) const;
-    AntEntity *getByName(const AGString &pName);
+  AntEntity *getEntity ( int id ) const;
+  AntBoss *getBoss ( int id ) const;
+  AntEntity *getByName ( const AGString &pName );
 
-    AntEntity *getNext(AntEntity *me,const AGString &pType,size_t atLeast=0);
-    std::vector<PAntEntity> getNextList(AntEntity *me,const AGString &pType,size_t atLeast=0);
+  AntEntity *getNext ( AntEntity *me,const AGString &pType,size_t atLeast=0 );
+  std::vector<PAntEntity> getNextList ( AntEntity *me,const AGString &pType,size_t atLeast=0 );
 
-    void setHeuristic(HeuristicFunction *pFunction);
+  void setHeuristic ( HeuristicFunction *pFunction );
 
-    virtual void processXMLNode(const Node &node);
+  virtual void processXMLNode ( const Node &node );
 
-    void saveXML(Node &node) const;
-    bool loadXML(const Node &node);
+  void saveXML ( Node &node ) const;
+  bool loadXML ( const Node &node );
 
-    void saveMap(const AGString &pFilename);
-    virtual bool loadMap(const AGString &pFilename);
-    virtual bool loadMapFromMemory(const AGString &pMemory);
+  void saveMap ( const AGString &pFilename );
+  virtual bool loadMap ( const AGString &pFilename );
+  virtual bool loadMapFromMemory ( const AGString &pMemory );
 
-    /// advance every entity a single step of delta pTime
-    void move(float pTime);
+  /// advance every entity a single step of delta pTime
+  void move ( float pTime );
 
-    AGVector3 getPos(const AGVector2 &pPos) const;
+  AGVector3 getPos ( const AGVector2 &pPos ) const;
 
-    /// notify that (height)map was changed, reposition entities
-    virtual void mapChanged();
+  /// notify that (height)map was changed, reposition entities
+  virtual void mapChanged();
 
-    AntPlayer *getMyPlayer();
-    AntPathFinderComplete *getCompletePathFinder();
-    void setCompletePathFinder(AntPathFinderComplete *finder);
+  AntPlayer *getMyPlayer();
+  AntPathFinderComplete *getCompletePathFinder();
+  void setCompletePathFinder ( AntPathFinderComplete *finder );
+  AGString getFilename() const;
 
 private:
-    void insertPlayer(AntPlayer*player);
-    void removePlayer(AntPlayer *player);
+  void insertPlayer ( AntPlayer*player );
+  void removePlayer ( AntPlayer *player );
+  void setFilename ( const AGString &pFilename );
 
-    typedef std::map<size_t,AntEntity*> EntityMap;
 
-    EntityList mEntities;
-    EntityMap mEntityMap;
-    QuadTree<AntEntity> *mEntQuad;
+  typedef std::map<size_t,AntEntity*> EntityMap;
 
-    /// a list of entities to be removed in the next frame
-    /// they're not deleted at once, because they may be used currently
-    EntityList mToDel;
+  EntityList mEntities;
+  EntityMap mEntityMap;
+  QuadTree<AntEntity> *mEntQuad;
 
-    typedef std::list<AntPlayer*> PlayerList;
-    PlayerList mPlayers;
-    AntHumanPlayer *myPlayer;
+  /// a list of entities to be removed in the next frame
+  /// they're not deleted at once, because they may be used currently
+  EntityList mToDel;
 
-    int maxID;
+  typedef std::list<AntPlayer*> PlayerList;
+  PlayerList mPlayers;
+  AntHumanPlayer *myPlayer;
 
-    HeuristicFunction *mHeuristicFunction;
-    AntPathFinderComplete *completePathFinder;
+  int maxID;
+
+  HeuristicFunction *mHeuristicFunction;
+  AntPathFinderComplete *completePathFinder;
+  AGString mFilename;
 
 };
 

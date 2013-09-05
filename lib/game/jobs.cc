@@ -210,8 +210,6 @@ void MoveJob::moveBy ( AntEntity *e,float ptime,float aspeed )
 
       float nearDist= ( e->getPos2D()-mTarget ).length();
 
-      cdebug ( "DIST: ent:"<<e<<" "<<nearDist<<" "<<mNear );
-
       if ( norm-mNear>ptime*aspeed && nearDist-mNear>ptime*aspeed )
         {
           diff=diff.normalized();

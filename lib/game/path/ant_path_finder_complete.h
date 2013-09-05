@@ -26,6 +26,8 @@ private:
     void computeMode(MODE mode);
     MapPathWeighter *getPathWeighter(MODE mode);
     MODE getMode(AntHero*e);
+    void loadFrom(const AGString &filename);
+    void saveTo(const AGString &filename);
 
     AntMap *map;
 

@@ -364,6 +364,7 @@ bool AntMap::loadMap ( const AGString &pFilename )
       cdebug ( "File "<<pFilename<<" does not exists!" );
       return false;
     }
+  setFilename ( pFilename );
   return loadMapFromMemory ( loadFile ( filename ) );
 }
 
@@ -475,3 +476,13 @@ AntBoss* AntMap::getBoss ( int id ) const
 {
   return dynamic_cast<AntBoss*> ( getEntity ( id ) );
 }
+
+AGString AntMap::getFilename() const
+{
+  return mFilename;
+}
+void AntMap::setFilename ( const AGString& pFilename )
+{
+  mFilename=pFilename;
+}
+

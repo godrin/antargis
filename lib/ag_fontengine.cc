@@ -292,7 +292,7 @@ AGTexture *AGFontEngine::renderText(int BaseLineX, int BaseLineY, const AGString
         TTF_Font *f=getFont(pFont.getName(),pFont.getSize());
 
         if(!f)
-          return false;
+          return 0;
 
         if(pFont.getStyle()==AGFont::BOLD)
           TTF_SetFontStyle(f,TTF_STYLE_BOLD);

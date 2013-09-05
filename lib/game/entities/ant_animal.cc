@@ -16,6 +16,7 @@ bool AntAnimal::giveBirth()
             return false;
         // make child
         AntAnimal *fish=createOne();
+        fish->init();
         fish->setPos(getPos2D());
         getMap()->insertEntity(fish);
         getMap()->mapChanged();

@@ -441,11 +441,12 @@ AntEntity::Meshes AntEntity::getMesh()
 
 SceneNode *AntEntity::getFirstMesh()
 {
+  if ( mMeshes.size() ==0 ) {
+     cdebug("No Meshes fot entity defined :"<<typeid(*this).name());
+  }
   assert ( mMeshes.size() >0 );
   return mMeshes.front();
 }
-
-
 
 int AntEntity::getID() const
 {
@@ -454,8 +455,6 @@ int AntEntity::getID() const
 
 AGString AntEntity::xmlName() const
 {
-
-
   return "antEntity";
 }
 std::string AntEntity::xmlName2() const

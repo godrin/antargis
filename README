@@ -1,3 +1,4 @@
+= Battles of Antargis
 == Description
 
 Battles of Antargis is a project to develop a real-time-strategy (RTS) game, which is a
@@ -43,15 +44,15 @@ The layers above are all done in C++. What now follows are the Ruby-parts:
 
 == Installation
 
-For installation and building have a look at the link:files/INSTALL.html file.
-
 Run the game by simply starting antargis:
 > ./antargis
 
 == Building
 
-For more information on how to build Antargis and how the build-process work, please refer to link:files/build/README.html
-
+run the following 3 commands:
+rm CMakeCache.txt
+cmake -G "Unix Makefiles"
+make
 
 == Debugging
 Go to link:files/ruby/debugging/README.html

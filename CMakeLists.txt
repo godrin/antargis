@@ -24,7 +24,7 @@ link_libraries (
    SDLmain
    ${ZLIB_LIBRARY}
 #   ${RUBY_LIBRARY}
-   ${PNG_LIBRAY}
+   ${PNG_LIBRARY}
    ${OPENGL_gl_LIBRARY}
    ${OPENGL_glu_LIBRARY}
 )
