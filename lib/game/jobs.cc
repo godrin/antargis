@@ -120,11 +120,11 @@ void MoveJob::move ( AntEntity *e,float ptime )
   float speed=e->getSpeed();
 
   if ( mTargetEntityID>=0 )
-    {
-      AntEntity *mTargetEntity=getTarget ( e->getMap() );
-      mTarget=mTargetEntity->getPos2D();
-      mTarget3=mTargetEntity->getPos3D();
-    }
+  {
+    AntEntity *mTargetEntity=getTarget ( e->getMap() );
+    mTarget=mTargetEntity->getPos2D();
+    mTarget3=mTargetEntity->getPos3D();
+  }
 
   mTarget=e->getMap()->truncPos ( mTarget );
 
@@ -132,13 +132,13 @@ void MoveJob::move ( AntEntity *e,float ptime )
   float runSpeed=speed*1.3;
 
   if ( mRun && e->getCondition() >0.0 )
-    {
-      // decrease condition and if condition is zero - switch of running
-      float newtime=e->decCondition ( ptime );
-      moveBy ( e,ptime-newtime,runSpeed ); // take same runSpeed always
+  {
+    // decrease condition and if condition is zero - switch of running
+    float newtime=e->decCondition ( ptime );
+    moveBy ( e,ptime-newtime,runSpeed ); // take same runSpeed always
 
-      ptime=newtime;
-    }
+    ptime=newtime;
+  }
 #endif
   aspeed=0.5*speed+0.5*e->getEnergy() *speed;
   assert ( this );
@@ -171,81 +171,81 @@ void MoveJob::moveBy ( AntEntity *e,float ptime,float aspeed )
   float d0=e->getMap()->getPos ( e->getPos2D() ) [2];
 
   if ( d0<WATER_MARK && e->isOnGround() )
-    {
-      e->eventHitWaterMark ( true );
-      return; // do nothing
-    }
+  {
+    e->eventHitWaterMark ( true );
+    return; // do nothing
+  }
   else if ( d0>WATER_MARK && e->isOnWater() )
-    {
-      e->eventHitWaterMark ( false );
-      return; // do nothing
-    }
+  {
+    e->eventHitWaterMark ( false );
+    return; // do nothing
+  }
 
   AGVector3 oldPos=e->getPos3D();
 
   if ( m3d )
+  {
+    AGVector3 diff=e->getPos3D()-mTarget3;
+    float norm=diff.length();
+
+    if ( norm-mNear>ptime*aspeed )
     {
-      AGVector3 diff=e->getPos3D()-mTarget3;
-      float norm=diff.length();
-
-      if ( norm-mNear>ptime*aspeed )
-        {
-          diff=diff.normalized();
-          e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
-          e->setPos ( e->getPos3D()-diff*ptime*aspeed );
-        }
-      else
-        {
-          if ( norm>mNear )
-            e->setPos ( mTarget3+diff.normalized() *mNear );
-          e->setDirection ( -diff.dim2().getAngle().angle*180.0/M_PI );
-          jobFinished ( e );
-        }
-
+      diff=diff.normalized();
+      e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
+      e->setPos ( e->getPos3D()-diff*ptime*aspeed );
     }
+    else
+    {
+      if ( norm>mNear )
+        e->setPos ( mTarget3+diff.normalized() *mNear );
+      e->setDirection ( -diff.dim2().getAngle().angle*180.0/M_PI );
+      jobFinished ( e );
+    }
+
+  }
   else
+  {
+    AGVector2 diff=e->getPos2D()-mTarget;
+    float norm=diff.length();
+
+    float nearDist= ( e->getPos2D()-mTarget ).length();
+
+    if ( norm-mNear>ptime*aspeed && nearDist-mNear>ptime*aspeed )
     {
-      AGVector2 diff=e->getPos2D()-mTarget;
-      float norm=diff.length();
-
-      float nearDist= ( e->getPos2D()-mTarget ).length();
-
-      if ( norm-mNear>ptime*aspeed && nearDist-mNear>ptime*aspeed )
-        {
-          diff=diff.normalized();
-          e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
-          e->setPos ( e->getPos2D()-diff*ptime*aspeed );
-        }
-      else
-        {
-          if ( norm>mNear )
-            e->setPos ( mTarget+diff.normalized() *mNear );
-          e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
-          cdebug ( "FINISHED movejob:"<<e );
-          jobFinished ( e );
-        }
+      diff=diff.normalized();
+      e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
+      e->setPos ( e->getPos2D()-diff*ptime*aspeed );
     }
+    else
+    {
+      if ( norm>mNear )
+        e->setPos ( mTarget+diff.normalized() *mNear );
+      e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
+      cdebug ( "FINISHED movejob:"<<e );
+      jobFinished ( e );
+    }
+  }
 
 
   float d1=e->getMap()->getPos ( e->getPos2D() ) [2];
   /*  if(d0<WATER_MARK && d1>WATER_MARK)
-  e->eventHitWaterMark(false);
-  else if(d0>WATER_MARK && d1<WATER_MARK)
-  e->eventHitWaterMark(true);
-   */
+      e->eventHitWaterMark(false);
+      else if(d0>WATER_MARK && d1<WATER_MARK)
+      e->eventHitWaterMark(true);
+      */
 
   bool resetPos=false;
 
   if ( d1<WATER_MARK && e->isOnGround() )
-    {
-      if ( !e->eventHitWaterMark ( true ) )
-        resetPos=true;
-    }
+  {
+    if ( !e->eventHitWaterMark ( true ) )
+      resetPos=true;
+  }
   else if ( d1>WATER_MARK && e->isOnWater() )
-    {
-      if ( !e->eventHitWaterMark ( false ) )
-        resetPos=true;
-    }
+  {
+    if ( !e->eventHitWaterMark ( false ) )
+      resetPos=true;
+  }
   if ( resetPos )
     e->setPos ( oldPos );
 
@@ -316,27 +316,27 @@ void FightJob::move ( AntEntity *e,float ptime )
 
   AntEntity *mTarget=getTarget ( e->getMap() );
   if ( mTarget->defeated() )
-    {
-      // already died - so no sigDefeated
-      e->eventHaveDefeated ( mTarget );
-      jobFinished ( e );
-      return; // early out
-    }
+  {
+    // already died - so no sigDefeated
+    e->eventHaveDefeated ( mTarget );
+    jobFinished ( e );
+    return; // early out
+  }
 
   if ( mTarget->getEnergy() <=0.0 )
-    {
-      // already died - so no sigDefeated
-      e->eventHaveDefeated ( mTarget );
-      jobFinished ( e );
-      return; // early out
-    }
+  {
+    // already died - so no sigDefeated
+    e->eventHaveDefeated ( mTarget );
+    jobFinished ( e );
+    return; // early out
+  }
   else if ( mTarget->getMorale() <0.1 )
-    {
-      mTarget->sigDefeated();
-      e->eventHaveDefeated ( mTarget );
-      jobFinished ( e );
-      return; // early out
-    }
+  {
+    mTarget->sigDefeated();
+    e->eventHaveDefeated ( mTarget );
+    jobFinished ( e );
+    return; // early out
+  }
   // if target is too far away run there, otherwise fight
   AGVector2 diff=e->getPos2D()-mTarget->getPos2D();
   float norm=diff.length();
@@ -346,32 +346,32 @@ void FightJob::move ( AntEntity *e,float ptime )
   e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
 
   if ( norm-fightDistance>ptime*speed )
+  {
+    // run
+    diff=diff.normalized();
+    e->setPos ( e->getPos2D()-diff*ptime*speed );
+    //    e->setDirection(-diff.getAngle().angle*180.0/M_PI);
+    if ( !moving )
     {
-      // run
-      diff=diff.normalized();
-      e->setPos ( e->getPos2D()-diff*ptime*speed );
-      //    e->setDirection(-diff.getAngle().angle*180.0/M_PI);
-      if ( !moving )
-        {
-          e->eventStartMoving();
-          moving=true;
-        }
+      e->eventStartMoving();
+      moving=true;
     }
+  }
   else
+  {
+    // fight
+    mTarget->decEnergy ( ptime*e->getStrength() *e->getAggression() /mTarget->getDefense() );
+    mTarget->decMorale ( ptime*e->getMoraleStrength() /mTarget->getDefense() ); // FIXME: estimate this value
+    mTarget->eventGotFight ( e );
+
+    e->incExperience ( ptime*e->learnAmount );
+    if ( moving )
     {
-      // fight
-      mTarget->decEnergy ( ptime*e->getStrength() *e->getAggression() /mTarget->getDefense() );
-      mTarget->decMorale ( ptime*e->getMoraleStrength() /mTarget->getDefense() ); // FIXME: estimate this value
-      mTarget->eventGotFight ( e );
-
-      e->incExperience ( ptime*e->learnAmount );
-      if ( moving )
-        {
-          e->eventStartFighting();
-          moving=false;
-        }
-
+      e->eventStartFighting();
+      moving=false;
     }
+
+  }
 }
 
 void FightJob::saveXML ( Node &pNode ) const
@@ -385,10 +385,10 @@ void FightJob::loadXML ( const Node &pNode )
 {
   Job::loadXML ( pNode );
   if ( pNode.get ( "target" ).length() )
-    {
+  {
 
-      mTargetID=pNode.get ( "target" ).toInt();
-    }
+    mTargetID=pNode.get ( "target" ).toInt();
+  }
 
   if ( pNode.get ( "distance" ).length() )
     fightDistance=pNode.get ( "distance" ).toFloat();
@@ -433,10 +433,10 @@ void FetchJob::jobFinished ( AntEntity *e )
   MoveJob::jobFinished ( e );
 
   if ( mTarget )
-    {
-      mTarget->resource.sub ( mWhat,1 );
-      mTarget->resourceChanged();
-    }
+  {
+    mTarget->resource.sub ( mWhat,1 );
+    mTarget->resourceChanged();
+  }
 }
 
 void FetchJob::saveXML ( Node &pNode ) const
@@ -449,10 +449,10 @@ void FetchJob::loadXML ( const Node &pNode )
 {
   MoveJob::loadXML ( pNode );
   if ( pNode.get ( "target" ).length() )
-    {
-      mTarget=0;
-      mTargetID=pNode.get ( "target" ).toInt();
-    }
+  {
+    mTarget=0;
+    mTargetID=pNode.get ( "target" ).toInt();
+  }
 
   if ( pNode.get ( "what" ).length() )
     mWhat=pNode.get ( "what" );
@@ -483,10 +483,10 @@ void RestJob::move ( AntEntity *e,float ptime )
   if ( mWork )
     e->decMorale ( std::min ( ptime,mTime ) /30 );
   else
-    {
-      e->incMorale ( std::min ( ptime,mTime ) );
-      e->heal ( std::min ( ptime,mTime ) );
-    }
+  {
+    e->incMorale ( std::min ( ptime,mTime ) );
+    e->heal ( std::min ( ptime,mTime ) );
+  }
   mTime-=ptime;
   if ( mTime<0 )
     jobFinished ( e );

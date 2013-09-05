@@ -20,7 +20,7 @@ int main ( int argc, char **argv ) {
     main.getVideo()->initVideo ( 1024,768,32,false,true );
     AGLayout::registerLayouts();
 
-    if ( true ) {
+    if ( argc>1 ) {
 
         AntGameApp app ( getVideo()->width(),getVideo()->height() );
         app.init("data/levels/tutorial/tutorial0.antlvl");

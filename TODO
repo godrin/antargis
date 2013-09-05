@@ -1,12 +1,17 @@
 = milestone 0
-* crashes because sheeps don't have meshes - FIXED
+* FIXED - crashes because sheeps don't have meshes
 * crash in /home/david/projects/2013/ant3/lib/game/entity.cc 310 void AntEntity::removeOldJobs() *i!=mJob
-* fihgt animals
+* fight animals
 * dismiss job missing
 * dismiss on target!=hero wrong
 * gather food/weapons/recruit jobs on hero wrong   
+* remove unused hero-buttons and fill used ones
+* remove options-button
+* pause support
+* quit support
 
 = milestone 1
+* energy-display on mouseover or selection (display in a view at the bottom)
 * entering water and walking does not work
 * inventing missing
 * fire is missing when resting

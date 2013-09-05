@@ -1,10 +1,14 @@
 build
 *~
 .kdev4
+*.swp
 CMakeCache.txt
 CMakeFiles/
 CPackConfig.cmake
 CPackSourceConfig.cmake
 Makefile
 cmake_install.cmake
-
+antargis
+antargis.tgz
+old
+debug.txt

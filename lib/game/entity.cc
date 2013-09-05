@@ -128,11 +128,11 @@ void AntEntity::saveXML ( Node &node ) const
   resource.saveXML ( res );
 
   if ( mJob )
-    {
-      Node &j=node.addChild ( "job" );
-      j.set ( "type",mJob->xmlName() );
-      mJob->saveXML ( j );
-    }
+  {
+    Node &j=node.addChild ( "job" );
+    j.set ( "type",mJob->xmlName() );
+    mJob->saveXML ( j );
+  }
 
 }
 void AntEntity::loadXML ( const Node &node )
@@ -150,13 +150,13 @@ void AntEntity::loadXML ( const Node &node )
     mPos.loadXML ( **i );
 
   /*
-  AGString entID=node.get ( "entityID" );
-  if ( entID.length() >0 )
-      mID=entID.toInt();
-  else
-      mID=node.get ( "id" ).toInt();
-  getMap()->useID ( mID );
-  */
+     AGString entID=node.get ( "entityID" );
+     if ( entID.length() >0 )
+     mID=entID.toInt();
+     else
+     mID=node.get ( "id" ).toInt();
+     getMap()->useID ( mID );
+     */
   if ( node.get ( "morale" ) !="" )
     mMorale=node.get ( "morale" ).toFloat();
   else
@@ -183,9 +183,9 @@ void AntEntity::loadXML ( const Node &node )
 
   v2=node.getChildren ( "job" );
   if ( v2.size() >0 )
-    {
-      loadJob ( v2[0] );
-    }
+  {
+    loadJob ( v2[0] );
+  }
   resourceChanged();
 }
 
@@ -217,15 +217,15 @@ AGVector2 AntEntity::getPos2D() const
 void AntEntity::updatePos ( const AGVector3 &p )
 {
   if ( mMeshes.size() ==1 )
-    {
-      mMeshes.front()->setPos ( p );
-      return;
-    }
+  {
+    mMeshes.front()->setPos ( p );
+    return;
+  }
   for ( Meshes::iterator i=mMeshes.begin(); i!=mMeshes.end(); i++ )
-    {
-      ( *i )->setPos ( p+mMeshPos[*i] );
-      ( *i )->setRotation ( mDir );
-    }
+  {
+    ( *i )->setPos ( p+mMeshPos[*i] );
+    ( *i )->setRotation ( mDir );
+  }
 
 }
 
@@ -242,9 +242,9 @@ void AntEntity::setPos ( const AGVector2 &pp )
   else if ( onWater )
     mPos=AGVector3 ( p,0 );
   else
-    {
-      mPos=AGVector3 ( p,mPos[2] );
-    }
+  {
+    mPos=AGVector3 ( p,mPos[2] );
+  }
   updatePos ( mPos );
 }
 
@@ -256,44 +256,32 @@ void AntEntity::delJob()
 void AntEntity::setJob ( Job *pJob )
 {
   if ( pJob )
-    {
-      cdebug ( "setJob:"<<pJob<<" "<<typeid ( *pJob ).name() );
-    }
+  {
+    cdebug ( "setJob:"<<pJob<<" "<<typeid ( *pJob ).name() );
+  }
   //  assert(pJob);
   if ( mJob )
-    {
-      if ( pJob )
-        {
-          if ( ( *mJob ) <= ( *pJob ) )
-            {
-              mJobFinished.push_back ( mJob );
-            }
-          else
-            {
-              mJobFinished.push_back ( mJob );
-            }
-        }
-      else
-        mJobFinished.push_back ( mJob );
-    }
-  mJob=0;
+  {
+    mJobFinished.push_back ( mJob );
+    mJob=0;
+  }
   if ( mEnergy>=0.0 ) // do job anyways
+  {
+    if ( !pJob )
+      mJob=pJob;
+    else
     {
-      if ( !pJob )
+      if ( mMorale>0.1 || !pJob->needsMorale() ) // at least 10% morale
         mJob=pJob;
       else
-        {
-          if ( mMorale>0.1 || !pJob->needsMorale() ) // at least 10% morale
-            mJob=pJob;
-          else
-            mJobFinished.push_back ( pJob );
-        }
-    }
-  else
-    {
-      if ( pJob )
         mJobFinished.push_back ( pJob );
     }
+  }
+  else
+  {
+    if ( pJob )
+      mJobFinished.push_back ( pJob );
+  }
   if ( mJob )
     eventGotNewJob();
 }
@@ -306,10 +294,10 @@ void AntEntity::removeOldJobs()
 {
   std::list<Job*>::iterator i=mJobFinished.begin();
   for ( ; i!=mJobFinished.end(); i++ )
-    {
-      assert ( *i!=mJob );
-      checkedDelete ( *i );
-    }
+  {
+    assert ( *i!=mJob );
+    checkedDelete ( *i );
+  }
   mJobFinished.clear();
 }
 
@@ -318,35 +306,35 @@ void AntEntity::removeOldJobs()
 void AntEntity::move ( float pTime )
 {
   if ( mJobFinished.size() || mEnergy==0.0 )
-    {
-      removeOldJobs();
-    }
+  {
+    removeOldJobs();
+  }
   else if ( mEnergy>0.0 )
-    {
-      starve ( pTime );
+  {
+    starve ( pTime );
 
-      if ( mMorale<=0.1 )
-        if ( mJob )
-          {
-            assert ( mJob->valid() );
-            if ( mJob->needsMorale() )
-              setJob ( 0 );// kill job
-          }
-      if ( !isStarving() )
-        {
-          mEnergy+=pTime*getHealSpeed() *0.2; // very slow healing when doin something
-          if ( mEnergy>1.0 )
-            mEnergy=1.0;
-        }
+    if ( mMorale<=0.1 )
+      if ( mJob )
+      {
+        assert ( mJob->valid() );
+        if ( mJob->needsMorale() )
+          setJob ( 0 );// kill job
+      }
+    if ( !isStarving() )
+    {
+      mEnergy+=pTime*getHealSpeed() *0.2; // very slow healing when doin something
+      if ( mEnergy>1.0 )
+        mEnergy=1.0;
     }
-//  cdebug ( "MOVE : "<<this<<" "<<mJob );
-// if(mJob)
+  }
+  //  cdebug ( "MOVE : "<<this<<" "<<mJob );
+  // if(mJob)
   //  cdebug("XX:"<<typeid(*mJob).name());
   if ( mJob )
-    {
-      assert ( mJob->valid() );
-      mJob->move ( this,pTime );
-    }
+  {
+    assert ( mJob->valid() );
+    mJob->move ( this,pTime );
+  }
   else
     eventNoJob();
 
@@ -355,23 +343,23 @@ void AntEntity::move ( float pTime )
 void AntEntity::heal ( float pTime )
 {
   if ( !isStarving() )
-    {
-      mEnergy+=pTime*getHealSpeed() *0.8; // only rest til 1.0
-      if ( mEnergy>1.0 )
-        mEnergy=1.0;
-    }
+  {
+    mEnergy+=pTime*getHealSpeed() *0.8; // only rest til 1.0
+    if ( mEnergy>1.0 )
+      mEnergy=1.0;
+  }
 }
 
 void AntEntity::incMorale ( float pTime )
 {
   if ( !isStarving() )
-    {
-      mMorale+=pTime*mMoraleHeal;
-      if ( mMorale>1.0 )
-        mMorale=1.0;
-      if ( mMorale>0.5 )
-        mDefeated=false;
-    }
+  {
+    mMorale+=pTime*mMoraleHeal;
+    if ( mMorale>1.0 )
+      mMorale=1.0;
+    if ( mMorale>0.5 )
+      mDefeated=false;
+  }
 }
 
 
@@ -391,11 +379,11 @@ void AntEntity::eventMapChanged()
 {
   setPos ( mPos );
   /*
-  if(onGround)
-  mPos=getMap()->getPos(AGVector2(getPos2D()));
-  else if(onWater)
-  mPos=AGVector3(getPos2D()[0],getPos2D()[1],0);
-   */
+     if(onGround)
+     mPos=getMap()->getPos(AGVector2(getPos2D()));
+     else if(onWater)
+     mPos=AGVector3(getPos2D()[0],getPos2D()[1],0);
+     */
   updatePos ( mPos );
 }
 
@@ -408,29 +396,29 @@ void AntEntity::setMesh ( SceneNode *m )
   mMeshes.clear();
   mMeshPos.clear();
   if ( m )
-    {
-      AnimMesh *mesh=dynamic_cast<AnimMesh*> ( m );
-      if ( mesh )
-        mesh->setEntity ( this );
-      mMeshes.push_back ( m );
+  {
+    AnimMesh *mesh=dynamic_cast<AnimMesh*> ( m );
+    if ( mesh )
+      mesh->setEntity ( this );
+    mMeshes.push_back ( m );
 
-      updatePos ( mPos );
-    }
+    updatePos ( mPos );
+  }
   setupRing();
 }
 
 void AntEntity::addMesh ( SceneNode *m,const AGVector3 &v )
 {
   if ( m )
-    {
-      AnimMesh *mesh=dynamic_cast<AnimMesh*> ( m );
-      if ( mesh )
-        mesh->setEntity ( this );
-      mMeshes.push_back ( m );
-      mMeshPos.insert ( std::make_pair ( m,v ) );
+  {
+    AnimMesh *mesh=dynamic_cast<AnimMesh*> ( m );
+    if ( mesh )
+      mesh->setEntity ( this );
+    mMeshes.push_back ( m );
+    mMeshPos.insert ( std::make_pair ( m,v ) );
 
-      updatePos ( mPos );
-    }
+    updatePos ( mPos );
+  }
 }
 
 
@@ -442,7 +430,7 @@ AntEntity::Meshes AntEntity::getMesh()
 SceneNode *AntEntity::getFirstMesh()
 {
   if ( mMeshes.size() ==0 ) {
-     cdebug("No Meshes fot entity defined :"<<typeid(*this).name());
+    cdebug("No Meshes fot entity defined :"<<typeid(*this).name());
   }
   assert ( mMeshes.size() >0 );
   return mMeshes.front();
@@ -477,11 +465,11 @@ void AntEntity::setDirection ( float dir )
   mDir=dir;
 
   if ( mMeshes.size() )
-    {
-      SceneNode *m=mMeshes.front();
-      if ( m )
-        m->setRotation ( dir );
-    }
+  {
+    SceneNode *m=mMeshes.front();
+    if ( m )
+      m->setRotation ( dir );
+  }
 }
 
 void AntEntity::setDirection ( const AGAngle& a )
@@ -536,12 +524,12 @@ void AntEntity::newFightJob ( int p,AntEntity *target,float distance )
   if ( !canFight() )
     return;
   if ( mJob )
-    {
-      FightJob *f=dynamic_cast<FightJob*> ( mJob );
-      if ( f )
-        if ( f->getTarget ( getMap() ) ==target )
-          return;
-    }
+  {
+    FightJob *f=dynamic_cast<FightJob*> ( mJob );
+    if ( f )
+      if ( f->getTarget ( getMap() ) ==target )
+        return;
+  }
   setJob ( new FightJob ( p,target,distance ) );
 }
 
@@ -574,10 +562,10 @@ void AntEntity::decEnergy ( float amount )
 {
   mEnergy-=amount;
   if ( mEnergy<0.0 )
-    {
-      mEnergy=0.0;
-      eventDie();
-    }
+  {
+    mEnergy=0.0;
+    eventDie();
+  }
 }
 
 bool AntEntity::hasJob() const
@@ -605,11 +593,11 @@ void AntEntity::decMorale ( float amount )
     return;
   mMorale-=amount;
   if ( mMorale<0.0 )
-    {
-      mMorale=0.0;
-      mDefeated=true;
-      eventMoraleLow();
-    }
+  {
+    mMorale=0.0;
+    mDefeated=true;
+    eventMoraleLow();
+  }
 }
 
 
@@ -666,11 +654,11 @@ AGString AntEntity::getName() const
 }
 
 /*void AntEntity::setType(const AGString &pType)
-{
+  {
   mType=pType;
-}
-AGString AntEntity::getType() const
-{
+  }
+  AGString AntEntity::getType() const
+  {
   return mType;
   }*/
 
@@ -692,9 +680,9 @@ void AntEntity::clear() throw()
 void AntEntity::clearMeshes()
 {
   for ( Meshes::iterator i=mMeshes.begin(); i!=mMeshes.end(); i++ )
-    {
-      checkedDelete ( *i );
-    }
+  {
+    checkedDelete ( *i );
+  }
   mMeshes.clear();
 }
 
@@ -767,10 +755,10 @@ bool AntEntity::canFight() const
 bool AntEntity::isFighting() const
 {
   if ( mJob )
-    {
-      FightJob *f=dynamic_cast<FightJob*> ( mJob );
-      return f;
-    }
+  {
+    FightJob *f=dynamic_cast<FightJob*> ( mJob );
+    return f;
+  }
   return false;
 }
 
@@ -801,19 +789,19 @@ void AntEntity::starve ( float pTime )
 {
   mFood-=pTime*mHunger;
   if ( isStarving() )
-    {
-      // get time for which mFood==0
-      float t=-mFood/mHunger;
+  {
+    // get time for which mFood==0
+    float t=-mFood/mHunger;
 
-      // hit energy
-      decEnergy ( mHungerHitEnergy*t );
+    // hit energy
+    decEnergy ( mHungerHitEnergy*t );
 
-      // hit morale
-      decMorale ( mHungerHitMorale*t );
+    // hit morale
+    decMorale ( mHungerHitMorale*t );
 
 
-      mFood=0;
-    }
+    mFood=0;
+  }
 }
 
 void AntEntity::eventMoraleLow()
@@ -850,15 +838,15 @@ void AntEntity::setOnGround ( bool p )
 void AntEntity::setOnWater ( bool p )
 {
   if ( p )
-    {
-      onWater=true;
-      onGround=false;
-    }
+  {
+    onWater=true;
+    onGround=false;
+  }
   else
-    {
-      onWater=false;
-      onGround=true;
-    }
+  {
+    onWater=false;
+    onGround=true;
+  }
 
 }
 bool AntEntity::isMoving() const
@@ -871,11 +859,11 @@ bool AntEntity::isMoving() const
 AGVector2 AntEntity::getTargetPos2D()
 {
   if ( mJob )
-    {
-      MoveJob *m=dynamic_cast<MoveJob*> ( mJob );
-      if ( m )
-        return m->getTargetPos2D();
-    }
+  {
+    MoveJob *m=dynamic_cast<MoveJob*> ( mJob );
+    if ( m )
+      return m->getTargetPos2D();
+  }
   return getPos2D();
 }
 
@@ -883,16 +871,16 @@ AGVector2 AntEntity::getTargetPos2D()
 AntEntity *AntEntity::getTarget()
 {
   if ( mJob )
-    {
-      FightJob *f=dynamic_cast<FightJob*> ( mJob );
-      if ( f )
-        return f->getTarget ( getMap() );
+  {
+    FightJob *f=dynamic_cast<FightJob*> ( mJob );
+    if ( f )
+      return f->getTarget ( getMap() );
 
-      MoveJob *m=dynamic_cast<MoveJob*> ( mJob );
-      if ( m )
-        return m->getTarget ( getMap() );
+    MoveJob *m=dynamic_cast<MoveJob*> ( mJob );
+    if ( m )
+      return m->getTarget ( getMap() );
 
-    }
+  }
   return 0;
 }
 
@@ -947,13 +935,13 @@ Scene *AntEntity::getScene()
 void AntEntity::playSound ( const AGString& name, float minDiff )
 {
   /*
-    float d=((getScene()->getCamera()->getPos2D-getPos2D()).length()-INNER_VOL_SIZE;
-    float vol=1;
-    if(d>0) {
-      vol=std:max((OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0);
-    }
-    AntSound.playSoundGlobal(name,vol,minDiff)
-    */
+     float d=((getScene()->getCamera()->getPos2D-getPos2D()).length()-INNER_VOL_SIZE;
+     float vol=1;
+     if(d>0) {
+     vol=std:max((OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0);
+     }
+     AntSound.playSoundGlobal(name,vol,minDiff)
+     */
   cdebug ( "NOT IMPLEMENTED" );
 }
 
@@ -981,13 +969,13 @@ void AntEntity::setupRing()
   if ( !mRing )
     return;
   if ( mSelected )
-    {
-      mRing->setRingColor ( AGVector4 ( 1,0.7,0.1,0.8 ) );
-    }
+  {
+    mRing->setRingColor ( AGVector4 ( 1,0.7,0.1,0.8 ) );
+  }
   else
-    {
-      mRing->setRingColor ( AGVector4 ( 0.7,0.7,1,0.8 ) );
-    }
+  {
+    mRing->setRingColor ( AGVector4 ( 0.7,0.7,1,0.8 ) );
+  }
   addMesh ( mRing,AGVector3 ( 0,0,0 ) );
   updateRingColor();
 }
@@ -995,16 +983,16 @@ void AntEntity::setupRing()
 void AntEntity::updateRingColor()
 {
   if ( !mRing )
-    {
-      setupRing();
-      return;
-    }
+  {
+    setupRing();
+    return;
+  }
   bool visible= ( mHovered || mSelected );
   mRing->setVisible ( visible );
   if ( mHovered && !mSelected )
-    {
-      mRing->setRingColor ( AGVector4 ( 0.7,0.7,1,0.8 ) );
-    }
+  {
+    mRing->setRingColor ( AGVector4 ( 0.7,0.7,1,0.8 ) );
+  }
   else if ( mSelected )
     mRing->setRingColor ( AGVector4 ( 1,0.7,0.1,0.8 ) );
 
