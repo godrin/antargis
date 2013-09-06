@@ -1,6 +1,6 @@
 = milestone 0
 * FIXED - crashes because sheeps don't have meshes
-* crash in /home/david/projects/2013/ant3/lib/game/entity.cc 310 void AntEntity::removeOldJobs() *i!=mJob
+* FIXED - crash in /home/david/projects/2013/ant3/lib/game/entity.cc 310 void AntEntity::removeOldJobs() *i!=mJob
 * fight animals
 * dismiss job missing
 * dismiss on target!=hero wrong
@@ -15,7 +15,7 @@
 * entering water and walking does not work
 * inventing missing
 * fire is missing when resting
-* save heuristic for level or reimplement using combining algorithm for distance computation
+* FIXED - save heuristic for level or reimplement using combining algorithm for distance computation
 
 
 = milestone 2

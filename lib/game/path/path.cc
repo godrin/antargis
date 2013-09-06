@@ -584,7 +584,6 @@ void DecimatedGraph::decimate ( float amount,MapPathWeighter *pWeighter )
   while ( mNodes.size() >m )
     {
       Edge *e=*mEdges.begin();
-      cdebug ( mNodes.size() <<" vs. "<<m<<" edge:"<<e );
       assert ( e );
       tryRemove ( e,pWeighter );
     }
