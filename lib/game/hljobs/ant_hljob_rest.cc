@@ -18,6 +18,7 @@ void AntHLJobRest::check(AntHero* man)
 {
     if (firstTime) {
         man->newRestJob(mTime);
+        man->startFire();
         firstTime=false;
     } else {
         jobFinished=true;

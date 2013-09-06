@@ -42,6 +42,7 @@ class AntHumanPlayer;
 class Pathfinder;
 class AntPathFinderComplete;
 class AntBoss;
+class SceneNode;
 
 class AntEntitySelector
 {
@@ -55,7 +56,7 @@ public:
   typedef std::list<AntEntity*> EntityList;
   typedef AntEntity*PAntEntity;
 
-  AntMap ( SceneBase *pScene,int w,int h );
+  AntMap ( Scene *pScene,int w,int h );
   ~AntMap() throw();
 
   virtual void insertEntity ( AntEntity *e );

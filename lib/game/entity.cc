@@ -255,11 +255,6 @@ void AntEntity::delJob()
 
 void AntEntity::setJob ( Job *pJob )
 {
-  if ( pJob )
-  {
-    cdebug ( "setJob:"<<pJob<<" "<<typeid ( *pJob ).name() );
-  }
-  //  assert(pJob);
   if ( mJob )
   {
     mJobFinished.push_back ( mJob );
@@ -269,16 +264,14 @@ void AntEntity::setJob ( Job *pJob )
   {
     if ( !pJob )
       mJob=pJob;
-    else
-    {
+    else {
       if ( mMorale>0.1 || !pJob->needsMorale() ) // at least 10% morale
         mJob=pJob;
       else
         mJobFinished.push_back ( pJob );
     }
   }
-  else
-  {
+  else {
     if ( pJob )
       mJobFinished.push_back ( pJob );
   }
@@ -489,8 +482,6 @@ void AntEntity::setVisible ( bool v )
 
 void AntEntity::newRestJob ( float pTime,bool pWork )
 {
-  CTRACE;
-  cdebug ( "newRestjob "<<pTime );
   setJob ( new RestJob ( pTime,pWork ) );
 }
 void AntEntity::newFetchJob ( int p,AGVector2 &pTarget,const AGString &what )
@@ -503,18 +494,14 @@ void AntEntity::newFetchJob ( int p,AntEntity *pTarget,const AGString &what )
 }
 void AntEntity::newMoveJob ( int p,const AGVector2 &pTarget,float pnear )
 {
-  cdebug ( "newMoveJob:"<<pTarget<<" this:"<<this<<" near:"<<pnear );
   setJob ( new MoveJob ( p,pTarget,pnear ) );
 }
 void AntEntity::newMoveJob ( int p,const AGVector3 &pTarget,float pnear )
 {
-  cdebug ( "newMoveJob:"<<pTarget<<" this:"<<this<<" near:"<<pnear );
   setJob ( new MoveJob ( p,pTarget,pnear ) );
 }
-
 void AntEntity::newMoveJob ( int p,AntEntity *pTarget,float pnear )
 {
-  cdebug ( "newMoveJob:"<<pTarget<<" this:"<<this<<" near:"<<pnear );
   setJob ( new MoveJob ( p,pTarget,pnear ) );
 }
 
@@ -764,7 +751,6 @@ bool AntEntity::isFighting() const
 
 void AntEntity::sigJobFinished()
 {
-  CTRACE;
   mJobFinished.push_back ( mJob );
   mJob=0;
   eventJobFinished();

@@ -46,9 +46,7 @@ AntMap* AntHLJob::getMap()
 
 void AntHLJob::sit ( AntPerson* man )
 {
-  CTRACE;
   AGVector2 formationPos=getBoss()->getFormation ( man,basePos() );
-  cdebug ( "formation:"<<formationPos<<" "<<getBossEntity()->getPos2D() );
 
   AGVector2 diff= ( man->getPos2D()-formationPos );
   AntEntity *hero=getBossEntity();
@@ -73,9 +71,7 @@ void AntHLJob::sit ( AntPerson* man )
     }
   else
     {
-      cdebug ( man->getPos2D() <<" "<<formationPos<<" "<<dist<<" "<<diff );
       man->newMoveJob ( 0,formationPos,0 );
-
     }
 }
 
@@ -86,17 +82,14 @@ AGVector2 AntHLJob::basePos()
 
 void AntHLJob::check ( AntHero* p )
 {
-  CTRACE;
   checkPerson ( p );
 }
 
 void AntHLJob::check ( AntMan* p )
 {
-  CTRACE;
   checkPerson ( p );
 }
 
 void AntHLJob::checkPerson ( AntPerson* p )
 {
-
 }

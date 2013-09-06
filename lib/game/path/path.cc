@@ -791,7 +791,6 @@ struct NodeInfo
   }
 };
 
-#if false
 
 HeuristicFunction *computeHeuristic ( SimpleGraph *g )
 {
@@ -800,161 +799,54 @@ HeuristicFunction *computeHeuristic ( SimpleGraph *g )
 
   size_t c=0;
 
-  AGSurface ms ( 32,32 );
+  typedef SimpleGraph::Node* Node;
+  typedef std::pair<Node,Node> NodePair;
+  typedef std::map<NodePair,float> DataStore;
 
-  for ( SimpleGraph::NodeSet::iterator i=g->mNodes.begin(); i!=g->mNodes.end(); i++ )
-    //for(SimpleGraph::NodeSet::iterator i=testSet.begin();i!=testSet.end();i++)
-    {
-      std::map<SimpleGraph::Node*,float> weights;
-      std::set<SimpleGraph::Node*> modified;
-      modified.insert ( *i );
-      while ( modified.size() )
-        {
-          SimpleGraph::Node *n=*modified.begin();
-          modified.erase ( modified.begin() );
+  DataStore completeData;
+  DataStore currentNewData;
+  // todolist
+  DataStore pairsToProcess;
 
-          SimpleGraph::Node::NodeMap ns=n->getNextNodes();
-          float old=weights[n];
+  // fill todo list with all nodes
+  for(SimpleGraph::NodeSet::iterator nodeIter=g->mNodes.begin();nodeIter!=g->mNodes.end();nodeIter++) {
+    pairsToProcess.insert(std::make_pair(std::make_pair(*nodeIter,*nodeIter),0));
+  }
 
-          for ( SimpleGraph::Node::NodeMap::iterator j=ns.begin(); j!=ns.end(); j++ )
-            {
-              float now=weights[j->first];
-              //        cdebug("now:"<<now<<"  old:"<<old<<" plus:"<<j->second);
-              if ( now==0 || ( now>j->second+old ) )
-                {
-                  modified.insert ( j->first );
-                  weights[j->first]=j->second+old;
-                  //      cdebug("saved:"<<weights[j->first]);
-
-                  if ( false )
-                    {
-                      int x= ( int ) j->first->p[0];
-                      int y= ( int ) j->first->p[1];
-                      //        cdebug("w:"<<g->width());
-
-                      x= ( int ) ( x*32/g->width() );
-                      y= ( int ) ( y*32/g->width() );
-                      int c= ( int ) weights[j->first]*4;
-                      int c2= ( int ) weights[j->first];
-                      AGColor mc ( c,c2,c2,255 );
-                      //        cdebug(x<<";"<<y<<":"<<mc);
-
-                      ms.putPixel ( x,y,mc );
-
-                    }
+  while(pairsToProcess.size()>0) {
 
 
+    for(DataStore::iterator currentPair=pairsToProcess.begin();currentPair!=pairsToProcess.end();currentPair++) {
+      Node currentNode=currentPair->first.second;
+      // roll over neighbors and check if a new best(shortest) way is found
+      SimpleGraph::Node::NodeMap neighbors=currentNode->getNextNodes();
 
-
-                }
-            }
+      for (SimpleGraph::Node::NodeMap::iterator neighborIter=neighbors.begin(); neighborIter!=neighbors.end(); neighborIter++ ) {
+        Node neighbor=neighborIter->first;
+        float weightToNext=neighborIter->second;
+        float completeWeight=currentPair->second+weightToNext;
+        NodePair newPair(currentPair->first.first,neighbor);
+        float oldStoredWeight=completeData[newPair];
+        // if not yet defined or new path is shorter, then store in alldata and currentnewdata, so that it's used for further
+        // path inspection
+        if(oldStoredWeight==0.0f || oldStoredWeight>completeWeight) {
+          completeData[newPair]=completeWeight;
+          currentNewData[newPair]=completeWeight;
         }
+      }
 
-      //FIXME: store data !!
-
-      for ( std::map<SimpleGraph::Node*,float>::iterator j=weights.begin(); j!=weights.end(); j++ )
-        {
-          h->store ( std::make_pair ( ( *i )->p,j->first->p ),j->second );
-        }
-
-      h->store ( std::make_pair ( ( *i )->p, ( *i )->p ),0 );
-
-      c++;
-      cdebug ( c<<" out of "<<g->mNodes.size() );
     }
+    pairsToProcess.clear();
+    currentNewData=pairsToProcess;
+    currentNewData.clear(); 
+  }
 
+  // store whole data in heuristic data structure    
+  for(DataStore::iterator currentPair=completeData.begin();currentPair!=completeData.end();currentPair++) {
+      h->store (std::make_pair(currentPair->first.first->p,currentPair->first.second->p),currentPair->second);
+  }
   return h;
 }
-
-
-
-#else
-
-
-HeuristicFunction *computeHeuristic ( SimpleGraph *g )
-{
-  STACKTRACE;
-  StoredHeuristicFunction *h=new StoredHeuristicFunction;
-
-  size_t c=0;
-
-  for ( SimpleGraph::NodeSet::iterator i=g->mNodes.begin(); i!=g->mNodes.end(); i++ )
-    {
-      STACKTRACE;
-
-      // clear all weights in nodes
-      for ( SimpleGraph::NodeSet::iterator k=g->mNodes.begin(); k!=g->mNodes.end(); k++ )
-        {
-          STACKTRACE;
-
-          ( *k )->tmpWeight=0;
-        }
-
-      std::list<NodeInfo> completed;
-          size_t tries=0;
-      if ( true )
-        {
-
-          std::set<NodeInfo> weights;
-          weights.insert ( NodeInfo ( *i ) );
-          float minWeight=0;
-
-          while ( weights.size() )
-            {
-              STACKTRACE;
-              NodeInfo info=*weights.begin();
-              weights.erase ( weights.begin() );
-
-              SimpleGraph::Node *n=info.node;
-
-              // get neighbors from this node
-              SimpleGraph::Node::NodeMap ns=n->getNextNodes();
-              float old=n->tmpWeight;
-
-              assert ( old>=minWeight );
-              minWeight=old;
-
-              for ( SimpleGraph::Node::NodeMap::iterator j=ns.begin(); j!=ns.end(); j++ )
-                {
-                  float now=j->first->tmpWeight;
-                  float compare=j->second+old;
-
-                  if ( now==0 || ( now>compare ) )
-                    {
-                      if ( now!=0 )
-                        weights.erase ( j->first );
-                      j->first->tmpWeight=compare;
-                      weights.insert ( j->first );
-                    }
-                }
-              completed.push_back ( n );
-              tries++;
-            }
-        }
-
-      //FIXME: store data !!
-      if ( true )
-        {
-          for ( std::list<NodeInfo>::iterator j=completed.begin(); j!=completed.end(); j++ )
-            {
-              STACKTRACE;
-              h->store ( std::make_pair ( ( *i )->p,j->node->p ),j->node->tmpWeight );
-            }
-
-          h->store ( std::make_pair ( ( *i )->p, ( *i )->p ),0 );
-        }
-      c++;
-      cdebug ( c<<" out of "<<g->mNodes.size() <<" completed:"<<completed.size() <<" tries:"<<tries );
-    }
-
-  return h;
-}
-
-
-
-
-#endif
-
 
 
 
@@ -989,16 +881,16 @@ void Path::paint ( const AGRect2 &r,AGPaintTarget &t,float scale )
   AGPainter painter ( t );
 
   for ( iterator i=begin(); i!=end(); i++ )
+  {
+    AGVector2 current ( ( *i )->p[0]*r.width() /scale+r.x0(),
+        ( *i )->p[1]*r.height() /scale+r.y0() );
+    if ( i!=begin() )
     {
-      AGVector2 current ( ( *i )->p[0]*r.width() /scale+r.x0(),
-                          ( *i )->p[1]*r.height() /scale+r.y0() );
-      if ( i!=begin() )
-        {
-          painter.drawLine ( old,current,green );
-        }
-      painter.fillRect ( AGRect2 ( current[0],current[1],3,3 ),red );
-      old=current;
+      painter.drawLine ( old,current,green );
     }
+    painter.fillRect ( AGRect2 ( current[0],current[1],3,3 ),red );
+    old=current;
+  }
   painter.renderText ( AGStringUtf8 ( weight ),AGVector2 ( 0,0 ),AGFont() );
   painter.renderText ( AGStringUtf8 ( size() ),AGVector2 ( 0,50 ),AGFont() );
 
@@ -1063,79 +955,81 @@ std::list<AGVector2> Pathfinder::computePath ( const AGVector2 &pFrom, const AGV
   size_t tries=0;
 
   while ( tries<1000 && pathSet.size() >0 )
+  {
+    Path path=*pathSet.begin();
+
+    if ( mDebug )
+      mDebug->debugPath ( path,path.getWeight ( new Heuristic ( to->p,mHeuristic ) ) );
+
     {
-      Path path=*pathSet.begin();
-
-      if ( mDebug )
-        mDebug->debugPath ( path,path.getWeight ( new Heuristic ( to->p,mHeuristic ) ) );
-
+      SimpleGraph::Node *oldi=0;
+      for ( Path::iterator i=path.begin(); i!=path.end(); i++ )
       {
-        SimpleGraph::Node *oldi=0;
-        for ( Path::iterator i=path.begin(); i!=path.end(); i++ )
-          {
-            /*
-            std::cout<<(*i)->p<<":";
-            if(oldi)
-            {
-            for(SimpleGraph::Edges::iterator j=oldi->edges.begin();j!=oldi->edges.end();j++)
-            {
-            if((*j)->a==*i)
-            std::cout<<"("<<(*j)->w0<<")";
-            else if((*j)->b==*i)
-            std::cout<<"("<<(*j)->w1<<")";
-            }
-            }
-             */
-            oldi=*i;
-          }
+        /*
+           std::cout<<(*i)->p<<":";
+           if(oldi)
+           {
+           for(SimpleGraph::Edges::iterator j=oldi->edges.begin();j!=oldi->edges.end();j++)
+           {
+           if((*j)->a==*i)
+           std::cout<<"("<<(*j)->w0<<")";
+           else if((*j)->b==*i)
+           std::cout<<"("<<(*j)->w1<<")";
+           }
+           }
+           */
+        oldi=*i;
+      }
+    }
+
+    pathSet.erase ( pathSet.begin() );
+    SimpleGraph::Node *last=path.back();
+    if ( last==to )
+    {
+      Uint32 t1=SDL_GetTicks();
+      /*
+      cdebug ( "time:"<<t1-t0 );
+      cdebug ( "len:"<<path.size() );
+      cdebug ( "tries:"<<tries );
+      cdebug ( "PATHHHHHHHHHHHHHHHHHHHH:" );
+      cdebug ( path.weight );
+*/
+      for ( Path::iterator i=path.begin(); i!=path.end(); i++ )
+      {
+  //      cdebug ( ( *i )->p );
+        result.push_back ( ( *i )->p );
       }
 
-      pathSet.erase ( pathSet.begin() );
-      SimpleGraph::Node *last=path.back();
-      if ( last==to )
-        {
-          Uint32 t1=SDL_GetTicks();
-          cdebug ( "time:"<<t1-t0 );
-          cdebug ( "len:"<<path.size() );
-          cdebug ( "tries:"<<tries );
-          cdebug ( "PATHHHHHHHHHHHHHHHHHHHH:" );
-          cdebug ( path.weight );
-          for ( Path::iterator i=path.begin(); i!=path.end(); i++ )
-            {
-              cdebug ( ( *i )->p );
-              result.push_back ( ( *i )->p );
-            }
-
-          return result; // ready
-        }
-
-
-      cdebug ( "heuristic:"<<path.getWeight ( new Heuristic ( to->p,mHeuristic ) ) );
-      cdebug ( "gone:"<<path.weight );
-      cdebug ( "setsize:"<<pathSet.size() );
-      cdebug ( "rest:"<< ( last->p-to->p ).length() <<"  p:"<<last->p );
-      cdebug ( "tries:"<<tries );
-
-
-      SimpleGraph::Node::NodeMap nextNodes=last->getNextNodes();
-
-      std::set<SimpleGraph::Node*> alreadyGone;
-      std::copy ( path.begin(),path.end(),std::inserter ( alreadyGone,alreadyGone.begin() ) );
-
-      for ( SimpleGraph::Node::NodeMap::iterator i=nextNodes.begin(); i!=nextNodes.end(); i++ )
-        {
-          if ( alreadyGone.find ( i->first ) ==alreadyGone.end() )
-            {
-              cdebug ( "possible:"<<i->first<<"   "<<i->second );
-              Path npath=path;
-              npath.push ( i->first,i->second );
-              pathSet.insert ( npath );
-            }
-        }
-
-
-      tries++;
+      return result; // ready
     }
+
+/*
+    cdebug ( "heuristic:"<<path.getWeight ( new Heuristic ( to->p,mHeuristic ) ) );
+    cdebug ( "gone:"<<path.weight );
+    cdebug ( "setsize:"<<pathSet.size() );
+    cdebug ( "rest:"<< ( last->p-to->p ).length() <<"  p:"<<last->p );
+    cdebug ( "tries:"<<tries );
+*/
+
+    SimpleGraph::Node::NodeMap nextNodes=last->getNextNodes();
+
+    std::set<SimpleGraph::Node*> alreadyGone;
+    std::copy ( path.begin(),path.end(),std::inserter ( alreadyGone,alreadyGone.begin() ) );
+
+    for ( SimpleGraph::Node::NodeMap::iterator i=nextNodes.begin(); i!=nextNodes.end(); i++ )
+    {
+      if ( alreadyGone.find ( i->first ) ==alreadyGone.end() )
+      {
+        //cdebug ( "possible:"<<i->first<<"   "<<i->second );
+        Path npath=path;
+        npath.push ( i->first,i->second );
+        pathSet.insert ( npath );
+      }
+    }
+
+
+    tries++;
+  }
 
 
   return result;
@@ -1153,23 +1047,23 @@ std::list<AGVector2> Pathfinder::refinePath ( const std::list<AGVector2> &p,MapP
   std::vector<AGVector2>::iterator i=result.begin() +1;
 
   for ( ; i!=result.end()-1; )
-    {
-      // check if waypoint is discardable
-      AGVector2 a=* ( i-1 );
-      AGVector2 b=*i;
-      AGVector2 c=* ( i+1 );
+  {
+    // check if waypoint is discardable
+    AGVector2 a=* ( i-1 );
+    AGVector2 b=*i;
+    AGVector2 c=* ( i+1 );
 
-      float w0=pWeighter->weight ( a,b );
-      float w1=pWeighter->weight ( b,c );
-      float w2=pWeighter->weight ( a,c );
+    float w0=pWeighter->weight ( a,b );
+    float w1=pWeighter->weight ( b,c );
+    float w2=pWeighter->weight ( a,c );
 
-      cdebug ( "WEIGHTS:"<<w0<<"  "<<w1<<"  "<<w2 );
+    cdebug ( "WEIGHTS:"<<w0<<"  "<<w1<<"  "<<w2 );
 
-      if ( w0+w1>w2 && w2<16 )
-        i=result.erase ( i );
-      else
-        i++;
-    }
+    if ( w0+w1>w2 && w2<16 )
+      i=result.erase ( i );
+    else
+      i++;
+  }
   std::list<AGVector2> resultList;
   std::copy ( result.begin(),result.end(),std::back_inserter ( resultList ) );
 

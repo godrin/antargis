@@ -80,6 +80,12 @@ bool checkedDeleteArray(T *o) {
     return true;
 }
 
+template<class From,class To>
+To& copy(const From &from,To &to) {
+  std::copy(from.begin(),from.end(),std::back_inserter(to));
+  return to;
+}
+
 #endif
 
 #endif

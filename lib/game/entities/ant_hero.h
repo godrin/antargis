@@ -29,6 +29,8 @@ public:
     AntMap *getMap();
     int getID();
 
+    void startFire();
+
 private:
 
 

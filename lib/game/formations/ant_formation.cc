@@ -10,10 +10,7 @@ AntFormation::AntFormation(AntBoss* pboss):boss(pboss)
 AGVector2 AntFormation::getPosition(AntPerson* man, const AGVector2& pos)
 {
     if (changedMen()) {
-        cdebug("CACHE REFRESH");
         cache.clear();
-    } else {
-        cdebug("CACHE OK");
     }
     std::map<AntPerson*,AGVector2>::iterator i=cache.find(man);
     if (i!=cache.end()) {

@@ -41,7 +41,7 @@
 //////////////////////////////////////////////////////////////////////////
 // AntMap
 //////////////////////////////////////////////////////////////////////////
-AntMap::AntMap ( SceneBase *pScene,int w,int h ) :
+AntMap::AntMap ( Scene *pScene,int w,int h ) :
   HeightMap ( pScene,w,h ),
   mEntQuad ( new QuadTree<AntEntity> ( AGRect2 ( 0,0,w,h ) ) ),
   mHeuristicFunction ( 0 )

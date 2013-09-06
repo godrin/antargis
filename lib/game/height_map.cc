@@ -12,7 +12,7 @@ char TerrainNames[][20]= {"water","sand","earth","grass","grass2","forest","rock
 
 std::vector<float> genSomeHeights ( int mW,int mH,float mMaxHeight );
 
-HeightMap::HeightMap ( SceneBase *pScene,int w,int h ) :
+HeightMap::HeightMap ( Scene *pScene,int w,int h ) :
   sigMapChanged ( this,"mapChanged" ),
   sigMapChangedComplete ( this,"mapChangedComplete" ),
   mTerrainTypes ( LASTTERRAIN+1 ),
@@ -632,7 +632,7 @@ float HeightMap::getTerrainScale ( float x,float y )
   return s1* ( 1-mean ) +s2*mean;
 }
 
-SceneBase *HeightMap::getScene()
+Scene *HeightMap::getScene()
 {
   return mScene;
 }

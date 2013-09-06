@@ -3,7 +3,6 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
-#include "scene.h"
 #include <ag_geometry.h>
 #include <ag_xml.h>
 #include "entptr.h"
@@ -16,6 +15,7 @@ class Scene;
 class Mesh;
 class TerrainBase;
 
+
 enum TerrainType { WATER=0, SAND, EARTH, GRASS, GRASS2, FOREST, ROCK, ROCK2, LASTTERRAIN};
 
 #define FIRSTTERRAIN WATER
@@ -23,7 +23,7 @@ enum TerrainType { WATER=0, SAND, EARTH, GRASS, GRASS2, FOREST, ROCK, ROCK2, LAS
 class AGEXPORT HeightMap:public AGMessageObject
 {
  public:
-  HeightMap(SceneBase *pScene,int w,int h);
+  HeightMap(Scene *pScene,int w,int h);
   virtual ~HeightMap() throw();
 
   // get status
@@ -81,7 +81,7 @@ class AGEXPORT HeightMap:public AGMessageObject
   AGSignal sigMapChanged;
   AGSignal sigMapChangedComplete;
 
-  SceneBase *getScene();
+  Scene *getScene();
 
   /// override this function to include another terrain-mesh-type (like 2d-terrain)
   virtual void initTerrainMesh();
@@ -114,7 +114,7 @@ class AGEXPORT HeightMap:public AGMessageObject
   AGRect2 mChangeRect;
   size_t mChanges;
 
-  SceneBase *mScene;
+  Scene *mScene;
 
  protected:
 
