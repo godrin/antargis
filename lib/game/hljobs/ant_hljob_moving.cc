@@ -62,8 +62,10 @@ void AntHLJobMoving::checkPerson ( AntPerson* p )
 {
   std::cout<<"MOVING:checkPerson:"<<p<<std::endl;
   CTRACE;
-  if ( moveFinished )
+  if ( moveFinished ) {
+    std::cout<<"MOVING: already finished"<<std::endl;
     return;
+  }
   cdebug ( "state:"<<state );
   switch ( state )
     {

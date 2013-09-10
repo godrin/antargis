@@ -252,7 +252,7 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
             }
           else if ( targetAnimal )
             {
-              //hero->setHlJob ( new AntHLJobFightAnimal ( hero ) );
+              hero->setHlJob ( new AntHLJobFightAnimal ( hero, targetAnimal ) );
               // TODO
             }
         }
