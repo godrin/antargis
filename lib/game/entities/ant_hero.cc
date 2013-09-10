@@ -2,8 +2,10 @@
 #include "ant_models.h"
 #include "map.h"
 #include "ant_hljob_rest.h"
+#include "ant_fire.h"
 
 AntHero::AntHero ( AntMap* pMap ) : AntPerson ( pMap ) {
+  fire=0;
 }
 
 AntHero::~AntHero() throw()
@@ -92,13 +94,11 @@ AntEntity* AntHero::getEntity()
 
 void AntHero::eventNoHlJob()
 {
-  CTRACE;
   setHlJob ( new AntHLJobRest ( this,20 ) );
 }
 
 void AntHero::eventNoJob()
 {
-  CTRACE;
   //AntPerson::eventNoJob();
 
   checkHlJobEnd();
@@ -117,8 +117,26 @@ int AntHero::getID()
   return AntPerson::getID();
 }
 
-void AntHero::startFire() {
-  cdebug("StartingFire");
+
+void AntHero::setFire(bool flag) {
+
+  if(fire) {
+    //getMap()->removeEntity(fire);
+    fire->disable();
+    fire=0;
+  }
+
+  if(flag) {
+    AGVector2 firePos=getPos2D();
+    firePos+=AGVector2(0.5,-0.5);
+    fire=new AntFire(getMap());
+    fire->setPos(firePos);
+    fire->init();
+  }
 }
 
 
+void AntHero::setHlJob ( AntHLJob *job ) {
+  AntBoss::setHlJob(job);
+  setFire(false);
+}

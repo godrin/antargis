@@ -16,7 +16,7 @@ SceneBase::SceneBase ( int w,int h ) :
 SceneBase::~SceneBase() throw()
 {
   // tell nodes, that I'm no longer there :-)
-  for ( Nodes::iterator i=mNodes.begin(); i!=mNodes.end(); i++ )
+  for ( Nodes::iterator i=mNodes.begin(); i!=mNodes.end(); i++ ) 
     ( *i )->resetScene();
 
   checkedDelete ( mTree );

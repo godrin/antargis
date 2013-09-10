@@ -8,15 +8,20 @@
 
 class AntMap;
 class Resource;
+class AntParticle;
 
 class AntFire:public AntEntity {
 public:
     AntFire(AntMap *pMap);
     virtual ~AntFire() throw();
 
+    virtual void init();
+
     void eventNoJob();
+    void disable();
 private:
    bool enabled;
+   AntParticle *smokeMesh,*fireMesh;
 };
 
 #endif

@@ -4,7 +4,6 @@
 
 GLApp::GLApp(int w,int h):scene(new Scene(w,h))
 {
-  CTRACE;
   shadow=true;
   mx=my=0;
   omx=-1;
@@ -15,7 +14,6 @@ GLApp::GLApp(int w,int h):scene(new Scene(w,h))
 
 GLApp::~GLApp() throw()
   {
-    CTRACE;
     checkedDelete(scene);
   }
 
@@ -77,7 +75,6 @@ bool GLApp::eventMouseButtonDown(AGEvent *e)
   }
 bool GLApp::eventMouseButtonUp(AGEvent *e)
   {
-    CTRACE;
     omx=-1;
     omy=-1;
     if(mMayClick)

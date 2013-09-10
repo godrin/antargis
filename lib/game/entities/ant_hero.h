@@ -4,8 +4,11 @@
 #include "ant_boss.h"
 #include "ant_person.h"
 
+class AntFire;
+
+
 class AntHero:public AntPerson,public AntBoss {
-public:
+  public:
     AntHero ( AntMap* pMap );
     virtual ~AntHero() throw();
 
@@ -25,19 +28,22 @@ public:
     virtual void eventNoHlJob();
     virtual void eventNoJob();
     bool isPrimary() const;
-    
+
     AntMap *getMap();
     int getID();
 
-    void startFire();
+    void setFire(bool flag);
 
-private:
+    void setHlJob ( AntHLJob *job );
+  private:
 
 
     AGString appearance;
     AGString meshState;
     float age;
     bool primary;
+
+    AntFire *fire;
 
 };
 

@@ -24,14 +24,12 @@ void SceneNode::setScene(SceneBase *pScene)
 {
   assert(mScene==0 || mScene==pScene);
   mScene=pScene;
-  //  std::cout<<"setscene:"<<this<<" to "<<mScene<<std::endl;
 }
 
 
 /// release attaching to scene
 void SceneNode::resetScene()
 {
-  //  std::cout<<"resetScene from "<<this<<std::endl;
   mScene=0;
 }
 
@@ -109,8 +107,10 @@ AGRect2 SceneNode::getRect() const
 
 SceneBase *SceneNode::getScene()
 {
-  if(!mScene)
+  if(!mScene) {
+    std::cerr<<"No scene defined within scenenode for :"<<typeid(*this).name()<<" at "<<this<<std::endl;
     throw std::runtime_error("scene==0");
+  }
   return mScene;
 }
 

@@ -400,6 +400,10 @@ void AntEntity::setMesh ( SceneNode *m )
   setupRing();
 }
 
+void AntEntity::detachMesh ( SceneNode *m) {
+  mMeshes.remove(m);
+}
+
 void AntEntity::addMesh ( SceneNode *m,const AGVector3 &v )
 {
   if ( m )

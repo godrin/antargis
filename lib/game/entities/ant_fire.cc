@@ -1,17 +1,21 @@
 #include "ant_fire.h"
 #include "map.h"
 #include "ant_particle.h"
+#include "ant_models.h"
 
 AntFire::AntFire(AntMap *pMap):AntEntity(pMap) {
+}
 
+void AntFire::init() {
+  AntEntity::init();
   AGVector3 basePoint(0,0,0);
-  //setMesh(:on);
-  AntParticle *smokeMesh=new AntParticle(pMap->getScene(),4);
+  setMesh(AntModels::createModel(getScene(),"fire",""));
+  smokeMesh=new AntParticle(getMap()->getScene(),4);
   addMesh(smokeMesh,basePoint);
-  AntParticle *smoke=new AntParticle(pMap->getScene(),40);
-  smoke->setFire(true);
-  smoke->setMaxTime(0.8);
-  addMesh(smoke,basePoint);
+  fireMesh=new AntParticle(getMap()->getScene(),40);
+  fireMesh->setFire(true);
+  fireMesh->setMaxTime(0.8);
+  addMesh(fireMesh,basePoint);
   enabled=true;
 }
 
@@ -25,4 +29,18 @@ void AntFire::eventNoJob() {
     getMap()->removeEntity(this);
   }
 
+}
+
+void AntFire::disable() {
+  AGVector3 basePoint(0,0,0);
+  CTRACE;
+  enabled=false;
+  // take particles and delete the rest of the meshes
+  detachMesh(smokeMesh);
+  detachMesh(fireMesh);
+  setMesh(AntModels::createModel(getMap()->getScene(),"fire","off"));
+  addMesh(smokeMesh,basePoint);
+  addMesh(fireMesh,basePoint);
+  smokeMesh->setEnabled(false);
+  fireMesh->setEnabled(false);
 }

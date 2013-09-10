@@ -244,6 +244,7 @@ public:
   SceneNode *getFirstMesh();
   Scene *getScene();
   void addMesh ( SceneNode *pMesh,const AGVector3 &v );
+  void detachMesh ( SceneNode *m);
 
   // used only by *Jobs
   void setDirection ( float pAngle );

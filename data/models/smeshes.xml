@@ -47,4 +47,9 @@
     <sprite name="axe" anim="data/models/man_axe.anim"/>
     <sprite name="grave"  mesh="data/models/grave.ant2" scale="0.2" texture="data/textures/models/grave.png"/>
   </group>
+  <group name="fire">
+    <sprite name="" mesh="data/models/fire.ant2" scale="0.3" texture="data/textures/models/fire.png" culling="false"/>
+    <sprite name="on" mesh="data/models/fire.ant2" scale="0.3" texture="data/textures/models/fire.png" culling="false"/>
+    <sprite name="off" mesh="data/models/fire.ant2" scale="0.3" texture="data/textures/models/fire2.png" culling="false"/>
+  </group>
 </staticMeshGroups>
