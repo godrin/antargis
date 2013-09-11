@@ -15,11 +15,10 @@ class AntHLJobFightAnimal: public AntHLJobMoving {
   private:
     void killAnimal();
 
-    enum FightAnimalState { START, STATE_EAT };
+    enum FightAnimalState { START, STATE_EAT, NEARLY_FINISHED };
     FightAnimalState state;
     bool mFinished;
     AntAnimal *mTarget;
-    int toEat;
 };
 
 #endif

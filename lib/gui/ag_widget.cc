@@ -84,7 +84,6 @@ AGWidget::AGWidget(AGWidget *pParent,const AGRect2 &r):
 
 AGWidget::~AGWidget() throw()
   {
-    CTRACE;
     allWidgets.erase(this);
 
     std::list<AGWidget*>::iterator i=mChildren.begin();
@@ -681,8 +680,6 @@ void AGWidget::setVisible(bool v)
 
 void AGWidget::setParent(AGWidget *pParent)
   {
-    CTRACE;
-
     if(!mParent)
       {
         AGWidget *old=mParent;

@@ -37,7 +37,7 @@ void AntGameApp::init ( const std::string &level )
 
   mMap=new AntMap ( &getScene(),32,32 );
   mMap->loadMap ( level ); // "data/levels/tutorial/tutorial3.antlvl" );
-//    mMap->loadMap ( "data/levels/birth/birth1.antlvl" );
+  //    mMap->loadMap ( "data/levels/birth/birth1.antlvl" );
 
   // init path finder
   AntPathFinderComplete *pf=new AntPathFinderComplete ( mMap );
@@ -69,57 +69,57 @@ void AntGameApp::eventEntitiesClicked ( const PickResult &pNodes, int button )
   // find first entity that's nearest to the camera
   selectEntity ( 0 );
   for ( PickResult::const_iterator pickIterator=pNodes.begin(); pickIterator!=pNodes.end(); pickIterator++ )
+  {
+    SceneNode *sceneNode=pickIterator->node;
+    if ( dynamic_cast<Mesh*> ( sceneNode ) || dynamic_cast<AnimMesh*> ( sceneNode ) )
     {
-      SceneNode *sceneNode=pickIterator->node;
-      if ( dynamic_cast<Mesh*> ( sceneNode ) || dynamic_cast<AnimMesh*> ( sceneNode ) )
-        {
-          entity=mMap->getEntity ( sceneNode );
-          if ( entity )
-            {
-              selectEntity ( entity );
-              break;
-            }
-        }
+      entity=mMap->getEntity ( sceneNode );
+      if ( entity )
+      {
+        selectEntity ( entity );
+        break;
+      }
     }
+  }
 
   if ( button==1 )
+  {
+    // left button == select
+
+    if ( actionWidget==0 )
     {
-      // left button == select
-
-      if ( actionWidget==0 )
-        {
-          actionWidget=new AntActionWidget ( getMainWidget(),AGRect2 ( 50,200,140,40 ) );
-          actionWidget->setHandler ( this );
-          getMainWidget()->addChildBack ( actionWidget );
-        }
-
-      std::vector<AntActionWidget::Action> actions=getActions ( getCurrentHero(),getSelectedEntity() );
-      AGVector2 pos ( 100,190 );
-      actionWidget->show ( actions,pos );
-      //getMainWidget()->addChild(w);
+      actionWidget=new AntActionWidget ( getMainWidget(),AGRect2 ( 50,200,140,40 ) );
+      actionWidget->setHandler ( this );
+      getMainWidget()->addChildBack ( actionWidget );
     }
+
+    std::vector<AntActionWidget::Action> actions=getActions ( getCurrentHero(),getSelectedEntity() );
+    AGVector2 pos ( 100,190 );
+    actionWidget->show ( actions,pos );
+    //getMainWidget()->addChild(w);
+  }
   else if ( button==3 && entity )
+  {
+    // right button == fight or goto
+    AntBoss *boss=dynamic_cast<AntBoss*> ( entity );
+    AntAnimal *animal=dynamic_cast<AntAnimal*> ( entity );
+    if ( boss )
     {
-      // right button == fight or goto
-      AntBoss *boss=dynamic_cast<AntBoss*> ( entity );
-      AntAnimal *animal=dynamic_cast<AntAnimal*> ( entity );
-      if ( boss )
-        {
-          if ( boss->getPlayer() !=mMap->getMyPlayer() )
-            {
-              getCurrentHero()->setHlJob ( new AntHlJobFighting ( getCurrentHero(),boss ) );
-              return;
-            }
-        }
-      else if ( animal )
-        {
-          //FIXME
-          //getCurrentHero()->setHlJob(new AntHLJobFightAnimal(animal));
-          return;
-        }
-      // move near target
-      getCurrentHero()->setHlJob ( new AntHLJobMoving ( getCurrentHero(),entity->getPos2D(),2 ) );
+      if ( boss->getPlayer() !=mMap->getMyPlayer() )
+      {
+        getCurrentHero()->setHlJob ( new AntHlJobFighting ( getCurrentHero(),boss ) );
+        return;
+      }
     }
+    else if ( animal )
+    {
+      //FIXME
+      //getCurrentHero()->setHlJob(new AntHLJobFightAnimal(animal));
+      return;
+    }
+    // move near target
+    getCurrentHero()->setHlJob ( new AntHLJobMoving ( getCurrentHero(),entity->getPos2D(),2 ) );
+  }
 }
 
 
@@ -130,12 +130,43 @@ void AntGameApp::selectEntity ( AntEntity* e )
     entity->selected ( false );
 
   if ( e )
-    {
-      e->selected ( true );
-      selectedEntityId=e->getID();
-    }
+  {
+    e->selected ( true );
+
+    printOutEntityInfo(e);
+
+    selectedEntityId=e->getID();
+  }
   else
     selectedEntityId=-1;
+}
+
+
+void AntGameApp::printOutEntityInfo(AntEntity *e) {
+  std::cout
+    <<"=============================="<<std::endl
+    <<"Type   :"<<typeid(*e).name()<<std::endl
+    <<"------------------------------"<<std::endl
+    <<"health :"<<e->getEnergy()<<std::endl
+    <<"food   :"<<e->getFood()<<std::endl
+    <<"morale :"<<e->getMorale()<<std::endl
+    <<"aggres :"<<e->getAggression()<<std::endl
+    ;
+
+  AntBoss *boss=dynamic_cast<AntBoss*>(e);
+  if(boss) {
+    std::cout<<"men    :"<<boss->getMenWithoutBoss().size()<<std::endl;
+  }
+
+
+  std::cout<<"------------------------------"<<std::endl;
+  for(auto resourceIter:e->resource.getAll()) {
+    std::cout<<resourceIter.first<<": "<<resourceIter.second<<std::endl;
+  }
+
+  std::cout
+    <<"=============================="<<std::endl
+    ;
 }
 
 AntHero* AntGameApp::getCurrentHero()
@@ -153,7 +184,7 @@ AntEntity* AntGameApp::getSelectedEntity()
 
 void AntGameApp::resetJob()
 {
-//FIXME
+  //FIXME
 }
 
 void AntGameApp::eventMapClicked ( const AGVector2 &pos, int button )
@@ -165,22 +196,22 @@ void AntGameApp::eventMapClicked ( const AGVector2 &pos, int button )
   selectEntity ( 0 );
   //FIXME
   /*
-    if @job and button==1 then
-      case @job
-        when "doBuild"
-          buildHouse(pos.dim2)
-          @job=nil
-      end
-      resetJob
-      return
-    end
-    */
+     if @job and button==1 then
+     case @job
+     when "doBuild"
+     buildHouse(pos.dim2)
+     @job=nil
+     end
+     resetJob
+     return
+     end
+     */
   if ( getCurrentHero() && button==1 )
-    {
-// assign hero a move job
-      getCurrentHero()->setHlJob ( new AntHLJobMoving ( getCurrentHero(),pos,0 ) );
+  {
+    // assign hero a move job
+    getCurrentHero()->setHlJob ( new AntHLJobMoving ( getCurrentHero(),pos,0 ) );
 
-    }
+  }
 }
 
 AntMap* AntGameApp::getMap()
@@ -193,40 +224,40 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
   std::vector<AntActionWidget::Action> actions;
 
   if ( target )
+  {
+    AntBoss *targetBoss=dynamic_cast<AntBoss*> ( target );
+    if ( targetBoss )
     {
-      AntBoss *targetBoss=dynamic_cast<AntBoss*> ( target );
-      if ( targetBoss )
+      bool playerEqual=hero->getPlayer() == targetBoss->getPlayer();
+      if ( playerEqual )
+      {
+        actions.push_back ( AntActionWidget::TAKE_FOOD );
+        actions.push_back ( AntActionWidget::TAKE_WEAPONS );
+        actions.push_back ( AntActionWidget::RECRUIT );
+        actions.push_back ( AntActionWidget::DISMISS );
+        AntHouse *house=dynamic_cast<AntHouse*> ( targetBoss );
+        if ( house )
         {
-          bool playerEqual=hero->getPlayer() == targetBoss->getPlayer();
-          if ( playerEqual )
-            {
-              actions.push_back ( AntActionWidget::TAKE_FOOD );
-              actions.push_back ( AntActionWidget::TAKE_WEAPONS );
-              actions.push_back ( AntActionWidget::RECRUIT );
-              actions.push_back ( AntActionWidget::DISMISS );
-              AntHouse *house=dynamic_cast<AntHouse*> ( targetBoss );
-              if ( house )
-                {
-                  actions.push_back ( AntActionWidget::INVENT );
-                }
-              else
-                {
-                  // actions.push_back ( AntActionWidget::FIGHT );
-                }
-            }
-          else
-            {
-              actions.push_back ( AntActionWidget::FIGHT );
-            }
+          actions.push_back ( AntActionWidget::INVENT );
         }
+        else
+        {
+          // actions.push_back ( AntActionWidget::FIGHT );
+        }
+      }
       else
-        {
-          AntAnimal *targetAnimal=dynamic_cast<AntAnimal*> ( target );
-          if ( targetAnimal )
-            actions.push_back ( AntActionWidget::FIGHT );
-        }
-
+      {
+        actions.push_back ( AntActionWidget::FIGHT );
+      }
     }
+    else
+    {
+      AntAnimal *targetAnimal=dynamic_cast<AntAnimal*> ( target );
+      if ( targetAnimal )
+        actions.push_back ( AntActionWidget::FIGHT );
+    }
+
+  }
   return actions;
 }
 
@@ -239,31 +270,31 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
   AntBoss *targetBoss=dynamic_cast<AntBoss*> ( target );
   AntAnimal *targetAnimal=dynamic_cast<AntAnimal*> ( target );
   if ( hero && target )
-    {
+  {
 
-      switch ( action )
-        {
-        case AntActionWidget::FIGHT:
+    switch ( action )
+    {
+      case AntActionWidget::FIGHT:
         {
           if ( targetBoss )
-            {
-              std::cout<<"Fight other boss"<<std::endl;
-              hero->setHlJob ( new AntHlJobFighting ( hero,targetBoss ) );
-            }
+          {
+            std::cout<<"Fight other boss"<<std::endl;
+            hero->setHlJob ( new AntHlJobFighting ( hero,targetBoss ) );
+          }
           else if ( targetAnimal )
-            {
-              hero->setHlJob ( new AntHLJobFightAnimal ( hero, targetAnimal ) );
-              // TODO
-            }
+          {
+            hero->setHlJob ( new AntHLJobFightAnimal ( hero, targetAnimal ) );
+            // TODO
+          }
         }
         break;
-        case AntActionWidget::TAKE_FOOD:
+      case AntActionWidget::TAKE_FOOD:
         {
           if ( targetBoss )
             hero->setHlJob ( new AntHLJobFetching ( targetBoss ) );
         }
         break;
-        case AntActionWidget::RECRUIT:
+      case AntActionWidget::RECRUIT:
         {
           if ( targetBoss ) {
             std::cout<<"recruit..."<<std::endl;
@@ -271,8 +302,8 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
           }
         }
         break;
-        }
     }
+  }
 
 
 

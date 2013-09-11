@@ -21,12 +21,9 @@ const char *AntActionWidget::ActionImages[]=
 
 AntActionWidget::AntActionWidget ( AGWidget* pParent, const AGRect2& r ) :AGWidget ( pParent,r )
 {
-  CTRACE;
 }
 AntActionWidget::~AntActionWidget() throw()
 {
-  CTRACE;
-
 }
 
 
@@ -69,7 +66,6 @@ void AntActionWidget::show ( const std::vector< AntActionWidget::Action >& actio
 
 bool AntActionWidget::eventButtonClicked ( AGEvent* m )
 {
-  CTRACE;
   AGListener *l=m->getCaller();
   AGButton *b=dynamic_cast<AGButton*> ( l );
   if ( b )

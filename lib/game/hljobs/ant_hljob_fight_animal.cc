@@ -4,13 +4,12 @@
 #include <algorithm>
 
 AntHLJobFightAnimal::AntHLJobFightAnimal(AntBoss* pBoss, AntAnimal *pTarget): 
-    AntHLJobMoving(pBoss,pTarget->getPos2D(),3) {
-  CTRACE;
-  mFinished=false;
-  mTarget=pTarget;
-  toEat=0;
-  state=START;
-}
+  AntHLJobMoving(pBoss,pTarget->getPos2D(),3) {
+    CTRACE;
+    mFinished=false;
+    mTarget=pTarget;
+    state=START;
+  }
 
 bool AntHLJobFightAnimal::finished() {
   return mFinished;
@@ -18,16 +17,19 @@ bool AntHLJobFightAnimal::finished() {
 
 void AntHLJobFightAnimal::checkPerson ( AntPerson* person )
 {
+  std::cout<<"checkPerson"<<person<<" state:"<<state<<std::endl;
   if ( AntHLJobMoving::finished() ) {
     switch(state) {
+      case NEARLY_FINISHED: 
+        {
+          killAnimal();
+          mFinished=true;
+        }
+        break;
       case STATE_EAT:
         {
-
           person->newRestJob(1);
-          if(toEat--<0) {
-            killAnimal();
-            mFinished=true;
-          }
+          state=NEARLY_FINISHED;
         }
         break;
       default:

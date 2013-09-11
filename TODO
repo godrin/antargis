@@ -2,7 +2,8 @@
 * FIXED - crashes because sheeps don't have meshes
 * FIXED - crash in /home/david/projects/2013/ant3/lib/game/entity.cc 310 void AntEntity::removeOldJobs() *i!=mJob
 * FIXED - fire is missing when resting
-* STARTED - fight animals 
+* FIXED - fight animals 
+* FIXED - display entity info on console when selecting
 * dismiss job missing
 * dismiss on target!=hero wrong
 * gather food/weapons/recruit jobs on hero wrong   
@@ -10,6 +11,7 @@
 * remove options-button
 * pause support
 * quit support
+* move fire into middle of hlrestjob and put hero a little to the side
 
 = milestone 1
 * energy-display on mouseover or selection (display in a view at the bottom)

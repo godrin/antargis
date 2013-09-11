@@ -10,7 +10,7 @@ class AntEntity;
 class AntActionWidget;
 
 class AntGameApp:public AntBasicGameApp,public AntActionWidget::Handler {
-public:
+  public:
     AntGameApp ( int w, int h );
     void init(const std::string &level);
 
@@ -18,14 +18,15 @@ public:
 
     AntHero *getCurrentHero();
     AntEntity *getSelectedEntity();
-protected:
+  protected:
     void eventMapClicked(const AGVector2 &pos, int button);
     void eventEntitiesClicked(const PickResult &pNodes, int button);
     void selectEntity(AntEntity *e);
     AntMap *getMap();
     void actionClicked(AntActionWidget::Action a);
-private:
-    
+  private:
+
+    void printOutEntityInfo(AntEntity *e);
 
     void resetJob();
 
