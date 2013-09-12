@@ -232,10 +232,16 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
       bool playerEqual=hero->getPlayer() == targetBoss->getPlayer();
       if ( playerEqual )
       {
-        actions.push_back ( AntActionWidget::TAKE_FOOD );
-        actions.push_back ( AntActionWidget::TAKE_WEAPONS );
-        actions.push_back ( AntActionWidget::RECRUIT );
-        actions.push_back ( AntActionWidget::DISMISS );
+        if(hero!=targetBoss) {
+          actions.push_back ( AntActionWidget::TAKE_FOOD );
+          actions.push_back ( AntActionWidget::TAKE_WEAPONS );
+          actions.push_back ( AntActionWidget::RECRUIT );
+        }
+        if(hero==targetBoss) {
+          actions.push_back ( AntActionWidget::DROP_FOOD );
+          actions.push_back ( AntActionWidget::DROP_WEAPONS );
+          actions.push_back ( AntActionWidget::DISMISS );
+        }
         AntHouse *house=dynamic_cast<AntHouse*> ( targetBoss );
         if ( house )
         {

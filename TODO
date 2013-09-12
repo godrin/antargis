@@ -5,9 +5,9 @@
 * FIXED - fight animals 
 * FIXED - display entity info on console when selecting
 * FIXED - save heuristic for level or reimplement using combining algorithm for distance computation
-* WIP   - dismiss job missing
-* dismiss on target!=hero wrong
-* gather food/weapons/recruit jobs on hero wrong   
+* FIXED - dismiss job missing
+* FIXED - dismiss on target!=hero wrong
+* FIXED - gather food/weapons/recruit jobs on hero wrong   
 * remove unused hero-buttons and fill used ones
 * remove options-button
 * pause support
