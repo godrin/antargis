@@ -13,6 +13,8 @@ class AntHLJobDismiss:public AntHLJob {
     virtual void checkPerson(AntPerson *p);
 
   private:
+    void detachSomeMen();
+
     enum JOB_STATE {GATHERING,DISMISSING,FINISHED};
     int toDismiss;
     JOB_STATE state;

@@ -10,8 +10,7 @@ class AntHLJobFetching:public AntHLJob {
 public:
     AntHLJobFetching(AntBoss* pBoss);
 
-    virtual void check(AntMan*);
-    virtual void check(AntHero*);
+    virtual void checkPerson(AntPerson*);
     virtual bool finished();
     virtual AGVector2 basePos();
 protected:

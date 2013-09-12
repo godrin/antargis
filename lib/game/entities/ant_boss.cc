@@ -182,3 +182,7 @@ std::vector<AntPerson*> AntBoss::getMenWithoutBoss(AntPerson::JobMode mode) {
       });
   return r;
 }
+
+size_t AntBoss::menCount() const {
+  return menWithoutBoss.size();
+}

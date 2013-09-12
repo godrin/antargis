@@ -47,6 +47,7 @@ public:
   virtual int getID() =0;
   std::vector<AntPerson*> getRestingMenWithHero();
 
+  size_t menCount() const;
 
 protected:
   void checkHlJobEnd();
