@@ -267,7 +267,7 @@ void AntEntity::setJob ( Job *pJob )
     else {
       if ( mMorale>0.1 || !pJob->needsMorale() ) // at least 10% morale
         mJob=pJob;
-      else
+      else if(mJob)
         mJobFinished.push_back ( pJob );
     }
   }
@@ -755,7 +755,8 @@ bool AntEntity::isFighting() const
 
 void AntEntity::sigJobFinished()
 {
-  mJobFinished.push_back ( mJob );
+  if(mJob)
+    mJobFinished.push_back ( mJob );
   mJob=0;
   eventJobFinished();
 }
