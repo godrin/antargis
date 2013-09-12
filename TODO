@@ -7,7 +7,12 @@
 * FIXED - save heuristic for level or reimplement using combining algorithm for distance computation
 * FIXED - dismiss job missing
 * FIXED - dismiss on target!=hero wrong
-* FIXED - gather food/weapons/recruit jobs on hero wrong   
+* FIXED 2013-09-12 - gather food/weapons/recruit jobs on hero wrong
+* fire-place missing on first resting
+* take food / weapons
+* drop food / weapons
+* invent
+* prevent fight dead animal
 * remove unused hero-buttons and fill used ones
 * remove options-button
 * pause support
