@@ -11,7 +11,7 @@ class Resource;
 
 class AntPerson:public AntEntity {
 public:
-    enum JobMode {WAITING,FIGHTING,MOVING,REST_SIT,REST_EAT,FORMAT,READY,FETCHING,HOMING,DIGGING};
+    enum JobMode {WAITING,FIGHTING,MOVING,REST_SIT,REST_EAT,FORMAT,READY,FETCHING,HOMING,DIGGING,INVALID};
     AntPerson(AntMap *pMap);
     virtual ~AntPerson() throw();
     virtual bool isOnWater() ;

@@ -37,14 +37,12 @@ class AntHero:public AntPerson,public AntBoss {
     void setHlJob ( AntHLJob *job );
   private:
 
-
     AGString appearance;
     AGString meshState;
     float age;
     bool primary;
 
     AntFire *fire;
-
 };
 
 #endif

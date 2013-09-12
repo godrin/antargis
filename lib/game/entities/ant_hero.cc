@@ -10,7 +10,6 @@ AntHero::AntHero ( AntMap* pMap ) : AntPerson ( pMap ) {
 
 AntHero::~AntHero() throw()
 {
-
 }
 
 void AntHero::init()
@@ -63,9 +62,7 @@ const AGString &AntHero::getMeshState() const {
 }
 
 void AntHero::setupRing() {
-
 }
-
 
 void AntHero::loadXML ( const Node& node )
 {

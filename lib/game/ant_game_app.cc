@@ -12,6 +12,7 @@
 #include "ant_hljob_fight_animal.h"
 #include "ant_hljob_fetching.h"
 #include "ant_hljob_recruit.h"
+#include "ant_hljob_dismiss.h"
 #include "ant_path_finder_complete.h"
 
 #include "ant_action_widget.h"
@@ -292,6 +293,14 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
         {
           if ( targetBoss )
             hero->setHlJob ( new AntHLJobFetching ( targetBoss ) );
+        }
+        break;
+      case AntActionWidget::DISMISS:
+        {
+          if ( targetBoss ) {
+            std::cout<<"recruit..."<<std::endl;
+            hero->setHlJob ( new AntHLJobDismiss ( hero ) );
+          }
         }
         break;
       case AntActionWidget::RECRUIT:

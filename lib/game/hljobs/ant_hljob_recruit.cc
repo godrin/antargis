@@ -54,70 +54,76 @@ void AntHlJobRecruit::setBasePos()
 
 }
 
+void AntHlJobRecruit::reorderSittingMen() {
+  for(AntPerson *man:getBoss()->getMenWithoutBoss(AntPerson::REST_SIT)) {
+    checkPerson(man);
+  }
+}
 
 void AntHlJobRecruit::checkPerson ( AntPerson* person )
 {
   if ( AntHLJobMoving::finished() )
+  {
+    AntBoss *boss=getBoss();
+    setBasePos();
+    boss->setFormation ( new AntFormationRest ( boss ) );
+    int personId=person->getID();
+    if ( manMap.find ( personId ) !=manMap.end() )
     {
-      AntBoss *boss=getBoss();
-      setBasePos();
-      boss->setFormation ( new AntFormationRest ( boss ) );
-      int personId=person->getID();
-      if ( manMap.find ( personId ) !=manMap.end() )
+      int otherId=manMap[personId];
+      // in map
+      AntEntity *other=getMap()->getEntity ( otherId );
+      AntMan *otherMan=dynamic_cast<AntMan*> ( other );
+      if ( otherMan )
+      {
+        AGVector2 otherPos=other->getPos2D();
+        float distance= ( otherPos-person->getPos2D() ).length();
+        if ( distance <1 )
         {
-          int otherId=manMap[personId];
-          // in map
-          AntEntity *other=getMap()->getEntity ( otherId );
-          AntMan *otherMan=dynamic_cast<AntMan*> ( other );
-          if ( otherMan )
-            {
-              AGVector2 otherPos=other->getPos2D();
-              float distance= ( otherPos-person->getPos2D() ).length();
-              if ( distance <1 )
-                {
 
-                  otherMan->setBoss ( getBoss() );
-                  otherMan->delJob();
-                  person->delJob();
-                  manMap.erase ( personId );
-                  wantedMen--;
-                  fetchingFinished=true;
+          otherMan->setBoss ( getBoss() );
+          otherMan->delJob();
+          person->delJob();
+          manMap.erase ( personId );
+          wantedMen--;
+          fetchingFinished=true;
 
 
-                  otherMan->setMeshState ( "walk" );
-                  person->newMoveJob ( 0,boss->getFormation()->getPosition ( person,mBasePos ),0 );
-                  otherMan->newMoveJob ( 0,boss->getFormation()->getPosition ( otherMan,mBasePos ),0 );
+          otherMan->setMeshState ( "walk" );
+          person->newMoveJob ( 0,boss->getFormation()->getPosition ( person,mBasePos ),0 );
+          otherMan->newMoveJob ( 0,boss->getFormation()->getPosition ( otherMan,mBasePos ),0 );
 
-                }
-            }
-
-
+          reorderSittingMen();
         }
+      }
+
+
+    }
+    else
+    {
+      // rest
+      AGVector2 sitPoint=boss->getFormation()->getPosition ( person,mBasePos );
+      if ( ( person->getPos2D()-sitPoint ).length() <0.2 )
+      {
+        sit ( person );
+      }
       else
-        {
-          // rest
-          AGVector2 sitPoint=boss->getFormation()->getPosition ( person,mBasePos );
-          if ( ( person->getPos2D()-sitPoint ).length() <0.2 )
-            {
-              sit ( person );
-            }
-          else
-            {
-              person->setMeshState ( "walk" );
-              person->newMoveJob ( 0,sitPoint,0 );
-            }
-        }
-      if ( wantedMen>0 && boss->getRestingMenWithHero().size() ==boss->getMenWithBoss().size() )
-        {
-          doCollect();
-        }
-
-
+      {
+        person->setMeshState ( "walk" );
+        person->newMoveJob ( 0,sitPoint,0 );
+      }
     }
-  else
+    if ( wantedMen>0 && boss->getRestingMenWithHero().size() ==boss->getMenWithBoss().size() )
     {
-      AntHLJobMoving::checkPerson ( person );
+      doCollect();
     }
+
+
+  }
+  else
+  {
+    AntHLJobMoving::checkPerson ( person );
+  }
 }
 
 

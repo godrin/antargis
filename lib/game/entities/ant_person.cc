@@ -7,6 +7,7 @@
 
 AntPerson::AntPerson(AntMap *pMap):AntEntity(pMap) {
   mOnWater=false;
+  mMode=INVALID;
 }
 
 AntPerson::~AntPerson() throw()
@@ -116,6 +117,19 @@ AntPerson::JobMode AntPerson::getMode()
 void AntPerson::setMode(AntPerson::JobMode mode)
 {
   mMode=mode;
+  switch(mode) {
+    case WAITING:
+    case FIGHTING:
+    case MOVING:
+    case REST_SIT:
+    case REST_EAT:
+    case FORMAT:
+    case READY:
+    case FETCHING:
+    case HOMING:
+    case DIGGING:
+      break;
+  };
 }
 
 

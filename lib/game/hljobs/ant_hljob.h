@@ -17,8 +17,6 @@ class AntHLJob
 public:
   AntHLJob ( AntBoss *pBoss );
 
-  virtual void check ( AntMan *p );
-  virtual void check ( AntHero *p );
   virtual void checkPerson ( AntPerson *p );
   virtual bool finished() =0;
 
@@ -31,6 +29,7 @@ protected:
   virtual AntMap *getMap();
   void sit ( AntPerson* man );
   virtual AGVector2 basePos();
+  void assignAll();
 
 private:
   AntMap *mMap;

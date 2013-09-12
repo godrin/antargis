@@ -2,6 +2,7 @@
 #define __ANT_BOSS_H
 
 #include "entity.h"
+#include "ant_person.h"
 
 class AntMan;
 class AntHero;
@@ -25,8 +26,7 @@ public:
   void signUp ( AntMan*man );
   void removeMan ( AntMan*man );
 
-  void assignJob ( AntMan *man );
-  void assignJob ( AntHero *man );
+  void assignJob ( AntPerson *person );
 
   virtual AntEntity *getEntity() =0;
 
@@ -34,6 +34,7 @@ public:
   AGVector2 getFormation ( AntPerson*e,const AGVector2 &v );
   std::vector<AntPerson*> getMenWithoutBoss();
   std::vector<AntPerson*> getMenWithBoss();
+  std::vector<AntPerson*> getMenWithoutBoss(AntPerson::JobMode mode);
 
   virtual void eventNoHlJob() =0;
 

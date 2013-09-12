@@ -5,28 +5,30 @@
 
 class AntHlJobRecruit:public AntHLJobMoving
 {
-public:
-  AntHlJobRecruit ( AntBoss* pBoss,AntBoss *pTarget );
+  public:
+    AntHlJobRecruit ( AntBoss* pBoss,AntBoss *pTarget );
 
-  bool finished();
+    bool finished();
 
-protected:
-  AGVector2 basePos();
-  void eventMoveFinished();
-  void checkPerson ( AntPerson *person );
-private:
-  void doCollect();
-  AntBoss *getTargetBoss();
-  void setBasePos();
+  protected:
+    AGVector2 basePos();
+    void eventMoveFinished();
+    void checkPerson ( AntPerson *person );
+  private:
+    void doCollect();
+    AntBoss *getTargetBoss();
+    void setBasePos();
 
 
-  int targetId;
-  bool fetchingStarted;
-  bool fetchingFinished;
+    void reorderSittingMen();
 
-  std::map<int,int> manMap;
-  AGVector2 mBasePos;
-  int wantedMen;
+    int targetId;
+    bool fetchingStarted;
+    bool fetchingFinished;
+
+    std::map<int,int> manMap;
+    AGVector2 mBasePos;
+    int wantedMen;
 };
 
 

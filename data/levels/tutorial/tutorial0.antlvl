@@ -3,7 +3,7 @@
     <position x="56.642" y="51.0992" z="1.78436"/>
 		<resource food="30" stone="50"/>
   </antTower>
-  <antHero aggression="1" appearance="hero" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Rowen" primary="true">
+  <antHero aggression="1" appearance="hero" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Rowen" primary="true" men="8">
     <position x="64.4641" y="51.154" z="2.22674"/>
 		<resource food="10"/>
   </antHero>

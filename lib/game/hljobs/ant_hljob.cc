@@ -52,27 +52,30 @@ void AntHLJob::sit ( AntPerson* man )
   AntEntity *hero=getBossEntity();
   float dist=diff.length2();
   if ( dist<0.1 )
+  {
+    man->setMode(AntPerson::REST_SIT);
+    man->setDirection ( 180- ( hero->getPos2D()-man->getPos2D() ).normalized().getAngle().angle*180.0/M_PI );
+    if ( man->getPos3D().getZ() <0 ) // under water
     {
-      man->setDirection ( 180- ( hero->getPos2D()-man->getPos2D() ).normalized().getAngle().angle*180.0/M_PI );
-      if ( man->getPos3D().getZ() <0 ) // under water
-        {
-          man->newRestJob ( 5 );
-          man->setMeshState ( "stand" );
-        }
-      else if ( ! ( man->getMeshState() =="sitdown" || man->getMeshState() =="sit" ) )
-        {
-          man->sitDown();
-        }
-      else
-        {
-          man->newRestJob ( 5 );
-          man->setMeshState ( "sit" );
-        }
+      man->newRestJob ( 5 );
+      man->setMeshState ( "stand" );
+
     }
+    else if ( ! ( man->getMeshState() =="sitdown" || man->getMeshState() =="sit" ) )
+    {
+      man->sitDown();
+    }
+    else
+    {
+      man->newRestJob ( 5 );
+      man->setMeshState ( "sit" );
+      man->setMode(AntPerson::REST_SIT);
+    }
+  }
   else
-    {
-      man->newMoveJob ( 0,formationPos,0 );
-    }
+  {
+    man->newMoveJob ( 0,formationPos,0 );
+  }
 }
 
 AGVector2 AntHLJob::basePos()
@@ -80,16 +83,12 @@ AGVector2 AntHLJob::basePos()
   return getBossEntity()->getPos2D();
 }
 
-void AntHLJob::check ( AntHero* p )
-{
-  checkPerson ( p );
-}
-
-void AntHLJob::check ( AntMan* p )
-{
-  checkPerson ( p );
-}
-
 void AntHLJob::checkPerson ( AntPerson* p )
 {
+}
+
+void AntHLJob::assignAll() {
+  for(auto entityIter:getMenWithBoss()) {
+    checkPerson(entityIter);
+  }
 }

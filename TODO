@@ -4,7 +4,8 @@
 * FIXED - fire is missing when resting
 * FIXED - fight animals 
 * FIXED - display entity info on console when selecting
-* dismiss job missing
+* FIXED - save heuristic for level or reimplement using combining algorithm for distance computation
+* WIP   - dismiss job missing
 * dismiss on target!=hero wrong
 * gather food/weapons/recruit jobs on hero wrong   
 * remove unused hero-buttons and fill used ones
@@ -15,9 +16,9 @@
 
 = milestone 1
 * energy-display on mouseover or selection (display in a view at the bottom)
+** add possibility to change aggression
 * entering water and walking does not work
 * inventing missing
-* FIXED - save heuristic for level or reimplement using combining algorithm for distance computation
 
 
 = milestone 2

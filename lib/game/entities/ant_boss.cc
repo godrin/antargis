@@ -7,6 +7,7 @@
 #include "ant_player.h"
 #include "map.h"
 
+#include <algorithm>
 
 AntBoss::AntBoss ( ) :hlJob ( 0 ),menToAddCount ( 0 )
 {
@@ -40,7 +41,7 @@ void AntBoss::signUp ( AntMan* man )
 }
 
 
-void AntBoss::assignJob ( AntMan* man )
+void AntBoss::assignJob ( AntPerson* person )
 {
   if ( !hlJob )
     eventNoHlJob();
@@ -48,18 +49,18 @@ void AntBoss::assignJob ( AntMan* man )
   //    std::cout<<"assign:"<<man<<" "<<typeid(*man).name()<<std::endl;
   if ( hlJob )
   {
-    hlJob->check ( man );
+    hlJob->checkPerson ( person );
   }
   else
   {
     CTRACE;
-    cdebug ( "No hljob, so resting forever"<<man );
-    AntEntity *e= ( AntEntity* ) ( man );
-    e->newRestJob ( 100 );
-    man->setMeshState ( "sit" );
+    //AntEntity *e= ( AntEntity* ) ( man );
+    person->newRestJob ( 100 );
+    person->setMeshState ( "sit" );
   }
 
 }
+/*
 void AntBoss::assignJob ( AntHero* man )
 {
   //    std::cout<<"assign:"<<man<<" "<<typeid(*man).name()<<std::endl;
@@ -78,7 +79,7 @@ void AntBoss::assignJob ( AntHero* man )
   }
 
 }
-
+*/
 std::vector< AntPerson* > AntBoss::getMenWithBoss()
 {
   std::vector< AntPerson* > l;
@@ -169,4 +170,15 @@ std::vector< AntPerson* > AntBoss::getRestingMenWithHero()
 
   }
   return restList;
+}
+
+
+std::vector<AntPerson*> AntBoss::getMenWithoutBoss(AntPerson::JobMode mode) {
+  std::vector<AntPerson*> r;
+  std::vector<AntPerson*> all=getMenWithoutBoss();
+  std::copy_if(all.begin(),all.end(),std::back_inserter(r),
+      [mode](AntPerson* person) {
+      return person->getMode()==mode;
+      });
+  return r;
 }

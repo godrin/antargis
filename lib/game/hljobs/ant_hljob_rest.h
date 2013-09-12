@@ -11,8 +11,7 @@ class AntHLJobRest:public AntHLJob {
 public:
     AntHLJobRest(AntBoss* pBoss,float pTime);
 
-    void check(AntMan *man);
-    void check(AntHero *man);
+    void checkPerson(AntPerson *man);
     bool finished();
     
     AGVector2 basePos();
