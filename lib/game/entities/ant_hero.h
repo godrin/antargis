@@ -3,12 +3,15 @@
 
 #include "ant_boss.h"
 #include "ant_person.h"
+#include "ag_texture.h"
 
 class AntFire;
 
 
 class AntHero:public AntPerson,public AntBoss {
   public:
+    static const AGVector2 FIRE_DISPLACE;
+
     AntHero ( AntMap* pMap );
     virtual ~AntHero() throw();
 
@@ -35,6 +38,8 @@ class AntHero:public AntPerson,public AntBoss {
     void setFire(bool flag);
 
     void setHlJob ( AntHLJob *job );
+
+    AGTexture getImage();
   private:
 
     AGString appearance;

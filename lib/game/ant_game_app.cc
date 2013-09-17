@@ -1,21 +1,24 @@
-#include "ant_game_app.h"
-#include "map.h"
 #include "ag_layout.h"
-#include "ant_hero.h"
-#include "ant_human_player.h"
-#include "ant_boss.h"
-#include "ant_house.h"
-#include "ant_animal.h"
-#include "mesh.h"
 #include "anim_mesh.h"
-#include "ant_hljob_fighting.h"
-#include "ant_hljob_fight_animal.h"
-#include "ant_hljob_fetching.h"
-#include "ant_hljob_recruit.h"
-#include "ant_hljob_dismiss.h"
-#include "ant_path_finder_complete.h"
-
 #include "ant_action_widget.h"
+#include "ant_animal.h"
+#include "ant_boss.h"
+#include "ant_game_app.h"
+#include "ant_hero.h"
+#include "ant_hero_faces.h"
+#include "ant_hljob_dismiss.h"
+#include "ant_hljob_drop.h"
+#include "ant_hljob_fetching.h"
+#include "ant_hljob_fight_animal.h"
+#include "ant_hljob_fighting.h"
+#include "ant_hljob_recruit.h"
+#include "ant_house.h"
+#include "ant_human_player.h"
+#include "ant_layout_creators.h"
+#include "ant_path_finder_complete.h"
+#include "ant_sack.h"
+#include "map.h"
+#include "mesh.h"
 
 std::vector<AntActionWidget::Action> getActions ( AntHero *hero,AntEntity *selectedEntity );
 
@@ -30,6 +33,7 @@ AntGameApp::AntGameApp ( int w, int h ) : AntBasicGameApp ( w, h )
 
 void AntGameApp::init ( const std::string &level )
 {
+  initAntargisLayoutCreators();
   actionWidget=0;
   layout=new AGLayout ( 0 );
   layout->loadXML ( loadFile ( "data/gui/layout/ant_layout.xml" ) );
@@ -48,6 +52,9 @@ void AntGameApp::init ( const std::string &level )
   currentHeroId=currentHero->getID();
   // FOCUS hero
   setCamera ( currentHero->getPos2D() );
+
+  dynamic_cast<AntHeroFaces*>(layout->getChild("ant_hero_faces"))->setHeroImage(currentHero->getImage());
+  dynamic_cast<AntHeroFaces*>(layout->getChild("ant_hero_faces"))->update();
 }
 
 bool AntGameApp::eventFrame ( float pTime )
@@ -262,6 +269,10 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
       AntAnimal *targetAnimal=dynamic_cast<AntAnimal*> ( target );
       if ( targetAnimal )
         actions.push_back ( AntActionWidget::FIGHT );
+      AntSack *targetSack=dynamic_cast<AntSack*> ( target );
+      if ( targetSack ) {
+        actions.push_back ( AntActionWidget::TAKE_FOOD );
+      }
     }
 
   }
@@ -293,6 +304,18 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
             hero->setHlJob ( new AntHLJobFightAnimal ( hero, targetAnimal ) );
             // TODO
           }
+        }
+        break;
+      case AntActionWidget::DROP_FOOD:
+        {
+          if ( targetBoss )
+            hero->setHlJob ( new AntHLJobDrop ( targetBoss,AntHLJobDrop::DROP_FOOD ) );
+        }
+        break;
+      case AntActionWidget::DROP_WEAPONS:
+        {
+          if ( targetBoss )
+            hero->setHlJob ( new AntHLJobDrop ( targetBoss,AntHLJobDrop::DROP_WEAPONS ) );
         }
         break;
       case AntActionWidget::TAKE_FOOD:

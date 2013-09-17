@@ -3,6 +3,9 @@
 #include "map.h"
 #include "ant_hljob_rest.h"
 #include "ant_fire.h"
+#include "ag_texturecache.h"
+
+const AGVector2 AntHero::FIRE_DISPLACE(0.5,-0.5);
 
 AntHero::AntHero ( AntMap* pMap ) : AntPerson ( pMap ) {
   fire=0;
@@ -125,10 +128,10 @@ void AntHero::setFire(bool flag) {
 
   if(flag) {
     AGVector2 firePos=getPos2D();
-    firePos+=AGVector2(0.5,-0.5);
+    firePos+=FIRE_DISPLACE;
     fire=new AntFire(getMap());
-    fire->setPos(firePos);
     fire->init();
+    fire->setPos(firePos);
   }
 }
 
@@ -137,3 +140,14 @@ void AntHero::setHlJob ( AntHLJob *job ) {
   AntBoss::setHlJob(job);
   setFire(false);
 }
+
+AGTexture AntHero::getImage() {
+  AGString dir="data/gui/portraits/";
+  AGString filename=dir;
+  filename+=getName();
+  filename+=".png";
+  if(!fileExists(filename))
+    filename=dir+"none.png";
+  return getTextureCache()->get(filename);
+}
+

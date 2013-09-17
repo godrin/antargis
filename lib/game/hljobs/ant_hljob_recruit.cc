@@ -66,7 +66,7 @@ void AntHlJobRecruit::checkPerson ( AntPerson* person )
   {
     AntBoss *boss=getBoss();
     setBasePos();
-    boss->setFormation ( new AntFormationRest ( boss ) );
+    boss->setFormation ( new AntFormationRest ( boss, AntHero::FIRE_DISPLACE ) );
     int personId=person->getID();
     if ( manMap.find ( personId ) !=manMap.end() )
     {

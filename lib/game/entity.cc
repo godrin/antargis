@@ -37,10 +37,12 @@ AntEntity::AntEntity ( AntMap *pMap ) :mMap ( pMap ),mPos ( 0,0,0 )
   mID=getMap()->getNewID();
   mRing=0;
   mJob=0;
+  mInited=false;
 }
 
 void AntEntity::init()
 {
+  mInited=true;
 
   mShowOnMinimap=false;
   onGround=true;
@@ -216,7 +218,7 @@ AGVector2 AntEntity::getPos2D() const
 
 void AntEntity::updatePos ( const AGVector3 &p )
 {
-  if ( mMeshes.size() ==1 )
+  if ( mMeshes.size() ==1  && false)
   {
     mMeshes.front()->setPos ( p );
     return;
@@ -231,11 +233,13 @@ void AntEntity::updatePos ( const AGVector3 &p )
 
 void AntEntity::setPos ( const AGVector3 &p )
 {
+  assert(mInited);
   mPos=p;
   updatePos ( p );
 }
 void AntEntity::setPos ( const AGVector2 &pp )
 {
+  assert(mInited);
   AGVector2 p=getMap()->truncPos ( pp ); // make sure, that position is ok
   if ( onGround )
     mPos=getMap()->getPos ( p );
@@ -394,6 +398,7 @@ void AntEntity::setMesh ( SceneNode *m )
     if ( mesh )
       mesh->setEntity ( this );
     mMeshes.push_back ( m );
+    mMeshPos.insert ( std::make_pair ( m,AGVector3(0,0,0) ) );
 
     updatePos ( mPos );
   }

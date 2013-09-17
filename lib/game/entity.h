@@ -48,6 +48,8 @@ public:
 private:
   AntMap *mMap;
 
+  bool mInited;
+
   int mID;
   AGString mName;
 

@@ -24,12 +24,12 @@ public:
   AntEntity *getBossEntity();
   std::vector<AntPerson*> getMenWithoutBoss();
   std::vector<AntPerson*> getMenWithBoss();
+  void assignAll();
 
 protected:
   virtual AntMap *getMap();
   void sit ( AntPerson* man );
   virtual AGVector2 basePos();
-  void assignAll();
 
 private:
   AntMap *mMap;

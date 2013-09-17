@@ -1,23 +1,17 @@
 #ifndef __ANT_HLJOB_DISMISS_H
 #define __ANT_HLJOB_DISMISS_H
 
-#include "ant_hljob.h"
+#include "ant_hljob_gather_and_do.h"
 
-class AntHLJobDismiss:public AntHLJob {
+class AntHLJobDismiss:public AntHLJobGatherAndDo {
   public:
     AntHLJobDismiss(AntBoss *pBoss);
 
-    virtual bool finished();
-
   protected:
-    virtual void checkPerson(AntPerson *p);
-
-  private:
+    virtual void afterGathering();
     void detachSomeMen();
-
-    enum JOB_STATE {GATHERING,DISMISSING,FINISHED};
+  private:
     int toDismiss;
-    JOB_STATE state;
 };
 
 #endif

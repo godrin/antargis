@@ -147,8 +147,8 @@ void AntBoss::loadXMLBoss ( const Node& node )
     for ( size_t i=0; i<menToAddCount; i++ )
     {
       AntMan *man=new AntMan ( getEntity()->getMap() );
-      man->setPos ( getEntity()->getPos2D() );
       man->init();
+      man->setPos ( getEntity()->getPos2D() );
       man->setBoss ( this );
       getEntity()->getMap()->insertEntity ( man );
     }

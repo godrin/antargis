@@ -1,11 +1,11 @@
 #include "ant_hljob_fetching.h"
 #include "entity.h"
-#include <ant_man.h>
-#include <ant_hero.h>
-#include <ant_house.h>
+#include "map.h"
 #include <ag_rand.h>
 #include <algorithm>
-#include "map.h"
+#include <ant_hero.h>
+#include <ant_house.h>
+#include <ant_man.h>
 
 AntHLJobFetching::StockNeed::StockNeed(const std::string& r, float a,float cNeed):resource(r),amount(a),currentNeed(cNeed)
 {
@@ -66,8 +66,11 @@ void AntHLJobFetching::checkPerson(AntPerson *person)
       man->newMoveJob(0,getBossEntity()->getPos2D(),0);
       //res=e.getMode.gsub(/.* /,"")
       man->setMode(AntPerson::HOMING);
-      man->setMeshState(man->getFetchResource());
       AGString res=man->getFetchResource();
+      if(res!="")
+        man->setMeshState(man->getFetchResource());
+      else
+        man->setMeshState("walk");
       // take resource
       if (!man->getTarget()) // FIXME: error while loading
       {
@@ -80,12 +83,13 @@ void AntHLJobFetching::checkPerson(AntPerson *person)
       man->resource.add(res,amount);
     } else if (man->getMode()==AntPerson::HOMING) {
       man->newRestJob(1); // always rest a little
-      if(man->getMeshState()=="stand")
-        man->setMeshState("walk");
+      //if(man->getMeshState()=="stand")
+      man->setMeshState("walk");
       man->setMode(AntPerson::READY);
     } else {
       // is anywhere - come home
       man->newMoveJob(0,getBossEntity()->getPos2D(),0);
+      man->setMeshState("walk");
     }
   AntHero *hero=dynamic_cast<AntHero*>(person);
   if(hero)

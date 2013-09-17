@@ -1,8 +1,7 @@
-#include "ant_hljob_rest.h"
-#include "ant_hero.h"
-#include "ant_man.h"
 #include "ant_formation_rest.h"
-
+#include "ant_hero.h"
+#include "ant_hljob_rest.h"
+#include "ant_man.h"
 #include <algorithm>
 #include <cmath>
 
@@ -11,7 +10,8 @@ AntHLJobRest::AntHLJobRest(AntBoss* pBoss, float pTime): AntHLJob(pBoss),mTime(p
     firstTime=true;
     spreadingThings=false;
     jobFinished=false;
-    getBoss()->setFormation(new AntFormationRest(getBoss()));
+    getBoss()->setFormation(new AntFormationRest(getBoss(),AntHero::FIRE_DISPLACE));
+    assignAll();
 }
 
 void AntHLJobRest::checkPerson(AntPerson* person)
@@ -49,6 +49,7 @@ void AntHLJobRest::checkPerson(AntPerson* person)
         }
       default:
         man->newMoveJob(0,getBossEntity()->getPos2D(),0);
+        man->setMeshState("walk");
         man->setMode(AntMan::REST_EAT);
 
     }

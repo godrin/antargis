@@ -8,12 +8,13 @@
 * FIXED - dismiss job missing
 * FIXED - dismiss on target!=hero wrong
 * FIXED 2013-09-12 - gather food/weapons/recruit jobs on hero wrong
-* fire-place missing on first resting
+* FIXED 2013-09-13 - fire-place missing on first resting
+* remove unused hero-buttons and fill used ones
+* change aggression
 * take food / weapons
 * drop food / weapons
 * invent
 * prevent fight dead animal
-* remove unused hero-buttons and fill used ones
 * remove options-button
 * pause support
 * quit support

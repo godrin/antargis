@@ -4,9 +4,11 @@
 #include "ant_models.h"
 
 AntFire::AntFire(AntMap *pMap):AntEntity(pMap) {
+  CTRACE;
 }
 
 void AntFire::init() {
+  CTRACE;
   AntEntity::init();
   AGVector3 basePoint(0,0,0);
   setMesh(AntModels::createModel(getScene(),"fire",""));
@@ -32,6 +34,7 @@ void AntFire::eventNoJob() {
 }
 
 void AntFire::disable() {
+
   AGVector3 basePoint(0,0,0);
   CTRACE;
   enabled=false;

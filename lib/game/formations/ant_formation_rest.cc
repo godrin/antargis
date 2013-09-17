@@ -5,8 +5,9 @@
 #include <cmath>
 #include <algorithm>
 
-AntFormationRest::AntFormationRest(AntBoss* pboss): AntFormation(pboss)
+AntFormationRest::AntFormationRest(AntBoss* pboss,const AGVector2 &displace): AntFormation(pboss)
 {
+    displacement=displace;
 }
 
 
@@ -29,6 +30,7 @@ std::map<AntPerson*,AGVector2> AntFormationRest::computeFormation()
 {
     // virtual positions as map from man to pair of [row,line (circle)]
     std::map<AntPerson*,std::pair<size_t,size_t> >  vpos;
+    // relative positions to hero pos
     std::map<AntPerson*,AGVector2> rpos;
 
     std::vector<AntPerson*> men=getSortedMen();
@@ -50,9 +52,9 @@ std::map<AntPerson*,AGVector2> AntFormationRest::computeFormation()
         size_t row=curvpos->second.first,line=curvpos->second.second;
         float radius=line*1.2;
         float angle=((float)row)/linesizes[line]*M_PI*2.0;
-        rpos[*menIterator]=AGVector2(cos(angle)*radius,sin(angle)*radius);
+        rpos[*menIterator]=AGVector2(cos(angle)*radius,sin(angle)*radius)+displacement;
     }
-    rpos[dynamic_cast<AntPerson*>(getBoss()->getEntity())]=AGVector2(0,0);
+    rpos[dynamic_cast<AntPerson*>(getBoss()->getEntity())]=displacement;
     return rpos;
 
 }
