@@ -7,3 +7,6 @@ AntEnergyBar::AntEnergyBar(AGWidget *pParent, const AGRect2 & pRect) :
 void AntEnergyBar::setHero(AntHero *pHero) {
   mHero=pHero;
 }
+
+void AntEnergyBar::update() {
+}

@@ -12,6 +12,8 @@ class AntEnergyBar: public AGWidget {
     AntEnergyBar(AGWidget *pParent, const AGRect2 & pRect);
 
     void setHero(AntHero *pHero);
+
+    void update();
   private:
     // FIXME: use shared_ptr or weak_ptr
     AntHero *mHero;
