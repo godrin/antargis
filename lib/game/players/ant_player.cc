@@ -22,11 +22,13 @@ AntPlayer::~AntPlayer()
 void AntPlayer::add(AntBoss* boss)
 {
     bosses.push_back(boss);
+    sigHeroesChanged(this);
 }
 
 void AntPlayer::remove(AntBoss* boss)
 {
     bosses.remove(boss);
+    sigHeroesChanged(this);
 }
 
 AGString AntPlayer::getName() const
@@ -80,32 +82,36 @@ void AntPlayer::move(float pTime)
     initBosses();
 }
 void AntPlayer::initBosses() {
-    std::list<AGString> notFound;
-    for (std::list<AGString>::iterator i=bossNames.begin();i!=bossNames.end();i++) {
-        AntEntity *e=map->getByName(*i);
-        if (e) {
-            AntBoss *b=dynamic_cast<AntBoss*>(e);
-            if (b) {
-                bosses.push_back(b);
-                b->setPlayer(this);
-            } else {
-                cdebug("BOSS NOT FOUND 1:"<<*i);
-                notFound.push_back(*i);
-            }
-        }
-        else {
-            cdebug("BOSS NOT FOUND 2:"<<*i);
-            notFound.push_back(*i);
-        }
+  std::list<AGString> notFound;
+  bool changed=false;
+  for (std::list<AGString>::iterator i=bossNames.begin();i!=bossNames.end();i++) {
+    AntEntity *e=map->getByName(*i);
+    if (e) {
+      AntBoss *b=dynamic_cast<AntBoss*>(e);
+      if (b) {
+        bosses.push_back(b);
+        b->setPlayer(this);
+        changed=true;
+      } else {
+        cdebug("BOSS NOT FOUND 1:"<<*i);
+        notFound.push_back(*i);
+      }
     }
-    bossNames=notFound;
+    else {
+      cdebug("BOSS NOT FOUND 2:"<<*i);
+      notFound.push_back(*i);
+    }
+  }
+  bossNames=notFound;
+  if(changed)
+    sigHeroesChanged(this);
 }
 
 void AntPlayer::saveXML(Node& node) const
 {
-    node.set("name",name);
-    for (std::list<AntBoss*>::const_iterator i=bosses.begin();i!=bosses.end();i++) {
-        Node &n=node.addChild("hero");
-        n.set("name",(*i)->getEntity()->getName());
-    }
+  node.set("name",name);
+  for (std::list<AntBoss*>::const_iterator i=bosses.begin();i!=bosses.end();i++) {
+    Node &n=node.addChild("hero");
+    n.set("name",(*i)->getEntity()->getName());
+  }
 }

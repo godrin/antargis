@@ -25,6 +25,7 @@
 #include "heuristic.h"
 
 #include <auto_ptr.h>
+#include <memory>
 
 /**
  * \defgroup GameEngine BoA Game-Engine
@@ -54,7 +55,7 @@ class AGEXPORT AntMap:public HeightMap
 {
 public:
   typedef std::list<AntEntity*> EntityList;
-  typedef AntEntity*PAntEntity;
+  typedef std::vector<AntEntity*> EntityVector;
 
   AntMap ( Scene *pScene,int w,int h );
   ~AntMap() throw();
@@ -70,7 +71,7 @@ public:
 
   EntityList getEntities ( const AGRect2&r );
   EntityList getSelectedEntities ( std::auto_ptr<AntEntitySelector> selector );
-  std::list<AntEntity*> getAllEntities();
+  EntityList getAllEntities();
   std::vector<AntEntity*> getEntities ( const AGString &pName );
 
   AntEntity *getEntity ( const SceneNode *pMesh );
@@ -80,7 +81,7 @@ public:
   AntEntity *getByName ( const AGString &pName );
 
   AntEntity *getNext ( AntEntity *me,const AGString &pType,size_t atLeast=0 );
-  std::vector<PAntEntity> getNextList ( AntEntity *me,const AGString &pType,size_t atLeast=0 );
+  EntityVector getNextList ( AntEntity *me,const AGString &pType,size_t atLeast=0 );
 
   void setHeuristic ( HeuristicFunction *pFunction );
 

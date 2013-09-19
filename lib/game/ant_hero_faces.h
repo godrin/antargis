@@ -4,16 +4,13 @@
 #include "ag_widget.h"
 #include "ag_texture.h"
 
+class AntPlayer;
+
 class AntHeroFaces:public AGWidget {
   public:
     AntHeroFaces(AGWidget *pParent, const AGRect2 &pRect);
 
-    void update();
-    void setHeroImage(const AGTexture &t);
-     
-
-  private:
-    AGTexture heroImage;
+    void update(AntPlayer *pPlayer);
 };
 
 #endif

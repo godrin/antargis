@@ -60,7 +60,7 @@ class AGEXPORT AGEvent
 {
  public:
   AGEvent(AGListener *pCaller,const AGString &pName,const SDL_Event &pEvent=NullEvent);
-  virtual ~AGEvent() throw();
+  virtual ~AGEvent();
 
   AGListener *getCaller() const;
 
@@ -117,7 +117,7 @@ class AGEXPORT AGListener
 {
  public:
   AGListener();
-  virtual ~AGListener() throw();
+  virtual ~AGListener();
   virtual bool signal(AGEvent *m);
 
 };
@@ -201,7 +201,7 @@ class AGEXPORT AGMessageObject:public AGListener
 {
  public:
   AGMessageObject();
-  virtual ~AGMessageObject() throw();
+  virtual ~AGMessageObject();
 
   bool processEvent(AGEvent *pEvent);
 

@@ -34,7 +34,7 @@ mMousePosition(0),mRelMousePosition(0)
       {
         mClipped=false;
       }
-AGEvent::~AGEvent() throw()
+AGEvent::~AGEvent()
   {
     if(mMousePosition)
       checkedDelete(mMousePosition);
@@ -201,7 +201,7 @@ AGListener::AGListener()
   {
   }
 
-AGListener::~AGListener() throw()
+AGListener::~AGListener()
   {
   }
 
@@ -345,7 +345,7 @@ AGMessageObject::AGMessageObject():
         {
         }
 
-AGMessageObject::~AGMessageObject() throw()
+AGMessageObject::~AGMessageObject()
   {
     std::set<AGSignal*> sigs=mSignals;
     std::set<AGSignal*>::iterator i=sigs.begin();

@@ -5,6 +5,7 @@
 
 #include <list>
 
+#include <boost/signals.hpp>
 
 class AntMap;
 class AntHero;
@@ -32,7 +33,9 @@ public:
   std::list<AntBoss*> getBosses();
   
   virtual AGString xmlName()=0;
-  
+
+  boost::signal<void(AntPlayer*)> sigHeroesChanged;
+
 private:
   
   void initBosses();

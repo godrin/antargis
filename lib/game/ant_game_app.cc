@@ -20,7 +20,11 @@
 #include "map.h"
 #include "mesh.h"
 
+#include <boost/bind.hpp>
+
 std::vector<AntActionWidget::Action> getActions ( AntHero *hero,AntEntity *selectedEntity );
+
+void testing();
 
 AntGameApp::AntGameApp ( int w, int h ) : AntBasicGameApp ( w, h )
 {
@@ -29,6 +33,7 @@ AntGameApp::AntGameApp ( int w, int h ) : AntBasicGameApp ( w, h )
   layout=0;
   currentHeroId=-1;
   actionWidget=0;
+  testing();
 }
 
 void AntGameApp::init ( const std::string &level )
@@ -41,20 +46,21 @@ void AntGameApp::init ( const std::string &level )
   setMainWidget ( layout );
 
   mMap=new AntMap ( &getScene(),32,32 );
-  mMap->loadMap ( level ); // "data/levels/tutorial/tutorial3.antlvl" );
-  //    mMap->loadMap ( "data/levels/birth/birth1.antlvl" );
+  mMap->loadMap ( level );
 
   // init path finder
   AntPathFinderComplete *pf=new AntPathFinderComplete ( mMap );
 
   mMap->setCompletePathFinder ( pf );
-  AntHero *currentHero=mMap->getMyPlayer()->getHeroes().front();
+  auto myPlayer=mMap->getMyPlayer();
+  AntHero *currentHero=myPlayer->getHeroes().front();
   currentHeroId=currentHero->getID();
   // FOCUS hero
   setCamera ( currentHero->getPos2D() );
 
-  dynamic_cast<AntHeroFaces*>(layout->getChild("ant_hero_faces"))->setHeroImage(currentHero->getImage());
-  dynamic_cast<AntHeroFaces*>(layout->getChild("ant_hero_faces"))->update();
+  AntHeroFaces *heroFaces=dynamic_cast<AntHeroFaces*>(layout->getChild("ant_hero_faces"));
+  myPlayer->sigHeroesChanged.connect([heroFaces](AntPlayer *player) { heroFaces->update(player);});
+  myPlayer->sigHeroesChanged(myPlayer);
 }
 
 bool AntGameApp::eventFrame ( float pTime )

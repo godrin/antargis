@@ -308,6 +308,5 @@ private:
   ColoredMesh *mRing;
 };
 
-typedef AntEntity *PAntEntity;
 
 #endif

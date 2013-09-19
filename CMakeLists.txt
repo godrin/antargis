@@ -10,6 +10,7 @@ find_package(SDL_mixer)
 find_package(ZLIB)
 find_package(OpenGL)
 find_package(PNG)
+find_package(Boost COMPONENTS signals)
 #FIND_PACKAGE(SWIG REQUIRED)
 
 if ( NOT SDL_FOUND )
@@ -27,6 +28,7 @@ link_libraries (
    ${PNG_LIBRARY}
    ${OPENGL_gl_LIBRARY}
    ${OPENGL_glu_LIBRARY}
+   ${Boost_LIBRARIES}
 )
 include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} 
   ${CMAKE_CURRENT_SOURCE_DIR}/lib
