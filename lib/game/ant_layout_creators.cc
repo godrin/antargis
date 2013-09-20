@@ -14,5 +14,5 @@ public:
 
 void initAntargisLayoutCreators() {
   getLayoutFactory()->addCreator("antHeroFaces",new AntGenericCreator<AntHeroFaces>());
-  getLayoutFactory()->addCreator("antEnergyBar",new AntGenericCreator<AntEnergyBar>());
+  getLayoutFactory()->addCreator("antEnergy",new AntGenericCreator<AntEnergyBar>());
 }
