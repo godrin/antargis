@@ -27,9 +27,15 @@ void AntHeroFaces::update(AntPlayer *pPlayer) {
     if(bar) {
       bar->setHero(hero);
     }
+
     index++;
   }
-  // FIXME: clear data from other displays and hide them
+  for(index=0;index<6;index++) {
+    AGString widgetName="hero";
+    widgetName+=AGString(index);
+    AGWidget *widget=getChild(widgetName);
+    widget->setVisible(index<pPlayer->getHeroes().size());
+  }
 }
 
 
