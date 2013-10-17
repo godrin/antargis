@@ -3,6 +3,7 @@
 #include "ant_player.h"
 #include "ant_hero.h"
 #include "ant_energy_bar.h"
+#include "ag_radio.h"
 
 
 AntHeroFaces::AntHeroFaces(AGWidget *pParent, const AGRect2 &pRect):
@@ -20,6 +21,8 @@ void AntHeroFaces::eventInitEvents() {
     widgetName+=AGString(index);
     AGWidget *widget=getChild(widgetName);
     widget->sigClick.connect(slot(this,&AntHeroFaces::buttonClicked));
+    if(index==0)
+      dynamic_cast<AGRadio*>(widget)->setChecked(true);
     /*[](AGEvent*e) {
           e->heroClicked(heroes[index]);
           }));*/

@@ -65,7 +65,7 @@ void AntGameApp::init ( const std::string &level )
   myPlayer->sigHeroesChanged(myPlayer);
   heroFaces->sigHeroClicked.connect([this](AntHero *hero){
       std::cout<<"Hero clicked:"<<hero<<std::endl;
-this->setCamera(hero->getPos2D());
+      this->setCamera(hero->getPos2D());
       });
 
 
