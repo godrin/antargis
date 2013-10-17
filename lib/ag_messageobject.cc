@@ -420,6 +420,7 @@ bool AGMessageObject::processEvent(AGEvent* agEvent)
     if(rc)
       {
         AGWidget *w=dynamic_cast<AGWidget*>(this);
+        if(false)
         if(w)
           cdebug(toString(&agEvent->get())<<" eaten up by "<<typeid(*this).name()<<" "<<w->getName());
         else

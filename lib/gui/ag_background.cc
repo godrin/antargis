@@ -104,8 +104,6 @@ void AGBackground::draw(const AGRect2 &r,AGPainter &p)
     assert(&r);
     if(mTexture)
       {
-        cdebug("painter:"<<&p);
-        cdebug(mTexture);
         AGRect2 s=r.shrink(mBorder);
         const AGTexture &t=*mTexture;
         p.tile(t,s);//*mTexture,r.shrink(mBorder));

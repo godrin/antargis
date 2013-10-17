@@ -65,10 +65,10 @@ void HeightMap::setHeight ( float height )
 {
   for ( size_t y=0; y<mH+2; y++ )
     for ( size_t x=0; x<mW+2; x++ )
-      {
-        set ( x,y,height );
-        setTerrain ( x,y,EARTH,1 );
-      }
+    {
+      set ( x,y,height );
+      setTerrain ( x,y,EARTH,1 );
+    }
 
   mapChanged();
 }
@@ -77,9 +77,9 @@ void HeightMap::addChange ( const AGVector2 &v )
 {
   mChanges++;
   if ( mChanges==1 )
-    {
-      mChangeRect=AGRect2 ( v,v );
-    }
+  {
+    mChangeRect=AGRect2 ( v,v );
+  }
   else
     mChangeRect.include ( v );
 }
@@ -100,20 +100,20 @@ void HeightMap::setTerrain ( size_t x,size_t y,TerrainType t,float v )
 
   float sum=0;
   for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
-    {
-      assert ( mTerrainTypes[TerrainType ( i )].size() >p );
-      if ( t!=i )
-        sum+=mTerrainTypes[TerrainType ( i )][p];
-    }
+  {
+    assert ( mTerrainTypes[TerrainType ( i )].size() >p );
+    if ( t!=i )
+      sum+=mTerrainTypes[TerrainType ( i )][p];
+  }
 
   for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
     if ( t!=i )
-      {
-        if ( sum==0 || v==1 )
-          mTerrainTypes[TerrainType ( i )][p]=0;
-        else
-          mTerrainTypes[TerrainType ( i )][p]=mTerrainTypes[TerrainType ( i )][p]/sum* ( 1-v ); // so sum(mTerraintypes[x][.]) == 1
-      }
+    {
+      if ( sum==0 || v==1 )
+        mTerrainTypes[TerrainType ( i )][p]=0;
+      else
+        mTerrainTypes[TerrainType ( i )][p]=mTerrainTypes[TerrainType ( i )][p]/sum* ( 1-v ); // so sum(mTerraintypes[x][.]) == 1
+    }
   addChange ( AGVector2 ( x,y ) );
 }
 
@@ -148,107 +148,107 @@ void HeightMap::loadBinary ( BinaryIn &is )
   mH=th;
 
   if ( tw > 0 && th>0 )
-    {
-      version=0;
-    }
+  {
+    version=0;
+  }
   else
-    {
-      is>>version;
-    }
+  {
+    is>>version;
+  }
   if ( version==0 )
+  {
+
+    cdebug ( "mw:"<<mW<<"  "<<mH );
+    //  cdebug("pos:"<<is.pos());
+
+    assert ( mW<10000 && mH<10000 );
+
+
+    mHeights=std::vector<float> ( mW*mH*4 );
+    for ( size_t y=0; y<mH+2; y++ )
     {
-
-      cdebug ( "mw:"<<mW<<"  "<<mH );
-      //  cdebug("pos:"<<is.pos());
-
-      assert ( mW<10000 && mH<10000 );
-
-
-      mHeights=std::vector<float> ( mW*mH*4 );
-      for ( size_t y=0; y<mH+2; y++ )
-        {
-          for ( size_t x=0; x<mW+2; x++ )
-            {
-              is>>f;
-              mHeights[x+y* ( mW+2 )]=f;
-            }
-        }
-
-      for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
-        {
-          mTerrainTypes[TerrainType ( i )]=std::vector<float> ( mW*mH*4 );
-
-          for ( size_t y=0; y<mH+2; y++ )
-            {
-              for ( size_t x=0; x<mW+2; x++ )
-                {
-                  is>>f;
-                  mTerrainTypes[TerrainType ( i )][x+y* ( mW+2 )]=f;
-                  addChange ( AGVector2 ( x,y ) );
-                }
-            }
-        }
+      for ( size_t x=0; x<mW+2; x++ )
+      {
+        is>>f;
+        mHeights[x+y* ( mW+2 )]=f;
+      }
     }
+
+    for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
+    {
+      mTerrainTypes[TerrainType ( i )]=std::vector<float> ( mW*mH*4 );
+
+      for ( size_t y=0; y<mH+2; y++ )
+      {
+        for ( size_t x=0; x<mW+2; x++ )
+        {
+          is>>f;
+          mTerrainTypes[TerrainType ( i )][x+y* ( mW+2 )]=f;
+          addChange ( AGVector2 ( x,y ) );
+        }
+      }
+    }
+  }
   checkTerrain();
 }
 
 void HeightMap::saveBinary ( BinaryOut &os,int version ) const
 {
   if ( version==0 )
+  {
+    CTRACE;
+    //  BinaryFileOut os(pName);
+
+    os<< ( Uint32 ) mW<< ( Uint32 ) mH;
+    //  cdebug("pos:"<<os.pos());
+
+    for ( size_t y=0; y<mH+2; y++ )
     {
-      CTRACE;
-      //  BinaryFileOut os(pName);
-
-      os<< ( Uint32 ) mW<< ( Uint32 ) mH;
-      //  cdebug("pos:"<<os.pos());
-
-      for ( size_t y=0; y<mH+2; y++ )
-        {
-          for ( size_t x=0; x<mW+2; x++ )
-            {
-              os<<mHeights[x+y* ( mW+2 )];
-            }
-        }
-
-
-      for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
-        {
-          for ( size_t y=0; y<mH+2; y++ )
-            {
-              for ( size_t x=0; x<mW+2; x++ )
-                {
-                  os<<const_cast<HeightMap*> ( this )->mTerrainTypes[TerrainType ( i )][x+y* ( mW+2 )]; // trust me - I'm const
-                }
-            }
-        }
+      for ( size_t x=0; x<mW+2; x++ )
+      {
+        os<<mHeights[x+y* ( mW+2 )];
+      }
     }
+
+
+    for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
+    {
+      for ( size_t y=0; y<mH+2; y++ )
+      {
+        for ( size_t x=0; x<mW+2; x++ )
+        {
+          os<<const_cast<HeightMap*> ( this )->mTerrainTypes[TerrainType ( i )][x+y* ( mW+2 )]; // trust me - I'm const
+        }
+      }
+    }
+  }
   else if ( version==1 )
+  {
+    os<< ( Uint32 ) 0;
+    os<< ( Uint32 ) 0;
+    os<< ( Uint32 ) version;
+    os<< ( Uint32 ) mW<< ( Uint32 ) mH;
+    for ( size_t y=0; y<mH+2; y++ )
     {
-      os<< ( Uint32 ) 0;
-      os<< ( Uint32 ) 0;
-      os<< ( Uint32 ) version;
-      os<< ( Uint32 ) mW<< ( Uint32 ) mH;
-      for ( size_t y=0; y<mH+2; y++ )
-        {
-          for ( size_t x=0; x<mW+2; x++ )
-            {
-              os<<mHeights[x+y* ( mW+2 )];
-            }
-        }
-
-
-      for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
-        {
-          for ( size_t y=0; y<mH+2; y++ )
-            {
-              for ( size_t x=0; x<mW+2; x++ )
-                {
-                  os<<const_cast<HeightMap*> ( this )->mTerrainTypes[TerrainType ( i )][x+y* ( mW+2 )]; // trust me - I'm const
-                }
-            }
-        }
-
+      for ( size_t x=0; x<mW+2; x++ )
+      {
+        os<<mHeights[x+y* ( mW+2 )];
+      }
     }
+
+
+    for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
+    {
+      for ( size_t y=0; y<mH+2; y++ )
+      {
+        for ( size_t x=0; x<mW+2; x++ )
+        {
+          os<<const_cast<HeightMap*> ( this )->mTerrainTypes[TerrainType ( i )][x+y* ( mW+2 )]; // trust me - I'm const
+        }
+      }
+    }
+
+  }
 }
 
 bool HeightMap::loadXML ( const Node &node )
@@ -256,77 +256,77 @@ bool HeightMap::loadXML ( const Node &node )
   CTRACE;
   AGString filename=node.get ( "filename" );
   if ( filename.length() )
+  {
+    cdebug ( "FILENAME:"<<filename );
+    filename=findFile ( filename );
+    cdebug ( "FILENAME:"<<filename );
+    BinaryFileIn is ( filename );
+    loadBinary ( is );
+  }
+  else
+  {
+    Node::NodeVector nv=node.getChildren ( "data" );
+    if ( nv.size() )
     {
-      cdebug ( "FILENAME:"<<filename );
-      filename=findFile ( filename );
-      cdebug ( "FILENAME:"<<filename );
-      BinaryFileIn is ( filename );
+      AGString c=nv[0]->getContent();
+      BinaryStringIn is ( hexToBinary ( c ) );
       loadBinary ( is );
     }
-  else
+    else
     {
-      Node::NodeVector nv=node.getChildren ( "data" );
-      if ( nv.size() )
+      mW=node.get ( "width" ).toInt();
+      mH=node.get ( "height" ).toInt();
+
+      cdebug ( "mW:"<<mW );
+      cdebug ( "mH:"<<mH );
+      mHeights=std::vector<float> ( mW*mH*4 );
+
+      for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
+      {
+        mTerrainTypes[TerrainType ( i )]=std::vector<float> ( mW*mH*4 );
+        cdebug ( mW<<"   "<<mH );
+        cdebug ( mTerrainTypes[TerrainType ( i )].size() );
+        Node::NodeVector gv=node.getChildren ( TerrainNames[i] );
+        if ( gv.size() ==0 )
+          continue;
+        Node &g=**gv.begin();
+
+        std::istringstream is ( g.getContent() );
+
+        float f;
+        for ( size_t y=0; y<mH+2; y++ )
         {
-          AGString c=nv[0]->getContent();
-          BinaryStringIn is ( hexToBinary ( c ) );
-          loadBinary ( is );
+          for ( size_t x=0; x<mW+2; x++ )
+          {
+            is>>f;
+            mTerrainTypes[TerrainType ( i )][x+y* ( mW+2 )]=f;
+            addChange ( AGVector2 ( x,y ) );
+          }
         }
-      else
+      }
+
+
+      Node::NodeVector hv=node.getChildren ( "height" );
+
+      if ( hv.size() ==0 ) // || gv.size()==0)
+        return false;
+      assert ( hv.size() ==1 );
+      Node &h=**hv.begin();
+
+
+      std::istringstream ish ( h.getContent() );
+
+      float f;
+      for ( size_t y=0; y<mH+2; y++ )
+      {
+        for ( size_t x=0; x<mW+2; x++ )
         {
-          mW=node.get ( "width" ).toInt();
-          mH=node.get ( "height" ).toInt();
-
-          cdebug ( "mW:"<<mW );
-          cdebug ( "mH:"<<mH );
-          mHeights=std::vector<float> ( mW*mH*4 );
-
-          for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
-            {
-              mTerrainTypes[TerrainType ( i )]=std::vector<float> ( mW*mH*4 );
-              cdebug ( mW<<"   "<<mH );
-              cdebug ( mTerrainTypes[TerrainType ( i )].size() );
-              Node::NodeVector gv=node.getChildren ( TerrainNames[i] );
-              if ( gv.size() ==0 )
-                continue;
-              Node &g=**gv.begin();
-
-              std::istringstream is ( g.getContent() );
-
-              float f;
-              for ( size_t y=0; y<mH+2; y++ )
-                {
-                  for ( size_t x=0; x<mW+2; x++ )
-                    {
-                      is>>f;
-                      mTerrainTypes[TerrainType ( i )][x+y* ( mW+2 )]=f;
-                      addChange ( AGVector2 ( x,y ) );
-                    }
-                }
-            }
-
-
-          Node::NodeVector hv=node.getChildren ( "height" );
-
-          if ( hv.size() ==0 ) // || gv.size()==0)
-            return false;
-          assert ( hv.size() ==1 );
-          Node &h=**hv.begin();
-
-
-          std::istringstream ish ( h.getContent() );
-
-          float f;
-          for ( size_t y=0; y<mH+2; y++ )
-            {
-              for ( size_t x=0; x<mW+2; x++ )
-                {
-                  ish>>f;
-                  mHeights[x+y* ( mW+2 )]=f;
-                }
-            }
+          ish>>f;
+          mHeights[x+y* ( mW+2 )]=f;
         }
+      }
     }
+  }
 
   checkTerrain();
 
@@ -366,17 +366,9 @@ void HeightMap::newMap ( int w,int h )
 
 void HeightMap::mapChanged()
 {
-  {
-    CTRACE;
-    sigMapChanged ( new AGEvent ( this,"mapChanged" ) );
-  }
-  {
-    CTRACE;
-    //    mTerrain->addToScenes();
-    //    mTerrain->mapChanged();
-    mChanges=0;
-    mChangeRect=AGRect2 ( AGVector2(),AGVector2() );
-  }
+  sigMapChanged ( new AGEvent ( this,"mapChanged" ) );
+  mChanges=0;
+  mChangeRect=AGRect2 ( AGVector2(),AGVector2() );
 }
 
 
@@ -387,55 +379,55 @@ void HeightMap::saveXML ( Node &node ) const
   node.set ( "height",AGString ( mH ) );
 
   if ( false ) //(mW<=64 && mH<=64) || mName.length()==0)
-    {
-      AGStringStream osh;
-      osh.precision ( 2 );
+  {
+    AGStringStream osh;
+    osh.precision ( 2 );
 
+    for ( size_t y=0; y<mH+2; y++ )
+    {
+      for ( size_t x=0; x<mW+2; x++ )
+      {
+        osh<<get ( x,y ) <<" ";
+      }
+      osh<<"\n";
+    }
+    node.addChild ( "height" ).setContent ( osh.str() );
+
+    for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
+    {
+      std::ostringstream os;
+      os.precision ( 2 );
       for ( size_t y=0; y<mH+2; y++ )
+      {
+        for ( size_t x=0; x<mW+2; x++ )
         {
-          for ( size_t x=0; x<mW+2; x++ )
-            {
-              osh<<get ( x,y ) <<" ";
-            }
-          osh<<"\n";
+          os<<getTerrain ( x,y,TerrainType ( i ) ) <<" ";
         }
-      node.addChild ( "height" ).setContent ( osh.str() );
+        os<<std::endl;
+      }
+      node.addChild ( TerrainNames[i] ).setContent ( AGString ( os.str() ) );
 
-      for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
-        {
-          std::ostringstream os;
-          os.precision ( 2 );
-          for ( size_t y=0; y<mH+2; y++ )
-            {
-              for ( size_t x=0; x<mW+2; x++ )
-                {
-                  os<<getTerrain ( x,y,TerrainType ( i ) ) <<" ";
-                }
-              os<<std::endl;
-            }
-          node.addChild ( TerrainNames[i] ).setContent ( AGString ( os.str() ) );
-
-        }
     }
+  }
   else if ( false )
-    {
-      std::string name=mName.replace ( ".antlvl",".hmap" );
-      BinaryFileOut os ( name );
-      saveBinary ( os ,version );
-      cdebug ( "try setting filename:" );
-      node.set ( "filename",AGString ( name ) );
-      cdebug ( "done" );
-    }
+  {
+    std::string name=mName.replace ( ".antlvl",".hmap" );
+    BinaryFileOut os ( name );
+    saveBinary ( os ,version );
+    cdebug ( "try setting filename:" );
+    node.set ( "filename",AGString ( name ) );
+    cdebug ( "done" );
+  }
   else
-    {
-      BinaryStringOut os;
-      saveBinary ( os ,version);
-      cdebug ( "try setting data:" );
-      Node &n=node.addChild ( "data" );
-      cdebug ( "done1" );
-      n.setContent ( AGString ( binaryToHex ( os.getString() ) ) );
-      cdebug ( "done2" );
-    }
+  {
+    BinaryStringOut os;
+    saveBinary ( os ,version);
+    cdebug ( "try setting data:" );
+    Node &n=node.addChild ( "data" );
+    cdebug ( "done1" );
+    n.setContent ( AGString ( binaryToHex ( os.getString() ) ) );
+    cdebug ( "done2" );
+  }
 }
 
 
@@ -533,15 +525,15 @@ AGVector2 HeightMap::truncPos ( const AGVector2 &p ) const
 {
   AGVector2 maxPos ( mW+0.5,mH+0.5 );
   return AGVector2 ( std::max ( 0.0f,std::min ( maxPos[0],p[0] ) ),
-                     std::max ( 0.0f,std::min ( maxPos[1],p[1] ) ) );
+      std::max ( 0.0f,std::min ( maxPos[1],p[1] ) ) );
 }
 
 AGVector3 HeightMap::truncPos ( const AGVector3 &p ) const
 {
   AGVector2 maxPos ( mW+0.5,mH+0.5 );
   return AGVector3 ( std::max ( 0.0f,std::min ( maxPos[0],p[0] ) ),
-                     std::max ( 0.0f,std::min ( maxPos[1],p[1] ) ),
-                     p[2] );
+      std::max ( 0.0f,std::min ( maxPos[1],p[1] ) ),
+      p[2] );
 }
 
 void HeightMap::setTerrainScale ( TerrainType t,float s )
@@ -571,14 +563,14 @@ TerrainType HeightMap::getTerrain ( float x,float y )
   TerrainType t=FIRSTTERRAIN;
   float mmax=0.0f;
   for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
+  {
+    float v=getTerrainValue ( x,y,TerrainType ( i ) );
+    if ( v>mmax )
     {
-      float v=getTerrainValue ( x,y,TerrainType ( i ) );
-      if ( v>mmax )
-        {
-          t=TerrainType ( i );
-          mmax=v;
-        }
+      t=TerrainType ( i );
+      mmax=v;
     }
+  }
   return t;
 }
 
@@ -587,10 +579,10 @@ float HeightMap::getTerrainWeight ( float x,float y )
 {
   float mean=0;
   for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
-    {
-      float v=getTerrainValue ( x,y,TerrainType ( i ) );
-      mean+=v*i;
-    }
+  {
+    float v=getTerrainValue ( x,y,TerrainType ( i ) );
+    mean+=v*i;
+  }
   return mean/ ( LASTTERRAIN-FIRSTTERRAIN );
 }
 
@@ -598,10 +590,10 @@ float HeightMap::getMean ( float x,float y )
 {
   float mean=0;
   for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
-    {
-      float v=getTerrainValue ( x,y,TerrainType ( i ) );
-      mean+=v*mTerrainScale[TerrainType ( i )];
-    }
+  {
+    float v=getTerrainValue ( x,y,TerrainType ( i ) );
+    mean+=v*mTerrainScale[TerrainType ( i )];
+  }
   return mean;
 
 }
@@ -614,9 +606,9 @@ float HeightMap::getTerrainScale ( float x,float y )
   float mean=getTerrainWeight ( x,y );
 
   if ( mean<t )
-    {
-      t2=TerrainType ( t-1 );
-    }
+  {
+    t2=TerrainType ( t-1 );
+  }
   else
     t2=TerrainType ( t+1 );
 
@@ -646,31 +638,31 @@ AGVector2 HeightMap::getNextPlaceAbove ( const AGVector2 &p,float height ) const
   AGVector2 found ( x,y );
 
   for ( d=0; d<5; d++ )
+  {
+    for ( int i=-d; i<=d; i++ )
     {
-      for ( int i=-d; i<=d; i++ )
+      std::vector<AGVector2> p;
+      p.push_back ( AGVector2 ( i,y-d ) );
+      p.push_back ( AGVector2 ( i,y+d ) );
+      p.push_back ( AGVector2 ( x-d,i ) );
+      p.push_back ( AGVector2 ( x+d,i ) );
+      for ( std::vector<AGVector2>::iterator k=p.begin(); k!=p.end(); ++k )
+      {
+        if ( ( *k ) [0]<0 || ( *k ) [0]>mW || ( *k ) [1]<0 || ( *k ) [1]>mH )
+          continue;
+        cdebug ( ( *k ) [0]<<"  "<< ( *k ) [1]<<" "<<x<<" "<<y<<" "<<i<<" "<<d );
+        float h=getHeight ( ( *k ) [0], ( *k ) [1] );
+        if ( h>maxh )
         {
-          std::vector<AGVector2> p;
-          p.push_back ( AGVector2 ( i,y-d ) );
-          p.push_back ( AGVector2 ( i,y+d ) );
-          p.push_back ( AGVector2 ( x-d,i ) );
-          p.push_back ( AGVector2 ( x+d,i ) );
-          for ( std::vector<AGVector2>::iterator k=p.begin(); k!=p.end(); ++k )
-            {
-              if ( ( *k ) [0]<0 || ( *k ) [0]>mW || ( *k ) [1]<0 || ( *k ) [1]>mH )
-                continue;
-              cdebug ( ( *k ) [0]<<"  "<< ( *k ) [1]<<" "<<x<<" "<<y<<" "<<i<<" "<<d );
-              float h=getHeight ( ( *k ) [0], ( *k ) [1] );
-              if ( h>maxh )
-                {
-                  maxh=h;
-                  found=*k;
-                }
-            }
+          maxh=h;
+          found=*k;
         }
-
-      if ( maxh>height )
-        break;
+      }
     }
+
+    if ( maxh>height )
+      break;
+  }
   return found;
 }
 
@@ -680,16 +672,16 @@ void HeightMap::checkTerrain()
     initTerrainMesh();
 }
 /*
-std::string HeightMap::hash() const
-{
-  BinaryStringOut s;
-  for(std::vector<float>::const_iterator i=mHeights.begin();i!=mHeights.end();i++)
-    s<<*i;
+   std::string HeightMap::hash() const
+   {
+   BinaryStringOut s;
+   for(std::vector<float>::const_iterator i=mHeights.begin();i!=mHeights.end();i++)
+   s<<*i;
 
-  return rubyHash(s.getString());
+   return rubyHash(s.getString());
 
-}
-*/
+   }
+   */
 /**
  * returns the mesh (scene-node) of the height-map
  * FIXME: this is for testing-purpose only and shouldn't be used at all (?)

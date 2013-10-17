@@ -168,7 +168,8 @@ void AGRenderContext::begin()
 
     //  mColor=0;
 #warning "This fails in intro somehow!"
-    if(mColor!=gCurrentContext.mColor)
+    throw int();
+    if(mColor!=gCurrentContext.mColor || true)
       {
         if(mColor)
           {

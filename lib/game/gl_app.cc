@@ -94,7 +94,7 @@ bool GLApp::eventMouseButtonUp(AGEvent *e)
       }
     else
       {
-        cdebug("click failed");
+        // no click, because mouse not down
       }
     return AGApplication::eventMouseButtonUp(e);
   }

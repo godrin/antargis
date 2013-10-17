@@ -140,8 +140,6 @@ void AGFBO::endDraw() {
 }
 
 
-
-
 #warning "add global var for this!"
 
 bool canFBO() {

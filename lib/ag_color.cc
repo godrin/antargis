@@ -25,6 +25,8 @@
 
 #include <sstream>
 
+AGColor AGColor::WHITE(255,255,255,255);
+
 AGColor::AGColor(const AGVector4 &v)
   {
     r=(Uint8)(v[0]*0xFF);

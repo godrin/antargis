@@ -62,6 +62,8 @@ struct AGEXPORT AGPaintProjection
   void setClip(const AGRect2&p);
 
   AGRect2 getRect() const;
+
+  AGString toString() const;
 };
 
 #ifdef SWIG
@@ -136,6 +138,8 @@ class AGEXPORT AGPainter
   void debugOutput();
 
   AGPaintProjection getCurrentProjection() const;
+  
+  AGString toString() const;
 
  private:
   std::list<AGPaintProjection> ps;

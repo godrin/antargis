@@ -189,6 +189,18 @@ AGLine2 AGPaintProjection::clipLine(AGLine2 l) const {
 
 }
 
+AGString AGPaintProjection::toString() const {
+
+  AGString s;
+
+  s+="[M:";
+  s+=a.toString().replace("\n",";");
+  s+="//";
+  s+=clip.toString();
+  s+="]";
+
+  return s;
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -200,7 +212,6 @@ AGPainter::AGPainter() : mCurrent(getScreen().getRect()), mTarget(&getScreen()) 
 }
 
 AGPainter::AGPainter(const AGPainter &p) : ps(p.ps), mCurrent(p.mCurrent), mTarget(p.mTarget) {
-  CTRACE;
   mTarget->beginPaint();
 }
 
@@ -550,7 +561,6 @@ AGRect2 AGPainter::getRect() const {
 }
 
 void AGPainter::clip(const AGClipping &clip) {
-  CTRACE;
   throw std::runtime_error("NOT IMPLEMENTED !");
 }
 
@@ -562,3 +572,8 @@ void AGPainter::debugOutput() {
   cdebug(mCurrent.a);
   cdebug(mCurrent.clip);
 }
+  
+AGString AGPainter::toString() const {
+  return mCurrent.toString();
+}
+

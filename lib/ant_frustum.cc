@@ -36,7 +36,6 @@ AntPlane makePlane(const AGVector3 &p0, const AGVector3 &p1, const AGVector3 &p2
   AGVector3 right = p2 - p0;
   up /= up.length();
   right /= right.length();
-#warning "maybe this must be swapped!"
   AGVector3 dir = up % right;
 
   return AntPlane(dir, dir * p0);

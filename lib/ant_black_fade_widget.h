@@ -27,9 +27,9 @@ class AntBlackFadeWidget:public AGWidget
 
 public:
     AntBlackFadeWidget(AGWidget *pParent,const AGRect2 &r);
-    AntBlackFadeWidget(const AntBlackFadeWidget& other);
+//    AntBlackFadeWidget(const AntBlackFadeWidget& other);
     virtual ~AntBlackFadeWidget() throw();
-    virtual AntBlackFadeWidget& operator=(const AntBlackFadeWidget& other);
+    //virtual AntBlackFadeWidget& operator=(const AntBlackFadeWidget& other);
     
     void draw(AGPainter &p);
     

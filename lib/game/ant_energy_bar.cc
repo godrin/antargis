@@ -37,7 +37,6 @@ void AntEnergyBar::updateValues() {
   }
 }
 void AntEnergyBar::draw(AGPainter &p) {
-  CTRACE;
   AGWidget::draw(p);
 
   updateValues();
@@ -56,7 +55,6 @@ void AntEnergyBar::draw(AGPainter &p) {
   auto i=0;
   AGColor c;
   for(auto k:dataKeys) {
-    std::cout<<"VVVV for "<<k<<":"<<values[k]<<std::endl;
     v=check(values[k]);
     if(k=="morale" && mHero->defeated()) 
       c=colors["morale_defeated"];
@@ -68,11 +66,7 @@ void AntEnergyBar::draw(AGPainter &p) {
     auto a2=c*1.0;
     auto a3=c*0.8;
 
-    std::cout<<"MR:"<<hborder<<" p:"<<i*mh<<" i:"<<i<<" mh:"<<mh<<" "<<w<< " v:"<<v<<std::endl;
-
     auto mr=AGRect2(hborder,i*mh,(w-hborder*2)*v,mh*2);
-
-    std::cout<<"MR:"<<mr<<std::endl;
 
     p.drawGradient(mr,a0,a1,a2,a3);
     i+=3;

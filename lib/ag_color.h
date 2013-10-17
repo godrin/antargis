@@ -34,7 +34,10 @@ class AGVector4;
 class AGEXPORT AGColor:public SDL_Color
 {
  public:
-  AGColor(int pr,int pg,int pb,int pa=255);
+
+   static AGColor WHITE;
+
+  explicit AGColor(int pr,int pg,int pb,int pa=255);
 
   AGColor(const AGColor &c);
   AGColor(const AGVector4 &v);

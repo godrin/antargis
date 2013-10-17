@@ -371,6 +371,7 @@ public:
         if (pNode.get("height").length()>0)
             height=pNode.get("height").toInt();
 
+
         AGFrame *w;
         if (border.length())
             w=new AGFrame(pParent,pRect,AGBorder(border));
@@ -380,6 +381,10 @@ public:
         setResult(w);
         if (pNode.get("background").length())
             w->setBackground(AGBackground(pNode.get("background")));
+        if (pNode.get("alpha").length()>0)
+            w->setAlpha(pNode.get("alpha").toFloat());
+        if (pNode.get("cache")=="true")
+            w->setCaching(true);
     }
 };
 IMPLEMENT_COMPONENT_FACTORY(Frame);

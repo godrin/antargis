@@ -9,27 +9,47 @@
 * FIXED - dismiss on target!=hero wrong
 * FIXED 2013-09-12 - gather food/weapons/recruit jobs on hero wrong
 * FIXED 2013-09-13 - fire-place missing on first resting
-* remove unused hero-buttons and fill used ones
-* change aggression
-* take food / weapons
-* drop food / weapons
-* invent
+* FIXED 2013-09-20 - remove unused hero-buttons and fill used ones
+* FIXED 2013-09-16 - move fire into middle of hlrestjob and put hero a little to the side
+* FIXED 2013-10-16 - alpha for cached widgets
+
+       * remove / hide not supported buttons on menu screen
+       ** FIXED 2013-10-16 hide statistics button
+       ** FIXED 2013-10-16 hide preferences button
+       ** FIXED 2013-10-17 react on click on door (exit-button)
+ 15min * support pause - display through 3 state button (play, pause images)
+  5min * jump to hero, when button is pressed
+  5min * select (selected) hero-button from the start
+ 50min * save and load current state of level/map
+ 20min * remove debug-outputs
+       * display inventory (animate inventory later, see below)
+ 15min * repair not burning fires yet again
+
+       * cleanup
+ 20min ** remove save/load code for path finding
+
+      * change aggression
+ 1h   * take food / weapons
+ready ? * drop food / weapons
+      * invent
+ 4h   ** create AntBossContructJob out of ruby-AntHeroConstructJob
 * prevent fight dead animal
 * remove options-button
 * pause support
 * quit support
-* move fire into middle of hlrestjob and put hero a little to the side
 
 = milestone 1
 * energy-display on mouseover or selection (display in a view at the bottom)
 ** add possibility to change aggression
 * entering water and walking does not work
 * inventing missing
+* create world generation 
+* animate inventory
 
 
 = milestone 2
 * sounds don't work or not implemented 
-
+* support translations
 
 = milestone 3
 * no animations for hero

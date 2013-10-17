@@ -24,23 +24,23 @@ AntBlackFadeWidget::AntBlackFadeWidget(AGWidget *pParent,const AGRect2 &r):
 {
     alpha=0;
 }
-
+/*
 AntBlackFadeWidget::AntBlackFadeWidget(const AntBlackFadeWidget& other):
         AGWidget(other) {
 
-}
+}*/
 
 AntBlackFadeWidget::~AntBlackFadeWidget() throw()
 {
 
 }
-
+/*
 AntBlackFadeWidget& AntBlackFadeWidget::operator=(const AntBlackFadeWidget& other)
 {
     AGWidget::operator=(other);
     return *this;
 }
-
+*/
 
 
 void AntBlackFadeWidget::draw(AGPainter& p)

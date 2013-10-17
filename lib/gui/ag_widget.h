@@ -29,6 +29,7 @@
 #include "ag_projection.h"
 
 #include <list>
+#include <boost/signals.hpp>
 
 #include "ag_painter.h"
 
@@ -130,6 +131,8 @@ public:
   AGSignal sigMouseLeave;
   AGSignal sigClick;
   AGSignal sigDragBy;
+  
+  boost::signal<bool(AGWidget *)> sigClickBoost;
 
   virtual float minWidth() const;
   virtual float minHeight() const;
@@ -233,6 +236,7 @@ public:
   void eventChildrenDeleted(AGWidget *pWidget);
 
   void setTooltip(const AGStringUtf8 &pTooltip);
+  const AGStringUtf8 &getTooltip() const;
 
   void acquireClipping(AGClipping &p);
 
@@ -257,6 +261,9 @@ public:
 
   void initEvents();
 
+  void setAlpha(float alpha);
+  float getAlpha() const;
+  
   virtual void eventInitEvents();
 
 
@@ -318,6 +325,8 @@ private:
   std::set<AGWidget*> mRefChildren;
 
   bool mEventsInited;
+
+  float mAlpha;
 
 protected:
   std::list<AGWidget*> mChildren;

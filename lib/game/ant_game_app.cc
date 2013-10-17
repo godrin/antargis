@@ -61,6 +61,16 @@ void AntGameApp::init ( const std::string &level )
   AntHeroFaces *heroFaces=dynamic_cast<AntHeroFaces*>(layout->getChild("ant_hero_faces"));
   myPlayer->sigHeroesChanged.connect([heroFaces](AntPlayer *player) { heroFaces->update(player);});
   myPlayer->sigHeroesChanged(myPlayer);
+  heroFaces->sigHeroClicked.connect([](AntHero *hero){
+      std::cout<<"Hero clicked:"<<hero<<std::endl;
+      });
+
+  auto self=this;
+  layout->getChild("quit")->sigClickBoost.connect([self](AGWidget *caller) {
+      TRACE;
+      self->tryQuit();
+      return true;
+      });
 }
 
 bool AntGameApp::eventFrame ( float pTime )

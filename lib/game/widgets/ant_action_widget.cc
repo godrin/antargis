@@ -57,11 +57,7 @@ void AntActionWidget::show ( const std::vector< AntActionWidget::Action >& actio
       allsize+=stepping;
     }
   AGRect2 puh ( target,target+allsize );
-  cdebug ( "puh:"<<puh );
   setRect ( puh );
-
-  //setWidth(40);
-  //setHeight(40);
 }
 
 bool AntActionWidget::eventButtonClicked ( AGEvent* m )

@@ -92,8 +92,9 @@ namespace AGGLPainter
         context.setCulling(false);
         context.setTexture(const_cast<AGTexture&>(pSource).glTexture());
         context.setDepthTest(false);
-        if(pColor.a>0)
+        if(pColor.a>0||true) {
           context.setColor(pColor);
+        }
         context.begin();
 
         glBegin(GL_QUADS);
@@ -109,6 +110,9 @@ namespace AGGLPainter
         glTexCoord2fv(s.getV01());
         glVertex2fv(pRect.getV01());
         glEnd();
+        context.setColor(AGColor::WHITE);
+
+        context.begin();
 
       }
 
