@@ -45,8 +45,6 @@ void AGImage::draw(AGPainter &p)
   {
     // do always center for now
     bool center=true;
-    cdebug("TOOLTIP:"<<getTooltip().toString()<<getRect()<<":::"<<p.toString());
-
 
     if(mTile)
       {

@@ -63,8 +63,9 @@ void AntGameApp::init ( const std::string &level )
   AntHeroFaces *heroFaces=dynamic_cast<AntHeroFaces*>(layout->getChild("ant_hero_faces"));
   myPlayer->sigHeroesChanged.connect([heroFaces](AntPlayer *player) { heroFaces->update(player);});
   myPlayer->sigHeroesChanged(myPlayer);
-  heroFaces->sigHeroClicked.connect([](AntHero *hero){
+  heroFaces->sigHeroClicked.connect([this](AntHero *hero){
       std::cout<<"Hero clicked:"<<hero<<std::endl;
+this->setCamera(hero->getPos2D());
       });
 
 
@@ -77,7 +78,7 @@ void AntGameApp::init ( const std::string &level )
   AGButton *pauseButton=dynamic_cast<AGButton*>(layout->getChild("pause"));
   pauseButton->sigClickBoost.connect([this,pauseButton](AGWidget *caller) {
       this->mPaused=!this->mPaused;
-        pauseButton->setSurface(AGSurface::load(AGString("data/gui/")+ (this->mPaused?"play":"pause")+ ".png"),false);
+      pauseButton->setSurface(AGSurface::load(AGString("data/gui/")+ (this->mPaused?"play":"pause")+ ".png"),false);
       return true;
       });
 }

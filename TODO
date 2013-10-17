@@ -18,7 +18,7 @@
        ** FIXED 2013-10-16 hide preferences button
        ** FIXED 2013-10-17 react on click on door (exit-button)
        ** FIXED 2013-10-17 support pause - display through 3 state button (play, pause images)
-  5min * jump to hero, when button is pressed
+       *  FIXED 2013-10-17 jump to hero, when button is pressed
   5min * select (selected) hero-button from the start
  50min * save and load current state of level/map
  20min * remove debug-outputs
