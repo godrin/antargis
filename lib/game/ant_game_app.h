@@ -35,6 +35,7 @@ class AntGameApp:public AntBasicGameApp,public AntActionWidget::Handler {
     AGLayout *layout;
     int currentHeroId;
     AntActionWidget *actionWidget;
+    bool mPaused;
 };
 
 #endif

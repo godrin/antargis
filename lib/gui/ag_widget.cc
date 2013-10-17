@@ -456,7 +456,6 @@ bool AGWidget::eventMouseMotionClipped(AGEvent *pEvent,const AGVector2 &pPositio
 
 bool AGWidget::doClick(AGEvent *e)
 {
-  CTRACE;
   return (eventMouseClick(e) || sigClick(e) || (!sigClickBoost.empty() && sigClickBoost(this)));
 }
 

@@ -1,4 +1,5 @@
 #include "ag_layout.h"
+#include "ag_button.h"
 #include "anim_mesh.h"
 #include "ant_action_widget.h"
 #include "ant_animal.h"
@@ -33,6 +34,7 @@ AntGameApp::AntGameApp ( int w, int h ) : AntBasicGameApp ( w, h )
   layout=0;
   currentHeroId=-1;
   actionWidget=0;
+  mPaused=false;
   testing();
 }
 
@@ -65,10 +67,17 @@ void AntGameApp::init ( const std::string &level )
       std::cout<<"Hero clicked:"<<hero<<std::endl;
       });
 
-  auto self=this;
-  layout->getChild("quit")->sigClickBoost.connect([self](AGWidget *caller) {
-      TRACE;
-      self->tryQuit();
+
+  // QUIT on door click
+  layout->getChild("quit")->sigClickBoost.connect([this](AGWidget *caller) {
+      this->tryQuit();
+      return true;
+      });
+  // toggle pause
+  AGButton *pauseButton=dynamic_cast<AGButton*>(layout->getChild("pause"));
+  pauseButton->sigClickBoost.connect([this,pauseButton](AGWidget *caller) {
+      this->mPaused=!this->mPaused;
+        pauseButton->setSurface(AGSurface::load(AGString("data/gui/")+ (this->mPaused?"play":"pause")+ ".png"),false);
       return true;
       });
 }
@@ -77,7 +86,8 @@ bool AntGameApp::eventFrame ( float pTime )
 {
   bool r=GLApp::eventFrame ( pTime );
 
-  mMap->move ( pTime );
+  if(!mPaused)
+    mMap->move ( pTime );
   getScene().advance ( pTime );
   SDL_Delay ( 20 );
 
