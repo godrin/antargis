@@ -14,6 +14,10 @@ class AntTree:public AntEntity {
         virtual void saveXML ( Node &node ) const;
         virtual void loadXML ( const Node &node );
 
+        virtual AGString xmlName() const {
+          return "antTree";
+        }
+
     private:
         static const size_t maxApples=100;
         std::string typeID;

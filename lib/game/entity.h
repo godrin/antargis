@@ -151,7 +151,7 @@ public:
   bool provides ( const AGString &pName ) const;
 
   // saving and loading
-  virtual AGString xmlName() const;
+  virtual AGString xmlName() const=0;
   virtual std::string xmlName2() const;
   virtual AGString xmlName3() const;
 

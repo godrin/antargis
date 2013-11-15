@@ -19,10 +19,10 @@ bool use3dTextures()
 //////////////////////////////////////////////////////////////////////////
 // TerrainPiece
 //////////////////////////////////////////////////////////////////////////
-TerrainPiece::TerrainPiece(SceneBase *pScene,Terrain *t,HeightMap &map,int xs,int ys,int w,int h,const AGVector4 &pPos,int scale):
+TerrainPiece::TerrainPiece(SceneBase *pScene,TerrainBase *t,HeightMapInterface &map,int xs,int ys,int w,int h,const AGVector4 &pPos,int scale,int terrainType):
   SceneNode(pScene,AGVector4(),AGBox3()),
   mXs(xs),mYs(ys),mW(w),mH(h),
-  mMap(&map)
+  mMap(&map),mTerrainType(terrainType)
   {
     mScale=scale;
     if(scale>0)
@@ -287,7 +287,7 @@ void Terrain::init()
     for(y=0; y<map->getH();y+=tilesize)
       for(x=0;x<map->getW();x+=tilesize)
         {
-          TerrainPiece *t=new TerrainPiece(getScene(),this,*map,x,y,tilesize,tilesize,AGVector4(x,y,0,0),getTerrainTriangleSize());
+          TerrainPiece *t=new TerrainPiece(getScene(),this,*map,x,y,tilesize,tilesize,AGVector4(x,y,0,0),getTerrainTriangleSize(),-1);
           WaterPiece *w=new WaterPiece(getScene(),*map,x,y,tilesize,tilesize,AGVector4(x,y,0,0));
           pieces.push_front(t); // at least it's correct at the beginning
           water.push_front(w);

@@ -189,3 +189,21 @@ bool AntHLJobMoving::finished()
 {
   return moveFinished;
 }
+
+
+AGString AntHLJobMoving::xmlName() const {
+  return "hljobMoving";
+}
+void AntHLJobMoving::saveXML(Node &node) const {
+  AntHLJob::saveXML(node);
+  node.set("targetPos",targetPosition.toString());
+  node.set("nearingDist",dist);
+  node.set("shouldFormat",shouldFormat);
+}
+void AntHLJobMoving::loadXML(const Node &node) {
+  AntHLJob::loadXML(node);
+  targetPosition=AGVector2(node.get("targetPos"));
+  dist=node.get("nearingDist").toFloat();
+  shouldFormat=node.get("shouldFormat").toBool();
+  initMoving ( targetPosition,dist,shouldFormat );
+}

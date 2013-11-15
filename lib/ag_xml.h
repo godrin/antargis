@@ -85,6 +85,9 @@ class AGEXPORT Node
     AGString getContent() const;
 
     void set(const AGString &pName,const AGString &pValue);
+    void set(const AGString &pName,float pValue);
+    void set(const AGString &pName,int pValue);
+    void set(const AGString &pName,bool pValue);
     AGString get(const AGString &pName) const;
     void clear();
 

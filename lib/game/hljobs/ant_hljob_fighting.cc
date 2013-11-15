@@ -6,3 +6,10 @@ AntHlJobFighting::AntHlJobFighting(AntBoss* pBoss,AntBoss *pTarget): AntHLJobMov
 }
 
 
+AGString AntHlJobFighting::xmlName() const {
+  return "hljobFighting";
+}
+void AntHlJobFighting::saveXML(Node &node) const {
+}
+void AntHlJobFighting::loadXML(const Node &node){
+}

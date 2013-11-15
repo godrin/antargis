@@ -5,13 +5,22 @@
 #include <algorithm>
 #include <cmath>
 
+AntHLJobRest::AntHLJobRest(AntBoss* pBoss): AntHLJob(pBoss),mTime(0)
+{
+  initRestJob();
+}
+
 AntHLJobRest::AntHLJobRest(AntBoss* pBoss, float pTime): AntHLJob(pBoss),mTime(pTime)
 {
-    firstTime=true;
-    spreadingThings=false;
-    jobFinished=false;
-    getBoss()->setFormation(new AntFormationRest(getBoss(),AntHero::FIRE_DISPLACE));
-    assignAll();
+  initRestJob();
+}
+
+void AntHLJobRest::initRestJob() {
+  firstTime=true;
+  spreadingThings=false;
+  jobFinished=false;
+  getBoss()->setFormation(new AntFormationRest(getBoss(),AntHero::FIRE_DISPLACE));
+  assignAll();
 }
 
 void AntHLJobRest::checkPerson(AntPerson* person)
@@ -167,4 +176,23 @@ AGVector2 AntHLJobRest::basePos()
 bool AntHLJobRest::finished()
 {
   return jobFinished;
+}
+
+
+AGString AntHLJobRest::xmlName() const {
+  return "hljobRest";
+}
+void AntHLJobRest::saveXML(Node &node) const {
+  AntHLJob::saveXML(node);
+  node.set("restTime",mTime);
+  node.set("firstTime",firstTime);
+  node.set("spreadingThings",spreadingThings);
+  node.set("jobFinished",jobFinished);
+}
+void AntHLJobRest::loadXML(const Node &node) {
+  AntHLJob::loadXML(node);
+  mTime=node.get("restTime").toFloat();
+  firstTime=node.get("firstTime").toBool();
+  spreadingThings=node.get("spreadingThings").toBool();
+  jobFinished=node.get("jobFinished").toBool();
 }

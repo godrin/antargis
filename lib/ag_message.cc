@@ -39,6 +39,7 @@ bool AGMessageTransceiver::receiveMessage(const AGMessage &pMessage)
   {
     assert(mMessageQueue);
     // TODO: relay message
+    return true;
   }
 void AGMessageTransceiver::messageAccepted(const AGMessage &pMessage,const std::list<AGMessageTransceiver*> &pReceivers)
   {

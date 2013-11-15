@@ -32,6 +32,10 @@ class AntHero:public AntPerson,public AntBoss {
     virtual void eventNoJob();
     bool isPrimary() const;
 
+    virtual AGString xmlName() const {
+      return "antHero";
+    }
+
     AntMap *getMap();
     int getID();
 

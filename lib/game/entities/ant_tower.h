@@ -9,6 +9,10 @@ public:
     void init();
     
     void setupMesh();
+
+    virtual AGString xmlName() const {
+      return "antTower";
+    }
 };
 
 #endif

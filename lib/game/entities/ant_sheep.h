@@ -12,6 +12,10 @@ public:
     virtual AntSheep *createOne();
     void setMeshState(const AGString& arg1);
     virtual void die();
+
+    virtual AGString xmlName() const {
+      return "antSheep";
+    }
 private:
     AGVector2 getTargetPos();
 

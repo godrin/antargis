@@ -188,3 +188,16 @@ std::vector< AntHLJobFetching::StockNeed > AntHLJobFetching::neededStock()
   a.push_back(StockNeed("food",15,0));
   return a;
 }
+    
+AGString AntHLJobFetching::xmlName() const {
+  return "hljobFetching";
+}
+
+void AntHLJobFetching::saveXML(Node &node) const {
+  AntHLJob::saveXML(node);
+  node.set("fetchMode",mode);
+}
+void AntHLJobFetching::loadXML(const Node &node) {
+  AntHLJob::loadXML(node);
+  mode=(MODE)node.get("fetchMode").toInt();
+}

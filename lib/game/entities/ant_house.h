@@ -19,6 +19,7 @@ public:
 
   virtual ColoredMesh *getRing();
   virtual void setupRing();
+  virtual void saveXML ( Node &node )const ;
   virtual void loadXML ( const Node &node );
 
   AntEntity *getEntity();

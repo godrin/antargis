@@ -15,6 +15,9 @@ public:
     void init();
 
     virtual bool finished();
+    virtual AGString xmlName() const;
+    virtual void saveXML(Node &node) const;
+    virtual void loadXML(const Node &node);
 protected:
     virtual AntHero *getHero();
 

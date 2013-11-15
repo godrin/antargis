@@ -52,3 +52,15 @@ void AntHLJobDrop::dropSomething() {
 void AntHLJobDrop::afterGathering() {
   dropSomething();
 }
+    
+AGString AntHLJobDrop::xmlName() const {
+  return "hljobDrop";
+}
+void AntHLJobDrop::saveXML(Node &node) const {
+  AntHLJob::saveXML(node);
+  node.set("dropType",mDropType);
+}
+void AntHLJobDrop::loadXML(const Node &node) {
+  AntHLJob::loadXML(node);
+  mDropType=(DropType)node.get("dropType").toInt();
+}

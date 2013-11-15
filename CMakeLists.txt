@@ -12,6 +12,7 @@ find_package(OpenGL)
 find_package(PNG)
 find_package(Boost COMPONENTS signals)
 #FIND_PACKAGE(SWIG REQUIRED)
+find_package(Curses)
 
 if ( NOT SDL_FOUND )
    message ( FATAL_ERROR "Make sure that SDL is installed" )
@@ -29,10 +30,12 @@ link_libraries (
    ${OPENGL_gl_LIBRARY}
    ${OPENGL_glu_LIBRARY}
    ${Boost_LIBRARIES}
+   ${CURSES_LIBRARIES}
 )
 include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} 
   ${CMAKE_CURRENT_SOURCE_DIR}/lib
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/gui
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/generator
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/sound
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/3dengine
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game
@@ -42,10 +45,13 @@ include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOUR
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/formations
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/path
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/widgets
+  /usr/include/glm
 )
 
 #INCLUDE(${SWIG_USE_FILE})
-list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
+#list( APPEND CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
+list( APPEND CMAKE_CXX_FLAGS " -fopenmp -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs -Wall")
+#list( APPEND CMAKE_CXX_FLAGS " -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
 SET(CMAKE_SWIG_FLAGS "")
 
 #SET_SOURCE_FILES_PROPERTIES(example.i PROPERTIES CPLUSPLUS ON)
@@ -57,6 +63,7 @@ SET(CMAKE_SWIG_FLAGS "")
 
 FILE(GLOB MYLIB_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.cc lib/*.c lib/gui/*.cc lib/sound/*.cc
   lib/3dengine/*.cc
+  lib/generator/*.cc
   lib/game/*.cc
   lib/game/entities/*.cc
   lib/game/hljobs/*.cc
@@ -74,8 +81,16 @@ FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h lib/gui/*.h
   lib/game/widgets/*.h
   
 )
+add_library(antlib STATIC ${MYLIB_SOURCES})
 
-add_executable(antargis main.cpp ${MYLIB_SOURCES})
+add_executable(antargis main.cpp)
+target_link_libraries(antargis antlib)
+
+add_executable(generator generator.cpp)
+target_link_libraries(generator antlib)
+
+add_executable(terrain terrain_app.cpp)
+target_link_libraries(terrain antlib)
 
 INSTALL(TARGETS antargis DESTINATION /usr/bin)
 INSTALL(DIRECTORY data DESTINATION /usr/share/antargis)

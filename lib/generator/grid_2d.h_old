@@ -1,0 +1,43 @@
+#ifndef __GRID_2D_H
+#define __GRID_2D_H
+
+#include <vector>
+
+using namespace std;
+
+template<class T>
+class Grid2D {
+  size_t w,h,s;
+  std::vector<T> data;
+
+  public:
+  Grid2D(size_t _w=0,size_t _h=0):
+    w(_w),h(_h),s(w*h),data(s) {
+
+    }
+  size_t width() const {
+    return w;
+  }
+  size_t height() const {
+    return h;
+  }
+  size_t size() const {
+    return size;
+  }
+
+  const T&operator()(size_t x,size_t y) const {
+    return data[x+y*w];
+  }
+  T&operator()(size_t x,size_t y) {
+    return data[x+y*w];
+  }
+  const T&operator()(size_t i) const {
+    return data[i];
+  }
+  T&operator()(size_t i) {
+    return data[i];
+  }
+};
+
+#endif
+

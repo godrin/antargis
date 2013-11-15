@@ -18,6 +18,7 @@ class AntGameApp:public AntBasicGameApp,public AntActionWidget::Handler {
 
     AntHero *getCurrentHero();
     AntEntity *getSelectedEntity();
+    virtual void tryQuit();
   protected:
     void eventMapClicked(const AGVector2 &pos, int button);
     void eventEntitiesClicked(const PickResult &pNodes, int button);

@@ -29,7 +29,7 @@ class Terrain;
 class AGEXPORT TerrainPiece:public SceneNode
 {
  public:
-  TerrainPiece(SceneBase *pScene,Terrain *t,HeightMap &map,int x,int y,int w,int h,const AGVector4 &pPos,int scale);
+  TerrainPiece(SceneBase *pScene,TerrainBase *t,HeightMapInterface &map,int x,int y,int w,int h,const AGVector4 &pPos,int scale,int terrainType);
   virtual ~TerrainPiece() throw();
 
   void draw();
@@ -47,17 +47,20 @@ class AGEXPORT TerrainPiece:public SceneNode
   
  private:
 
-  Terrain *mTerrain;
+  TerrainBase *mTerrain;
 
   size_t mXs,mYs;
   size_t mW,mH;
   int mScale;
-  HeightMap *mMap;
+  HeightMapInterface *mMap;
 
   VertexArray m3dArray;
+
+  int mTerrainType;
 };
 
 
+// interface for terrain
 class AGEXPORT TerrainBase
 {
  public:
@@ -76,6 +79,8 @@ class AGEXPORT TerrainBase
   virtual bool slotMapChanged(AGEvent *e);
   virtual bool slotMapChangedComplete(AGEvent *e);
 
+  virtual AGTexture *get3dTexture()=0;
+  virtual AGTexture *getGrassTexture()=0;
 
  private:
   /// the height-map

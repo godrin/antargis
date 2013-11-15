@@ -318,10 +318,11 @@ AGBorder AGThemeItem::getBorder() const
 }
 AGBackground AGThemeItem::getBackground() const
 {
-
+ throw std::runtime_error("not implemented");
 }
 AGFont AGThemeItem::getFont() const
 {
+ throw std::runtime_error("not implemented");
 
 }
 

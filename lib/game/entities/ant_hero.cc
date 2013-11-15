@@ -72,11 +72,13 @@ void AntHero::loadXML ( const Node& node )
   AntEntity::loadXML ( node );
   primary= ( AGString ( "true" ) ==node.get ( "primary" ) );
   std::cout<<"PRIMARY:"<< ( primary?"true":"false" ) <<std::endl;
+  std::cout<<"ID:"<<getID()<<std::endl;
   AntBoss::loadXMLBoss ( node );
 }
 void AntHero::saveXML ( Node& node ) const
 {
   AntEntity::saveXML ( node );
+  AntBoss::saveXMLBoss(node);
   if ( primary )
   {
     node.set ( "primary","true" );

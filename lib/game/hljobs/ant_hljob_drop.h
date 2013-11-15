@@ -9,6 +9,9 @@ class AntHLJobDrop:public AntHLJobGatherAndDo {
     enum DropType {DROP_WEAPONS, DROP_FOOD };
 
     AntHLJobDrop(AntBoss *pBoss,DropType pDropType);
+    virtual AGString xmlName() const;
+    virtual void saveXML(Node &node) const;
+    virtual void loadXML(const Node &node);
 
   protected:
     virtual void afterGathering();

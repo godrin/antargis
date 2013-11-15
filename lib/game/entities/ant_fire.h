@@ -19,6 +19,10 @@ public:
 
     void eventNoJob();
     void disable();
+
+    virtual AGString xmlName() const {
+      return "antFire";
+    }
 private:
    bool enabled;
    AntParticle *smokeMesh,*fireMesh;

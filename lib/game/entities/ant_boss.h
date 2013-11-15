@@ -52,6 +52,7 @@ public:
 protected:
   void checkHlJobEnd();
 
+  void saveXMLBoss ( Node &node ) const;
   void loadXMLBoss ( const Node &node );
 
 private:

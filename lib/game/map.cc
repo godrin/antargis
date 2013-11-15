@@ -30,6 +30,7 @@
 #include "ag_profiler.h"
 #include "entities/entities.h"
 #include "players/ant_players.h"
+#include "ant_path_finder_complete.h"
 #include "ant_human_player.h"
 #include "ant_boss.h"
 
@@ -48,6 +49,7 @@ AntMap::AntMap ( Scene *pScene,int w,int h ) :
 {
   maxID=0;
   myPlayer=0;
+  completePathFinder=0;
 }
 AntMap::~AntMap() throw()
 {
@@ -90,6 +92,12 @@ void AntMap::saveXML ( Node &node ) const
       Node &child=node.addChild ( s );
       ( *i )->saveXML ( child );
     }
+  for(auto player:mPlayers) {
+      AGString s= player->xmlName();
+      Node &child=node.addChild ( s );
+      player->saveXML ( child );
+
+  }
 
 }
 
@@ -99,6 +107,9 @@ bool AntMap::loadXML ( const Node &node )
   bool seemsok;
   seemsok=HeightMap::loadXML ( node );
 
+  AntPathFinderComplete *pf=new AntPathFinderComplete ( this );
+
+  setCompletePathFinder ( pf );
   Node::const_iterator i=node.begin();
   for ( ; i!=node.end(); i++ )
     {

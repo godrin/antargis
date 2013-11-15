@@ -22,10 +22,13 @@ int main ( int argc, char **argv ) {
 
     if ( argc>1 ) {
 
-        AntGameApp app ( getVideo()->width(),getVideo()->height() );
+      AntGameApp app ( getVideo()->width(),getVideo()->height() );
+      if(AGString(argv[1])=="c")
+        app.init("tempSaved");
+      else
         app.init("data/levels/tutorial/tutorial0.antlvl");
-        app.run();
-        return 0;
+      app.run();
+      return 0;
     }
 
     AntIntroApp intro;

@@ -10,6 +10,10 @@ public:
 
     void eventDie();
     void resourceChanged();
+
+    virtual AGString xmlName() const {
+      return "antSack";
+    }
 private:
     void checkResource(const AGString &s);
 };

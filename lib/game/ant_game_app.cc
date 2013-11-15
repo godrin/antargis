@@ -49,11 +49,7 @@ void AntGameApp::init ( const std::string &level )
 
   mMap=new AntMap ( &getScene(),32,32 );
   mMap->loadMap ( level );
-
   // init path finder
-  AntPathFinderComplete *pf=new AntPathFinderComplete ( mMap );
-
-  mMap->setCompletePathFinder ( pf );
   auto myPlayer=mMap->getMyPlayer();
   AntHero *currentHero=myPlayer->getHeroes().front();
   currentHeroId=currentHero->getID();
@@ -374,3 +370,10 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
 
 }
 
+
+void AntGameApp::tryQuit() {
+  AntBasicGameApp::tryQuit();
+
+  mMap->saveMap ("tempSaved");
+
+}

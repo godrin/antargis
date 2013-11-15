@@ -236,5 +236,6 @@ bool AGString::matches(const std::string &regex) const
 #endif
 AGString AGString::last(size_t n) const
 {
-
+ throw std::runtime_error("not implemneted");
+ return "";
 }

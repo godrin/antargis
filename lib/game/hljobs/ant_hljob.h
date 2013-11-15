@@ -12,6 +12,8 @@ class AntEntity;
 class AntPerson;
 class AntMap;
 
+//#define ANTHLJOB_SAVE_ONLY_ID
+
 class AntHLJob
 {
 public:
@@ -26,6 +28,10 @@ public:
   std::vector<AntPerson*> getMenWithBoss();
   void assignAll();
 
+  virtual AGString xmlName() const=0;
+  virtual void saveXML(Node &node) const;
+  virtual void loadXML(const Node &node);
+
 protected:
   virtual AntMap *getMap();
   void sit ( AntPerson* man );
@@ -33,7 +39,11 @@ protected:
 
 private:
   AntMap *mMap;
+#ifdef ANTHLJOB_SAVE_ONLY_ID
   int heroId;
+#else
+  AntBoss *mBoss;
+#endif
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include <boost/signals.hpp>
+#include <iostream>
 
 int testing() {
 
@@ -8,4 +9,5 @@ int testing() {
       std::cout<<"HI"<<std::endl;
       });
   a();
+  return 0;
 }

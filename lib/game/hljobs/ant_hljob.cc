@@ -9,16 +9,24 @@
 
 AntHLJob::AntHLJob ( AntBoss* pBoss ) :mMap ( pBoss->getMap() )
 {
+#ifdef ANTHLJOB_SAVE_ONLY_ID
   heroId=pBoss->getID();
+#else
+  mBoss=pBoss;
+#endif
 }
 
 AntBoss* AntHLJob::getBoss()
 {
-
+  
+#ifdef ANTHLJOB_SAVE_ONLY_ID
   AntBoss *boss=mMap->getBoss ( heroId );
   if ( !boss )
-    throw std::string ( "boss to heroId " ) +AGString ( heroId ) +" not found";
+    throw std::runtime_error ( AGString("boss to heroId " ) +AGString ( heroId ) +" not found");
   return boss;
+#else
+  return mBoss;
+#endif
 }
 
 std::vector< AntPerson* > AntHLJob::getMenWithBoss()
@@ -91,4 +99,10 @@ void AntHLJob::assignAll() {
   for(auto entityIter:getMenWithBoss()) {
     checkPerson(entityIter);
   }
+}
+
+void AntHLJob::saveXML(Node &node) const {
+  // bossID shouldn't be saved - it's derived from boss on object creation
+}
+void AntHLJob::loadXML(const Node &node) {
 }

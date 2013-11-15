@@ -7,6 +7,10 @@ class AntHLJobDismiss:public AntHLJobGatherAndDo {
   public:
     AntHLJobDismiss(AntBoss *pBoss);
 
+    virtual AGString xmlName() const;
+    virtual void saveXML(Node &node) const;
+    virtual void loadXML(const Node &node);
+
   protected:
     virtual void afterGathering();
     void detachSomeMen();

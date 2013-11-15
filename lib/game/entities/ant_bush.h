@@ -8,6 +8,9 @@ class AntBush:public AntEntity {
     public:
         AntBush ( AntMap* pMap );
         virtual void init();
+        virtual AGString xmlName() const {
+          return "antBush";
+        }
     private:
         void setupMesh();
 

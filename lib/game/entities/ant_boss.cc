@@ -6,15 +6,18 @@
 #include "ant_formation.h"
 #include "ant_player.h"
 #include "map.h"
+#include "ant_hljobs_create.h"
 
 #include <algorithm>
 
 AntBoss::AntBoss ( ) :hlJob ( 0 ),menToAddCount ( 0 )
 {
+  CTRACE;
 }
 
 AntBoss::~AntBoss() throw()
 {
+  CTRACE;
   getPlayer()->remove ( this );
 }
 
@@ -138,8 +141,15 @@ void AntBoss::checkHlJobEnd()
   }
 }
 
+void AntBoss::saveXMLBoss ( Node &node ) const {
+  if(hlJob) {
+    Node &child=node.addChild(hlJob->xmlName());
+    hlJob->saveXML(child);
+  }
+}
 void AntBoss::loadXMLBoss ( const Node& node )
 {
+  CTRACE;
   if ( node.get ( "men" ).length() >0 )
   {
     menToAddCount=node.get ( "men" ).toInt();
@@ -154,6 +164,15 @@ void AntBoss::loadXMLBoss ( const Node& node )
     }
 
     menToAddCount=0;
+  }
+  for(auto child:node.getChildren()) {
+    if(child->getName().substr(0,5)=="hljob") {
+      AntHLJob *job=Antargis::createFromXML(this,*child);
+      if(job) {
+        cdebug("loaded hljob:"<<job);
+        setHlJob(job);
+      }
+    }
   }
 
 }

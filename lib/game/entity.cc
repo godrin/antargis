@@ -33,6 +33,7 @@
 
 AntEntity::AntEntity ( AntMap *pMap ) :mMap ( pMap ),mPos ( 0,0,0 )
 {
+  CTRACE;
   assert ( mMap );
   mID=getMap()->getNewID();
   mRing=0;
@@ -120,7 +121,7 @@ void AntEntity::saveXML ( Node &node ) const
   node.set ( "morale",AGString ( mMorale ) );
   node.set ( "aggression",AGString ( mAggression ) );
   node.set ( "food",AGString ( mFood ) );
-  //node.set ( "id",AGString ( mID ) );
+  node.set ( "entityId",AGString ( mID ) );
   node.set ( "exp",AGString ( experience ) );
   node.set ( "learnAmount",AGString ( learnAmount ) );
 
@@ -151,14 +152,16 @@ void AntEntity::loadXML ( const Node &node )
   for ( ; i!=v.end(); i++ )
     mPos.loadXML ( **i );
 
-  /*
-     AGString entID=node.get ( "entityID" );
-     if ( entID.length() >0 )
-     mID=entID.toInt();
-     else
-     mID=node.get ( "id" ).toInt();
-     getMap()->useID ( mID );
-     */
+
+  AGString entID=node.get ( "entityId" );
+  if (entID.length() >0 ) {
+    //throw new std::runtime_error("found");
+    mID=entID.toInt();
+    //else
+    //mID=node.get ( "id" ).toInt();
+    getMap()->useID ( mID );
+  }
+
   if ( node.get ( "morale" ) !="" )
     mMorale=node.get ( "morale" ).toFloat();
   else
@@ -443,10 +446,12 @@ int AntEntity::getID() const
   return mID;
 }
 
-AGString AntEntity::xmlName() const
-{
-  return "antEntity";
-}
+/*
+   AGString AntEntity::xmlName() const
+   {
+   return "antEntity";
+   }
+   */
 std::string AntEntity::xmlName2() const
 {
   return "antEntity";

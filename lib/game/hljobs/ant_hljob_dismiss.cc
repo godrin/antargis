@@ -31,3 +31,16 @@ void AntHLJobDismiss::detachSomeMen() {
 void AntHLJobDismiss::afterGathering() {
   detachSomeMen();
 }
+
+
+AGString AntHLJobDismiss::xmlName() const {
+  return "hljobDismiss";
+}
+void AntHLJobDismiss::saveXML(Node &node) const {
+  AntHLJob::saveXML(node);
+  node.set("toDismiss",toDismiss);
+}
+void AntHLJobDismiss::loadXML(const Node &node) {
+  AntHLJob::loadXML(node);
+  toDismiss=node.get("toDismiss").toInt();
+}

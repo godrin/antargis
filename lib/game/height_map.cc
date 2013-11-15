@@ -3,6 +3,7 @@
 #include <ag_serial.h>
 #include <ag_main.h>
 #include <ag_rand.h>
+#include "terrain_complex.h"
 
 //////////////////////////////////////////////////////////////////////////
 // HeightMap
@@ -26,8 +27,6 @@ HeightMap::HeightMap ( Scene *pScene,int w,int h ) :
     mTerrainTypes[TerrainType ( t )]=genSomeHeights ( w+2,h+2,1 );
 
   mTerrain=0;
-  //  initTerrainMesh();
-
 
   setTerrainScale ( WATER,0 );
   setTerrainScale ( SAND,8/32.0 );
@@ -49,8 +48,12 @@ HeightMap::~HeightMap() throw()
 
 void HeightMap::initTerrainMesh()
 {
-  if ( videoInited() && mScene )
-    mTerrain=new Terrain ( mScene,*this );
+  if ( videoInited() && mScene ) {
+    if(false)
+      mTerrain=new AntTerrainComplex(mScene,*this);
+    else
+      mTerrain=new Terrain ( mScene,*this );
+  }
 }
 
 void HeightMap::setTerrain ( TerrainBase *pTerrain )

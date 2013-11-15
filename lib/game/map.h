@@ -24,7 +24,6 @@
 #include "height_map.h"
 #include "heuristic.h"
 
-#include <auto_ptr.h>
 #include <memory>
 
 /**

@@ -38,6 +38,7 @@ bool AntHeroFaces::buttonClicked(AGEvent *e) {
       sigHeroClicked(heroes[index]);
     }
   }
+  return true;
 }
 
 void AntHeroFaces::update(AntPlayer *pPlayer) {

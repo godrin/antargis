@@ -11,6 +11,10 @@ public:
     void init();
     
     void eventNoJob();
+
+    virtual AGString xmlName() const {
+      return "antGrave";
+    }
 private:
     Type type;
     bool waited;

@@ -4,10 +4,13 @@
 #include "ant_hljob_moving.h"
 
 class AntHlJobFighting:public AntHLJobMoving {
-public:
+  public:
     AntHlJobFighting(AntBoss* pBoss,AntBoss *ptarget);
-private:
-  AntBoss *target;
+    virtual AGString xmlName() const;
+    virtual void saveXML(Node &node) const;
+    virtual void loadXML(const Node &node);
+  private:
+    AntBoss *target;
 };
 
 #endif

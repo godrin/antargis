@@ -712,6 +712,7 @@ std::list<std::pair<size_t,size_t> > getPossibleNeighbors ( size_t w,size_t h,co
 
 SimpleGraph *makeGraph ( HeightMap *pMap, MapPathWeighter *pWeighter,size_t res )
 {
+  TRACE;
   size_t x,y;
   SimpleGraph *graph=new SimpleGraph;
   std::map<std::pair<size_t,size_t>,SimpleGraph::Node*> nodes;
@@ -766,6 +767,8 @@ SimpleGraph *makeGraph ( HeightMap *pMap, MapPathWeighter *pWeighter,size_t res 
 #endif
 
       }
+  cdebug("Graph procued");
+  cdebug("size:"<<graph->size());
   return graph;
 
 }

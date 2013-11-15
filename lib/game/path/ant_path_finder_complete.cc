@@ -57,8 +57,10 @@ MapPathWeighter *AntPathFinderComplete::getPathWeighter ( MODE mode )
       return new MapPathWeighter ( map,false );
     case WATER:
       return new MapPathWeighter ( map,true );
-
+    default:
+      throw std::runtime_error("unknown pathfinder mode");
     }
+  return 0;
 }
 void AntPathFinderComplete::computeMode ( AntPathFinderComplete::MODE mode )
 {

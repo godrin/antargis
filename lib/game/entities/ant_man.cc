@@ -30,7 +30,7 @@ Resource& AntMan::getResources()
   return resource;
 }
 
-AGString genName() {
+AGString genName(AntMap *map) {
   std::vector<AGString> nstart;
 
   nstart.push_back("Ban");
@@ -52,8 +52,16 @@ AGString genName() {
   nend.push_back("ain");
   nend.push_back("yn");
 
-  return nstart[rand()%nstart.size()]+
-    nend[rand()%nend.size()];
+  AGString name;
+  int trials=0;
+  do {
+    name= nstart[rand()%nstart.size()]+
+      nend[rand()%nend.size()];
+    trials++;
+    if(trials>100)
+      throw std::runtime_error("Could not generate name for man, because all possible names are used already!");
+  } while(map->getByName(name));
+  return name;
 }
 
 
@@ -63,7 +71,7 @@ void AntMan::init()
   setHunger(0.006);
   setProvide("man",true);
 
-  setName(genName());
+  setName(genName(getMap()));
 
   age=rand()%20+15;
   checkResources();
@@ -86,7 +94,7 @@ void AntMan::eventNoJob()
   setFighting(false);
 
   if (!boss) {
-  std::cout<<"AntMann::eventNoJob but no job"<<std::endl;
+    std::cout<<"AntMann::eventNoJob but no job"<<std::endl;
     if (bossName.length()==0) {
       AntEntity *nextHouse=getMap()->getNext(this,"house");
       std::cout<<"nextHouse "<<nextHouse<<std::endl;
@@ -103,6 +111,9 @@ void AntMan::eventNoJob()
       boss=dynamic_cast<AntBoss*>(e);
       if (boss)
         boss->signUp(this);
+      else {
+        std::cout<<"Could not find Boss by Name:"<<bossName<<" e:"<<e<<" boss:"<<boss<<" type:"<<typeid(*e).name()<<std::endl;
+      }
     }
 
   }
@@ -214,13 +225,29 @@ void AntMan::setFighting(bool flag)
 {
   fighting=flag;
 }
-
+void AntMan::saveXML(Node &n) const {
+  AntPerson::saveXML(n);
+  AGString bname=bossName;
+  if(boss)
+    bname=boss->getEntity()->getName();
+  if(bname.length()>0)
+    n.set("bossName",bname);
+  n.set("meshState",meshState); 
+  n.set("age",age);
+  n.set("dead",dead);
+  n.set("fighting",fighting);
+  n.set("fetchResource",fetchResource);
+}
 
 void AntMan::loadXML(const Node& n)
 {
   AntEntity::loadXML(n);
   bossName=n.get("bossName");
-
+  meshState=n.get("meshState");
+  age=n.get("age").toFloat();
+  dead=n.get("dead").toBool();
+  fighting=n.get("fighting").toBool();
+  fetchResource=n.get("fetchResource");
 }
 
 void AntMan::setBoss(AntBoss* pBoss)

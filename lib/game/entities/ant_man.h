@@ -29,18 +29,22 @@ public:
     void setMeshState(const AGString &p);
 
     void loadXML(const Node &n);
+    virtual void saveXML(Node &n) const;
 
-    
+    virtual AGString xmlName() const {
+      return "antMan";
+    }
+
     const AGString &getMeshState() const;
-    
+
     void setBoss(AntBoss *pBoss);
-    
+
     void setFetchResource(const AGString &r);
     AGString getFetchResource() const;
     void digResource(const AGString &resource);
     void collectResource(const AGString &resource);
     float canCarry() const;
-    
+
 
 protected:
     void eventNoJob();

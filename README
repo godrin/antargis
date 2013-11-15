@@ -56,3 +56,7 @@ make
 
 == Debugging
 Go to link:files/ruby/debugging/README.html
+
+
+
+export OMP_NUM_THREADS=4

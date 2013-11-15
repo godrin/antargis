@@ -31,6 +31,7 @@ AntEntity *createEntity ( const Node &node,AntMap *map ) {
     if ( e ) {
         e->init();
         e->loadXML(node);
+        cdebug("NEW ENTITY:"<<typeid(*e).name()<<":"<<e->getName()<<":"<<e->getID());
     }
     return e;
 }

@@ -7,6 +7,10 @@ class AntGrass:public AntEntity {
     public:
         AntGrass ( AntMap* pMap,bool ishigh=false );
         virtual void init();
+
+        virtual AGString xmlName() const {
+          return "antGrass";
+        }
     private:
         void setupMesh();
 

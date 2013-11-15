@@ -1268,7 +1268,7 @@ void AGWidget::setApp(AGApplication *pApp)
 AGRect2 AGWidget::getChildRect(const AGRect2 &pRect) const
 {
   if(mUseClientRect)
-    mClientProj.project(pRect);
+    return mClientProj.project(pRect);
   else
     return pRect;
 }

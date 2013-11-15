@@ -45,7 +45,10 @@ void AntHouse::eventNoHlJob()
 {
   setHlJob ( new AntHLJobFetching ( this ) );
 }
-
+void AntHouse::saveXML(Node & node) const {
+  AntEntity::saveXML ( node );
+  AntBoss::saveXMLBoss(node);
+}
 void AntHouse::loadXML ( const Node& node )
 {
   AntEntity::loadXML ( node );
