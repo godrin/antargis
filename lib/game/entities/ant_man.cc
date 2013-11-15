@@ -94,7 +94,7 @@ void AntMan::eventNoJob()
   setFighting(false);
 
   if (!boss) {
-    std::cout<<"AntMann::eventNoJob but no job"<<std::endl;
+    std::cout<<"AntMann::eventNoJob but no job name:"<<getName()<<" boss:"<<bossName<<std::endl;
     if (bossName.length()==0) {
       AntEntity *nextHouse=getMap()->getNext(this,"house");
       std::cout<<"nextHouse "<<nextHouse<<std::endl;
