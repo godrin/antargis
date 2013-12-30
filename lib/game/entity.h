@@ -237,13 +237,17 @@ public:
 
   virtual void experienceFull();
 
+  void setMesh(AGString entityType,AGString animationMode="",float size=1.0f);
+  void setEmittingParticles(bool flag);
 
   // anything below shouldn't be used by ruby-functions,
   // thus they're not wrapped
-
+private:
   void setMesh ( SceneNode *pMesh );
-  Meshes getMesh();
   SceneNode *getFirstMesh();
+public:
+  Meshes getMeshes();
+
   Scene *getScene();
   void addMesh ( SceneNode *pMesh,const AGVector3 &v );
   void detachMesh ( SceneNode *m);

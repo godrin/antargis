@@ -1,5 +1,4 @@
 #include <ant_bush.h>
-#include <ant_grass_mesh.h>
 #include <mesh.h>
 
 AntBush::AntBush ( AntMap* pMap ) : AntEntity ( pMap ) {
@@ -14,6 +13,6 @@ void AntBush::init() {
 }
 
 void AntBush::setupMesh() {
-    setMesh ( makeBushMesh ( getScene(),size*2.5 ) );
+  setMesh("bush","",size);
 }
 

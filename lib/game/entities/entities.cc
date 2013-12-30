@@ -14,7 +14,7 @@ AntEntity *createEntity ( const Node &node,AntMap *map ) {
         e=new AntHero ( map );
     } else if ( node.getName() =="antMan" ) {
         e=new AntMan ( map );
-    } else if ( node.getName() =="antNewTree" ) {
+    } else if ( node.getName() =="antTree" || node.getName() =="antNewTree" ) {
         e=new AntTree ( map );
     } else if ( node.getName() =="antNewSheep" ) {
         e=new AntSheep ( map );

@@ -8,19 +8,26 @@ require 'ostruct'
 require 'pp'
 require_relative 'description.rb'
 
-Event=Struct.new(:name)
+def clamp(from,value,to)
+  [from,value,to].sort[1]
+end
+
+FOOD=[:apple,:bread]
+
+Event=Struct.new(:name,:params)
 
 class Emotions<Hash
   TYPES=[:anger, :hunger, :sleepy, :active, :health]
   def initialize
     super
     TYPES.each{|t|
-      self[t]=case t
-              when :health
-                1
-              else
-                0
-              end
+      self[t]=
+        case t
+        when :health
+          1
+        else
+          0
+        end
     }
   end
 end
@@ -40,14 +47,30 @@ class Position
     restY=otherPos.y-self.y
     rest=Math::sqrt(restX*restX+restY*restY)
     if rest>length
-      self.x+=restX*length/rest
-      self.y+=restY*length/rest
-      0
+      self.x+=restX.to_f*length/rest
+      self.y+=restY.to_f*length/rest
+      rest-length
     else
       self.x=otherPos.x
       self.y=otherPos.y
-      length-rest
+      0
     end
+  end
+end
+
+Rect=Struct.new(:x,:y,:w,:h)
+class Rect
+  def [](position)
+    position.x>=self.x && position.y>=self.y && position.x<self.x+self.w && position.y<self.y+self.h
+  end
+end
+
+Circle=Struct.new(:x,:y,:r)
+class Circle
+  def contains(position)
+    dx=position.x-self.x
+    dy=position.y-self.y
+    dx*dx+dy*dy<self.r**2
   end
 end
 
@@ -61,6 +84,16 @@ class Inventory<Hash
     super
     TYPES.each{|t|self[t]=0}
   end
+
+  def pick(what,amount)
+    [what].flatten.each{|resType|
+      if self[resType]>=amount
+        self[resType]-=amount
+        return resType
+      end
+    }
+    nil
+  end
 end
 
 class Personality<Hash
@@ -68,17 +101,31 @@ class Personality<Hash
   def initialize
     super
     TYPES.each{|t|self[t]=rand}
-    self[:deltaHunger]=(1+rand)/20.0
+    self[:deltaHunger]=(5+rand)/20.0
   end
 end
 
-Person=Struct.new(:name,:state,:position, :inventory,:personality,:mind,:job,:world)
+Person=Struct.new(:name,:state,:position, :inventory,:personality,:mind,:job,:world,:ctick)
 class Person
+  FACTOR_HUNGER=0.3
   def tick(dt,context)
-    self.state[:hunger]+=(1+self.state[:active])*dt*self.personality[:deltaHunger]
-    self.state[:sleepy]+=(1+self.state[:active])*dt*self.personality[:deltaSleepy]
-
-    self.job=decideOnJob(context) unless self.job 
+    return if self.state[:health]==0
+    self.ctick ||=0
+    self.ctick+=1
+    unless self.job
+      self.job=decideOnJob(context)
+      #
+      #pp "DECIDE",self.job
+    end
+    self.state[:hunger]=clamp(0,self.state[:hunger]+(1+self.state[:active])*dt*self.personality[:deltaHunger]*FACTOR_HUNGER,1)
+    self.state[:sleepy]=clamp(0,self.state[:sleepy]+(1+self.state[:active])*dt*self.personality[:deltaSleepy],1)
+    if self.state[:hunger]>0.95
+      self.state[:health]=clamp(0,self.state[:health]-dt*0.1,1)
+      if self.state[:health]==0
+        pp "DIE"
+        #exit
+      end
+    end
     if self.job
       self.job.tick(self,dt,context)
       self.job=nil if self.job.finished
@@ -104,6 +151,7 @@ Tree=Struct.new(:position,:inventory,:world)
 class Tree
   def tick(dt,context)
     self.inventory[:wood]+=rand*dt
+    self.inventory[:apple]+=rand*dt
   end
 end
 
@@ -153,20 +201,29 @@ class World
       e.tick(dt,self) if e.respond_to?(:tick)
     }
   end
+  def getEntities(selector)
+    self.entities.select{|e|selector[e]}
+  end
 end
 
 mapConfig=MapConfig.new(256,lambda{rand})
 world=World.new(mapConfig,[])
 # initialize
 world.create(:house,3)
-world.create(:person)
+5.times do world.create(:person) end
 world.create(:tree,50)
 
 20.times do 
-  world.tick(0.05)
-  #world.createHouse
-  pp world.entities.select{|e|e.is_a?(Person)} #genHouse(mapConfig)
+  3000.times do
+    world.tick(0.05)
+  end
+ # pp world.entities.select{|e|e.is_a?(Person)}
 end
 
+persons= world.entities.select{|e|e.is_a?(Person)}
+dead=persons.select{|p|p.state[:health]==0}
+pp "REST:",persons.length,dead.length
+
+#pp world
 
 

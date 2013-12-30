@@ -13,6 +13,5 @@ void AntTower::init()
 
 void AntTower::setupMesh()
 {
-    setMesh(AntModels::createModel(getScene(),"tower",""));
-
+  setMesh("tower");
 }

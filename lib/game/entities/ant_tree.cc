@@ -15,11 +15,9 @@ AntTree::~AntTree() throw() {
 void AntTree::init() {
     AntEntity::init();
 
-    angle=rand() %360;
+setMesh("tree",typeID);
 
-    SceneNode *node=AntModels::createModel ( getScene(),"tree",typeID );
-    node->setRotation ( angle ) ;
-    setMesh ( node );
+
 
 
     setProvide ( "wood",true );

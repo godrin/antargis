@@ -36,7 +36,7 @@ void AntHlJobRecruit::doCollect()
 
   for ( size_t i=0; i<myMen.size() && i<otherMenNear.size(); i++ )
     {
-      if ( i>wantedMen )
+      if ( (int)i>wantedMen )
         break;
       manMap[myMen[i]->getID()]=otherMen[i]->getID();
       myMen[i]->newMoveJob ( 0,otherMen[i],0.2 );

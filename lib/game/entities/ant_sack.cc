@@ -11,32 +11,32 @@ AntSack::AntSack(AntMap* pMap): AntEntity(pMap)
 
 void AntSack::init()
 {
-    AntEntity::init();
-
-    setMesh(AntModels::createModel(getScene(),"sack"));
+  AntEntity::init();
+  setMesh("sack");
+  //setMesh(AntModels::createModel(getScene(),"sack"));
 
 }
 
 
 void AntSack::eventDie()
 {
-    AntEntity::eventDie();
-    getMap()->removeEntity(this);
+  AntEntity::eventDie();
+  getMap()->removeEntity(this);
 }
 
 void AntSack::resourceChanged()
 {
-    AntEntity::resourceChanged();
+  AntEntity::resourceChanged();
 
-    checkResource("food");
-    checkResource("tool");
-    checkResource("corn");
-    checkResource("stone");
-    checkResource("wood");
+  checkResource("food");
+  checkResource("tool");
+  checkResource("corn");
+  checkResource("stone");
+  checkResource("wood");
 }
 
 
 void AntSack::checkResource(const AGString& s)
 {
-    setProvide(s,resource.get(s)>0);
+  setProvide(s,resource.get(s)>0);
 }

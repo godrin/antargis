@@ -3,7 +3,6 @@
 #include "ant_man.h"
 
 AntHLJobDismiss::AntHLJobDismiss(AntBoss *pBoss):AntHLJobGatherAndDo(pBoss){
-  AntEntity *e=dynamic_cast<AntEntity*>(pBoss);
   toDismiss = pBoss->getMenWithoutBoss().size()*pBoss->getEntity()->getAggression()/3;
 }
 

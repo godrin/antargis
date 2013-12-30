@@ -11,13 +11,7 @@ void AntFire::init() {
   CTRACE;
   AntEntity::init();
   AGVector3 basePoint(0,0,0);
-  setMesh(AntModels::createModel(getScene(),"fire",""));
-  smokeMesh=new AntParticle(getMap()->getScene(),4);
-  addMesh(smokeMesh,basePoint);
-  fireMesh=new AntParticle(getMap()->getScene(),40);
-  fireMesh->setFire(true);
-  fireMesh->setMaxTime(0.8);
-  addMesh(fireMesh,basePoint);
+  setMesh("fire","on");
   enabled=true;
 }
 
@@ -35,15 +29,16 @@ void AntFire::eventNoJob() {
 
 void AntFire::disable() {
 
-  AGVector3 basePoint(0,0,0);
+  //AGVector3 basePoint(0,0,0);
   CTRACE;
   enabled=false;
   // take particles and delete the rest of the meshes
-  detachMesh(smokeMesh);
-  detachMesh(fireMesh);
-  setMesh(AntModels::createModel(getMap()->getScene(),"fire","off"));
+  //detachMesh(smokeMesh);
+  //detachMesh(fireMesh);
+  setEmittingParticles(false);
+  /*setMesh(AntModels::createModel(getMap()->getScene(),"fire","off"));
   addMesh(smokeMesh,basePoint);
   addMesh(fireMesh,basePoint);
   smokeMesh->setEnabled(false);
-  fireMesh->setEnabled(false);
+  fireMesh->setEnabled(false);*/
 }

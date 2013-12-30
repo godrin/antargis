@@ -11,8 +11,8 @@ class SimpleMind
 
   class Cond
     def checkCond(cond,person,context)
-      if cond.respond_to?(:check)
-        cond.check(person,context)
+      if cond.respond_to?(:[])
+        cond[person,context]
       elsif cond.is_a?(Proc)
         cond.call(person,context)
       elsif cond.is_a?(Symbol)
@@ -28,7 +28,7 @@ class SimpleMind
     def initialize(cond)
       @cond=cond
     end
-    def check(person,context)
+    def [](person,context)
       1-checkCond(@cond,person,context)
     end
   end
@@ -38,7 +38,7 @@ class SimpleMind
     def initialize(*args)
       @conds=args
     end
-    def check(person,context)
+    def [](person,context)
       @conds.map{|cond|
         checkCond(cond,person,context)
       }.inject(1){|a,b|a*b}
@@ -57,7 +57,8 @@ class SimpleMind
     end
     def _has(what)
       what=[what].flatten
-      lambda{|person,context|what.map{|res|2*Math.atan(person.inventory[res])/Math::PI}.max||0}
+      lambda{|person,context|what.map{|res|2*Math.atan(person.inventory[res])/Math::PI}.max||0
+      }
     end
     def _sleepy
       lambda{|person,context|person.state[:sleepy]}
@@ -71,25 +72,26 @@ class SimpleMind
     def _athome
       lambda{|person,context|1}
     end
-    def food
-      [:apple,:bread]
+    def _seldom
+      lambda{|person,content|0.3}
     end
   end
 
   include Job
   RULES=[
-    rule(Sleep).when(_and(_sleepy,_athome)),
-    rule(Eat).when(_and(_hungry,_has(food))),
-    rule(Fetch,{:what=>food}).when(_and(_not(_has(food)),_well))
+    rule(Sleep).when(_sleepy),
+    #rule(Sleep).when(_and(_sleepy,_athome)),
+    rule(Eat).when(_and(_hungry,_has(FOOD))),
+    rule(Fetch,{:what=>FOOD}).when(_and(_not(_has(FOOD)),_well)),
+    rule(Rest).when(_seldom)
   ]
 
   def decideOnJob(person,context)
     bestRule=RULES.max_by{|rule|
-      val=rule.condition.check(person,context)
-      pp "RULE",rule.job,val,"---"
-      val
+      rule.condition[person,context]
     }
-    pp "BEST",bestRule
+    #pp "BEST",bestRule,person
+    puts "New JOB #{bestRule.job} #{person.state.inspect}"
     bestRule.job.new(bestRule.jobOptions)
   end
 

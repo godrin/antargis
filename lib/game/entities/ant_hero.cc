@@ -44,16 +44,19 @@ void AntHero::setMeshState ( const AGString& pname )
   Scene *scene=getScene();
   if ( name=="row" )
   {
-    setMesh ( AntModels::createModel ( scene,"hero","" ) );
-    addMesh ( AntModels::createModel ( scene,"hero","boat" ),AGVector3 ( 0,0,0 ) );
+    setMesh("hero","row");
+ //   setMesh ( AntModels::createModel ( scene,"hero","" ) );
+  //  addMesh ( AntModels::createModel ( scene,"hero","boat" ),AGVector3 ( 0,0,0 ) );
   }
   else if ( name=="dead" )
   {
-    setMesh ( AntModels::createModel ( scene,"hero","grave_hero" ) );
+    setMesh("hero","grave");
+    //setMesh ( AntModels::createModel ( scene,"hero","grave_hero" ) );
   }
   else
   {
-    setMesh ( AntModels::createModel ( scene,"hero","" ) );
+    setMesh("hero");
+    //setMesh ( AntModels::createModel ( scene,"hero","" ) );
   }
   setDirection ( dir );
   setupRing();

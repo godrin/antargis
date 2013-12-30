@@ -26,6 +26,9 @@
 #include "anim_mesh.h"
 #include "ant_ring.h"
 #include "ant_colored_mesh.h"
+#include "ant_models.h"
+#include "ant_particle.h"
+#include "ant_sound.h"
 
 #include <ag_mixer.h>
 
@@ -427,7 +430,7 @@ void AntEntity::addMesh ( SceneNode *m,const AGVector3 &v )
 }
 
 
-AntEntity::Meshes AntEntity::getMesh()
+AntEntity::Meshes AntEntity::getMeshes()
 {
   return mMeshes;
 }
@@ -935,15 +938,16 @@ Scene *AntEntity::getScene()
 
 void AntEntity::playSound ( const AGString& name, float minDiff )
 {
-  /*
-     float d=((getScene()->getCamera()->getPos2D-getPos2D()).length()-INNER_VOL_SIZE;
-     float vol=1;
-     if(d>0) {
-     vol=std:max((OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0);
-     }
-     AntSound.playSoundGlobal(name,vol,minDiff)
-     */
-  cdebug ( "NOT IMPLEMENTED" );
+  float INNER_VOL_SIZE=3; 
+  float OUTER_VOL_SIZE=10; 
+  float d=((getScene()->getCamera().dim2()-getPos2D()).length())-INNER_VOL_SIZE;
+  float vol=1;
+  if(d>0) {
+    vol=std::max((OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0.0f);
+  }
+  AntSound::playSoundGlobal(name,vol,minDiff);
+
+    // cdebug ( "NOT IMPLEMENTED" );
 }
 
 
@@ -1014,3 +1018,53 @@ bool AntEntity::isResting()
 {
   return mJob && dynamic_cast<RestJob*> ( mJob );
 }
+
+
+#include <ant_grass_mesh.h>
+
+void AntEntity::setMesh(AGString entityType,AGString animationMode,float size) {
+  if(entityType=="bush")
+    setMesh ( makeBushMesh ( getScene(),size*2.5 ) );
+  else if(entityType=="grass")
+    setMesh ( makeGrassMesh ( getScene(),size ) );
+  else if(entityType=="grave")  
+    setMesh(AntModels::createModel(getScene(),animationMode,entityType));
+  else if(entityType=="tree") {
+    int angle=rand() %360;
+    SceneNode *node=AntModels::createModel ( getScene(),"tree",animationMode );
+    node->setRotation ( angle ) ;
+    setMesh ( node );
+  } else if(entityType=="fire") {
+    if(animationMode=="on") {
+      AGVector3 basePoint(0,0,0);
+      setMesh(AntModels::createModel(getScene(),"fire",""));
+      auto smokeMesh=new AntParticle(getMap()->getScene(),4);
+      addMesh(smokeMesh,basePoint);
+      auto fireMesh=new AntParticle(getMap()->getScene(),40);
+      fireMesh->setFire(true);
+      fireMesh->setMaxTime(0.8);
+      addMesh(fireMesh,basePoint); 
+    }
+  } else if(entityType=="tower") {
+    setMesh(AntModels::createModel(getScene(),"tower",""));
+  } else if(entityType=="man" || entityType=="hero" || entityType=="sheep") {
+    setMesh(AntModels::createModel(getScene(),entityType,animationMode));
+
+    //throw std::runtime_error(AGString("unknown man animation:")+animationMode);
+  } else {
+    throw std::runtime_error(AGString("unknown entityType:")+entityType);
+  }
+}
+
+
+void AntEntity::setEmittingParticles(bool flag) {
+  for(auto mesh:mMeshes) {
+    AntParticle* p=dynamic_cast<AntParticle*>(mesh);
+    if(p) {
+      p->setEnabled(flag);
+    }
+  }
+}
+
+
+

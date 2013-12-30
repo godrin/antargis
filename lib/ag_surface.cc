@@ -198,8 +198,8 @@ bool AGSurface::operator==(const AGSurface &p) const
     cdebug("height:"<<height()<<"!="<<p.height());
     return false;
   }
-  for(size_t y=0;y<height();y++)
-    for(size_t x=0;x<width();x++)
+  for(int y=0;y<height();y++)
+    for(int x=0;x<width();x++)
       if(getPixel(x,y)!=p.getPixel(x,y))
       {
         cdebug(x<<":"<<y<<":"<<getPixel(x,y)<<"!="<<p.getPixel(x,y));
@@ -589,8 +589,8 @@ void AGSurface::drawLine(const AGVector2 &pp0,const AGVector2 &pp1,const AGColor
    }
    AGColor c0,c1;
    float r,g,b,a;
-   for(size_t x=0;x<width();x++)
-     for(size_t y=0;y<height();y++)
+   for(int x=0;x<width();x++)
+     for(int y=0;y<height();y++)
      {
        c0=getPixel(x,y);
        c1=pSurface.getPixel(x,y);

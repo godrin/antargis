@@ -10,20 +10,21 @@ AntGrave::AntGrave(AntMap* pMap, AntGrave::Type ptype): AntEntity(pMap),type(pty
 
 void AntGrave::init()
 {
-    AntEntity::init();
+  AntEntity::init();
 
-    setMesh(AntModels::createModel(getScene(),type==HERO?"hero":"man","grave"));
+  setMesh("grave",type==HERO?"hero":"man");
+
 }
 
 
 void AntGrave::eventNoJob()
 {
-    AntEntity::eventNoJob();
+  AntEntity::eventNoJob();
 
-    if (waited) {
-        getMap()->removeEntity(this);
-    } else {
-        newRestJob(40);
-        waited=true;
-    }
+  if (waited) {
+    getMap()->removeEntity(this);
+  } else {
+    newRestJob(40);
+    waited=true;
+  }
 }

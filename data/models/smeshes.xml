@@ -24,6 +24,8 @@
   </group>
   <group name="sheep">
     <sprite name="" anim="data/models/sheep.anim"/>
+    <sprite name="eat" anim="data/models/sheep.anim"/>
+    <sprite name="go" anim="data/models/sheep.anim"/>
     <sprite name="rip" mesh="data/models/rip.ant2" scale="0.2" texture="data/textures/models/rip.png"/>
   </group>
   <group name="sack">

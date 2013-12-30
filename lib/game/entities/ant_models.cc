@@ -79,7 +79,7 @@ SceneNode* AntModels::createModel ( Scene *scene, std::string type, std::string 
     StaticMeshes::iterator i=m->find(ref);
     if (i==m->end()) {
         std::cerr<<"Could not find mesh for "<<type<<"/"<<subtype<<std::endl;
-        throw int();
+        throw std::runtime_error(AGString("Could not find mesh for type:")+type+AGString(" and subtype:")+subtype);
     }
 
     StaticMeshDefinition mdef=i->second;
@@ -92,6 +92,8 @@ SceneNode* AntModels::createModel ( Scene *scene, std::string type, std::string 
         AnimMeshData *amd=m->at(ref).animData;
 
         AnimMesh *m= new AnimMesh(scene,amd);
+
+        m->setAnimation(subtype);
         return m;
     }
 }

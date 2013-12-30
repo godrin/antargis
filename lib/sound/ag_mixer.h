@@ -20,8 +20,8 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
-#ifndef AG_SOUND_H
-#define AG_SOUND_H
+#ifndef AG_MIXER_H
+#define AG_MIXER_H
 
 #include <string>
 #include "ag_messageobject.h"
@@ -60,6 +60,7 @@ class AGEXPORT AGSound:public AGMessageObject
 };
 
 AGEXPORT AGSound *getSoundManager();
+AGEXPORT void initSoundEngine();
 
 #endif
 

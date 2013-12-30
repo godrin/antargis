@@ -17,7 +17,8 @@ AntSheep::~AntSheep() throw()
 void AntSheep::init()
 {
   AntEntity::init();
-  setMesh(AntModels::createModel(getScene(),"sheep",""));
+  setMesh("sheep","");
+  //setMesh(AntModels::createModel(getScene(),"sheep",""));
   food=0;
   setSpeed(0.4);
 }
@@ -78,19 +79,22 @@ AntSheep* AntSheep::createOne()
 
 void AntSheep::setMeshState(const AGString &name)
 {
+  setMesh("sheep",name);
+/*
   SceneNode*n=getFirstMesh();
   AnimMesh *mesh=dynamic_cast<AnimMesh*>(n);
   if (mesh)
     mesh->setAnimation(name);
   else
     std::cout<<"no animmesh:"<<(typeid(*n).name())<<std::endl;
+    */
 }
 
 
 void AntSheep::die()
 {
   AntAnimal::die();
-  setMesh(AntModels::createModel(getScene(),"sheep","rip"));
+  setMesh("sheep","rip");
   newRestJob(1);
   setProvide("sheep",false);
 }

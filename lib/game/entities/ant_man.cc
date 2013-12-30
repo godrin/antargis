@@ -141,33 +141,20 @@ void AntMan::setMeshState(const AGString& pname)
   float dir=getDirection();
   if (name=="fight") {
     if (getMode()==MOVING) {
-      setMesh(AntModels::createModel(getScene(),"man","walk"));
-      AnimMesh *m=dynamic_cast<AnimMesh*>(getFirstMesh());
-      if (m)
-        m->setAnimation("walk");
+      setMesh("man","walk");
     } else {
       //assert{["dagger","shield","sword","bow"].member?(getWeapon)}
-      setMesh(AntModels::createModel(getScene(),"man",AGString("fight_")+getWeapon()));
+      setMesh("man",AGString("fight_")+getWeapon());
     }
   } else if (name=="dead") {
-    setMesh(AntModels::createModel(getScene(),"man","grave"));
+    setMesh("man","grave");
   } else if (name=="row") {
 
-    setMesh(AntModels::createModel(getScene(),"man","sit"));
-    AnimMesh *m=dynamic_cast<AnimMesh*>(getFirstMesh());
-    if (m)
-      m->setAnimation("sit");
-    addMesh(AntModels::createModel(getScene(),"boat",""),AGVector3(0,0,0));
+    setMesh("man","boat");
   } else if (name=="stand" || name=="axe" || name=="pick" || name=="wood" || name=="stone" || name=="flour"
       || name=="corn" || name=="walk" || name=="sitdown" || name=="sit") {
 
-
-    setMesh(AntModels::createModel(getScene(),"man",name));
-    if (name=="stand" ||name=="walk" ||name=="sitdown"||name=="sit") {
-      AnimMesh *m=dynamic_cast<AnimMesh*>(getFirstMesh());
-      if (m)
-        m->setAnimation(name);
-    }
+    setMesh("man",name);
 
   }
   setDirection(dir);

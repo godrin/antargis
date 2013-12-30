@@ -17,6 +17,6 @@ void AntGrass::init() {
 }
 
 void AntGrass::setupMesh() {
-    setMesh ( makeGrassMesh ( getScene(),size ) );
+  setMesh("grass","",size);
 }
 

@@ -9,9 +9,9 @@
 
 MiniMap::MiniMap(AGWidget *p,const AGRect2 &r,AntMap *pMap):
   AGWidget(p,r),
+  sigMoved(this,"sigMoved"),
   mMap(pMap),
-  mSurface(r.w(),r.h()),
-  sigMoved(this,"sigMoved")
+  mSurface(r.w(),r.h())
     {
       mMapBorder=24;
       mScene=0;
