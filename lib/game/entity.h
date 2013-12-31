@@ -44,7 +44,12 @@ class ColoredMesh;
 class AGEXPORT AntEntity
 {
 public:
-  typedef std::list<SceneNode*> Meshes;
+  struct MeshEntry {
+    SceneNode *mesh;
+    AGVector3 pos;
+    AGString name;
+  };
+  typedef std::list<MeshEntry> Meshes;
 private:
   AntMap *mMap;
 
@@ -90,7 +95,7 @@ private:
   AGString mType;
 
   Meshes mMeshes;
-  std::map<SceneNode*,AGVector3> mMeshPos;
+  //std::map<SceneNode*,AGVector3> mMeshPos;
 
   int mVirtualY;
 
@@ -238,6 +243,7 @@ public:
   virtual void experienceFull();
 
   void setMesh(AGString entityType,AGString animationMode="",float size=1.0f);
+  MeshEntry &getMeshEntry(const AGString &pName);
   void setEmittingParticles(bool flag);
 
   // anything below shouldn't be used by ruby-functions,
@@ -249,7 +255,7 @@ public:
   Meshes getMeshes();
 
   Scene *getScene();
-  void addMesh ( SceneNode *pMesh,const AGVector3 &v );
+  void addMesh ( SceneNode *pMesh,const AGVector3 &v,const AGString &name="" );
   void detachMesh ( SceneNode *m);
 
   // used only by *Jobs

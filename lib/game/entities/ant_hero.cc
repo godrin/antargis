@@ -5,6 +5,8 @@
 #include "ant_fire.h"
 #include "ag_texturecache.h"
 
+#include <algorithm>
+
 const AGVector2 AntHero::FIRE_DISPLACE(0.5,-0.5);
 
 AntHero::AntHero ( AntMap* pMap ) : AntPerson ( pMap ) {
@@ -125,13 +127,13 @@ int AntHero::getID()
 
 void AntHero::setFire(bool flag) {
 
-  if(fire) {
+  if(fire && !flag) {
     //getMap()->removeEntity(fire);
     fire->disable();
     fire=0;
   }
 
-  if(flag) {
+  if(flag && !fire) {
     AGVector2 firePos=getPos2D();
     firePos+=FIRE_DISPLACE;
     fire=new AntFire(getMap());
@@ -143,7 +145,8 @@ void AntHero::setFire(bool flag) {
 
 void AntHero::setHlJob ( AntHLJob *job ) {
   AntBoss::setHlJob(job);
-  setFire(false);
+  cdebug("setHlJob:"<<job<<" "<<typeid(*job).name()<<" disable fire");
+  setFire(job && job->fireBurning());
 }
 
 AGTexture AntHero::getImage() {

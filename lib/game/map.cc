@@ -425,8 +425,10 @@ AntEntity *AntMap::getEntity ( const SceneNode *pMesh )
   for ( EntityList::iterator i=mEntities.begin(); i!=mEntities.end(); i++ )
     {
       AntEntity::Meshes meshes= ( *i )->getMeshes();
-      if ( std::find ( meshes.begin(),meshes.end(),pMesh ) !=meshes.end() )
-        return *i;
+      for(auto mesh:meshes) {
+        if(mesh.mesh==pMesh)
+          return *i;
+      }
     }
   return 0;
 }

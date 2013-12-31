@@ -104,5 +104,10 @@ void AntHLJob::assignAll() {
 void AntHLJob::saveXML(Node &node) const {
   // bossID shouldn't be saved - it's derived from boss on object creation
 }
+
 void AntHLJob::loadXML(const Node &node) {
+}
+
+bool AntHLJob::fireBurning() const {
+  return true;
 }

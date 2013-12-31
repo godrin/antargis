@@ -207,3 +207,9 @@ void AntHLJobMoving::loadXML(const Node &node) {
   shouldFormat=node.get("shouldFormat").toBool();
   initMoving ( targetPosition,dist,shouldFormat );
 }
+
+
+bool AntHLJobMoving::fireBurning() const {
+  return false;
+}
+

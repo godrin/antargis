@@ -81,6 +81,9 @@ class AGEXPORT SceneNode
   void setOrder(int o);
   int getOrder() const;
 
+  const AGString &getName() const;
+  void setName(const AGString &pName);
+
  private:
   void setScene(SceneBase *pScene);
 
@@ -93,6 +96,7 @@ class AGEXPORT SceneNode
   AGBox3 mBBox;
 
   friend class SceneBase;
+  AGString mName;
 };
 
 typedef SceneNode *SceneNodePtr;

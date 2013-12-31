@@ -31,6 +31,7 @@ public:
   virtual AGString xmlName() const=0;
   virtual void saveXML(Node &node) const;
   virtual void loadXML(const Node &node);
+  virtual bool fireBurning() const;
 
 protected:
   virtual AntMap *getMap();

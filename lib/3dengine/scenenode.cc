@@ -157,3 +157,12 @@ void SceneNode::setBBox(const AGBox3 &pBox)
   mBBox=pBox;
   getScene()->updatePos(this);
 }
+
+
+const AGString &SceneNode::getName() const {
+  return mName;
+}
+void SceneNode::setName(const AGString &pName) {
+  mName=pName;
+}
+

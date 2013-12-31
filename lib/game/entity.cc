@@ -100,7 +100,7 @@ AntEntity::~AntEntity() throw()
   CTRACE;
   //#error called several times
   for ( Meshes::iterator i=mMeshes.begin(); i!=mMeshes.end(); i++ )
-    checkedDelete ( *i );
+    checkedDelete ( i->mesh );
   mMeshes.clear();
   checkedDelete ( mJob );
   removeOldJobs();
@@ -226,13 +226,13 @@ void AntEntity::updatePos ( const AGVector3 &p )
 {
   if ( mMeshes.size() ==1  && false)
   {
-    mMeshes.front()->setPos ( p );
+    mMeshes.front().mesh->setPos ( p );
     return;
   }
   for ( Meshes::iterator i=mMeshes.begin(); i!=mMeshes.end(); i++ )
   {
-    ( *i )->setPos ( p+mMeshPos[*i] );
-    ( *i )->setRotation ( mDir );
+    i->mesh->setPos ( p+i->pos);
+    i->mesh->setRotation ( mDir );
   }
 
 }
@@ -394,17 +394,19 @@ void AntEntity::setMesh ( SceneNode *m )
 {
   // clear meshes from scene
   for ( Meshes::iterator i=mMeshes.begin(); i!=mMeshes.end(); i++ )
-    checkedDelete ( *i );
+    checkedDelete ( i->mesh );
 
   mMeshes.clear();
-  mMeshPos.clear();
   if ( m )
   {
     AnimMesh *mesh=dynamic_cast<AnimMesh*> ( m );
     if ( mesh )
       mesh->setEntity ( this );
-    mMeshes.push_back ( m );
-    mMeshPos.insert ( std::make_pair ( m,AGVector3(0,0,0) ) );
+    MeshEntry entry;
+    entry.mesh=m;
+    entry.pos=AGVector3(0,0,0);
+    mMeshes.push_back ( entry );
+    //mMeshPos.insert ( std::make_pair ( m,AGVector3(0,0,0) ) );
 
     updatePos ( mPos );
   }
@@ -412,18 +414,22 @@ void AntEntity::setMesh ( SceneNode *m )
 }
 
 void AntEntity::detachMesh ( SceneNode *m) {
-  mMeshes.remove(m);
+  mMeshes.remove_if([m](MeshEntry &entry) { return entry.mesh==m;});
+  //mMeshes.remove(m);
 }
 
-void AntEntity::addMesh ( SceneNode *m,const AGVector3 &v )
+void AntEntity::addMesh ( SceneNode *m,const AGVector3 &v,const AGString &name )
 {
   if ( m )
   {
     AnimMesh *mesh=dynamic_cast<AnimMesh*> ( m );
     if ( mesh )
       mesh->setEntity ( this );
-    mMeshes.push_back ( m );
-    mMeshPos.insert ( std::make_pair ( m,v ) );
+    MeshEntry entry;
+    entry.mesh=m;
+    entry.pos=v;
+    entry.name=name;
+    mMeshes.push_back ( entry );
 
     updatePos ( mPos );
   }
@@ -441,7 +447,7 @@ SceneNode *AntEntity::getFirstMesh()
     cdebug("No Meshes fot entity defined :"<<typeid(*this).name());
   }
   assert ( mMeshes.size() >0 );
-  return mMeshes.front();
+  return mMeshes.front().mesh;
 }
 
 int AntEntity::getID() const
@@ -476,7 +482,7 @@ void AntEntity::setDirection ( float dir )
 
   if ( mMeshes.size() )
   {
-    SceneNode *m=mMeshes.front();
+    SceneNode *m=mMeshes.front().mesh;
     if ( m )
       m->setRotation ( dir );
   }
@@ -491,7 +497,7 @@ void AntEntity::setDirection ( const AGAngle& a )
 void AntEntity::setVisible ( bool v )
 {
   for ( Meshes::iterator i=mMeshes.begin(); i!=mMeshes.end(); i++ )
-    ( *i )->setVisible ( v );
+    i->mesh->setVisible ( v );
 }
 
 
@@ -685,7 +691,7 @@ void AntEntity::clearMeshes()
 {
   for ( Meshes::iterator i=mMeshes.begin(); i!=mMeshes.end(); i++ )
   {
-    checkedDelete ( *i );
+    checkedDelete ( i->mesh );
   }
   mMeshes.clear();
 }
@@ -981,7 +987,7 @@ void AntEntity::setupRing()
   {
     mRing->setRingColor ( AGVector4 ( 0.7,0.7,1,0.8 ) );
   }
-  addMesh ( mRing,AGVector3 ( 0,0,0 ) );
+  addMesh ( mRing,AGVector3 ( 0,0,0 ),"selectorRing" );
   updateRingColor();
 }
 
@@ -1035,16 +1041,36 @@ void AntEntity::setMesh(AGString entityType,AGString animationMode,float size) {
     node->setRotation ( angle ) ;
     setMesh ( node );
   } else if(entityType=="fire") {
-    if(animationMode=="on") {
-      AGVector3 basePoint(0,0,0);
-      setMesh(AntModels::createModel(getScene(),"fire",""));
-      auto smokeMesh=new AntParticle(getMap()->getScene(),4);
-      addMesh(smokeMesh,basePoint);
-      auto fireMesh=new AntParticle(getMap()->getScene(),40);
+    AntParticle *smokeMesh,*fireMesh;
+    bool enabled=(animationMode=="on");
+    auto fireBaseMesh=AntModels::createModel(getScene(),"fire",enabled?"":"off");
+    AGVector3 basePoint(0,0,0);
+
+
+    if(mMeshes.size()<3) {
+      cdebug("MESHSIZE:"<<mMeshes.size());
+      for(auto mesh:mMeshes) {
+        cdebug("MESH:"<<typeid(mesh.mesh).name());
+      }
+
+      setMesh(fireBaseMesh);
+      smokeMesh=new AntParticle(getMap()->getScene(),4);
+      addMesh(smokeMesh,basePoint,"smoke");
+      fireMesh=new AntParticle(getMap()->getScene(),40);
       fireMesh->setFire(true);
       fireMesh->setMaxTime(0.8);
-      addMesh(fireMesh,basePoint); 
+      addMesh(fireMesh,basePoint,"fire"); 
+    } else {
+
+      dynamic_cast<AntParticle*>(getMeshEntry("smoke").mesh)->setEnabled(enabled);
+      dynamic_cast<AntParticle*>(getMeshEntry("fire").mesh)->setEnabled(enabled);
+      MeshEntry &baseMesh=getMeshEntry("");
+      checkedDelete(baseMesh.mesh);
+      baseMesh.mesh=fireBaseMesh;
+      updatePos(mPos);
     }
+
+    //setMesh(AntModels::createModel(getScene(),"fire","off"));
   } else if(entityType=="tower") {
     setMesh(AntModels::createModel(getScene(),"tower",""));
   } else if(entityType=="man" || entityType=="hero" || entityType=="sheep") {
@@ -1059,7 +1085,7 @@ void AntEntity::setMesh(AGString entityType,AGString animationMode,float size) {
 
 void AntEntity::setEmittingParticles(bool flag) {
   for(auto mesh:mMeshes) {
-    AntParticle* p=dynamic_cast<AntParticle*>(mesh);
+    AntParticle* p=dynamic_cast<AntParticle*>(mesh.mesh);
     if(p) {
       p->setEnabled(flag);
     }
@@ -1067,4 +1093,12 @@ void AntEntity::setEmittingParticles(bool flag) {
 }
 
 
+
+AntEntity::MeshEntry &AntEntity::getMeshEntry(const AGString &pName) {
+  for(MeshEntry &e:mMeshes) {
+    if(e.name==pName)
+      return e;
+  }
+  throw new std::runtime_error("Mesh not found");
+}
 

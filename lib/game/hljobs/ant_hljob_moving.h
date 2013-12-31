@@ -18,6 +18,7 @@ public:
     virtual AGString xmlName() const;
     virtual void saveXML(Node &node) const;
     virtual void loadXML(const Node &node);
+    virtual bool fireBurning() const;
 protected:
     virtual AntHero *getHero();
 
