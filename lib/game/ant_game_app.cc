@@ -241,7 +241,6 @@ void AntGameApp::eventMapClicked ( const AGVector2 &pos, int button )
   {
     // assign hero a move job
     getCurrentHero()->setHlJob ( new AntHLJobMoving ( getCurrentHero(),pos,0 ) );
-
   }
 }
 

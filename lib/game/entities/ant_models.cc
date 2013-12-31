@@ -67,11 +67,6 @@ SceneNode *generateMesh ( AntEntity *entity ) {
 }
 
 SceneNode* AntModels::createModel ( Scene *scene, std::string type, std::string subtype, float angle ) {
-    SceneNode *n;
-
-
-    //n=generateMesh ( entity );
-    //if ( n ) return n;
 
     StaticMeshes *m=loadStaticMeshes();
     std::pair<AGString,AGString> ref=std::make_pair ( type,subtype );
@@ -93,7 +88,8 @@ SceneNode* AntModels::createModel ( Scene *scene, std::string type, std::string 
 
         AnimMesh *m= new AnimMesh(scene,amd);
 
-        m->setAnimation(subtype);
+        if(m->hasAnimation(subtype))
+          m->setAnimation(subtype);
         return m;
     }
 }

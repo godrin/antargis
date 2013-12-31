@@ -42,6 +42,7 @@ public:
   void setTransform(const AGMatrix4 &m);
 
   AGString getAnimation() const;
+  bool hasAnimation(const AGString &pName) const;
   bool setAnimation(const AGString &pName);
 
   void setPos(const AGVector3 &p);
