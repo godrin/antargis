@@ -43,7 +43,6 @@ void AntHero::setMeshState ( const AGString& pname )
   meshState=name;
   float dir=getDirection();
 
-  Scene *scene=getScene();
   if ( name=="row" )
   {
     setMesh("hero","row");
@@ -139,6 +138,7 @@ void AntHero::setFire(bool flag) {
     fire=new AntFire(getMap());
     fire->init();
     fire->setPos(firePos);
+    getMap()->insertEntity(fire);
   }
 }
 
