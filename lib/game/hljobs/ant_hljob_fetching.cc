@@ -30,7 +30,7 @@ AGVector2 AntHLJobFetching::basePos()
 void AntHLJobFetching::checkPerson(AntPerson *person)
 {
   AntMan *man=dynamic_cast<AntMan*>(person);
-  if(man)
+  if(man) {
     if (atHome(man))  {
       menAtHome.insert(man);
       if (checkFood(man)) {
@@ -59,9 +59,11 @@ void AntHLJobFetching::checkPerson(AntPerson *person)
         man->newMoveJob(0,getBossEntity()->getPos2D(),0);
         return;
       }
+      cdebug("DIG resource");
       man->digResource(man->getFetchResource());
       man->setMode(AntPerson::DIGGING);
     } else if (man->getMode()==AntPerson::DIGGING) {
+      cdebug("was diging");
       // digging ready - take home
       man->newMoveJob(0,getBossEntity()->getPos2D(),0);
       //res=e.getMode.gsub(/.* /,"")
@@ -72,14 +74,17 @@ void AntHLJobFetching::checkPerson(AntPerson *person)
       else
         man->setMeshState("walk");
       // take resource
-      if (!man->getTarget()) // FIXME: error while loading
+      if (!man->getTargetByID()) // FIXME: error while loading
       {
+        cdebug("No target defined ?");
         return;
       }
       man->collectResource(res);
-      float amount=std::min(man->getTarget()->resource.get(res),man->canCarry());
-      man->getTarget()->resource.sub(res,amount);
-      man->getTarget()->resourceChanged();
+      auto target=man->getTargetByID();
+      float amount=std::min(target->resource.get(res),man->canCarry());
+      target->resource.sub(res,amount);
+      target->resourceChanged();
+      cdebug("GOT "<<amount<<" of "<<res<<" from "<<target);
       man->resource.add(res,amount);
     } else if (man->getMode()==AntPerson::HOMING) {
       man->newRestJob(1); // always rest a little
@@ -91,6 +96,7 @@ void AntHLJobFetching::checkPerson(AntPerson *person)
       man->newMoveJob(0,getBossEntity()->getPos2D(),0);
       man->setMeshState("walk");
     }
+  }
   AntHero *hero=dynamic_cast<AntHero*>(person);
   if(hero)
     hero->newRestJob(10);
@@ -165,6 +171,7 @@ void AntHLJobFetching::fetchForStock(std::vector<StockNeed> needed, AntMan* man)
           man->setMode(AntPerson::FETCHING);
           man->setMeshState("walk");
           man->setFetchResource(resource);
+          man->setTargetID(tent->getID());
           menAtHome.erase(man);
           man->setVisible(true);
           return;

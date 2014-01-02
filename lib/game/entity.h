@@ -56,6 +56,7 @@ private:
   bool mInited;
 
   int mID;
+  int mTargetID;
   AGString mName;
 
   AGVector3 mPos;   // 3d-position
@@ -294,7 +295,9 @@ public:
 
   AntMap *getMap();
 
-  AntEntity *getTarget();
+  AntEntity *getTargetFromJob();
+  AntEntity *getTargetByID();
+  void setTargetID(int targetID);
   AGVector2 getTargetPos2D();
   bool isResting();
 

@@ -42,6 +42,7 @@ AntEntity::AntEntity ( AntMap *pMap ) :mMap ( pMap ),mPos ( 0,0,0 )
   mRing=0;
   mJob=0;
   mInited=false;
+  mTargetID=-1;
 }
 
 void AntEntity::init()
@@ -129,7 +130,7 @@ void AntEntity::saveXML ( Node &node ) const
   node.set ( "learnAmount",AGString ( learnAmount ) );
 
   node.set ( "defeated",AGString ( mDefeated ) );
-
+  node.set ( "targetID",AGString(mTargetID));
   Node &res=node.addChild ( "resource" );
   resource.saveXML ( res );
 
@@ -147,7 +148,7 @@ void AntEntity::loadXML ( const Node &node )
   mHealSpeed=node.get ( "healSpeed" ).toFloat();
   onGround=node.get ( "onGround" ).toBool();
   onWater=node.get ( "onWater" ).toBool();
-
+  mTargetID=node.get("targetID").toInt();
   mDefeated=node.get ( "defeated" ).toBool();
   //  assert(onGround);
   Node::NodeVector v=node.getChildren ( "position" );
@@ -879,7 +880,7 @@ AGVector2 AntEntity::getTargetPos2D()
 }
 
 
-AntEntity *AntEntity::getTarget()
+AntEntity *AntEntity::getTargetFromJob()
 {
   if ( mJob )
   {
@@ -892,7 +893,20 @@ AntEntity *AntEntity::getTarget()
       return m->getTarget ( getMap() );
 
   }
+
   return 0;
+}
+
+AntEntity *AntEntity::getTargetByID()
+{
+  if(mTargetID>0) {
+    return mMap->getEntity(mTargetID);
+  }
+  return 0;
+}
+
+void AntEntity::setTargetID(int targetID) {
+  mTargetID=targetID;
 }
 
 void AntEntity::setMinimapSize ( float f )

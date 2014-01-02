@@ -291,15 +291,12 @@ void AGSound::playWave(const std::string &pFilename,float volume)
     volume*=soundVol;
   if(mFreeChannels.size()>0)
   {
-    cdebug("load Wave...");
     loadWave(pFilename);
     int channel=getFreeChannel();
     if(channel>=0)
     {
       Mix_Chunk *c=mSounds[pFilename];
-      cdebug("Mix_Volume..");
       Mix_Volume(channel,(int)(std::min(1.0f,volume)*MIX_MAX_VOLUME));
-      cdebug("PlayChannel..");
       Mix_PlayChannel(channel,c,0);
     }
   }
@@ -358,9 +355,7 @@ void AGSound::loadWave(const std::string &pFilename)
 
   Mix_Chunk *sample;
   std::string file=loadFile(pFilename);
-  cdebug("Mix_LoadWAV_RW..");
   sample=Mix_LoadWAV_RW(SDL_RWFromMem(const_cast<char*>(file.c_str()),file.length()),1);
-  cdebug("Mix_LoadWAV_RW.");
 
   mSounds[pFilename]=sample;
 }

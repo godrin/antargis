@@ -34,7 +34,7 @@ bool AntHeroFaces::buttonClicked(AGEvent *e) {
   if(caller) {
     AGString name=caller->getName();
     int index=name.substr(4,name.length()-4).toInt();
-    if(heroes.size()>index) {
+    if((int)heroes.size()>index) {
       sigHeroClicked(heroes[index]);
     }
   }

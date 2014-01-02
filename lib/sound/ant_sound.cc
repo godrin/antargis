@@ -39,7 +39,7 @@ namespace AntSound {
       soundInited=true;
     }
   }
-  void playSoundGlobal(AGString name,float volume,float minDiff) {
+  void playSoundGlobal(const AGString &name,float volume,float minDiff) {
     std::map<std::string,std::vector<std::string> > sounds{
       {"sheep",{"data/sound/sheep44.wav"}},
         {"error",{"data/sound/error.wav"}},
@@ -124,7 +124,6 @@ namespace AntSound {
   }
 
   void updateSoundPos(SceneBase *scene) {
-    TRACE;
     for(auto& entry:loopSounds) {
       auto value=entry.second;
       auto pos=value.pos;

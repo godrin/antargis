@@ -3,7 +3,6 @@
 #include "ant_man.h"
 
 AntHLJobGatherAndDo::AntHLJobGatherAndDo(AntBoss *pBoss):AntHLJob(pBoss){
-  AntEntity *e=dynamic_cast<AntEntity*>(pBoss);
   state = INIT;
 }
 

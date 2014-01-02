@@ -8,7 +8,7 @@ class SceneBase;
 namespace  AntSound {
 
   void setApplication(SceneBase *psceneBase);
-  void playSoundGlobal(AGString name,float volume,float minDiff=0.5);
+  void playSoundGlobal(const AGString &name,float volume,float minDiff=0.5);
   int playLoopSoundGlobal(int id,AGString name,const AGVector2 &pos,float volume);
   void stopLoopSound(int id);
   void updateSoundPos(SceneBase *scene);
