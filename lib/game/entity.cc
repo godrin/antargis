@@ -698,6 +698,7 @@ void AntEntity::clearMeshes()
 
 void AntEntity::animationEvent ( const AGString &pName )
 {
+  playSound(pName);
 }
 
 void AntEntity::setMinimapColor ( const AGColor &c )

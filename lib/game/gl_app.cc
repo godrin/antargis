@@ -146,7 +146,6 @@ AGVector2 GLApp::getCamera() const
 
 void GLApp::setCamera(const AGVector2 &p)
   {
-    CTRACE;
     scene->setCamera(AGVector4(p[0],p[1],getCameraHeight(p)));
     AntSound::updateSoundPos(scene);
   }

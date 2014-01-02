@@ -90,8 +90,6 @@ namespace AntSound {
 
 
   int playLoopSoundGlobal(int id,AGString name,const AGVector2 &pos,float volume) {
-    TRACE;
-    cdebug("PLAY LOOP"<<id<<" pos:"<<pos);
     if(!sceneBase)
       return -1;
 
@@ -118,7 +116,6 @@ namespace AntSound {
   }
 
   void stopLoopSound(int id) {
-    cdebug("STOP LOOP"<<id);
     if(loopSounds.find(id)==loopSounds.end())
       return;
     LoopData a=loopSounds[id];
@@ -135,7 +132,6 @@ namespace AntSound {
       float vol=1;
       if(d>0) 
         vol=std::max((OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0.0f);
-      cdebug("VOL:"<<entry.first<<"    "<<value.handle<<","<<value.volume<<" "<<vol<<" d:"<<d<<" pos:"<<value.pos);
       getSoundManager()->volumeSound(value.handle,value.volume*vol);
     }
   }
