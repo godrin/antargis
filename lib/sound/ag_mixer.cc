@@ -96,7 +96,6 @@ void initSoundEngine()
     if(getConfig()->get("mixerChunkSize")=="8192")
       chunkSize=8192;
 
-    cdebug("CHUNKSIZE:"<<chunkSize);
     assertGL;
 
     if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, chunkSize)!=0) {
@@ -107,19 +106,16 @@ void initSoundEngine()
     }
     assertGL;
     mMusic=0;
-    cdebug("Setting hook music finished");
     Mix_HookMusicFinished(musicFinished);
     assertGL;
 
     // enable mixing
 
-    cdebug("allocate channels:");
     Mix_AllocateChannels(cSoundChannels);
     assertGL;
     for(int i=0;i<cSoundChannels;i++)
       mFreeChannels.insert(i);
 
-    cdebug("channelfinished:");
     Mix_ChannelFinished(channelDone);
     assertGL;
     mMusicInited=true;
@@ -129,7 +125,6 @@ void initSoundEngine()
   {
     privateSoundNotifier=new AGPrivateSoundNotifier;
   }
-  cdebug("inited Sound Engine");
 }
 
 void closeSoundEngine()

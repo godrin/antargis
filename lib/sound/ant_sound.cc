@@ -4,17 +4,40 @@
 #include "scene_base.h"
 #include "rk_debug.h"
 #include "ag_vdebug.h"
+#include "ag_config.h"
 
 #include <map>
 namespace AntSound {
-  std::map<AGString,float> soundLastCall;
-  bool soundInited;
-  std::map<AGString,int> loopSounds;
-  int ambientSound=0;
-  SceneBase *sceneBase=0;
+  // this variables are used for playing sounds, which should be done with AntRubyEntity::playSound
+  const int INNER_VOL_SIZE=4; // size of circle around camera-middle with max volume
+  const int OUTER_VOL_SIZE=15; // size circle around camera describing volume descend
 
+
+  struct LoopData {
+    int handle;
+    AGString name;
+    AGVector2 pos;
+    float volume;
+  };
+  std::map<AGString,float> soundLastCall;
+  bool soundInited=false;
+  std::map<int,LoopData> loopSounds;
+  int ambientSound=0;
+  int ambientMusic=0;
+  SceneBase *sceneBase=0;
+  bool normalVolume=true;
+
+  float getVolume(AGString type);
+  void setNormalVolumeWave();
   void setApplication(SceneBase *psceneBase) {
     sceneBase=psceneBase;
+  }
+
+  void initAntSound() {
+    if(!soundInited) {
+      setNormalVolumeWave();
+      soundInited=true;
+    }
   }
   void playSoundGlobal(AGString name,float volume,float minDiff) {
     std::map<std::string,std::vector<std::string> > sounds{
@@ -40,119 +63,134 @@ namespace AntSound {
         soundLastCall[name]=-minDiff-1;
       }
       std::vector<std::string> &soundFiles=sounds[name];
+      // select some random sound from list
       int i=rand()%soundFiles.size();
-      cdebug("Play..."<<soundFiles[i]);
+      initAntSound();
       getSoundManager()->playWave(soundFiles[i],volume);
-assertGL;
     }
   }
+
+  /*
+     s=sounds[name]
+     if not s
+     s=name
+     elsif s.class==Array
+     s=s.shuffle[0]
+     end
+     if s && AntRubyMap.getSystemTime-@@soundLastCall[name]>minDiff # at a second ago
+     if not @@soundInited
+     setNormalVolumeWave
+     @@soundInited=true
+     end
+     getSoundManager.playWave(s,volume)
+     @@soundLastCall[name]=AntRubyMap.getSystemTime
+     end
+     end
+     */
+
+
+  int playLoopSoundGlobal(int id,AGString name,const AGVector2 &pos,float volume) {
+    TRACE;
+    cdebug("PLAY LOOP"<<id<<" pos:"<<pos);
+    if(!sceneBase)
+      return -1;
+
+    std::map<std::string,std::vector<std::string> > sounds{
+      {"fire",{"data/sound/fire.wav"}}
+    };
+    AGString s=sounds[name][0];
+    if(s.length()>0) {
+
+      auto d=((sceneBase->getCamera().dim2()-pos).length()-INNER_VOL_SIZE);
+      float vol=1;
+      if(d>0)
+        vol=std::max((OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0.0f);
+      auto handle=getSoundManager()->loopPlay(s,volume*vol);
+      LoopData loopData;
+      loopData.handle=handle;
+      loopData.name=name;
+      loopData.pos=pos;
+      loopData.volume=volume;
+      loopSounds[id]=loopData;
+      return id;
+    }
+    return -1;
+  }
+
+  void stopLoopSound(int id) {
+    cdebug("STOP LOOP"<<id);
+    if(loopSounds.find(id)==loopSounds.end())
+      return;
+    LoopData a=loopSounds[id];
+    getSoundManager()->stopChannel(a.handle);
+    loopSounds.erase(id);
+  }
+
+  void updateSoundPos(SceneBase *scene) {
+    TRACE;
+    for(auto& entry:loopSounds) {
+      auto value=entry.second;
+      auto pos=value.pos;
+      auto d=((scene->getCamera().dim2()-pos).length()-INNER_VOL_SIZE);
+      float vol=1;
+      if(d>0) 
+        vol=std::max((OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0.0f);
+      cdebug("VOL:"<<entry.first<<"    "<<value.handle<<","<<value.volume<<" "<<vol<<" d:"<<d<<" pos:"<<value.pos);
+      getSoundManager()->volumeSound(value.handle,value.volume*vol);
+    }
+  }
+
+
+  void setAmbientSound(float time) {
+    if(!sceneBase)
+      return;
+    if(!ambientSound) {
+      ambientSound=getSoundManager()->loopPlay("data/sound/wind_loop.wav",getVolume("ambient")*0.2);
+      getSoundManager()->stopMp3();
+      ambientMusic=getSoundManager()->playMp3("data/music/in-game1.ogg");
+      getSoundManager()->volumeMusic(getVolume("music"));
+    }
+    if (! getSoundManager()->isMusicPlaying()) 
+      ambientMusic=getSoundManager()->playMp3("data/music/in-game1.ogg");
+
+  }
+
+  void setNormalVolumeWave() {
+    getSoundManager()->volumeSound(0.4*getVolume("sound"));
+    getSoundManager()->volumeMusic(getVolume("music"));
+    normalVolume=true;
+  }
+
+  void setQuietVolumeWave() {
+    getSoundManager()->volumeSound(0.1*getVolume("sound"));
+    getSoundManager()->volumeMusic(0.25*getVolume("music"));
+    normalVolume=false;
+  }
+
+
+  void updateVolumes() {
+    getSoundManager()->volumeMusic(getVolume("music"));
+    if(normalVolume)
+      setNormalVolumeWave();
+    else
+      setQuietVolumeWave();
+
+    if(ambientSound) {
+      getSoundManager()->stopChannel(ambientSound);
+      ambientSound=0;
+    }
+    setAmbientSound(1);
+  }
+
+  float getVolume(AGString type) {
+    auto v=getConfig()->get(type+"Volume");
+    if(v=="") {
+      if(type=="music")
+        return 0.2;
+      else
+        return 1;
+    }
+
+    return v.toFloat();
+  }
 }
-/*
-   s=sounds[name]
-   if not s
-   s=name
-   elsif s.class==Array
-   s=s.shuffle[0]
-   end
-   if s && AntRubyMap.getSystemTime-@@soundLastCall[name]>minDiff # at a second ago
-   if not @@soundInited
-   setNormalVolumeWave
-   @@soundInited=true
-   end
-   getSoundManager.playWave(s,volume)
-   @@soundLastCall[name]=AntRubyMap.getSystemTime
-   end
-   end
-
-   def AntSound.playLoopSoundGlobal(id,name,pos,volume)
-   s={"fire"=>"data/sound/fire.wav"}[name]
-   return nil if s.nil?
-   return nil if @@app.nil? or @@app.getScene.nil?
-
-   d=((@@app.getScene.getCamera.dim2-pos).length-INNER_VOL_SIZE)
-   vol=1
-   if d>0
-   vol=[(OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0].max
-   end
-   handle=getSoundManager.loopPlay(s,volume*vol)
-   @@loopSounds[id]=[handle,name,pos,volume]
-   id
-   end
-
-   def AntSound.stopLoopSound(id)
-   a=@@loopSounds[id]
-   return if a.nil?
-   getSoundManager.stopChannel(a[0])
-   @@loopSounds.delete(id)
-   end
-   def AntSound.updateSoundPos(scene)
-   @@loopSounds.each{|id,a|
-   pos=a[2]
-   d=((scene.getCamera.dim2-pos).length-INNER_VOL_SIZE)
-   vol=1
-   if d>0
-   vol=[(OUTER_VOL_SIZE-d)/OUTER_VOL_SIZE,0].max
-   end
-   getSoundManager.volumeSound(a[0],a[3]*vol)
-   }
-   end
-
-
-   def AntSound.ambientSound(time)
-   return nil if @@app.nil?
-   if not @@ambientSound
-   @@ambientSound=getSoundManager.loopPlay("data/sound/wind_loop.wav",getVolume("ambient")*0.2)
-   getSoundManager.stopMp3
-   @@ambientMusic=getSoundManager.playMp3("data/music/in-game1.ogg")
-#raise 1
-getSoundManager.volumeMusic(getVolume("music"))
-#getSoundManager.playMp3(
-#getSoundManager.playMp3("data/music/ant2.ogg")
-end
-if (not getSoundManager.isMusicPlaying)
-@@ambientMusic=getSoundManager.playMp3("data/music/in-game1.ogg")
-end
-
-end
-
-def AntSound.setNormalVolumeWave
-getSoundManager.volumeSound(0.4*getVolume("sound"))
-getSoundManager.volumeMusic(getVolume("music"))
-@@normalVolume=true
-end
-def AntSound.setQuietVolumeWave
-getSoundManager.volumeSound(0.1*getVolume("sound"))
-getSoundManager.volumeMusic(0.25*getVolume("music"))
-@@normalVolume=false
-end
-
-def AntSound.updateVolumes
-getSoundManager.volumeMusic(getVolume("music"))
-if @@normalVolume
-setNormalVolumeWave
-else
-setQuietVolumeWave
-end
-  if @@ambientSound
-getSoundManager.stopChannel(@@ambientSound)
-  @@ambientSound=nil
-  end
-ambientSound(1)
-  end
-
-  private
-def AntSound.getVolume(type)
-  v=getConfig.get("#{type}Volume")
-  if v==""
-  if type=="music"
-  v=0.2
-  else
-  v=1
-  end
-  end
-
-  v.to_f
-  end
-
-  end
-  */

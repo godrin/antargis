@@ -125,9 +125,9 @@ int AntHero::getID()
 
 
 void AntHero::setFire(bool flag) {
-
+  CTRACE;
   if(fire && !flag) {
-    //getMap()->removeEntity(fire);
+    getMap()->removeEntity(fire);
     fire->disable();
     fire=0;
   }

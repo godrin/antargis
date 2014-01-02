@@ -1,6 +1,7 @@
 #include "gl_app.h"
 #include "ag_vdebug.h"
 #include "ag_profiler.h"
+#include "ant_sound.h"
 
 GLApp::GLApp(int w,int h):scene(new Scene(w,h))
 {
@@ -10,6 +11,7 @@ GLApp::GLApp(int w,int h):scene(new Scene(w,h))
   frameTime=0;
   frameCount=0;
   hx=hy=-1;
+  AntSound::setApplication(scene);
 }
 
 GLApp::~GLApp() throw()
@@ -144,7 +146,9 @@ AGVector2 GLApp::getCamera() const
 
 void GLApp::setCamera(const AGVector2 &p)
   {
+    CTRACE;
     scene->setCamera(AGVector4(p[0],p[1],getCameraHeight(p)));
+    AntSound::updateSoundPos(scene);
   }
 
 bool GLApp::eventKeyDown(AGEvent *e)
