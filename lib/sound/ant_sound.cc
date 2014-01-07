@@ -72,25 +72,6 @@ namespace AntSound {
     }
   }
 
-  /*
-     s=sounds[name]
-     if not s
-     s=name
-     elsif s.class==Array
-     s=s.shuffle[0]
-     end
-     if s && AntRubyMap.getSystemTime-@@soundLastCall[name]>minDiff # at a second ago
-     if not @@soundInited
-     setNormalVolumeWave
-     @@soundInited=true
-     end
-     getSoundManager.playWave(s,volume)
-     @@soundLastCall[name]=AntRubyMap.getSystemTime
-     end
-     end
-     */
-
-
   int playLoopSoundGlobal(int id,AGString name,const AGVector2 &pos,float volume) {
     if(!sceneBase)
       return -1;
