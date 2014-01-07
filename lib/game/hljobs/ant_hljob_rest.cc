@@ -28,8 +28,6 @@ void AntHLJobRest::checkPerson(AntPerson* person)
 {
   AntHero *hero=dynamic_cast<AntHero*>(person);
 
-
-
   if(hero) {
     if (firstTime) {
       hero->newRestJob(mTime);
@@ -37,52 +35,40 @@ void AntHLJobRest::checkPerson(AntPerson* person)
       firstTime=false;
     } else {
       jobFinished=true;
-      //     man->newRestJob(1000);
     }
     eat(hero);
   } else {
 
     AntMan *man=dynamic_cast<AntMan*>(person);
 
-    cdebug("MAN MODE:"<<man->getMode()<<" REST_EAT:"<<AntMan::REST_EAT<<" SIT:"<<AntMan::REST_SIT<<" pos:"<<man->getPos2D()<<" hero pos:"<<getBossEntity()->getPos2D());
     switch (man->getMode()) {
       case AntMan::REST_EAT: 
         {
-          cdebug("spread");
-          spreadThings();
-          eat(man);
-          //          sit(man);
-          man->setMode(AntMan::REST_SIT);
+          // men gather at the position of the hero
+          if(moveTo(man,getBossEntity()->getPos2D())) {
+            // reached hero's position
+            cdebug("spread");
+            spreadThings();
+            eat(man);
+            man->setMode(AntMan::REST_SIT);
+          }
           break;
         }
       case AntMan::REST_SIT: 
         {
           if(sit(man)) {
-            if (man->getFood()<0.9) { 
+            // really ready with sitting down
+            if (man->getFood()<0.5) { 
               eat(man);
               if(heroHasFood()) {
-                // FIXME 0.5
-                cdebug("send man to boss position");
-                moveTo(man,getBossEntity()->getPos2D());
-                man->setMode(AntMan::FORMAT);
+                man->setMode(AntMan::REST_EAT);
               }
             }
           }
           break;
         }
-      case AntMan::WAITING:
-        moveTo(man,getBossEntity()->getPos2D());
-        man->setMode(AntMan::FORMAT);
-        break;
-      case AntMan::FORMAT:
-        moveTo(man,getBossEntity()->getPos2D());
-        man->setMode(AntMan::REST_EAT);
-        break;
-
       default:
         sit(man);
-        //man->setMode(AntMan::WAITING);
-        //man->newRestJob(2);
         break;
 
     }
