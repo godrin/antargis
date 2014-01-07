@@ -21,6 +21,7 @@ class AntGameApp:public AntBasicGameApp,public AntActionWidget::Handler {
     virtual void tryQuit();
   protected:
     void eventMapClicked(const AGVector2 &pos, int button);
+    bool eventKeyDown(AGEvent *e);
     void eventEntitiesClicked(const PickResult &pNodes, int button);
     void selectEntity(AntEntity *e);
     AntMap *getMap();
@@ -37,6 +38,7 @@ class AntGameApp:public AntBasicGameApp,public AntActionWidget::Handler {
     int currentHeroId;
     AntActionWidget *actionWidget;
     bool mPaused;
+    float speed;
 };
 
 #endif

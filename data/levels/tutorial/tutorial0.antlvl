@@ -1,11 +1,17 @@
 <antargisLevel filename="levels/tutorial/tutorial0.hmap" height="128" width="128" scriptfile="levels/tutorial/tutorial0.rb" scriptclass='Level1'>
-  <antTower aggression="3" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Keep" men="7">
+  
+<antTower aggression="3" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Keep" men="7">
     <position x="56.642" y="51.0992" z="1.78436"/>
 		<resource food="30" stone="50"/>
   </antTower>
+  <antHero aggression="3" appearance="hero" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Bantor" men="4">
+    <position x="61.3992" y="85.7643" z="1.24638"/>
+		<resource food="300"/>
+  </antHero>
+
   <antHero aggression="1" appearance="hero" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Rowen" primary="true" men="8">
     <position x="64.4641" y="51.154" z="2.22674"/>
-		<resource food="10"/>
+		<resource food="5"/>
   </antHero>
   <antNewSheep aggression="0.5" energy="1" healSpeed="0.1" morale="1" name="" onGround="true">
     <position x="60.3109" y="56.6081" z="2.33043"/>
@@ -13,10 +19,6 @@
   <antNewSheep aggression="0.5" energy="1" healSpeed="0.1" morale="1" name="" onGround="true">
     <position x="62.6914" y="56.466" z="2.77365"/>
   </antNewSheep>
-  <antHero aggression="3" appearance="hero" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Bantor" men="4">
-    <position x="61.3992" y="85.7643" z="1.24638"/>
-		<resource food="300"/>
-  </antHero>
   <antNewTree aggression="0.5" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="8">
     <position x="56.646" y="80.3803" z="0.751892"/>
   </antNewTree>

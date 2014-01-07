@@ -51,7 +51,7 @@ class AntHero:public AntPerson,public AntBoss {
     float age;
     bool primary;
 
-    AntFire *fire;
+    int fireID;
 };
 
 #endif

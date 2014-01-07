@@ -109,6 +109,11 @@ void AntPerson::sitDown()
   setMeshState("sitdown");
 }
 
+void AntPerson::standUp() {
+  newRestJob(0.4);
+  setMeshState("stand");
+}
+
 
 AntPerson::JobMode AntPerson::getMode()
 {

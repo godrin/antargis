@@ -26,6 +26,7 @@ public:
     void checkResources();
 
     void sitDown();
+    void standUp();
 
     void setMode(JobMode mode);
     JobMode getMode();

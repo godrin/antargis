@@ -50,9 +50,10 @@ AntMap* AntHLJob::getMap()
 {
   return getBossEntity()->getMap();
 }
-
-
-void AntHLJob::sit ( AntPerson* man )
+/**
+  \return bool true, if sitting is done
+*/
+bool AntHLJob::sit ( AntPerson* man )
 {
   AGVector2 formationPos=getBoss()->getFormation ( man,basePos() );
 
@@ -78,12 +79,37 @@ void AntHLJob::sit ( AntPerson* man )
       man->newRestJob ( 5 );
       man->setMeshState ( "sit" );
       man->setMode(AntPerson::REST_SIT);
+      return true;
     }
   }
   else
   {
+    man->setMeshState("walk");
     man->newMoveJob ( 0,formationPos,0 );
   }
+  return false;
+}
+
+bool AntHLJob::moveTo(AntPerson *man, const AGVector2 &pos) {
+  CTRACE;
+  AGVector2 diff=man->getPos2D()-pos;
+  if(diff.length2()<0.1) {
+    return true;
+  }
+
+  switch(man->getMode()) {
+    case AntPerson::REST_SIT:
+      man->standUp();
+      man->setMode(AntPerson::FORMAT);
+      break;
+    default:
+      man->setMeshState("walk");
+      man->newMoveJob(0,pos,0);
+      break;
+
+  }
+
+  return false;
 }
 
 AGVector2 AntHLJob::basePos()
@@ -96,6 +122,7 @@ void AntHLJob::checkPerson ( AntPerson* p )
 }
 
 void AntHLJob::assignAll() {
+  CTRACE;
   for(auto entityIter:getMenWithBoss()) {
     checkPerson(entityIter);
   }

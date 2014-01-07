@@ -131,6 +131,7 @@ void AntEntity::saveXML ( Node &node ) const
 
   node.set ( "defeated",AGString ( mDefeated ) );
   node.set ( "targetID",AGString(mTargetID));
+  node.set ( "direction",mDir);
   Node &res=node.addChild ( "resource" );
   resource.saveXML ( res );
 
@@ -150,6 +151,7 @@ void AntEntity::loadXML ( const Node &node )
   onWater=node.get ( "onWater" ).toBool();
   mTargetID=node.get("targetID").toInt();
   mDefeated=node.get ( "defeated" ).toBool();
+  mDir=node.get("direction").toFloat();
   //  assert(onGround);
   Node::NodeVector v=node.getChildren ( "position" );
   Node::const_iterator i=v.begin();
@@ -196,6 +198,7 @@ void AntEntity::loadXML ( const Node &node )
     loadJob ( v2[0] );
   }
   resourceChanged();
+  updatePos ( mPos );
 }
 
 void AntEntity::loadJob ( const Node &pNode )

@@ -10,7 +10,7 @@
 const AGVector2 AntHero::FIRE_DISPLACE(0.5,-0.5);
 
 AntHero::AntHero ( AntMap* pMap ) : AntPerson ( pMap ) {
-  fire=0;
+  fireID=-1;
 }
 
 AntHero::~AntHero() throw()
@@ -73,6 +73,10 @@ void AntHero::setupRing() {
 
 void AntHero::loadXML ( const Node& node )
 {
+  CTRACE;
+  fireID=node.get("fireID").toInt();
+  cdebug("fireID:"<<fireID);
+
   AntEntity::loadXML ( node );
   primary= ( AGString ( "true" ) ==node.get ( "primary" ) );
   std::cout<<"PRIMARY:"<< ( primary?"true":"false" ) <<std::endl;
@@ -87,6 +91,8 @@ void AntHero::saveXML ( Node& node ) const
   {
     node.set ( "primary","true" );
   }
+  if(fireID>0)
+    node.set("fireID",fireID);
 }
 bool AntHero::isPrimary() const
 {
@@ -100,7 +106,7 @@ AntEntity* AntHero::getEntity()
 
 void AntHero::eventNoHlJob()
 {
-  setHlJob ( new AntHLJobRest ( this,20 ) );
+  setHlJob ( new AntHLJobRest ( this,50 ) );
 }
 
 void AntHero::eventNoJob()
@@ -126,9 +132,16 @@ int AntHero::getID()
 
 void AntHero::setFire(bool flag) {
   CTRACE;
+  cdebug("FIREID:"<<fireID<<"   flag:"<<flag);
+  AntFire *fire=0;
+  if(fireID>0) 
+    fire=dynamic_cast<AntFire*>(getMap()->getEntity(fireID));
   if(fire && !flag) {
-    getMap()->removeEntity(fire);
+    cdebug("FIRE:"<<getMap()->getEntity(fireID)<<"  "<<fire);
+    cdebug("remove fire "<<fire);
+    //getMap()->removeEntity(fire);
     fire->disable();
+    fireID=0;
     fire=0;
   }
 
@@ -139,6 +152,7 @@ void AntHero::setFire(bool flag) {
     fire->init();
     fire->setPos(firePos);
     getMap()->insertEntity(fire);
+    fireID=fire->getID();
   }
 }
 

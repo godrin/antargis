@@ -35,7 +35,8 @@ public:
 
 protected:
   virtual AntMap *getMap();
-  void sit ( AntPerson* man );
+  bool sit ( AntPerson* man );
+  bool moveTo(AntPerson *man, const AGVector2 &pos);
   virtual AGVector2 basePos();
 
 private:

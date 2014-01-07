@@ -4,6 +4,7 @@
 #include "ant_models.h"
 #include "anim_mesh.h"
 #include "ant_boss.h"
+#include "ant_hero.h"
 #include "ag_rand.h"
 
 AntMan::AntMan(AntMap* pMap): AntPerson(pMap)
@@ -89,6 +90,11 @@ void AntMan::eventNoJob()
   if (getEnergy()==0 || dead) {
     simDeath();
     return;
+  }
+
+  if(getMorale()==0 && boss && dynamic_cast<AntHero*>(boss)) {
+    bossName="";
+    setBoss(0);   
   }
 
   setFighting(false);
@@ -235,6 +241,7 @@ void AntMan::loadXML(const Node& n)
   dead=n.get("dead").toBool();
   fighting=n.get("fighting").toBool();
   fetchResource=n.get("fetchResource");
+  setMeshState(meshState);
 }
 
 void AntMan::setBoss(AntBoss* pBoss)

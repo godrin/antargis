@@ -36,6 +36,7 @@ AntGameApp::AntGameApp ( int w, int h ) : AntBasicGameApp ( w, h )
   actionWidget=0;
   mPaused=false;
   testing();
+  speed=1;
 }
 
 void AntGameApp::init ( const std::string &level )
@@ -84,8 +85,8 @@ bool AntGameApp::eventFrame ( float pTime )
   bool r=GLApp::eventFrame ( pTime );
 
   if(!mPaused)
-    mMap->move ( pTime );
-  getScene().advance ( pTime );
+    mMap->move ( pTime*speed );
+  getScene().advance ( pTime*speed );
   SDL_Delay ( 20 );
 
   return r;
@@ -369,6 +370,24 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
 
 }
 
+bool AntGameApp::eventKeyDown(AGEvent *e) {
+  if(e->isSDLEvent())
+  {
+    if(e->getKey()==SDLK_PLUS) {
+      speed*=2;
+      return true;
+    }
+    else if(e->getKey()==SDLK_MINUS) {
+      speed/=2;
+      return true;
+    }
+    else if(e->getKey()==SDLK_1) {
+      speed=1;
+      return true;
+    }
+  }
+  return AntBasicGameApp::eventKeyDown(e);
+}
 
 void AntGameApp::tryQuit() {
   AntBasicGameApp::tryQuit();

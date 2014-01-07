@@ -6,6 +6,7 @@
 #include "ant_grass.h"
 #include "ant_bush.h"
 #include "ant_man.h"
+#include "ant_fire.h"
 
 AntEntity *createEntity ( const Node &node,AntMap *map ) {
 
@@ -26,6 +27,8 @@ AntEntity *createEntity ( const Node &node,AntMap *map ) {
         e=new AntBush ( map );
     } else if ( node.getName() =="antTower" ) {
         e=new AntTower ( map );
+    } else if ( node.getName() =="antFire" ) {
+        e=new AntFire ( map );
     }
 
     if ( e ) {

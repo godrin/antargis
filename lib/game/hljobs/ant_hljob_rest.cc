@@ -16,6 +16,7 @@ AntHLJobRest::AntHLJobRest(AntBoss* pBoss, float pTime): AntHLJob(pBoss),mTime(p
 }
 
 void AntHLJobRest::initRestJob() {
+  CTRACE;
   firstTime=true;
   spreadingThings=false;
   jobFinished=false;
@@ -26,6 +27,8 @@ void AntHLJobRest::initRestJob() {
 void AntHLJobRest::checkPerson(AntPerson* person)
 {
   AntHero *hero=dynamic_cast<AntHero*>(person);
+
+
 
   if(hero) {
     if (firstTime) {
@@ -38,28 +41,49 @@ void AntHLJobRest::checkPerson(AntPerson* person)
     }
     eat(hero);
   } else {
+
     AntMan *man=dynamic_cast<AntMan*>(person);
+
+    cdebug("MAN MODE:"<<man->getMode()<<" REST_EAT:"<<AntMan::REST_EAT<<" SIT:"<<AntMan::REST_SIT<<" pos:"<<man->getPos2D()<<" hero pos:"<<getBossEntity()->getPos2D());
     switch (man->getMode()) {
       case AntMan::REST_EAT: 
         {
+          cdebug("spread");
           spreadThings();
           eat(man);
-          sit(man);
+          //          sit(man);
           man->setMode(AntMan::REST_SIT);
           break;
         }
       case AntMan::REST_SIT: 
         {
-          sit(man);
-          if (man->getFood()<0.5 && heroHasFood()) {
-            man->newMoveJob(0,getBossEntity()->getPos2D(),0);
+          if(sit(man)) {
+            if (man->getFood()<0.9) { 
+              eat(man);
+              if(heroHasFood()) {
+                // FIXME 0.5
+                cdebug("send man to boss position");
+                moveTo(man,getBossEntity()->getPos2D());
+                man->setMode(AntMan::FORMAT);
+              }
+            }
           }
           break;
         }
-      default:
-        man->newMoveJob(0,getBossEntity()->getPos2D(),0);
-        man->setMeshState("walk");
+      case AntMan::WAITING:
+        moveTo(man,getBossEntity()->getPos2D());
+        man->setMode(AntMan::FORMAT);
+        break;
+      case AntMan::FORMAT:
+        moveTo(man,getBossEntity()->getPos2D());
         man->setMode(AntMan::REST_EAT);
+        break;
+
+      default:
+        sit(man);
+        //man->setMode(AntMan::WAITING);
+        //man->newRestJob(2);
+        break;
 
     }
   }
@@ -67,7 +91,7 @@ void AntHLJobRest::checkPerson(AntPerson* person)
 
 bool AntHLJobRest::heroHasFood()
 {
-  return getBossEntity()->resource.get("food")>0;
+  return getBossEntity()->resource.get("food")>1;
 }
 
 void AntHLJobRest::eat(AntPerson* man)
@@ -111,7 +135,11 @@ void AntHLJobRest::spreadFood()
     food+=(*i)->resource.get("food");
   }
 
+  cdebug("SPREAD FOOD:"<<food);
+
   int min=(int)(food/men.size());
+
+  cdebug("min:"<<min);
 
   for (std::vector<AntPerson*>::iterator i=men.begin();i!=men.end();i++) {
     (*i)->resource.set("food",min);
@@ -119,10 +147,11 @@ void AntHLJobRest::spreadFood()
   // spread rest on first
   food-=min*men.size();
   for (std::vector<AntPerson*>::iterator i=men.begin();i!=men.end();i++) {
-    if (food<0)
+    if (food<=0)
       break;
     (*i)->resource.add("food",1);
     food-=1;
+    cdebug("GAVE SOME FOOD TO "<<*i);
   }
 
 }
