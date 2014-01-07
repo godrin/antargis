@@ -99,6 +99,7 @@ void AntHLJobRest::eat(AntPerson* man)
   if (man->getFood()<0.5) {
     if (man->resource.get("food")>0) {
       man->incFood(1);
+      man->playSound("eat");
       man->resource.sub("food",1);
     } else if (heroHasFood()) {
       man->incFood(1);

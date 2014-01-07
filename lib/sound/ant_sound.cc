@@ -67,6 +67,8 @@ namespace AntSound {
       int i=rand()%soundFiles.size();
       initAntSound();
       getSoundManager()->playWave(soundFiles[i],volume);
+    } else {
+      cdebug("WARNING: Sound not found for: "<<name);
     }
   }
 
