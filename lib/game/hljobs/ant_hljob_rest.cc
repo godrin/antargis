@@ -16,7 +16,6 @@ AntHLJobRest::AntHLJobRest(AntBoss* pBoss, float pTime): AntHLJob(pBoss),mTime(p
 }
 
 void AntHLJobRest::initRestJob() {
-  CTRACE;
   firstTime=true;
   spreadingThings=false;
   jobFinished=false;
@@ -47,7 +46,6 @@ void AntHLJobRest::checkPerson(AntPerson* person)
           // men gather at the position of the hero
           if(moveTo(man,getBossEntity()->getPos2D())) {
             // reached hero's position
-            cdebug("spread");
             spreadThings();
             eat(man);
             man->setMode(AntMan::REST_SIT);
