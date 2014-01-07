@@ -56,6 +56,7 @@ void AntHLJobRest::checkPerson(AntPerson* person)
         }
       case AntMan::REST_SIT: 
         {
+          // sit at man's position in rest formation
           if(sit(man)) {
             // really ready with sitting down
             if (man->getFood()<0.5) { 
@@ -92,9 +93,7 @@ void AntHLJobRest::eat(AntPerson* man)
       getBoss()->getEntity()->resource.sub("food",1);
     }
   }
-
 }
-
 
 void AntHLJobRest::spreadThings()
 {
@@ -108,9 +107,7 @@ void AntHLJobRest::spreadThings()
 
   }
 
-  //FIXME: spread food
   spreadFood();
-
 }
 void AntHLJobRest::spreadFood()
 {
@@ -118,27 +115,24 @@ void AntHLJobRest::spreadFood()
 
   std::vector< AntPerson* > men=getMenWithBoss();
 
+  // gather all food
   for (std::vector<AntPerson*>::iterator i=men.begin();i!=men.end();i++) {
     food+=(*i)->resource.get("food");
   }
 
-  cdebug("SPREAD FOOD:"<<food);
-
+  // use floor of quotient to spread food equally
   int min=(int)(food/men.size());
-
-  cdebug("min:"<<min);
 
   for (std::vector<AntPerson*>::iterator i=men.begin();i!=men.end();i++) {
     (*i)->resource.set("food",min);
   }
-  // spread rest on first
+  // spread rest on first in array (hero first)
   food-=min*men.size();
   for (std::vector<AntPerson*>::iterator i=men.begin();i!=men.end();i++) {
     if (food<=0)
       break;
     (*i)->resource.add("food",1);
     food-=1;
-    cdebug("GAVE SOME FOOD TO "<<*i);
   }
 
 }
