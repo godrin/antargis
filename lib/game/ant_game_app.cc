@@ -11,6 +11,7 @@
 #include "ant_hljob_drop.h"
 #include "ant_hljob_fetching.h"
 #include "ant_hljob_fight_animal.h"
+#include "ant_hljob_pickup_from.h"
 #include "ant_hljob_fighting.h"
 #include "ant_hljob_recruit.h"
 #include "ant_house.h"
@@ -344,7 +345,7 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
       case AntActionWidget::TAKE_FOOD:
         {
           if ( targetBoss )
-            hero->setHlJob ( new AntHLJobFetching ( targetBoss ) );
+            hero->setHlJob ( new AntHLJobPickupFrom (hero, targetBoss,"food" ) );
         }
         break;
       case AntActionWidget::DISMISS:

@@ -5,6 +5,7 @@
 #include "ant_hero.h"
 #include "ant_man.h"
 #include "map.h"
+#include "ant_formation.h"
 #include <cmath>
 
 AntHLJob::AntHLJob ( AntBoss* pBoss ) :mMap ( pBoss->getMap() )
@@ -90,8 +91,12 @@ bool AntHLJob::sit ( AntPerson* man )
   return false;
 }
 
-bool AntHLJob::moveTo(AntPerson *man, const AGVector2 &pos) {
+bool AntHLJob::moveTo(AntPerson *man, const AGVector2 &pPos, bool withFormation) {
   CTRACE;
+  AGVector2 pos=pPos;
+  if(withFormation && !dynamic_cast<AntHero*>(man)) {
+    pos=getBoss()->getFormation()->getPosition(man,pos);
+  }
   AGVector2 diff=man->getPos2D()-pos;
   if(diff.length2()<0.1) {
     return true;

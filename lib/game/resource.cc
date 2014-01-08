@@ -31,10 +31,11 @@ void Resource::takeAll(Resource &pr)
     pr.r.clear();
   }
 
-void Resource::take(Resource &r,const std::string &pName)
+void Resource::take(Resource &r,const std::string &pName,float delta)
   {
-    add(pName,r.get(pName));
-    r.set(pName,0);
+    int amount=r.get(pName)*delta;
+    add(pName,amount);
+    r.sub(pName,amount);
   }
 
 

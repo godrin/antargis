@@ -10,6 +10,7 @@
 #include "ant_hljob_gather_and_do.h"  
 #include "ant_hljob_moving.h"
 #include "ant_hljob_rest.h"
+#include "ant_hljob_pickup_from.h"
 
 
 namespace Antargis {
@@ -21,6 +22,8 @@ namespace Antargis {
       job=new AntHLJobRest(boss);
     } else if(n.getName()=="hljobFetching") {
       job=new AntHLJobFetching(boss);
+    } else if(n.getName()=="hljobPickupFrom") {
+      job=new AntHLJobMoving(boss);
     } else if(n.getName()=="hljobMoving") {
       job=new AntHLJobMoving(boss);
     } else {

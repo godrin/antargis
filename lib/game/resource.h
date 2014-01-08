@@ -37,7 +37,7 @@ class AGEXPORT Resource
   void takeAll(Resource &r);
 
   /// take everything of type pname, that's in r and put it into "this"
-  void take(Resource &r,const std::string &pName);
+  void take(Resource &r,const std::string &pName,float delta=1.0f);
 
   /// check if the "bag" is empty
   bool empty() const;
