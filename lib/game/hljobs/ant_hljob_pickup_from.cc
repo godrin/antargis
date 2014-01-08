@@ -19,7 +19,6 @@ bool AntHLJobPickupFrom::finished() {
 
 bool AntHLJobPickupFrom::checkPerson ( AntPerson* person )
 {
-  std::cout<<"checkPerson"<<person<<" state:"<<state<<std::endl;
   if ( AntHLJobMoving::finished() ) {
     switch(state) {
       case NEARLY_FINISHED: 
