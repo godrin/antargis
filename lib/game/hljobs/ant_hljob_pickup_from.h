@@ -10,7 +10,7 @@ class AntHLJobPickupFrom: public AntHLJobMoving {
     AntHLJobPickupFrom(AntBoss* pBoss, AntBoss *pTarget,const AGString &what);
 
     bool finished();
-    void checkPerson ( AntPerson* person );
+    bool checkPerson ( AntPerson* person );
 
   private:
     void takeIt();

@@ -348,6 +348,12 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
             hero->setHlJob ( new AntHLJobPickupFrom (hero, targetBoss,"food" ) );
         }
         break;
+      case AntActionWidget::TAKE_WEAPONS:
+        {
+          if ( targetBoss )
+            hero->setHlJob ( new AntHLJobPickupFrom (hero, targetBoss,"weapons" ) );
+        }
+        break;
       case AntActionWidget::DISMISS:
         {
           if ( targetBoss ) {

@@ -22,7 +22,7 @@ public:
 protected:
     virtual AntHero *getHero();
 
-    virtual void checkPerson(AntPerson *p);
+    virtual bool checkPerson(AntPerson *p);
     virtual void eventMoveFinished();
 private:
 

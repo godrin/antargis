@@ -122,8 +122,9 @@ AGVector2 AntHLJob::basePos()
   return getBossEntity()->getPos2D();
 }
 
-void AntHLJob::checkPerson ( AntPerson* p )
+bool AntHLJob::checkPerson ( AntPerson* p )
 {
+  return true;
 }
 
 void AntHLJob::assignAll() {

@@ -33,9 +33,15 @@ void Resource::takeAll(Resource &pr)
 
 void Resource::take(Resource &r,const std::string &pName,float delta)
   {
-    int amount=r.get(pName)*delta;
-    add(pName,amount);
-    r.sub(pName,amount);
+    std::list<AGString> resources={pName};
+    if(pName=="weapons")
+      resources={"shield","sword","bow","boat"};
+
+    for(AGString res:resources) {
+      int amount=r.get(res)*delta;
+      add(res,amount);
+      r.sub(res,amount);
+    }
   }
 
 
@@ -52,11 +58,11 @@ void Resource::saveXML(Node &node) const
 
 }
 void Resource::loadXML(const Node &node)
-  {
-    Node::Attributes a=node.getAttributes();
-    for(Node::Attributes::iterator i=a.begin();i!=a.end();++i)
-      r[i->first]=i->second.toFloat();
-  }
+{
+  Node::Attributes a=node.getAttributes();
+  for(Node::Attributes::iterator i=a.begin();i!=a.end();++i)
+    r[i->first]=i->second.toFloat();
+}
 
 bool Resource::empty() const
 {

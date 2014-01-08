@@ -2,7 +2,7 @@
   
 <antTower aggression="3" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Keep" men="7">
     <position x="56.642" y="51.0992" z="1.78436"/>
-		<resource food="30" stone="50"/>
+		<resource food="30" stone="50" sword="3" shield="2" bow="5" boat="10"/>
   </antTower>
   <antHero aggression="3" appearance="hero" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Bantor" men="4">
     <position x="61.3992" y="85.7643" z="1.24638"/>

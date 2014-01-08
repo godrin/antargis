@@ -27,7 +27,7 @@ AGVector2 AntHLJobFetching::basePos()
 {
   return getBossEntity()->getPos2D();
 }
-void AntHLJobFetching::checkPerson(AntPerson *person)
+bool AntHLJobFetching::checkPerson(AntPerson *person)
 {
   AntMan *man=dynamic_cast<AntMan*>(person);
   if(man) {
@@ -35,7 +35,7 @@ void AntHLJobFetching::checkPerson(AntPerson *person)
       menAtHome.insert(man);
       if (checkFood(man)) {
         man->newRestJob(3);
-        return;
+        return false;
       }
       if (man->getMode()==AntPerson::REST_SIT) {
         man->setMode(AntPerson::READY);
@@ -57,7 +57,7 @@ void AntHLJobFetching::checkPerson(AntPerson *person)
         man->setMode(AntPerson::HOMING);
         man->setMeshState(man->getFetchResource());
         man->newMoveJob(0,getBossEntity()->getPos2D(),0);
-        return;
+        return false;
       }
       cdebug("DIG resource");
       man->digResource(man->getFetchResource());
@@ -77,7 +77,7 @@ void AntHLJobFetching::checkPerson(AntPerson *person)
       if (!man->getTargetByID()) // FIXME: error while loading
       {
         cdebug("No target defined ?");
-        return;
+        return false;
       }
       man->collectResource(res);
       auto target=man->getTargetByID();
@@ -100,6 +100,7 @@ void AntHLJobFetching::checkPerson(AntPerson *person)
   AntHero *hero=dynamic_cast<AntHero*>(person);
   if(hero)
     hero->newRestJob(10);
+  return false;
 }
 
 bool AntHLJobFetching::finished()

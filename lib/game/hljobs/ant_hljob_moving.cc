@@ -58,50 +58,43 @@ void AntHLJobMoving::init()
 }
 
 
-void AntHLJobMoving::checkPerson ( AntPerson* p )
+bool AntHLJobMoving::checkPerson ( AntPerson* p )
 {
-  std::cout<<"MOVING:checkPerson:"<<p<<std::endl;
-  CTRACE;
   if ( moveFinished ) {
-    std::cout<<"MOVING: already finished"<<std::endl;
-    return;
+    // already finished - early out
+    return true;
   }
-  cdebug ( "state:"<<state );
   switch ( state )
-    {
+  {
     case FORMAT:
-    {
-      cdebug ( "man mode:"<<p->getMode() <<" FORMAT:"<<AntMan::FORMAT );
-      if ( p->getMode() ==AntMan::FORMAT )
+      {
+        if ( p->getMode() ==AntMan::FORMAT )
         {
           p->setMode ( AntMan::READY );
           p->setMeshState ( "stand" );
           p->setDirection ( formatDir().getAngle() );
         }
-      cdebug ( "count formatting:"<<countMen ( AntMan::FORMAT ) );
-      if ( countMen ( AntMan::FORMAT ) ==0 )
+        if ( countMen ( AntMan::FORMAT ) ==0 )
         {
-          cdebug ( "Go start walking" );
           startWalking();
         }
-    }
-    break;
+      }
+      break;
     case MOVING:
-    {
-      cdebug ( "WAYPOINTS:"<<waypoints.size() );
-      if ( waypoints.size() >0 )
-        startFormatting();
-      else
+      {
+        if ( waypoints.size() >0 )
+          startFormatting();
+        else
         {
-          cdebug ( "FINISHED:" ); //<<@hero.getPos2D,@pos,@overalltarget
-
           moveFinished=true;
           eventMoveFinished();
+          return true;
         }
 
-    }
-    break;
-    }
+      }
+      break;
+  }
+  return false;
 }
 void AntHLJobMoving::eventMoveFinished()
 {
@@ -127,13 +120,13 @@ void AntHLJobMoving::startFormatting()
   getHero()->setFormation ( new AntFormationBlock ( getHero(),formatDir() ) );
   std::vector<AntPerson*> men=getMenWithBoss();
   for ( std::vector<AntPerson*>::iterator man=men.begin(); man!=men.end(); man++ )
-    {
-      AGVector2 pos=getHero()->getFormation ( *man,getHero()->getPos2D() );
-      
-      ( *man )->setMeshState ( "walk" );
-      ( *man )->newMoveJob ( 0,pos,formatDist );
-      ( *man )->setMode ( AntPerson::FORMAT );
-    }
+  {
+    AGVector2 pos=getHero()->getFormation ( *man,getHero()->getPos2D() );
+
+    ( *man )->setMeshState ( "walk" );
+    ( *man )->newMoveJob ( 0,pos,formatDist );
+    ( *man )->setMode ( AntPerson::FORMAT );
+  }
   state=FORMAT;
   cdebug ( "startFormatting." );
 }
@@ -153,17 +146,17 @@ void AntHLJobMoving::startWalking()
   waypoints.pop_front();
   std::vector<AntPerson*> men=getMenWithBoss();
   for ( std::vector<AntPerson*>::iterator man=men.begin(); man!=men.end(); man++ )
-    {
-      AGVector2 f=getHero()->getFormation ( *man,targetPosition );
-      cdebug ( "new move job:"<< ( *man )->getPos2D() <<" to "<<f );
-      float curDist=formatDist;
-      if(waypoints.size()==0)
-        curDist=dist;
-      ( *man )->newMoveJob ( 0,f,curDist );
-      ( *man )->setMode ( AntPerson::MOVING );
-      ( *man )->setMeshState ( "walk" );
+  {
+    AGVector2 f=getHero()->getFormation ( *man,targetPosition );
+    cdebug ( "new move job:"<< ( *man )->getPos2D() <<" to "<<f );
+    float curDist=formatDist;
+    if(waypoints.size()==0)
+      curDist=dist;
+    ( *man )->newMoveJob ( 0,f,curDist );
+    ( *man )->setMode ( AntPerson::MOVING );
+    ( *man )->setMeshState ( "walk" );
 
-    }
+  }
   state=MOVING;
   cdebug ( "startWalking." );
 
@@ -176,12 +169,12 @@ size_t AntHLJobMoving::countMen ( AntMan::JobMode mode )
   std::vector< AntPerson* > men=getMenWithoutBoss();
   size_t count=0;
   for ( std::vector< AntPerson* >::iterator i= men.begin(); i!=men.end(); i++ )
-    {
-      AntMan *man=dynamic_cast<AntMan*> ( *i );
-      if ( man )
-        if ( man->getMode() ==mode )
-          count++;
-    }
+  {
+    AntMan *man=dynamic_cast<AntMan*> ( *i );
+    if ( man )
+      if ( man->getMode() ==mode )
+        count++;
+  }
   return count;
 }
 

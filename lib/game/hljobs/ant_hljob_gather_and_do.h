@@ -10,7 +10,7 @@ class AntHLJobGatherAndDo:public AntHLJob {
     virtual bool finished();
 
   protected:
-    virtual void checkPerson(AntPerson *p);
+    virtual bool checkPerson(AntPerson *p);
     virtual void afterGathering()=0;
 
   private:

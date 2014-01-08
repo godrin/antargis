@@ -11,7 +11,7 @@ bool AntHLJobGatherAndDo::finished() {
   return state == FINISHED;
 }
 
-void AntHLJobGatherAndDo::checkPerson(AntPerson *p) {
+bool AntHLJobGatherAndDo::checkPerson(AntPerson *p) {
   AGVector2 centerPos=getBossEntity()->getPos2D();
   switch(state) {
     case INIT:
@@ -33,9 +33,11 @@ void AntHLJobGatherAndDo::checkPerson(AntPerson *p) {
           state=FINISHED;
           p->setMeshState("walk");
           afterGathering();
+          return true;
         }
       }
       break;
   }
+  return false;
 }
 

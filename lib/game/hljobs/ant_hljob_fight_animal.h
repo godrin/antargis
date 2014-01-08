@@ -10,7 +10,7 @@ class AntHLJobFightAnimal: public AntHLJobMoving {
     AntHLJobFightAnimal(AntBoss* pBoss, AntAnimal *pTarget);
 
     bool finished();
-    void checkPerson ( AntPerson* person );
+    bool checkPerson ( AntPerson* person );
 
   private:
     void killAnimal();

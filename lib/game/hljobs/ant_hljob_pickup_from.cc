@@ -17,7 +17,7 @@ bool AntHLJobPickupFrom::finished() {
   return mFinished;
 }
 
-void AntHLJobPickupFrom::checkPerson ( AntPerson* person )
+bool AntHLJobPickupFrom::checkPerson ( AntPerson* person )
 {
   std::cout<<"checkPerson"<<person<<" state:"<<state<<std::endl;
   if ( AntHLJobMoving::finished() ) {
@@ -35,8 +35,10 @@ void AntHLJobPickupFrom::checkPerson ( AntPerson* person )
         }
         break;
       case GO_BACK:
-        if(moveTo(person,storedPos,true))
+        if(moveTo(person,storedPos,true)) {
           mFinished=true;
+          return true;
+        }
         break;
       default:
         {
@@ -54,6 +56,7 @@ void AntHLJobPickupFrom::checkPerson ( AntPerson* person )
   } else {
     AntHLJobMoving::checkPerson(person);
   }
+  return false;
 }
 
 void AntHLJobPickupFrom::takeIt() {

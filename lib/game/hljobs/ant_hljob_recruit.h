@@ -13,7 +13,7 @@ class AntHlJobRecruit:public AntHLJobMoving
   protected:
     AGVector2 basePos();
     void eventMoveFinished();
-    void checkPerson ( AntPerson *person );
+    bool checkPerson ( AntPerson *person );
   private:
     void doCollect();
     AntBoss *getTargetBoss();

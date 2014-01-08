@@ -15,21 +15,24 @@ bool AntHLJobFightAnimal::finished() {
   return mFinished;
 }
 
-void AntHLJobFightAnimal::checkPerson ( AntPerson* person )
+bool AntHLJobFightAnimal::checkPerson ( AntPerson* person )
 {
-  std::cout<<"checkPerson"<<person<<" state:"<<state<<std::endl;
   if ( AntHLJobMoving::finished() ) {
     switch(state) {
       case NEARLY_FINISHED: 
         {
+          if(dynamic_cast<AntHero*>(person)) {
           killAnimal();
-          mFinished=true;
+            mFinished=true;
+            return true;
+          }
         }
         break;
       case STATE_EAT:
         {
           person->newRestJob(1);
-          state=NEARLY_FINISHED;
+          if(dynamic_cast<AntHero*>(person))
+            state=NEARLY_FINISHED;
         }
         break;
       default:
@@ -46,6 +49,7 @@ void AntHLJobFightAnimal::checkPerson ( AntPerson* person )
   } else {
     AntHLJobMoving::checkPerson(person);
   }
+  return false;
 }
 
 void AntHLJobFightAnimal::killAnimal() {

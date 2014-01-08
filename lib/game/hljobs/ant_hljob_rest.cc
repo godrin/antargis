@@ -23,7 +23,7 @@ void AntHLJobRest::initRestJob() {
   assignAll();
 }
 
-void AntHLJobRest::checkPerson(AntPerson* person)
+bool AntHLJobRest::checkPerson(AntPerson* person)
 {
   AntHero *hero=dynamic_cast<AntHero*>(person);
 
@@ -34,6 +34,7 @@ void AntHLJobRest::checkPerson(AntPerson* person)
       firstTime=false;
     } else {
       jobFinished=true;
+      return true;
     }
     eat(hero);
   } else {
@@ -67,11 +68,13 @@ void AntHLJobRest::checkPerson(AntPerson* person)
           break;
         }
       default:
-        sit(man);
+        // spread & eat first
+        man->setMode(AntMan::REST_EAT);
         break;
 
     }
   }
+  return false;
 }
 
 bool AntHLJobRest::heroHasFood()

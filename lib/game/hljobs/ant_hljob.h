@@ -19,7 +19,7 @@ class AntHLJob
 public:
   AntHLJob ( AntBoss *pBoss );
 
-  virtual void checkPerson ( AntPerson *p );
+  virtual bool checkPerson ( AntPerson *p );
   virtual bool finished() =0;
 
   AntBoss *getBoss();

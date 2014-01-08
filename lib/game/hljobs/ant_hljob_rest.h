@@ -12,7 +12,7 @@ public:
     AntHLJobRest(AntBoss* pBoss);
     AntHLJobRest(AntBoss* pBoss,float pTime);
 
-    void checkPerson(AntPerson *man);
+    bool checkPerson(AntPerson *man);
     bool finished();
     
     AGVector2 basePos();

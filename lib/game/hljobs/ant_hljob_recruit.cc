@@ -60,7 +60,7 @@ void AntHlJobRecruit::reorderSittingMen() {
   }
 }
 
-void AntHlJobRecruit::checkPerson ( AntPerson* person )
+bool AntHlJobRecruit::checkPerson ( AntPerson* person )
 {
   if ( AntHLJobMoving::finished() )
   {
@@ -94,6 +94,7 @@ void AntHlJobRecruit::checkPerson ( AntPerson* person )
           otherMan->newMoveJob ( 0,boss->getFormation()->getPosition ( otherMan,mBasePos ),0 );
 
           reorderSittingMen();
+          //FIXME: return true ???
         }
       }
 
@@ -124,6 +125,7 @@ void AntHlJobRecruit::checkPerson ( AntPerson* person )
   {
     AntHLJobMoving::checkPerson ( person );
   }
+  return false;
 }
 
 
