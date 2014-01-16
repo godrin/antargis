@@ -247,8 +247,6 @@ void embossSurface(AGSurface &s,float depth=1.0f)
           v/=3;//2.0;
           v+=0.2;
 
-          AGColor c=s.getPixel(x,y);
-
             {
               AGColor c=s.getPixel(x,y);
               int olda=c.a;
@@ -303,12 +301,10 @@ AGTexture *AGFontEngine::renderText(int BaseLineX, int BaseLineY, const AGString
 
         assert(ns);
 
-        SDL_Rect sr,dr;
+        SDL_Rect sr;
         sr.x=sr.y=0;
-        dr.x=BaseLineX;
-        dr.y=BaseLineY;
-        dr.w=sr.w=ns->w;
-        dr.h=sr.h=ns->h;
+        sr.w=ns->w;
+        sr.h=ns->h;
 
         AGInternalSurface *is=new AGInternalSurface;
         is->surface=ns;

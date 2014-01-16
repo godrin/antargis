@@ -1,3 +1,6 @@
+* eventDie on Hero
+
+
 = milestone 0
 * FIXED - crashes because sheeps don't have meshes
 * FIXED - crash in /home/david/projects/2013/ant3/lib/game/entity.cc 310 void AntEntity::removeOldJobs() *i!=mJob

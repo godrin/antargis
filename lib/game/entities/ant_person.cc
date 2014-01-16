@@ -147,12 +147,10 @@ void AntPerson::newFightJob ( int p,AntEntity *target ) {
 }
 
 void AntPerson::eventStartFighting() {
-  CTRACE;
   setMeshState("fight");
 }
 
 void AntPerson::eventStartMoving() {
-  CTRACE;
   setMeshState("walk");
 }
 

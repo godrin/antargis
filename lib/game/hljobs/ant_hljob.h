@@ -32,6 +32,7 @@ public:
   virtual void saveXML(Node &node) const;
   virtual void loadXML(const Node &node);
   virtual bool fireBurning() const;
+  virtual void eventJobDiscarded();
 
 protected:
   virtual AntMap *getMap();

@@ -120,6 +120,10 @@ AGVector2 AntBoss::getFormation ( AntPerson* e, const AGVector2& v )
 
 void AntBoss::setHlJob ( AntHLJob* job )
 {
+  CTRACE;
+  if(hlJob)
+    hlJob->eventJobDiscarded();
+
   delete hlJob;
   hlJob=job;
 }

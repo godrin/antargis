@@ -4,6 +4,7 @@
 #include "ant_hljob_rest.h"
 #include "ant_fire.h"
 #include "ag_texturecache.h"
+#include "ant_hljob_fighting.h"
 
 #include <algorithm>
 
@@ -159,7 +160,8 @@ void AntHero::setFire(bool flag) {
 
 void AntHero::setHlJob ( AntHLJob *job ) {
   AntBoss::setHlJob(job);
-  cdebug("setHlJob:"<<job<<" "<<typeid(*job).name()<<" disable fire");
+  if(job)
+    cdebug("setHlJob:"<<job<<" "<<typeid(*job).name()<<" disable fire");
   setFire(job && job->fireBurning());
 }
 
@@ -173,3 +175,9 @@ AGTexture AntHero::getImage() {
   return getTextureCache()->get(filename);
 }
 
+void AntHero::eventDefeated() {
+  auto fightJob=dynamic_cast<AntHlJobFighting*>(getHlJob());
+  if(fightJob) {
+    fightJob->reactOnLost();
+  }
+}

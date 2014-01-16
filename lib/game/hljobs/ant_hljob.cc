@@ -151,3 +151,7 @@ void AntHLJob::loadXML(const Node &node) {
 bool AntHLJob::fireBurning() const {
   return true;
 }
+  
+void AntHLJob::eventJobDiscarded() {
+}
+

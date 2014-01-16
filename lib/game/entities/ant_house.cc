@@ -43,7 +43,7 @@ AntEntity* AntHouse::getEntity()
 
 void AntHouse::eventNoHlJob()
 {
-  setHlJob ( new AntHLJobFetching ( this ) );
+  setHlJob (0);
 }
 void AntHouse::saveXML(Node & node) const {
   AntEntity::saveXML ( node );
@@ -63,3 +63,12 @@ int AntHouse::getID()
 {
   return AntEntity::getID();
 }
+
+void AntHouse::setHlJob ( AntHLJob* job ) {
+  CTRACE;
+  if(!job)
+    job = new AntHLJobFetching ( this );
+  AntBoss::setHlJob(job);
+
+}
+

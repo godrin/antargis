@@ -44,6 +44,7 @@ class AntHero:public AntPerson,public AntBoss {
     void setHlJob ( AntHLJob *job );
 
     AGTexture getImage();
+    void eventDefeated();
   private:
 
     AGString appearance;

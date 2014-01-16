@@ -644,6 +644,7 @@ void AntEntity::eventGotFight ( AntEntity*pOther )
 
 void AntEntity::eventDefeated()
 {
+  CTRACE;
 }
 
 void AntEntity::sigDefeated()

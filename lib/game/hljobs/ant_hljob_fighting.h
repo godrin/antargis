@@ -12,6 +12,9 @@ class AntHlJobFighting:public AntHLJobMoving {
     virtual void loadXML(const Node &node);
 
     void removeFightingperson(AntPerson *person);
+    void eventJobDiscarded();
+    AntHlJobFighting *getTargetFightJob();
+    void reactOnLost();
   protected:
     bool checkPerson ( AntPerson* person );
     bool fight(AntPerson *person);
@@ -20,7 +23,7 @@ class AntHlJobFighting:public AntHLJobMoving {
     void startFighting();
     void reactOnWon();
 
-    enum State {START, FIGHTING, WON, FINISHED};
+    enum State {START, FIGHTING, WON, LOST, FINISHED};
     State state;
     AntBoss *target;
     bool mAttacking;

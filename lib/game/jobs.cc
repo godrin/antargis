@@ -363,8 +363,6 @@ void FightJob::move ( AntEntity *e,float ptime )
     mTarget->decMorale ( ptime*e->getMoraleStrength() /mTarget->getDefense() ); // FIXME: estimate this value
     mTarget->eventGotFight ( e );
 
-    cdebug("TARGET ENERGY:"<<mTarget<<  "   "<<mTarget->getEnergy());
-
     e->incExperience ( ptime*e->learnAmount );
     if ( moving )
     {

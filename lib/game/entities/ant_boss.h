@@ -38,7 +38,7 @@ public:
 
   virtual void eventNoHlJob() =0;
 
-  void setHlJob ( AntHLJob *job );
+  virtual void setHlJob ( AntHLJob *job );
   AntHLJob *getHlJob();
   void setFormation ( AntFormation *formation );
 
