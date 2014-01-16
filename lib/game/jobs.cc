@@ -288,7 +288,7 @@ FightJob::FightJob() :mTargetID ( -1 )
 FightJob::FightJob ( int p,AntEntity *pTarget,float pDistance ) :Job ( p ),mTargetID ( pTarget->getID() )
 {
   fightDistance=pDistance;
-  moving=true;
+  moving=false;
 }
 
 FightJob::~FightJob()
