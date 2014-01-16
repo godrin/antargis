@@ -18,6 +18,7 @@ class AntHlJobFighting:public AntHLJobMoving {
     bool finished();
   private:
     void startFighting();
+    void reactOnWon();
 
     enum State {START, FIGHTING, WON, FINISHED};
     State state;

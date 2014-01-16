@@ -1,6 +1,7 @@
 #include "ant_hljob_fighting.h"
 #include "ant_hero.h"
 #include "ant_formation_rest.h"
+#include "map.h"
 
 AntHlJobFighting::AntHlJobFighting(AntBoss* pBoss,AntBoss *pTarget, bool attacking): AntHLJobMoving(pBoss,pTarget->getEntity()->getPos2D(),5,true,!attacking),target(pTarget)
 {
@@ -31,6 +32,7 @@ bool AntHlJobFighting::checkPerson ( AntPerson* person ) {
       case FIGHTING:
         cdebug("fight? "<<person);
         if(fight(person)) {
+          cdebug("ready fighting");
           AntBoss *thisBoss=getBoss();
           if(!thisBoss)
             throw std::runtime_error("thisBoss is null in AntHlJobFighting::checkPerson");
@@ -38,6 +40,8 @@ bool AntHlJobFighting::checkPerson ( AntPerson* person ) {
           // finished fighing
           thisBoss->setFormation ( new AntFormationRest ( thisBoss, AntHero::FIRE_DISPLACE) );
           state=WON;
+          cdebug("state=WON !");
+          reactOnWon();
         }
 
         break;
@@ -95,14 +99,24 @@ bool AntHlJobFighting::fight(AntPerson *person) {
     return true;
   }
 
+  auto targetFightJob=dynamic_cast<AntHlJobFighting*>(target->getHlJob());
+
+
+  if(!targetFightJob) {
+    cdebug("ERROR: Target has no fight job anymore!");
+    return true;
+  }
 
   // find next enemy
-  auto enemyMen=target->getMenWithBoss();
-
+  auto enemyMen=targetFightJob->fightingMenIDs;
+  cdebug("enemyMe size:"<<enemyMen.size());
   float minDist=1000.0f;
   AntPerson *found=0;
 
-  for(auto man:enemyMen) {
+  for(auto manID:enemyMen) {
+    auto man=dynamic_cast<AntPerson*>(getMap()->getEntity(manID));
+    if(!man)
+      continue;
     float dist=(person->getPos2D()-man->getPos2D()).length2();
     if(minDist>dist) {
       minDist=dist;
@@ -112,13 +126,20 @@ bool AntHlJobFighting::fight(AntPerson *person) {
   if(found) {
     person->newFightJob(0,found);
   }
-
+  else
+    return true;
 
   return false;
 }
 
 
 void AntHlJobFighting::removeFightingperson(AntPerson *person) {
+  CTRACE;
   fightingMenIDs.erase(person->getID());
+  cdebug("fighting men size:"<<fightingMenIDs.size());
+}
+
+void AntHlJobFighting::reactOnWon() {
+  target->setPlayer(getBoss()->getPlayer());
 }
 
