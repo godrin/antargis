@@ -30,10 +30,14 @@ public:
 
     void setMode(JobMode mode);
     JobMode getMode();
+    void newFightJob ( int p,AntEntity *target );
 
 protected:
     virtual void simDeath();
+    virtual void eventStartFighting();
+    virtual void eventStartMoving();
 private:
+    AGString getWeapon();
 
     JobMode mMode;
     bool mOnWater;

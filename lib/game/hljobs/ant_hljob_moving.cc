@@ -11,9 +11,10 @@ AntHLJobMoving::AntHLJobMoving ( AntBoss* pBoss ) : AntHLJob ( pBoss )
 }
 
 
-AntHLJobMoving::AntHLJobMoving ( AntBoss* pBoss, const AGVector2& pTargetPosition,float pDist,bool doFormat ) : AntHLJob ( pBoss )
+AntHLJobMoving::AntHLJobMoving ( AntBoss* pBoss, const AGVector2& pTargetPosition,float pDist,bool doFormat, bool doNothingAtAll ) : AntHLJob ( pBoss )
 {
-  initMoving ( pTargetPosition,pDist,doFormat );
+  if(!doNothingAtAll)
+    initMoving ( pTargetPosition,pDist,doFormat );
 }
 
 void AntHLJobMoving::initMoving ( const AGVector2& pTargetPosition, float pDist, bool doFormat )
@@ -25,31 +26,31 @@ void AntHLJobMoving::initMoving ( const AGVector2& pTargetPosition, float pDist,
   formatDist=0;
 
   if ( getMap() )
-    {
-      waypoints=getMap()->getCompletePathFinder()->computePath ( getBossEntity()->getPos2D(),pTargetPosition,getHero() );
-    }
+  {
+    waypoints=getMap()->getCompletePathFinder()->computePath ( getBossEntity()->getPos2D(),pTargetPosition,getHero() );
+  }
   else
-    {
-    }
+  {
+  }
 
   waypoints.push_front ( getHero()->getPos2D() );
   waypoints.push_back ( pTargetPosition );
   if ( getMap() )
-    {
-      waypoints=getMap()->getCompletePathFinder()->refinePath ( waypoints,getHero() );
-    }
+  {
+    waypoints=getMap()->getCompletePathFinder()->refinePath ( waypoints,getHero() );
+  }
   waypoints.pop_front();
 
   moveFinished=false;
 
   if ( getMen().size() >0 )
-    {
-      startFormatting();
-    }
+  {
+    startFormatting();
+  }
   else
-    {
-      startWalking();
-    }
+  {
+    startWalking();
+  }
 }
 
 
@@ -206,3 +207,10 @@ bool AntHLJobMoving::fireBurning() const {
   return false;
 }
 
+void AntHLJobMoving::dontMoveAnymore() {
+  CTRACE;
+  if(!moveFinished) {
+    moveFinished=true;
+    eventMoveFinished();
+  }
+}

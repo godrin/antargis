@@ -10,6 +10,8 @@
 
 AntHLJob::AntHLJob ( AntBoss* pBoss ) :mMap ( pBoss->getMap() )
 {
+  if(!pBoss)
+    throw std::runtime_error("pBoss is null in AntHLJob::AntHLJob");
 #ifdef ANTHLJOB_SAVE_ONLY_ID
   heroId=pBoss->getID();
 #else
@@ -19,7 +21,7 @@ AntHLJob::AntHLJob ( AntBoss* pBoss ) :mMap ( pBoss->getMap() )
 
 AntBoss* AntHLJob::getBoss()
 {
-  
+
 #ifdef ANTHLJOB_SAVE_ONLY_ID
   AntBoss *boss=mMap->getBoss ( heroId );
   if ( !boss )
@@ -53,18 +55,23 @@ AntMap* AntHLJob::getMap()
 }
 /**
   \return bool true, if sitting is done
-*/
-bool AntHLJob::sit ( AntPerson* man )
+  */
+bool AntHLJob::sit ( AntPerson* man, const AGVector2 &pBasePos )
 {
-  AGVector2 formationPos=getBoss()->getFormation ( man,basePos() );
+  AGVector2 bp;
+  if(pBasePos.getX()<0) 
+    bp=basePos();
+  else
+    bp=pBasePos;
+  AGVector2 formationPos=getBoss()->getFormation ( man,bp );
 
   AGVector2 diff= ( man->getPos2D()-formationPos );
-  AntEntity *hero=getBossEntity();
+  //AntEntity *hero=getBossEntity();
   float dist=diff.length2();
   if ( dist<0.1 )
   {
     man->setMode(AntPerson::REST_SIT);
-    man->setDirection ( 180- ( hero->getPos2D()-man->getPos2D() ).normalized().getAngle().angle*180.0/M_PI );
+    man->setDirection ( 180- ( bp-man->getPos2D() ).normalized().getAngle().angle*180.0/M_PI );
     if ( man->getPos3D().getZ() <0 ) // under water
     {
       man->newRestJob ( 5 );

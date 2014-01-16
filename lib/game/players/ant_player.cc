@@ -74,12 +74,17 @@ void AntPlayer::loadXML(const Node& node)
             childIterator!=children.end();childIterator++) {
         bossNames.push_back((*childIterator)->get("name"));
     }
+
+    for(auto child:node.getChildren("house")) {
+      bossNames.push_back(child->get("name"));
+    }
+
     cdebug("Antplayer::loadxml"<<bossNames.size());
 }
 
 void AntPlayer::move(float pTime)
 {
-    initBosses();
+  initBosses();
 }
 void AntPlayer::initBosses() {
   std::list<AGString> notFound;

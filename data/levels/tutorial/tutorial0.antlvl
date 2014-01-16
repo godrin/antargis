@@ -1,6 +1,6 @@
 <antargisLevel filename="levels/tutorial/tutorial0.hmap" height="128" width="128" scriptfile="levels/tutorial/tutorial0.rb" scriptclass='Level1'>
   
-<antTower aggression="3" energy="1" healSpeed="0.1" morale="1" name="" onGround="true" name="Keep" men="7">
+<antTower aggression="3" energy="1" healSpeed="0.1" morale="1" onGround="true" name="Keep" men="3">
     <position x="56.642" y="51.0992" z="1.78436"/>
 		<resource food="30" stone="50" sword="3" shield="2" bow="5" boat="10"/>
   </antTower>
@@ -87,9 +87,9 @@
   </antHighGrass>
 	<humanPlayer name="Rowen">
 		<hero name="Rowen"/>
-		<hero name="Keep"/>
 	</humanPlayer>
 	<lazyPlayer name="Bantor">
 		<hero name="Bantor"/>
+		<hero name="Keep"/>
 	</lazyPlayer>
 </antargisLevel>

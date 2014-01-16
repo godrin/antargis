@@ -39,6 +39,7 @@ public:
   virtual void eventNoHlJob() =0;
 
   void setHlJob ( AntHLJob *job );
+  AntHLJob *getHlJob();
   void setFormation ( AntFormation *formation );
 
   void setPlayer ( AntPlayer *player );
@@ -51,6 +52,8 @@ public:
 
 protected:
   void checkHlJobEnd();
+
+  void eventLostMan(AntPerson *person);
 
   void saveXMLBoss ( Node &node ) const;
   void loadXMLBoss ( const Node &node );

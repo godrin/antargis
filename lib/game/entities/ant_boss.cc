@@ -7,6 +7,7 @@
 #include "ant_player.h"
 #include "map.h"
 #include "ant_hljobs_create.h"
+#include "ant_hljob_fighting.h"
 
 #include <algorithm>
 
@@ -36,10 +37,13 @@ void AntBoss::init()
 void AntBoss::removeMan ( AntMan* man )
 {
   menWithoutBoss.remove ( man );
+  eventLostMan(man);
 }
 
 void AntBoss::signUp ( AntMan* man )
 {
+  if(!man)
+    throw std::runtime_error("signing up man == NULL ???");
   menWithoutBoss.push_back ( man );
 }
 
@@ -86,7 +90,11 @@ void AntBoss::assignJob ( AntHero* man )
 std::vector< AntPerson* > AntBoss::getMenWithBoss()
 {
   std::vector< AntPerson* > l;
-  l.push_back ( dynamic_cast<AntPerson*> ( getEntity() ) );
+  auto bossPerson=dynamic_cast<AntPerson*> ( getEntity() );
+
+  // don#t add if it's a house
+  if(bossPerson)
+    l.push_back (bossPerson);
   std::copy ( menWithoutBoss.begin(),menWithoutBoss.end(),std::back_inserter ( l ) );
   return l;
 }
@@ -114,6 +122,9 @@ void AntBoss::setHlJob ( AntHLJob* job )
 {
   delete hlJob;
   hlJob=job;
+}
+AntHLJob *AntBoss::getHlJob() {
+  return hlJob;
 }
 
 void AntBoss::setFormation ( AntFormation* pformation )
@@ -205,3 +216,15 @@ std::vector<AntPerson*> AntBoss::getMenWithoutBoss(AntPerson::JobMode mode) {
 size_t AntBoss::menCount() const {
   return menWithoutBoss.size();
 }
+
+void AntBoss::eventLostMan(AntPerson *person) {
+  if(hlJob) {
+    auto fightJob=dynamic_cast<AntHlJobFighting*>(hlJob);
+    if(fightJob) {
+      fightJob->removeFightingperson(person);
+    }
+  }
+} 
+
+
+

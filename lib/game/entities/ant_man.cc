@@ -291,3 +291,12 @@ float AntMan::canCarry() const
 {
   return 3;
 }
+
+void AntMan::eventDefeated() {
+  CTRACE;
+  setBoss(0);
+}
+void AntMan::eventMoraleLow() {
+  CTRACE;
+  setBoss(0);
+}

@@ -48,6 +48,8 @@ public:
 
 protected:
     void eventNoJob();
+    void eventDefeated();
+    void eventMoraleLow();
 private:
 
     void simDeath();

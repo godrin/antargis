@@ -137,5 +137,53 @@ void AntPerson::setMode(AntPerson::JobMode mode)
   };
 }
 
+void AntPerson::newFightJob ( int p,AntEntity *target ) {
+  checkResources();
+  if(resource.get("bow")>0) {
+    AntEntity::newFightJob(p,target,10);
+  } else {
+    AntEntity::newFightJob(p,target,1);
+  }
+}
 
+void AntPerson::eventStartFighting() {
+  CTRACE;
+  setMeshState("fight");
+}
 
+void AntPerson::eventStartMoving() {
+  CTRACE;
+  setMeshState("walk");
+}
+
+AGString AntPerson::getWeapon() {
+  if (resource.get("bow")>0)
+    return "fight_bow";
+
+  if (resource.get("sword")==0)
+    return "fight_dagger";
+  if (resource.get("shield")==0)
+    return "fight_sword";
+  else
+    return "fight_shield";
+}
+/*
+void AntPerson::checkResources() {
+  // FIXME: maybe make hero a little stronger ???
+  //        or even make experienced men stronger ???
+  if (resource.get("bow")>0) {
+    setStrength(0.03);
+    setMoraleStrength(0.04);
+  } else if (resource.get("sword")>0) {
+    setStrength(0.024);
+    setMoraleStrength(0.03);
+  } else {
+    setStrength(0.015);
+    setMoraleStrength(0.02);
+  }
+  if (resource.get("shield")==0)
+    setDefense(1);
+  else
+    setDefense(1.5);
+}
+*/

@@ -9,7 +9,7 @@ public:
     enum JOB_STATE { FORMAT,MOVING};
 
     AntHLJobMoving(AntBoss* pBoss);
-    AntHLJobMoving(AntBoss* pBoss,const AGVector2 &pTargetPosition,float dist,bool doFormat=true);
+    AntHLJobMoving(AntBoss* pBoss,const AGVector2 &pTargetPosition,float dist,bool doFormat=true, bool doNothingAtAll=false);
     void initMoving(const AGVector2 &pTargetPosition,float dist,bool doFormat=true);
 
     void init();
@@ -24,6 +24,7 @@ protected:
 
     virtual bool checkPerson(AntPerson *p);
     virtual void eventMoveFinished();
+    virtual void dontMoveAnymore();
 private:
 
     AGVector2 formatDir();
