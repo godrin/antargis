@@ -4,6 +4,8 @@
 
 const char *AntActionWidget::ActionImages[]=
 {
+  "data/gui/close_button.png",
+  "data/gui/move.png",
   "data/gui/sword.png",
   "data/gui/take_apple.png",
   "data/gui/take_weapon.png",

@@ -118,18 +118,8 @@ void AntGameApp::eventEntitiesClicked ( const PickResult &pNodes, int button )
   if ( button==1 )
   {
     // left button == select
+    showActionWidget();
 
-    if ( actionWidget==0 )
-    {
-      actionWidget=new AntActionWidget ( getMainWidget(),AGRect2 ( 50,200,140,40 ) );
-      actionWidget->setHandler ( this );
-      getMainWidget()->addChildBack ( actionWidget );
-    }
-
-    std::vector<AntActionWidget::Action> actions=getActions ( getCurrentHero(),getSelectedEntity() );
-    AGVector2 pos ( 100,190 );
-    actionWidget->show ( actions,pos );
-    //getMainWidget()->addChild(w);
   }
   else if ( button==3 && entity )
   {
@@ -155,9 +145,31 @@ void AntGameApp::eventEntitiesClicked ( const PickResult &pNodes, int button )
   }
 }
 
+void AntGameApp::showActionWidget() {
+    if ( actionWidget==0 )
+    {
+      actionWidget=new AntActionWidget ( getMainWidget(),AGRect2 ( 50,200,140,40 ) );
+      actionWidget->setHandler ( this );
+      getMainWidget()->addChildBack ( actionWidget );
+    }
+
+    std::vector<AntActionWidget::Action> actions=getActions ( getCurrentHero(),getSelectedEntity() );
+    AGVector4 mpos=getMap()->getVertex(targetPos.getX(),targetPos.getY());
+    AGVector2 pos;
+    auto selectedEntity=getSelectedEntity();
+    if(selectedEntity)
+      pos=getScene().getPosition(AGVector4(selectedEntity->getPos3D(),1))+AGVector2(-20,-20);
+    pos=getScene().getPosition(mpos)+AGVector2(-20,-20);
+    cdebug("POSSS:"<<pos);
+    //AGVector2 pos ( 100,190 );
+    actionWidget->show ( actions,pos );
+    //getMainWidget()->addChild(w);
+}
 
 void AntGameApp::selectEntity ( AntEntity* e )
 {
+  CTRACE;
+  cdebug("selectEntity:"<<e);
   AntEntity *entity=getMap()->getEntity ( selectedEntityId );
   if ( entity )
     entity->selected ( false );
@@ -241,8 +253,10 @@ void AntGameApp::eventMapClicked ( const AGVector2 &pos, int button )
      */
   if ( getCurrentHero() && button==1 )
   {
+    targetPos=pos;
+    showActionWidget();
     // assign hero a move job
-    getCurrentHero()->setHlJob ( new AntHLJobMoving ( getCurrentHero(),pos,0 ) );
+    //    getCurrentHero()->setHlJob ( new AntHLJobMoving ( getCurrentHero(),pos,0 ) );
   }
 }
 
@@ -255,6 +269,7 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
 {
   std::vector<AntActionWidget::Action> actions;
 
+  actions.push_back ( AntActionWidget::STOP );
   if ( target )
   {
     AntBoss *targetBoss=dynamic_cast<AntBoss*> ( target );
@@ -299,6 +314,8 @@ std::vector< AntActionWidget::Action > getActions ( AntHero *hero,AntEntity *tar
       }
     }
 
+  } else {
+    actions.push_back ( AntActionWidget::MOVE_TO );
   }
   return actions;
 }
@@ -371,6 +388,9 @@ void AntGameApp::actionClicked ( AntActionWidget::Action action )
         }
         break;
     }
+  } else if(hero) {
+    if ( action == AntActionWidget::MOVE_TO)
+      getCurrentHero()->setHlJob ( new AntHLJobMoving ( getCurrentHero(),targetPos,0 ) );
   }
 
 

@@ -29,10 +29,12 @@ class AntGameApp:public AntBasicGameApp,public AntActionWidget::Handler {
   private:
 
     void printOutEntityInfo(AntEntity *e);
+    void showActionWidget();
 
     void resetJob();
 
     int selectedEntityId;
+    AGVector2 targetPos;
     AntMap *mMap;
     AGLayout *layout;
     int currentHeroId;

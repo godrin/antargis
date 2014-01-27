@@ -10,14 +10,14 @@ find_package(SDL_mixer)
 find_package(ZLIB)
 find_package(OpenGL)
 find_package(PNG)
-find_package(Boost COMPONENTS signals)
+find_package(Boost COMPONENTS signals unit_test_framework REQUIRED)
 #FIND_PACKAGE(SWIG REQUIRED)
 find_package(Curses)
-
+add_definitions (-DBOOST_TEST_DYN_LINK)
 if ( NOT SDL_FOUND )
    message ( FATAL_ERROR "Make sure that SDL is installed" )
 endif ( NOT SDL_FOUND )
-
+enable_testing ()
 link_libraries (
    ${SDL_LIBRARY}
    ${SDLIMAGE_LIBRARY}
@@ -79,8 +79,8 @@ FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} lib/*.h lib/gui/*.h
   lib/formations/*.h
   lib/path/*.h
   lib/game/widgets/*.h
-  
 )
+
 add_library(antlib STATIC ${MYLIB_SOURCES})
 
 add_executable(antargis main.cpp)
@@ -92,6 +92,7 @@ target_link_libraries(generator antlib)
 add_executable(terrain terrain_app.cpp)
 target_link_libraries(terrain antlib)
 
+add_subdirectory(test)
 INSTALL(TARGETS antargis DESTINATION /usr/bin)
 INSTALL(DIRECTORY data DESTINATION /usr/share/antargis)
 
