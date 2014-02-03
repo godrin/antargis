@@ -112,8 +112,6 @@ void AntHero::eventNoHlJob()
 
 void AntHero::eventNoJob()
 {
-  //AntPerson::eventNoJob();
-
   checkHlJobEnd();
   assignJob ( this );
 }
@@ -132,15 +130,10 @@ int AntHero::getID()
 
 
 void AntHero::setFire(bool flag) {
-  CTRACE;
-  cdebug("FIREID:"<<fireID<<"   flag:"<<flag);
   AntFire *fire=0;
   if(fireID>0) 
     fire=dynamic_cast<AntFire*>(getMap()->getEntity(fireID));
   if(fire && !flag) {
-    cdebug("FIRE:"<<getMap()->getEntity(fireID)<<"  "<<fire);
-    cdebug("remove fire "<<fire);
-    //getMap()->removeEntity(fire);
     fire->disable();
     fireID=0;
     fire=0;
@@ -160,8 +153,6 @@ void AntHero::setFire(bool flag) {
 
 void AntHero::setHlJob ( AntHLJob *job ) {
   AntBoss::setHlJob(job);
-  if(job)
-    cdebug("setHlJob:"<<job<<" "<<typeid(*job).name()<<" disable fire");
   setFire(job && job->fireBurning());
 }
 
