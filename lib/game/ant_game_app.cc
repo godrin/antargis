@@ -146,24 +146,26 @@ void AntGameApp::eventEntitiesClicked ( const PickResult &pNodes, int button )
 }
 
 void AntGameApp::showActionWidget() {
-    if ( actionWidget==0 )
-    {
-      actionWidget=new AntActionWidget ( getMainWidget(),AGRect2 ( 50,200,140,40 ) );
-      actionWidget->setHandler ( this );
-      getMainWidget()->addChildBack ( actionWidget );
-    }
+  CTRACE;
+  if ( actionWidget==0 )
+  {
+    actionWidget=new AntActionWidget ( getMainWidget(),AGRect2 ( 50,200,140,40 ) );
+    actionWidget->setHandler ( this );
+    getMainWidget()->addChildBack ( actionWidget );
+  }
 
-    std::vector<AntActionWidget::Action> actions=getActions ( getCurrentHero(),getSelectedEntity() );
-    AGVector4 mpos=getMap()->getVertex(targetPos.getX(),targetPos.getY());
-    AGVector2 pos;
-    auto selectedEntity=getSelectedEntity();
-    if(selectedEntity)
-      pos=getScene().getPosition(AGVector4(selectedEntity->getPos3D(),1))+AGVector2(-20,-20);
-    pos=getScene().getPosition(mpos)+AGVector2(-20,-20);
-    cdebug("POSSS:"<<pos);
-    //AGVector2 pos ( 100,190 );
-    actionWidget->show ( actions,pos );
-    //getMainWidget()->addChild(w);
+  std::vector<AntActionWidget::Action> actions=getActions ( getCurrentHero(),getSelectedEntity() );
+  AGVector4 mpos=getMap()->getVertex(targetPos.getX(),targetPos.getY());
+  AGVector2 pos;
+  auto selectedEntity=getSelectedEntity();
+  if(selectedEntity)
+    mpos=AGVector4(selectedEntity->getPos3D(),1);
+  
+  pos=getScene().getPosition(mpos)+AGVector2(-20,-20);
+  cdebug("POSSS:"<<pos);
+  //AGVector2 pos ( 100,190 );
+  actionWidget->show ( actions,pos );
+  //getMainWidget()->addChild(w);
 }
 
 void AntGameApp::selectEntity ( AntEntity* e )
