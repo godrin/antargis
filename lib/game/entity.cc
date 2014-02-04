@@ -1092,7 +1092,7 @@ void AntEntity::setMesh(AGString entityType,AGString animationMode,float size) {
     //setMesh(AntModels::createModel(getScene(),"fire","off"));
   } else if(entityType=="tower") {
     setMesh(AntModels::createModel(getScene(),"tower",""));
-  } else if(entityType=="man" || entityType=="hero" || entityType=="sheep") {
+  } else if(entityType=="man" || entityType=="hero" || entityType=="sheep" || entityType=="sack") {
     setMesh(AntModels::createModel(getScene(),entityType,animationMode));
 
     //throw std::runtime_error(AGString("unknown man animation:")+animationMode);

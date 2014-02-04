@@ -52,6 +52,8 @@ protected:
     void eventMoraleLow();
 private:
 
+    void leaveBoss();
+
     void simDeath();
     AGString getWeapon();
 

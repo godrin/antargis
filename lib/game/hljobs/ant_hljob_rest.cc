@@ -16,6 +16,7 @@ AntHLJobRest::AntHLJobRest(AntBoss* pBoss, float pTime): AntHLJob(pBoss),mTime(p
 }
 
 void AntHLJobRest::initRestJob() {
+  CTRACE;
   firstTime=true;
   spreadingThings=false;
   jobFinished=false;

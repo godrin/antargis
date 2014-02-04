@@ -294,9 +294,14 @@ float AntMan::canCarry() const
 
 void AntMan::eventDefeated() {
   CTRACE;
-  setBoss(0);
+  leaveBoss();
 }
 void AntMan::eventMoraleLow() {
   CTRACE;
+  leaveBoss();
+}
+    
+void AntMan::leaveBoss() {
   setBoss(0);
+  delJob();
 }

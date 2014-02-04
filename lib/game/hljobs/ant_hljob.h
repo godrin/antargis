@@ -39,6 +39,7 @@ protected:
   bool sit ( AntPerson* man, const AGVector2 &pBasePos=AGVector2(-1,-1) );
   bool moveTo(AntPerson *man, const AGVector2 &pos, bool withFormation=false);
   virtual AGVector2 basePos();
+  void delJobs();
 
 private:
   AntMap *mMap;

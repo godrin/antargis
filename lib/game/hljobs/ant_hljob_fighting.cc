@@ -43,12 +43,14 @@ bool AntHlJobFighting::checkPerson ( AntPerson* person ) {
           // finished fighing
 
           if(fightingMenIDs.size()==0) {
+            CTRACE;
             cdebug("LOST");
             state=LOST;
             reactOnLost();
           }
           auto targetFightJob=getTargetFightJob();
           if(targetFightJob && targetFightJob->fightingMenIDs.size()==0) {
+            CTRACE;
             state=WON;
             cdebug("state=WON !");
             reactOnWon();
@@ -173,11 +175,20 @@ void AntHlJobFighting::removeFightingperson(AntPerson *person) {
 }
 
 void AntHlJobFighting::reactOnLost() {
+  CTRACE;
   getBoss()->setPlayer(target->getPlayer());
-  getBoss()->setHlJob(0);
+  delJobs();
+  auto targetFightJob=getTargetFightJob();
+  if(targetFightJob)
+    targetFightJob->reactOnWon();
 }
 void AntHlJobFighting::reactOnWon() {
+  CTRACE;
   target->setPlayer(getBoss()->getPlayer());
+  delJobs();
+  auto targetFightJob=getTargetFightJob();
+  if(targetFightJob)
+    targetFightJob->reactOnLost();
 }
 
 void AntHlJobFighting::eventJobDiscarded() {

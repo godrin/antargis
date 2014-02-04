@@ -155,3 +155,9 @@ bool AntHLJob::fireBurning() const {
 void AntHLJob::eventJobDiscarded() {
 }
 
+void AntHLJob::delJobs() {
+  getBoss()->setHlJob(0);
+  for(auto entity:getMenWithBoss()) {
+    entity->delJob();
+  }
+}
