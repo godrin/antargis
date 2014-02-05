@@ -7,11 +7,14 @@
 
 AntHLJobRest::AntHLJobRest(AntBoss* pBoss): AntHLJob(pBoss),mTime(0)
 {
-  initRestJob();
 }
 
 AntHLJobRest::AntHLJobRest(AntBoss* pBoss, float pTime): AntHLJob(pBoss),mTime(pTime)
 {
+}
+
+void AntHLJobRest::init() {
+  AntHLJob::init();
   initRestJob();
 }
 

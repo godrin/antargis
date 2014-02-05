@@ -12,6 +12,8 @@ public:
     AntHLJobRest(AntBoss* pBoss);
     AntHLJobRest(AntBoss* pBoss,float pTime);
 
+    virtual void init();
+
     bool checkPerson(AntPerson *man);
     bool finished();
     

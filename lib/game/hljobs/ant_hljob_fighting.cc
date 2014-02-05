@@ -177,7 +177,7 @@ void AntHlJobFighting::removeFightingperson(AntPerson *person) {
 void AntHlJobFighting::reactOnLost() {
   CTRACE;
   getBoss()->setPlayer(target->getPlayer());
-  delJobs();
+  getBoss()->setHlJob(0);
   auto targetFightJob=getTargetFightJob();
   if(targetFightJob)
     targetFightJob->reactOnWon();
@@ -185,7 +185,7 @@ void AntHlJobFighting::reactOnLost() {
 void AntHlJobFighting::reactOnWon() {
   CTRACE;
   target->setPlayer(getBoss()->getPlayer());
-  delJobs();
+  getBoss()->setHlJob(0);
   auto targetFightJob=getTargetFightJob();
   if(targetFightJob)
     targetFightJob->reactOnLost();

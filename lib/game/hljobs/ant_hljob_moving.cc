@@ -7,34 +7,41 @@
 
 AntHLJobMoving::AntHLJobMoving ( AntBoss* pBoss ) : AntHLJob ( pBoss )
 {
-
+  dontMove=false;
 }
 
 
 AntHLJobMoving::AntHLJobMoving ( AntBoss* pBoss, const AGVector2& pTargetPosition,float pDist,bool doFormat, bool doNothingAtAll ) : AntHLJob ( pBoss )
 {
-  if(!doNothingAtAll)
-    initMoving ( pTargetPosition,pDist,doFormat );
-}
-
-void AntHLJobMoving::initMoving ( const AGVector2& pTargetPosition, float pDist, bool doFormat )
-{
-  CTRACE;
   targetPosition=pTargetPosition;
   dist=pDist;
   shouldFormat=doFormat;
   formatDist=0;
+  dontMove=doNothingAtAll;
+
+}
+
+void AntHLJobMoving::init() {
+  AntHLJob::init();
+  if(!dontMove)
+    initMoving();
+}
+
+void AntHLJobMoving::initMoving ()
+{
+  CTRACE;
+  formatDist=0;
 
   if ( getMap() )
   {
-    waypoints=getMap()->getCompletePathFinder()->computePath ( getBossEntity()->getPos2D(),pTargetPosition,getHero() );
+    waypoints=getMap()->getCompletePathFinder()->computePath ( getBossEntity()->getPos2D(),targetPosition,getHero() );
   }
   else
   {
   }
 
   waypoints.push_front ( getHero()->getPos2D() );
-  waypoints.push_back ( pTargetPosition );
+  waypoints.push_back ( targetPosition );
   if ( getMap() )
   {
     waypoints=getMap()->getCompletePathFinder()->refinePath ( waypoints,getHero() );
@@ -51,11 +58,6 @@ void AntHLJobMoving::initMoving ( const AGVector2& pTargetPosition, float pDist,
   {
     startWalking();
   }
-}
-
-
-void AntHLJobMoving::init()
-{
 }
 
 
@@ -199,7 +201,7 @@ void AntHLJobMoving::loadXML(const Node &node) {
   targetPosition=AGVector2(node.get("targetPos"));
   dist=node.get("nearingDist").toFloat();
   shouldFormat=node.get("shouldFormat").toBool();
-  initMoving ( targetPosition,dist,shouldFormat );
+  initMoving ();
 }
 
 

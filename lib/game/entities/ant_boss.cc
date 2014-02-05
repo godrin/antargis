@@ -126,6 +126,9 @@ void AntBoss::setHlJob ( AntHLJob* job )
 
   delete hlJob;
   hlJob=job;
+  delJobs();
+  if(hlJob)
+    hlJob->init();
 }
 AntHLJob *AntBoss::getHlJob() {
   return hlJob;
@@ -230,5 +233,9 @@ void AntBoss::eventLostMan(AntPerson *person) {
   }
 } 
 
-
-
+void AntBoss::delJobs() {
+  CTRACE;
+  for(auto entity:getMenWithBoss()) {
+    entity->delJob();
+  }
+}

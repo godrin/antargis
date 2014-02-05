@@ -10,7 +10,7 @@ public:
 
     AntHLJobMoving(AntBoss* pBoss);
     AntHLJobMoving(AntBoss* pBoss,const AGVector2 &pTargetPosition,float dist,bool doFormat=true, bool doNothingAtAll=false);
-    void initMoving(const AGVector2 &pTargetPosition,float dist,bool doFormat=true);
+    void initMoving();
 
     void init();
 
@@ -41,6 +41,8 @@ private:
     float dist;
     float formatDist;
     bool shouldFormat;
+
+    bool dontMove;
 
     bool moveFinished;
 

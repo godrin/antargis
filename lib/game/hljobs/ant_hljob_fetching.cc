@@ -23,9 +23,9 @@ AntHLJobFetching::AntHLJobFetching(AntBoss* pBoss): AntHLJob(pBoss)
 {
   CTRACE;
   mode=FETCH;
-  for(auto man:getMenWithoutBoss()) {
+/*  for(auto man:getMenWithoutBoss()) {
     checkPerson(man);
-  }
+  }*/
 }
 AGVector2 AntHLJobFetching::basePos()
 {

@@ -19,6 +19,9 @@ AntHLJob::AntHLJob ( AntBoss* pBoss ) :mMap ( pBoss->getMap() )
 #endif
 }
 
+void AntHLJob::init() {
+}
+
 AntBoss* AntHLJob::getBoss()
 {
 
@@ -155,9 +158,3 @@ bool AntHLJob::fireBurning() const {
 void AntHLJob::eventJobDiscarded() {
 }
 
-void AntHLJob::delJobs() {
-  getBoss()->setHlJob(0);
-  for(auto entity:getMenWithBoss()) {
-    entity->delJob();
-  }
-}

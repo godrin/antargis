@@ -52,6 +52,7 @@ public:
 
 protected:
   void checkHlJobEnd();
+  void delJobs();
 
   void eventLostMan(AntPerson *person);
 
