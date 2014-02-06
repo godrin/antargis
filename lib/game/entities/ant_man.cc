@@ -114,6 +114,9 @@ void AntMan::eventNoJob()
       }
     } else {
       AntEntity *e=getMap()->getByName(bossName);
+      if(!e) {
+        throw std::runtime_error("No entity found with name "+bossName);
+      }
       boss=dynamic_cast<AntBoss*>(e);
       if (boss)
         boss->signUp(this);

@@ -25,8 +25,10 @@ int main ( int argc, char **argv ) {
       AntGameApp app ( getVideo()->width(),getVideo()->height() );
       if(AGString(argv[1])=="c")
         app.init("tempSaved");
-      else
+      else if(AGString(argv[1])=="x")
         app.init("data/levels/tutorial/tutorial0.antlvl");
+      else
+        app.init(argv[1]);
       app.run();
       return 0;
     }
