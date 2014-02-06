@@ -50,7 +50,9 @@ include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOUR
 
 #INCLUDE(${SWIG_USE_FILE})
 #list( APPEND CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
-list( APPEND CMAKE_CXX_FLAGS " -fopenmp -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs -Wall")
+list( APPEND CMAKE_CXX_FLAGS " -fopenmp -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs -Wall") #-dH -da
+#list( APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG "-dH -da")
+
 #list( APPEND CMAKE_CXX_FLAGS " -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
 SET(CMAKE_SWIG_FLAGS "")
 

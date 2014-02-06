@@ -75,7 +75,7 @@ bool AntHlJobFighting::checkPerson ( AntPerson* person ) {
 }
 bool AntHlJobFighting::finished()
 {
-  return state==FINISHED;
+  return state==FINISHED || state==WON || state==LOST;
 }
 
 void AntHlJobFighting::startFighting() {
@@ -131,7 +131,9 @@ bool AntHlJobFighting::fight(AntPerson *person) {
 
   if(!targetFightJob) {
     if(!mAttacking) {
-      getBoss()->setHlJob(0);
+
+      getBoss()->delJobs();
+      state=FINISHED; //setHlJob(0);
     } else {
       cdebug("ERROR: Target has no fight job anymore!");
     }
@@ -157,6 +159,7 @@ bool AntHlJobFighting::fight(AntPerson *person) {
     }
   }
   if(found) {
+    cdebug("fight him:"<<found<<" "<<typeid(*found).name());
     person->newFightJob(0,found);
   }
   else {
@@ -176,16 +179,22 @@ void AntHlJobFighting::removeFightingperson(AntPerson *person) {
 
 void AntHlJobFighting::reactOnLost() {
   CTRACE;
+  if(state==LOST)
+    return;
+  state=LOST;
   getBoss()->setPlayer(target->getPlayer());
-  getBoss()->setHlJob(0);
+  getBoss()->delJobs();
   auto targetFightJob=getTargetFightJob();
   if(targetFightJob)
     targetFightJob->reactOnWon();
 }
 void AntHlJobFighting::reactOnWon() {
   CTRACE;
+  if(state==WON)
+    return;
+  state=WON;
   target->setPlayer(getBoss()->getPlayer());
-  getBoss()->setHlJob(0);
+  getBoss()->delJobs();
   auto targetFightJob=getTargetFightJob();
   if(targetFightJob)
     targetFightJob->reactOnLost();
@@ -196,6 +205,8 @@ void AntHlJobFighting::eventJobDiscarded() {
   AntHLJobMoving::eventJobDiscarded();
   if(mAttacking) {
     CTRACE;
-    target->setHlJob(0);
+    state=FINISHED;
+
+    target->delJobs();
   }
 }

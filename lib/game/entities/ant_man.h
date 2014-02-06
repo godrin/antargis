@@ -38,6 +38,7 @@ public:
     const AGString &getMeshState() const;
 
     void setBoss(AntBoss *pBoss);
+    AntBoss* getBoss();
 
     void setFetchResource(const AGString &r);
     AGString getFetchResource() const;

@@ -200,10 +200,21 @@ void AntGameApp::printOutEntityInfo(AntEntity *e) {
     <<"aggres :"<<e->getAggression()<<std::endl
     ;
 
+
+
   AntBoss *boss=dynamic_cast<AntBoss*>(e);
   if(boss) {
     std::cout<<"men    :"<<boss->getMenWithoutBoss().size()<<std::endl;
   }
+  AntMan *man=dynamic_cast<AntMan*>(e);
+  if(man) {
+    AntBoss *myBoss=man->getBoss();
+    if(myBoss) {
+      std::cout<<"boss   :"<<myBoss->getEntity()->getName()<<std::endl;
+      std::cout<<"bossjob:"<<typeid(*myBoss->getHlJob()).name()<<std::endl;
+    }
+  }
+  std::cout<<"job    :"<<e->getJobName()<<std::endl;
 
 
   std::cout<<"------------------------------"<<std::endl;

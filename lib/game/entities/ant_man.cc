@@ -305,3 +305,7 @@ void AntMan::leaveBoss() {
   setBoss(0);
   delJob();
 }
+    
+AntBoss* AntMan::getBoss() {
+  return boss;
+}

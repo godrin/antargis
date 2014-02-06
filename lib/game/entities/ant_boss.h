@@ -49,10 +49,10 @@ public:
   std::vector<AntPerson*> getRestingMenWithHero();
 
   size_t menCount() const;
+  void delJobs();
 
 protected:
   void checkHlJobEnd();
-  void delJobs();
 
   void eventLostMan(AntPerson *person);
 
