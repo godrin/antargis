@@ -302,6 +302,7 @@ void AntMan::eventMoraleLow() {
 }
     
 void AntMan::leaveBoss() {
+  CTRACE;
   setBoss(0);
   delJob();
 }

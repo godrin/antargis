@@ -45,13 +45,11 @@ bool AntHlJobFighting::checkPerson ( AntPerson* person ) {
           if(fightingMenIDs.size()==0) {
             CTRACE;
             cdebug("LOST");
-            state=LOST;
             reactOnLost();
           }
           auto targetFightJob=getTargetFightJob();
           if(targetFightJob && targetFightJob->fightingMenIDs.size()==0) {
             CTRACE;
-            state=WON;
             cdebug("state=WON !");
             reactOnWon();
           } else {
@@ -90,7 +88,7 @@ void AntHlJobFighting::startFighting() {
 
     fightingMenIDs.insert(man->getID());
     if(mAttacking) {
-      man->newRestJob(2);
+      man->newRestJob(0.5);
       man->setMeshState("stand");
       cdebug("set restjob2:"<<man);
     }
@@ -175,12 +173,15 @@ void AntHlJobFighting::removeFightingperson(AntPerson *person) {
   CTRACE;
   fightingMenIDs.erase(person->getID());
   cdebug("fighting men size:"<<fightingMenIDs.size());
+  if(fightingMenIDs.size()==0)
+    reactOnLost();
 }
 
 void AntHlJobFighting::reactOnLost() {
   CTRACE;
   if(state==LOST)
     return;
+  cdebug("SETTING LOST");
   state=LOST;
   getBoss()->setPlayer(target->getPlayer());
   getBoss()->delJobs();
@@ -192,6 +193,7 @@ void AntHlJobFighting::reactOnWon() {
   CTRACE;
   if(state==WON)
     return;
+  cdebug("SETTING TO WON");
   state=WON;
   target->setPlayer(getBoss()->getPlayer());
   getBoss()->delJobs();

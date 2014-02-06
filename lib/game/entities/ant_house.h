@@ -25,6 +25,7 @@ public:
   AntEntity *getEntity();
 
   virtual void eventNoHlJob();
+  void eventNoJob();
   void setHlJob ( AntHLJob* job );
 
   AntMap *getMap();

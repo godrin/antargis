@@ -72,3 +72,8 @@ void AntHouse::setHlJob ( AntHLJob* job ) {
 
 }
 
+void AntHouse::eventNoJob()
+{
+  checkHlJobEnd();
+  newRestJob(1);
+}
