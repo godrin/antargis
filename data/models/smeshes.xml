@@ -37,6 +37,12 @@
   <group name="workshop">
     <sprite name="" mesh="data/models/workshop.ant2" scale="0.18" texture="data/textures/models/workshop.png" rotation="-50"/>
   </group>
+  <group name="stone">
+    <sprite name="" mesh="data/models/big_stone.ant2" scale="0.7" texture="data/textures/models/big_stone.png" rotation="-30"/>
+  </group>
+  <group name="farm">
+    <sprite name="" mesh="data/models/farm.ant2" scale="0.2" texture="data/textures/models/farm.png" rotation="-30"/>
+  </group>
   <group name="man">
     <sprite name="" anim="data/models/man_e_walk.anim"/>
     <sprite name="wood" anim="data/models/man_e_wood.anim"/>

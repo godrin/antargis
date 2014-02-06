@@ -8,7 +8,7 @@ AntWorkshop::AntWorkshop(AntMap* pMap): AntHouse(pMap)
 void AntWorkshop::init()
 {
     AntHouse::init();
-    setProvide("tower",true);
+    setProvide("workshop",true);
 }
 
 void AntWorkshop::setupMesh()

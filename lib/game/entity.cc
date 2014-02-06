@@ -1090,7 +1090,7 @@ void AntEntity::setMesh(AGString entityType,AGString animationMode,float size) {
     }
 
     //setMesh(AntModels::createModel(getScene(),"fire","off"));
-  } else if(entityType=="tower" || entityType=="workshop") {
+  } else if(entityType=="tower" || entityType=="workshop" || entityType=="farm" || entityType=="stone") {
     setMesh(AntModels::createModel(getScene(),entityType,""));
   } else if(entityType=="man" || entityType=="hero" || entityType=="sheep" || entityType=="sack") {
     setMesh(AntModels::createModel(getScene(),entityType,animationMode));

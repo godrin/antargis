@@ -8,6 +8,9 @@
 #include "ant_man.h"
 #include "ant_fire.h"
 #include "ant_workshop.h"
+#include "ant_farm.h"
+#include "ant_sack.h"
+#include "ant_stone.h"
 
 AntEntity *createEntity ( const Node &node,AntMap *map ) {
 
@@ -20,18 +23,29 @@ AntEntity *createEntity ( const Node &node,AntMap *map ) {
         e=new AntTree ( map );
     } else if ( node.getName() =="antNewSheep" ) {
         e=new AntSheep ( map );
+    } else if ( node.getName() =="antNewStone" ) {
+        e=new AntStone ( map );
     } else if ( node.getName() =="antGrass" ) {
         e=new AntGrass ( map );
     } else if ( node.getName() =="antHighGrass" ) {
         e=new AntGrass ( map,true );
+    } else if ( node.getName() =="antSack" ) {
+        e=new AntSack ( map );
     } else if ( node.getName() =="antBush" ) {
         e=new AntBush ( map );
     } else if ( node.getName() =="antTower" ) {
         e=new AntTower ( map );
     } else if ( node.getName() =="antWorkshop" ) {
         e=new AntWorkshop ( map );
+    } else if ( node.getName() =="antFarm" ) {
+        e=new AntFarm ( map );
     } else if ( node.getName() =="antFire" ) {
         e=new AntFire ( map );
+    } else if ( node.getName() =="humanPlayer" ) {
+      //FIXME
+    } else if ( node.getName() =="antFire" ) {
+    } else if(node.getName()!=""){
+      throw std::runtime_error("unknown node "+node.getName());
     }
 
     if ( e ) {
