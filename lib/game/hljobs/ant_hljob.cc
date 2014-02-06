@@ -158,3 +158,11 @@ bool AntHLJob::fireBurning() const {
 void AntHLJob::eventJobDiscarded() {
 }
 
+bool AntHLJob::allAre(AntPerson::JobMode mode) {
+  for(auto en:getMenWithBoss()) {
+    if(en->getMode()!=mode)
+      return false;
+  }
+  return true;
+}
+

@@ -2,6 +2,7 @@
 #define __HL_JOB_H
 
 #include <ag_geometry.h>
+#include <ant_person.h>
 
 #include <vector>
 
@@ -9,7 +10,6 @@ class AntBoss;
 class AntMan;
 class AntHero;
 class AntEntity;
-class AntPerson;
 class AntMap;
 
 //#define ANTHLJOB_SAVE_ONLY_ID
@@ -34,6 +34,8 @@ public:
   virtual void loadXML(const Node &node);
   virtual bool fireBurning() const;
   virtual void eventJobDiscarded();
+
+  virtual bool allAre(AntPerson::JobMode mode);
 
 protected:
   virtual AntMap *getMap();

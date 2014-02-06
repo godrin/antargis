@@ -59,8 +59,11 @@ bool AntHlJobFighting::checkPerson ( AntPerson* person ) {
         } 
         break;
       case WON:
+      case LOST:
         cdebug("fighting:in won");
         sit(person,startPos);
+        if(allAre(AntPerson::REST_SIT))
+          state=FINISHED;
         break;
 
       default:
@@ -73,7 +76,7 @@ bool AntHlJobFighting::checkPerson ( AntPerson* person ) {
 }
 bool AntHlJobFighting::finished()
 {
-  return state==FINISHED || state==WON || state==LOST;
+  return state==FINISHED; // || state==WON || state==LOST;
 }
 
 void AntHlJobFighting::startFighting() {
