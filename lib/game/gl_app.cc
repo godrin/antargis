@@ -125,6 +125,8 @@ bool GLApp::eventMouseMotion(AGEvent *e)
 
         omx=p[0];
         omy=p[1];
+
+        eventCameraMoved();
       }
     if(e->isSDLEvent())
       {
@@ -172,3 +174,5 @@ float GLApp::getCameraHeight(const AGVector2&p)
   {
     return 0;
   }
+void GLApp::eventCameraMoved() {
+}

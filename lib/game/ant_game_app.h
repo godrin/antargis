@@ -19,6 +19,7 @@ class AntGameApp:public AntBasicGameApp,public AntActionWidget::Handler {
     AntHero *getCurrentHero();
     AntEntity *getSelectedEntity();
     virtual void tryQuit();
+    virtual void eventCameraMoved();
   protected:
     void eventMapClicked(const AGVector2 &pos, int button);
     bool eventKeyDown(AGEvent *e);

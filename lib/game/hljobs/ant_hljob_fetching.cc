@@ -33,6 +33,8 @@ AGVector2 AntHLJobFetching::basePos()
 }
 bool AntHLJobFetching::checkPerson(AntPerson *person)
 {
+  CTRACE;
+  cdebug("checkPerson:"<<person);
   AntMan *man=dynamic_cast<AntMan*>(person);
   if(man) {
     if (atHome(man))  {
@@ -56,6 +58,10 @@ bool AntHLJobFetching::checkPerson(AntPerson *person)
         man->newRestJob(5+agRand(1.0f));
       }
     } else if (man->getMode()==AntPerson::FETCHING)  {
+      CTRACE;
+      cdebug("TAKING:"<<man->getTargetByID());
+      auto *ent=man->getTargetByID();
+      cdebug("target:"<<ent->getPos2D()<<" man:"<<man->getPos2D());
       // check if target is somehow to far away
       if ((man->getTargetPos2D()-man->getPos2D()).length()>2) {
         man->setMode(AntPerson::HOMING);
@@ -172,7 +178,10 @@ void AntHLJobFetching::fetchForStock(std::vector<StockNeed> needed, AntMan* man)
         }
 
         if (okToHarvest) {
+          CTRACE;
+          cdebug("HARVEST from house ????????????????????????????"<<house<<"  "<<getBossEntity()<<"  "<<getBoss()<<" ent:"<<tent<<"  "<<typeid(*tent).name()<<" what:"<<resource);
           man->newMoveJob(0,tent,0.5);
+          cdebug("HARV POS:"<<tent->getPos2D()<<"  "<<man->getPos2D());
           man->setMode(AntPerson::FETCHING);
           man->setMeshState("walk");
           man->setFetchResource(resource);
@@ -212,4 +221,7 @@ void AntHLJobFetching::saveXML(Node &node) const {
 void AntHLJobFetching::loadXML(const Node &node) {
   AntHLJob::loadXML(node);
   mode=(MODE)node.get("fetchMode").toInt();
+}
+bool AntHLJobFetching::startTogether() const {
+  return false;
 }

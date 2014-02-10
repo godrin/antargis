@@ -64,3 +64,4 @@ void AntHLJobDrop::loadXML(const Node &node) {
   AntHLJob::loadXML(node);
   mDropType=(DropType)node.get("dropType").toInt();
 }
+    

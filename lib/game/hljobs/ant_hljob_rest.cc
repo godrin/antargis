@@ -211,3 +211,4 @@ void AntHLJobRest::loadXML(const Node &node) {
   spreadingThings=node.get("spreadingThings").toBool();
   jobFinished=node.get("jobFinished").toBool();
 }
+    

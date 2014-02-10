@@ -208,19 +208,18 @@ void MoveJob::moveBy ( AntEntity *e,float ptime,float aspeed )
     AGVector2 diff=e->getPos2D()-mTarget;
     float norm=diff.length();
 
-    float nearDist= ( e->getPos2D()-mTarget ).length();
+    e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
 
-    if ( norm-mNear>ptime*aspeed && nearDist-mNear>ptime*aspeed )
+    if ( norm-mNear>ptime*aspeed)
     {
       diff=diff.normalized();
-      e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
       e->setPos ( e->getPos2D()-diff*ptime*aspeed );
     }
     else
     {
       if ( norm>mNear )
         e->setPos ( mTarget+diff.normalized() *mNear );
-      e->setDirection ( -diff.getAngle().angle*180.0/M_PI );
+      cdebug("JOB FINISHED:"<<this<<"  "<<typeid(*this).name()<<" "<<e->getPos2D()<<" target:"<<mTarget);
       jobFinished ( e );
     }
   }

@@ -18,9 +18,11 @@ class AntHLJob
 {
 public:
   AntHLJob ( AntBoss *pBoss );
+  virtual ~AntHLJob();
 
   virtual bool checkPerson ( AntPerson *p );
   virtual bool finished() =0;
+  virtual bool startTogether() const;
   virtual void init();
 
   AntBoss *getBoss();

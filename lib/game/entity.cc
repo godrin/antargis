@@ -1048,6 +1048,10 @@ bool AntEntity::isResting()
 #include <ant_grass_mesh.h>
 
 void AntEntity::setMesh(AGString entityType,AGString animationMode,float size) {
+  if(false) {  
+    setMesh(AntModels::createModel(getScene(),"man","grave"));
+    return;
+  }
   if(entityType=="bush")
     setMesh ( makeBushMesh ( getScene(),size*2.5 ) );
   else if(entityType=="grass")

@@ -65,6 +65,7 @@ public:
   virtual bool eventMouseButtonUp(AGEvent *m);
   virtual bool eventMouseMotion(AGEvent *m);
   virtual bool eventKeyDown(AGEvent *m);
+  virtual void eventCameraMoved();
 
   Scene &getScene();
 

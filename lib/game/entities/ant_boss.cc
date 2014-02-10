@@ -126,7 +126,8 @@ void AntBoss::setHlJob ( AntHLJob* job )
 
   delete hlJob;
   hlJob=job;
-  delJobs();
+  if(!hlJob || hlJob->startTogether())
+    delJobs();
   if(hlJob)
     hlJob->init();
 }

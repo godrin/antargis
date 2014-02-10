@@ -12,6 +12,7 @@ public:
 
     virtual bool checkPerson(AntPerson*);
     virtual bool finished();
+    virtual bool startTogether() const;
     virtual AGVector2 basePos();
 
     virtual AGString xmlName() const;

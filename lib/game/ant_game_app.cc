@@ -435,3 +435,8 @@ void AntGameApp::tryQuit() {
   mMap->saveMap ("tempSaved");
 
 }
+
+void AntGameApp::eventCameraMoved() {
+    if(actionWidget)
+      actionWidget->hide();
+}

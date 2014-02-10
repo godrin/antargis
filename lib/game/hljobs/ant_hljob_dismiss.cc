@@ -43,3 +43,4 @@ void AntHLJobDismiss::loadXML(const Node &node) {
   AntHLJob::loadXML(node);
   toDismiss=node.get("toDismiss").toInt();
 }
+    

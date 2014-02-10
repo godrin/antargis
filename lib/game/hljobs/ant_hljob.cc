@@ -18,6 +18,8 @@ AntHLJob::AntHLJob ( AntBoss* pBoss ) :mMap ( pBoss->getMap() )
   mBoss=pBoss;
 #endif
 }
+AntHLJob::~AntHLJob(){
+}
 
 void AntHLJob::init() {
 }
@@ -166,3 +168,7 @@ bool AntHLJob::allAre(AntPerson::JobMode mode) {
   return true;
 }
 
+   
+bool AntHLJob::startTogether() const {
+  return true;
+}

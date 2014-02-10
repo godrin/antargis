@@ -41,7 +41,7 @@
     <sprite name="" mesh="data/models/big_stone.ant2" scale="0.7" texture="data/textures/models/big_stone.png" rotation="-30"/>
   </group>
   <group name="farm">
-    <sprite name="" mesh="data/models/farm.ant2" scale="0.2" texture="data/textures/models/farm.png" rotation="-30"/>
+    <sprite name="" mesh="data/models/farm.ant2" xscale="0.05" scale="0.2" texture="data/textures/models/farm.png" rotation="-30"/>
   </group>
   <group name="man">
     <sprite name="" anim="data/models/man_e_walk.anim"/>

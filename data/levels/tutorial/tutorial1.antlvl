@@ -1,7 +1,6 @@
 <antargisLevel filename="levels/tutorial/tutorial1.hmap" height="128" width="128" scriptfile="levels/tutorial/tutorial1.rb" scriptclass='Level1'>
   <antFarm aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" men="2" morale="1" name="Farm" onGround="true">
-    <xposition x="40.2078" y="69.1662" z="1.79171"/>
-    <position x="40.2078" y="72.1662" z="1.79171"/>
+    <position x="40.2078" y="69.1662" z="1.79171"/>
     <resource/>
   </antFarm>
   <antNewTree aggression="1" birthday="0.0" energy="1" food="1" healSpeed="0.1" morale="1" name="" onGround="true" typeID="10">
