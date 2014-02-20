@@ -59,3 +59,15 @@ std::vector<AntStockNeed > AntFarm::neededStock() {
   a.push_back(AntStockNeed("crop",15,0));
   return a;
 }
+void AntFarm::process() {
+  if( resource.get("fruit")>0 && resource.get("food")<15) {
+    auto amount=std::min(resource.get("fruit"),3.0f);
+    resource.add("food",amount);
+    resource.sub("fruit",amount);
+  }
+  if (resource.get("crop")>0 && resource.get("corn")<15) {
+    auto amount=std::min(resource.get("crop"),3.0f);
+    resource.add("corn",amount);
+    resource.sub("crop",amount);
+  }
+}

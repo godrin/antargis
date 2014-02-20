@@ -42,6 +42,7 @@ void AntField::eventNoJob() {
   newRestJob(mGrowTime);
   resourceChanged();
 }
+
 AntFarm *AntField::getFarm() {
   return dynamic_cast<AntFarm*>(getMap()->getEntity(mFarmId));
 }

@@ -1,9 +1,9 @@
-#ifndef __ANT_FARM_H
-#define __ANT_FARM_H
+#ifndef ANT_MILL_H
+#define ANT_MILL_H
 
 #include "ant_house.h"
 
-class AntFarm:public AntHouse {
+class AntFarm:public AntMill {
 public:
     AntFarm(AntMap* pMap);
     void init();
@@ -11,16 +11,15 @@ public:
     void setupMesh();
 
     virtual AGString xmlName() const {
-      return "antFarm";
+      return "antMill";
     }
     void assignJob ( AntPerson *person );
 
     void addField(int id);
     void removeField(int id);
     std::vector<AntStockNeed > neededStock();
-    void process();
 private:
     std::set<int> mFields;
 };
-
 #endif
+
