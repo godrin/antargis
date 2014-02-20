@@ -13,6 +13,13 @@ public:
     virtual AGString xmlName() const {
       return "antFarm";
     }
+    void assignJob ( AntPerson *person );
+
+    void addField(int id);
+    void removeField(int id);
+    std::vector<AntStockNeed > neededStock();
+private:
+    std::set<int> mFields;
 };
 
 #endif

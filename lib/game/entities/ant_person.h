@@ -11,7 +11,8 @@ class Resource;
 
 class AntPerson:public AntEntity {
 public:
-    enum JobMode {WAITING,FIGHTING,MOVING,REST_SIT,REST_EAT,FORMAT,READY,FETCHING,HOMING,DIGGING,INVALID};
+    enum JobMode {WAITING,FIGHTING,MOVING,REST_SIT,REST_EAT,FORMAT,READY,FETCHING,HOMING,DIGGING,INVALID,MAKE_FIELD};
+
     AntPerson(AntMap *pMap);
     virtual ~AntPerson() throw();
     virtual bool isOnWater() ;
@@ -31,6 +32,8 @@ public:
     void setMode(JobMode mode);
     JobMode getMode();
     void newFightJob ( int p,AntEntity *target );
+
+    AGString getModeString() const;
 
 protected:
     virtual void simDeath();

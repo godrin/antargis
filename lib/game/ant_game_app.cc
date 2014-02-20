@@ -205,6 +205,8 @@ void AntGameApp::printOutEntityInfo(AntEntity *e) {
   AntBoss *boss=dynamic_cast<AntBoss*>(e);
   if(boss) {
     std::cout<<"men    :"<<boss->getMenWithoutBoss().size()<<std::endl;
+    std::cout<<"bossjob:"<<typeid(*boss->getHlJob()).name()<<std::endl;
+
   }
   AntMan *man=dynamic_cast<AntMan*>(e);
   if(man) {
@@ -215,6 +217,11 @@ void AntGameApp::printOutEntityInfo(AntEntity *e) {
     }
   }
   std::cout<<"job    :"<<e->getJobName()<<std::endl;
+  AntPerson *person=dynamic_cast<AntPerson*>(e);
+  if(person) {
+      std::cout<<"mode   :"<<person->getModeString()<<std::endl;
+
+  }
 
 
   std::cout<<"------------------------------"<<std::endl;

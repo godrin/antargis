@@ -287,7 +287,7 @@ std::vector<AntEntity*> AntMap::getNextList ( AntEntity *me,const AGString &pTyp
 
 
 /// works like getNextList, but returns only one random entity on the list
-AntEntity *AntMap::getNext ( AntEntity *me,const AGString &pType,size_t atLeast )
+AntEntity *AntMap::getNext ( AntEntity *me, const AGString &pType, size_t atLeast )
 {
   assert ( me );
 

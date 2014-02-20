@@ -185,3 +185,8 @@ void AntPerson::checkResources() {
     setDefense(1.5);
 }
 */
+    
+AGString AntPerson::getModeString() const {
+  char *modeNames[]={ "WAITING","FIGHTING","MOVING","REST_SIT","REST_EAT","FORMAT","READY","FETCHING","HOMING","DIGGING","INVALID"};
+  return modeNames[mMode];
+}

@@ -66,4 +66,14 @@
     <sprite name="on" mesh="data/models/fire.ant2" scale="0.3" texture="data/textures/models/fire.png" culling="false"/>
     <sprite name="off" mesh="data/models/fire.ant2" scale="0.3" texture="data/textures/models/fire2.png" culling="false"/>
   </group>
+  <group name="field">
+    <sprite name="" mesh="data/models/crop_tiny.ant2" scale="2.2" texture="data/textures/models/crop_tiny.png"/>
+    <sprite name="0" mesh="data/models/crop_tiny.ant2" scale="2.2" texture="data/textures/models/crop_tiny.png"/>
+    <sprite name="1" mesh="data/models/crop_small.ant2" scale="2.2" texture="data/textures/models/crop_green.png"/>
+    <sprite name="2" mesh="data/models/crop_med.ant2" scale="2.2" texture="data/textures/models/crop_yellow.png"/>
+    <sprite name="3" mesh="data/models/crop_high.ant2" scale="2.2" texture="data/textures/models/crop_gold.png"/>
+  </group>
+  <group name="floor_gravel">
+    <sprite name="" mesh="data/models/floor.ant2" scale="0.8" texture="data/textures/gravel4.png"/>
+  </group>
 </staticMeshGroups>

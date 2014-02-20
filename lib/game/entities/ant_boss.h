@@ -11,6 +11,15 @@ class AntHLJob;
 class AntFormation;
 class AntPlayer;
 
+struct AntStockNeed {
+  std::string resource;
+  float amount,currentNeed;
+  AntStockNeed(const std::string &r,float amount,float cNeed);
+
+  bool operator<(const AntStockNeed &o) const;
+};
+
+
 class AntBoss
 {
 public:
@@ -26,7 +35,7 @@ public:
   void signUp ( AntMan*man );
   void removeMan ( AntMan*man );
 
-  void assignJob ( AntPerson *person );
+  virtual void assignJob ( AntPerson *person );
 
   virtual AntEntity *getEntity() =0;
 
@@ -51,6 +60,7 @@ public:
   size_t menCount() const;
   void delJobs();
 
+  virtual std::vector< AntStockNeed > neededStock();
 protected:
   void checkHlJobEnd();
 

@@ -65,9 +65,11 @@ bool AntHlJobFighting::checkPerson ( AntPerson* person ) {
         if(allAre(AntPerson::REST_SIT))
           state=FINISHED;
         break;
-
       default:
-        cdebug("fighting:default");
+        if(person->getMode()==AntPerson::REST_SIT)
+          person->newRestJob(5);
+        else
+          cdebug("fighting:default mode:"<<person->getModeString());
         break;
     }
     return true;

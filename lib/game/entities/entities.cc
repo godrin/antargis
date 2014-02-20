@@ -11,6 +11,7 @@
 #include "ant_farm.h"
 #include "ant_sack.h"
 #include "ant_stone.h"
+#include "ant_decal.h"
 
 AntEntity *createEntity ( const Node &node,AntMap *map ) {
 
@@ -41,6 +42,10 @@ AntEntity *createEntity ( const Node &node,AntMap *map ) {
         e=new AntFarm ( map );
     } else if ( node.getName() =="antFire" ) {
         e=new AntFire ( map );
+    } else if ( node.getName() =="antDecal" ) {
+        e=new AntDecal ( map );
+    } else if ( node.getName() =="lazyPlayer" ) {
+      //FIXME
     } else if ( node.getName() =="humanPlayer" ) {
       //FIXME
     } else if ( node.getName() =="antFire" ) {

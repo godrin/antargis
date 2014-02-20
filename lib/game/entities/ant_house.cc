@@ -77,3 +77,4 @@ void AntHouse::eventNoJob()
   checkHlJobEnd();
   newRestJob(1);
 }
+  

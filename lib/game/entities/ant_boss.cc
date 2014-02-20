@@ -240,3 +240,11 @@ void AntBoss::delJobs() {
     entity->delJob();
   }
 }
+
+std::vector<AntStockNeed > AntBoss::neededStock() {
+  std::vector< AntStockNeed > a;
+  a.push_back(AntStockNeed("wood",15,0));
+  a.push_back(AntStockNeed("stone",15,0));
+  a.push_back(AntStockNeed("food",15,0));
+  return a;
+}

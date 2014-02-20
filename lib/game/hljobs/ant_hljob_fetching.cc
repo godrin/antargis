@@ -7,13 +7,13 @@
 #include <ant_house.h>
 #include <ant_man.h>
 
-AntHLJobFetching::StockNeed::StockNeed(const std::string& r, float a,float cNeed):resource(r),amount(a),currentNeed(cNeed)
+AntStockNeed::AntStockNeed(const std::string& r, float a,float cNeed):resource(r),amount(a),currentNeed(cNeed)
 {
 
 }
 
 
-bool AntHLJobFetching::StockNeed::operator<(const AntHLJobFetching::StockNeed& o) const
+bool AntStockNeed::operator<(const AntStockNeed& o) const
 {
   return amount<o.amount;
 }
@@ -51,7 +51,7 @@ bool AntHLJobFetching::checkPerson(AntPerson *person)
         getBossEntity()->resource.takeAll(man->resource);
         getBossEntity()->resourceChanged();
         // 2) give job
-        std::vector<StockNeed> need=neededStock();
+        std::vector<AntStockNeed> need=neededStock();
         fetchForStock(need,man);
       } else {
         man->setMode(AntPerson::REST_SIT);
@@ -70,6 +70,7 @@ bool AntHLJobFetching::checkPerson(AntPerson *person)
         return false;
       }
       cdebug("DIG resource");
+      man->setMeshState("walk");
       man->digResource(man->getFetchResource());
       man->setMode(AntPerson::DIGGING);
     } else if (man->getMode()==AntPerson::DIGGING) {
@@ -115,7 +116,7 @@ bool AntHLJobFetching::checkPerson(AntPerson *person)
 
 bool AntHLJobFetching::finished()
 {
-  return true;
+  return false;
 }
 
 bool AntHLJobFetching::atHome(AntMan* man)
@@ -139,22 +140,21 @@ bool AntHLJobFetching::checkFood(AntMan* man)
 }
 
 
-void AntHLJobFetching::fetchForStock(std::vector<StockNeed> needed, AntMan* man)
+void AntHLJobFetching::fetchForStock(std::vector<AntStockNeed> needed, AntMan* man)
 {
-  std::vector<StockNeed> needmap=neededStock();
-  std::set<StockNeed> sortedNeed;
+  std::vector<AntStockNeed> needmap=neededStock();
+  std::set<AntStockNeed> sortedNeed;
 
   std::random_shuffle(needmap.begin(),needmap.end());
 
-  for (std::vector<StockNeed>::iterator i=needmap.begin();i!=needmap.end();i++) {
-    sortedNeed.insert(StockNeed(i->resource,i->amount,i->amount-getBossEntity()->resource.get(i->resource)));
-
+  for (std::vector<AntStockNeed>::iterator i=needmap.begin();i!=needmap.end();i++) {
+    sortedNeed.insert(AntStockNeed(i->resource,i->amount,i->amount-getBossEntity()->resource.get(i->resource)));
   }
   float factor=2;
   if (mode==REST) {
     factor=1;
   }
-  for (std::set<StockNeed>::iterator current=sortedNeed.begin();current!=sortedNeed.end();current++) {
+  for (std::set<AntStockNeed>::iterator current=sortedNeed.begin();current!=sortedNeed.end();current++) {
     std::string resource=current->resource;
     float amount=current->amount;
     float need=current->currentNeed;
@@ -201,13 +201,9 @@ void AntHLJobFetching::fetchForStock(std::vector<StockNeed> needed, AntMan* man)
 }
 
 
-std::vector< AntHLJobFetching::StockNeed > AntHLJobFetching::neededStock()
+std::vector< AntStockNeed > AntHLJobFetching::neededStock()
 {
-  std::vector< AntHLJobFetching::StockNeed > a;
-  a.push_back(StockNeed("wood",15,0));
-  a.push_back(StockNeed("stone",15,0));
-  a.push_back(StockNeed("food",15,0));
-  return a;
+  return getBoss()->neededStock();
 }
     
 AGString AntHLJobFetching::xmlName() const {
@@ -223,5 +219,5 @@ void AntHLJobFetching::loadXML(const Node &node) {
   mode=(MODE)node.get("fetchMode").toInt();
 }
 bool AntHLJobFetching::startTogether() const {
-  return false;
+  return true;
 }
