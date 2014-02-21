@@ -76,4 +76,14 @@
   <group name="floor_gravel">
     <sprite name="" mesh="data/models/floor.ant2" scale="0.8" texture="data/textures/gravel4.png"/>
   </group>
+  <group name="dwelling">
+    <sprite name="" mesh="data/models/livinghouse.ant2" scale="0.15" texture="data/textures/models/livinghouse.png"/>
+  </group>
+  <group name="mine">
+    <sprite name="" mesh="data/models/mine2.ant2" scale="0.2" texture="data/textures/models/mine2.png"/>
+  </group>
+  <group name="fish">
+    <sprite name="" mesh="data/models/fish.ant2" scale="0.02" texture="data/textures/models/fish.png"/>
+    <sprite name="go" mesh="data/models/fish.ant2" scale="0.02" texture="data/textures/models/fish.png"/>
+  </group>
 </staticMeshGroups>

@@ -16,18 +16,21 @@
 namespace Antargis {
   AntHLJob *createFromXML(AntBoss *boss,const Node &n) {
     AntHLJob *job=0;
-    if(n.getName()=="hljobDismiss") {
+    AGString jobName=n.getName();
+    if(jobName=="hljob") // old data
+      jobName=n.get("type");
+    if(jobName=="hljobDismiss") {
       job=new AntHLJobDismiss(boss);
-    } else if(n.getName()=="hljobRest") {
+    } else if(jobName=="hljobRest" || jobName=="AntHeroRestJob") {
       job=new AntHLJobRest(boss);
-    } else if(n.getName()=="hljobFetching") {
+    } else if(jobName=="hljobFetching") {
       job=new AntHLJobFetching(boss);
-    } else if(n.getName()=="hljobPickupFrom") {
+    } else if(jobName=="hljobPickupFrom") {
       job=new AntHLJobMoving(boss);
-    } else if(n.getName()=="hljobMoving") {
+    } else if(jobName=="hljobMoving") {
       job=new AntHLJobMoving(boss);
     } else {
-      throw std::runtime_error("Job type unknown yet! Name:"+n.getName());
+      throw std::runtime_error("Job type unknown yet! Name:"+jobName);
     }
     if(job)
       job->loadXML(n);

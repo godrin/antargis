@@ -61,6 +61,7 @@ public:
   void delJobs();
 
   virtual std::vector< AntStockNeed > neededStock();
+  size_t atHome();
 protected:
   void checkHlJobEnd();
 

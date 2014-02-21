@@ -248,3 +248,8 @@ std::vector<AntStockNeed > AntBoss::neededStock() {
   a.push_back(AntStockNeed("food",15,0));
   return a;
 }
+
+size_t AntBoss::atHome()
+{
+  return getMenWithoutBoss(AntPerson::READY).size();
+}

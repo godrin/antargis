@@ -1096,12 +1096,13 @@ void AntEntity::setMesh(AGString entityType,AGString animationMode,float size) {
     //setMesh(AntModels::createModel(getScene(),"fire","off"));
   } else if(entityType=="tower" || entityType=="workshop" || entityType=="farm" || entityType=="stone") {
     setMesh(AntModels::createModel(getScene(),entityType,""));
-  } else if(entityType=="man" || entityType=="hero" || entityType=="sheep" || entityType=="sack" || entityType=="floor_gravel" || entityType=="field") {
+  } else if(entityType=="man" || entityType=="hero" || entityType=="sheep" || entityType=="sack" || entityType=="floor_gravel" || entityType=="field" || entityType=="mill") {
     setMesh(AntModels::createModel(getScene(),entityType,animationMode));
 
     //throw std::runtime_error(AGString("unknown man animation:")+animationMode);
   } else {
-    throw std::runtime_error(AGString("unknown entityType:")+entityType);
+    setMesh(AntModels::createModel(getScene(),entityType,animationMode));
+    //throw std::runtime_error(AGString("unknown entityType:")+entityType);
   }
 }
 

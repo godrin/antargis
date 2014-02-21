@@ -21,7 +21,7 @@ void AntHouse::init()
 
 void AntHouse::removeMan ( AntMan* man )
 {
-  atHome.erase ( man );
+//  atHome.erase ( man );
 }
 
 void AntHouse::setupRing()
@@ -80,3 +80,5 @@ void AntHouse::eventNoJob()
     process();
 }
 
+void AntHouse::process() {
+}

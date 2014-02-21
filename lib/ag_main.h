@@ -101,5 +101,6 @@ AGEXPORT void setRubyRaising(bool flag);
 
 AGEXPORT bool videoInited();
 
+#define RANDOM(x) ((*getMain()->getRand())(x))
 
 #endif

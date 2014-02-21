@@ -1,22 +1,24 @@
-#ifndef ANT_MILL_H
-#define ANT_MILL_H
+#ifndef __ANT_DWELLING_H
+#define __ANT_DWELLING_H
 
 #include "ant_house.h"
 
-class AntMill:public AntHouse {
+class AntDwelling:public AntHouse {
 public:
-    AntMill(AntMap* pMap);
+    AntDwelling(AntMap* pMap);
     void init();
     
     void setupMesh();
 
     virtual AGString xmlName() const {
-      return "antMill";
+      return "antDwelling";
     }
 
     std::vector<AntStockNeed > neededStock();
     void process();
 private:
+    int lastBirth;
 };
+
 #endif
 

@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-AntTree::AntTree ( AntMap* pMap ) : AntEntity ( pMap ) {
+AntTree::AntTree ( AntMap* pMap ) : AntEntity ( pMap ),mType(APPLE) {
   typeID="0";
 }
 
@@ -35,10 +35,20 @@ void AntTree::loadXML ( const Node& node ) {
   AntEntity::loadXML ( node );
 
   typeID=node.get ( "typeID" );
+  mType=(Type)(node.get("type").toInt());
 }
 
 void AntTree::saveXML ( Node& node ) const {
   AntEntity::saveXML ( node );
 
   node.set ( "typeID",typeID );
+  node.set ( "type",mType );
+}
+
+void AntTree::setType(Type type) {
+  mType=type;
+}
+
+AntTree::Type AntTree::getType() const {
+  return mType;
 }

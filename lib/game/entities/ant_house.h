@@ -33,7 +33,7 @@ class AntHouse:public AntEntity,public AntBoss
 
     virtual void process();
   private:
-    std::set<AntMan*> atHome;
+//    std::set<AntMan*> atHome;
 
 };
 
