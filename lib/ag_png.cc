@@ -49,9 +49,11 @@ static void png_write_data(png_structp ctx, png_bytep area, png_size_t size)
 
 static void png_io_flush(png_structp ctx)
   {
+    /*
+     * not needed:
     SDL_RWops *src;
 
-    src = (SDL_RWops *)png_get_io_ptr(ctx);
+    src = (SDL_RWops *)png_get_io_ptr(ctx);*/
     /* how do I flush src? */
   }
 
@@ -185,9 +187,11 @@ int IMG_SavePNG_RW(SDL_Surface *surface, SDL_RWops *src)
     if (row_pointers)
       checkedDeleteArray( row_pointers);
 
+    /*
+     * probably not needed 
     if (info_ptr->palette)
       checkedDeleteArray( info_ptr->palette);
-
+*/
     png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
 
     return result;
