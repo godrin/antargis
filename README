@@ -48,4 +48,8 @@ The layers above are all done in C++. What now follows are the Ruby-parts:
 == Installation and running
 See INSTALL
 
-
+== Make dist / Packages
+mkdir build
+cd build
+cmake ..
+make -j4 package

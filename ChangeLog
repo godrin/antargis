@@ -1,4 +1,7 @@
-
+0.3 (2014-07-01)
+  - major overhaul of the architecture
+	- all the ruby-code is now deprecated, the game will be developed in C++
+	only from now on. 
 
 
 0.2.1.2 (2007-08-21)

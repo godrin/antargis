@@ -98,10 +98,10 @@ add_subdirectory(test)
 INSTALL(TARGETS antargis DESTINATION /usr/bin)
 INSTALL(DIRECTORY data DESTINATION /usr/share/antargis)
 
+set(CPACK_SET_DESTDIR ON)
 SET (CPACK_PACKAGING_INSTALL_PREFIX "/tmp")
 
-SET (CPACK_GENERATOR "DEB")
-#"TGZ" "RPM")
+SET (CPACK_GENERATOR "DEB" "TGZ" "RPM")
 
 SET(CPACK_PACKAGE_VERSION_MAJOR "0")
 SET(CPACK_PACKAGE_VERSION_MINOR "3")
@@ -121,3 +121,5 @@ SET(DEBIAN_PACKAGE_BUILDS_DEPENDS " libsdl-image1.2-dev (>=1.2.10-2.1)
  zlib1g-dev (>=1:1.2.3.4.dfsg-3ubuntu3)
    g++ (>=4:4.6.1-2ubuntu5)")
 include(CPack)
+
+#add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
