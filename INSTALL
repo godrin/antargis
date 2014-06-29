@@ -1,38 +1,22 @@
-== INSTALLATION of Battles of Antargis
-Quick Start:
+INSTALLATION of Battles of Antargis
+===================================
 
-1) Install ruby, rake (a ruby make tool), libsdl, libsdl-image, libsdl-ttf, libsdl-mixer, opengl. You need the developer-packages of all these libraries/programs! If you want to do serious developing you should install rant, too!
+On Ubuntu ( Debian ? )
+----------------------
 
-2) Don't forget to install ruby1.8-dev (or ruby1.9-dev if you use ruby 1.9)
+First install some dependencies:
 
-3) After this step no root-privileges are needed.
+> sudo apt-get install g++ libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libpng12-dev cmake libboost.*signal.*dev fluid-soundfont-gm musescore-soundfont-gm
 
-4) Run "ruby configure" or just "./configure" to configure the building. You may want to give additional options, which will be explained if you give the parameter "-h" - so run "./configure -h"
+continue with 'Linux'
 
-5) If you have installed rant in step 1: Run "rake" in this directory.
+Linux
+-----
 
-6) Run "./antargis" in this directory
+Then compile the game using debug-symbols - as it is in active development
 
-Essentials: Ruby, (Rake)
-This game is mostly written in Ruby (www.ruby-lang.org) and C++. It uses Rake (a Ruby based make) as build system.
+> ./makeDebug.sh
 
-Libraries: libSDL,libSDL_mixer libSDL_ttf, libSDL_image, opengl
+Then run the game:
 
-== Links
-Ruby          http://www.ruby-lang.org
-
-Rake          http://rake.rubyforge.org/
-
-libSDL        http://www.libsdl.org
-
-libSDL-image  http://www.libsdl.org/projects/SDL_image
-
-libSDL-ttf    http://www.libsdl.org/projects/SDL_ttf
-
-libSDL-mixer  http://www.libsdl.org/projects/SDL_mixer
-
-
-
-
-== New 
-apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libpng12-dev cmake libboost.*signal.*dev fluid-soundfont-gm musescore-soundfont-gm
+> ./Debug/antargis
