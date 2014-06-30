@@ -6,13 +6,11 @@
 
 AntFormationBlock::AntFormationBlock(AntBoss* pboss, const AGVector2 & pdir): AntFormation(pboss),dir(pdir)
 {
-    CTRACE;
 }
 
 
 std::map< AntPerson*, AGVector2 > AntFormationBlock::computeFormation()
 {
-    CTRACE;
     // virtual positions as map from man to pair of [row,line (circle)]
     std::map<AntPerson*,std::pair<size_t,size_t> >  vpos;
     std::map<AntPerson*,AGVector2> rpos;
@@ -38,14 +36,8 @@ std::map< AntPerson*, AGVector2 > AntFormationBlock::computeFormation()
     for (std::vector<AntPerson*>::iterator menIterator=men.begin();menIterator!=men.end();menIterator++)  {
         std::map<AntPerson*,std::pair<size_t,size_t> >::iterator  curvpos=vpos.find(*menIterator);
         size_t row=curvpos->second.first,line=curvpos->second.second;
-        //float radius=line*1.2;
-        //float angle=((float)row)/linesizes[line]*M_PI*2.0;
-
         size_t linesize=linesizes[line];
         rpos[*menIterator]=normal*(row-(linesize/2.0))*0.5 + dir*line*0.7;
-
-
-        //rpos[*menIterator]=AGVector2(cos(angle)*radius,sin(angle)*radius);
     }
     rpos[dynamic_cast<AntPerson*>(getBoss()->getEntity())]=AGVector2(0,0);
     return rpos;

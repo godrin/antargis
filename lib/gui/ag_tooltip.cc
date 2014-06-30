@@ -77,11 +77,6 @@ AGTooltip::AGTooltip(const AGRect2 &pRect,const AGStringUtf8 &pText):
 
     // check below
 
-    cdebug("th:"<<th);
-    cdebug("bottom:"<<bottom());
-    cdebug("sh:"<<sh);
-    cdebug("left:"<<left());
-
     if(th+bottom()+4<sh)
       setRect(AGRect2(left(),bottom()+2,tw,th));
     else if(top()-4-tw>0)

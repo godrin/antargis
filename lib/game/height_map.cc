@@ -159,12 +159,7 @@ void HeightMap::loadBinary ( BinaryIn &is )
   }
   if ( version==0 )
   {
-
-    cdebug ( "mw:"<<mW<<"  "<<mH );
-    //  cdebug("pos:"<<is.pos());
-
     assert ( mW<10000 && mH<10000 );
-
 
     mHeights=std::vector<float> ( mW*mH*4 );
     for ( size_t y=0; y<mH+2; y++ )

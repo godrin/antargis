@@ -1067,10 +1067,6 @@ void AntEntity::setMesh(AGString entityType,AGString animationMode,float size) {
 
 
     if(mMeshes.size()<3) {
-      cdebug("MESHSIZE:"<<mMeshes.size());
-      for(auto mesh:mMeshes) {
-        cdebug("MESH:"<<typeid(mesh.mesh).name());
-      }
 
       setMesh(fireBaseMesh);
       smokeMesh=new AntParticle(getMap()->getScene(),4);

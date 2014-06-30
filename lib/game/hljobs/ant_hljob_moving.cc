@@ -29,7 +29,6 @@ void AntHLJobMoving::init() {
 
 void AntHLJobMoving::initMoving ()
 {
-  CTRACE;
   formatDist=0;
 
   if ( getMap() )
@@ -117,9 +116,6 @@ std::vector< AntPerson* > AntHLJobMoving::getMen()
 
 void AntHLJobMoving::startFormatting()
 {
-  CTRACE;
-  cdebug ( "startFormatting:::::::::::" );
-  cdebug ( "formatDir:"<<formatDir() );
   getHero()->setFormation ( new AntFormationBlock ( getHero(),formatDir() ) );
   std::vector<AntPerson*> men=getMenWithBoss();
   for ( std::vector<AntPerson*>::iterator man=men.begin(); man!=men.end(); man++ )
@@ -131,7 +127,6 @@ void AntHLJobMoving::startFormatting()
     ( *man )->setMode ( AntPerson::FORMAT );
   }
   state=FORMAT;
-  cdebug ( "startFormatting." );
 }
 
 AGVector2 AntHLJobMoving::formatDir()
@@ -141,17 +136,13 @@ AGVector2 AntHLJobMoving::formatDir()
 
 void AntHLJobMoving::startWalking()
 {
-  cdebug ( "startWalking:::::::::::" );
   getHero()->setFormation ( new AntFormationBlock ( getHero(),formatDir() ) );
   targetPosition=*waypoints.begin();
-  cdebug ( "waypoints #:"<<waypoints.size() );
-  cdebug ( "targetpos:"<<targetPosition );
   waypoints.pop_front();
   std::vector<AntPerson*> men=getMenWithBoss();
   for ( std::vector<AntPerson*>::iterator man=men.begin(); man!=men.end(); man++ )
   {
     AGVector2 f=getHero()->getFormation ( *man,targetPosition );
-    cdebug ( "new move job:"<< ( *man )->getPos2D() <<" to "<<f );
     float curDist=formatDist;
     if(waypoints.size()==0)
       curDist=dist;
@@ -161,7 +152,6 @@ void AntHLJobMoving::startWalking()
 
   }
   state=MOVING;
-  cdebug ( "startWalking." );
 
 }
 
@@ -210,7 +200,6 @@ bool AntHLJobMoving::fireBurning() const {
 }
 
 void AntHLJobMoving::dontMoveAnymore() {
-  CTRACE;
   if(!moveFinished) {
     moveFinished=true;
     eventMoveFinished();

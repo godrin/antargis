@@ -451,7 +451,9 @@ void AntMap::insertPlayer ( AntPlayer* player )
   AntHumanPlayer *humanPlayer=dynamic_cast<AntHumanPlayer*> ( player );
   if ( humanPlayer )
     {
-      cdebug ( "Inserted humanplayer:"<<humanPlayer );
+      // set the human player
+      if(myPlayer)
+        throw std::runtime_error("Human player has already been defined!");
       myPlayer=humanPlayer;
     }
 }

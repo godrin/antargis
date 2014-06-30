@@ -78,8 +78,6 @@ void AntPlayer::loadXML(const Node& node)
     for(auto child:node.getChildren("house")) {
       bossNames.push_back(child->get("name"));
     }
-
-    cdebug("Antplayer::loadxml"<<bossNames.size());
 }
 
 void AntPlayer::move(float pTime)

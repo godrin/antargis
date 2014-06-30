@@ -15,7 +15,6 @@ Renderer::Renderer():
   mCanGLSL(-1)
   {
     mFBO=0;
-    CTRACE;
     GLeeInit(); // this call is essential for letting glee work
     assert(gRenderer==0);
     gRenderer=this;
@@ -48,7 +47,6 @@ Renderer::Renderer():
 
 Renderer::~Renderer()
   {
-    cdebug("gRenderer:"<<gRenderer);
     assert(gRenderer==this);
     gRenderer=0;
     checkedDelete(mFBO); // checked - no agrubyobject
@@ -107,7 +105,6 @@ void Renderer::initShadowTexture()
     if(shadowInited)
       return;
 
-    CTRACE;
     glGenTextures(1, &shadowMapTexture);
     glBindTexture(GL_TEXTURE_2D, shadowMapTexture);
     //  glTexImage2D(   GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowMapSize, shadowMapSize, 0,
