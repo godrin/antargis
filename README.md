@@ -1,5 +1,8 @@
 Battles of Antargis
 ===================
+Antargis on Google+: https://plus.google.com/101003433246259562872
+
+
 Description
 -----------
 
