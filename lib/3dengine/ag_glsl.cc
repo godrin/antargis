@@ -86,7 +86,6 @@ AGVertexProgram::AGVertexProgram(const std::string &pFile)
 
 AGVertexProgram::~AGVertexProgram()
   {
-    CTRACE;
     if(glslOk() && !hasQuit())
       glDeleteObjectARB(vertexShader);
     assertGL;

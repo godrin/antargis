@@ -15,7 +15,6 @@ class AntHouse:public AntEntity,public AntBoss
     virtual ~AntHouse() throw();
 
     virtual void init();
-    virtual void removeMan ( AntMan *man );
 
     virtual ColoredMesh *getRing();
     virtual void setupRing();

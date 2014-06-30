@@ -104,7 +104,6 @@ bool AntHLJob::sit ( AntPerson* man, const AGVector2 &pBasePos )
 }
 
 bool AntHLJob::moveTo(AntPerson *man, const AGVector2 &pPos, bool withFormation) {
-  CTRACE;
   AGVector2 pos=pPos;
   if(withFormation && !dynamic_cast<AntHero*>(man)) {
     pos=getBoss()->getFormation()->getPosition(man,pos);

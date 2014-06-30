@@ -39,7 +39,6 @@ void AntHero::setMeshState ( const AGString& pname )
   {
     name="walk";
   }
-  //origMeshState=name;
   name=checkOnWater ( name );
   meshState=name;
   float dir=getDirection();
@@ -47,22 +46,17 @@ void AntHero::setMeshState ( const AGString& pname )
   if ( name=="row" )
   {
     setMesh("hero","row");
- //   setMesh ( AntModels::createModel ( scene,"hero","" ) );
-  //  addMesh ( AntModels::createModel ( scene,"hero","boat" ),AGVector3 ( 0,0,0 ) );
   }
   else if ( name=="dead" )
   {
     setMesh("hero","grave");
-    //setMesh ( AntModels::createModel ( scene,"hero","grave_hero" ) );
   }
   else
   {
     setMesh("hero");
-    //setMesh ( AntModels::createModel ( scene,"hero","" ) );
   }
   setDirection ( dir );
   setupRing();
-  cdebug("setMeshState Hero"<<pname);
 }
 
 const AGString &AntHero::getMeshState() const {
@@ -74,9 +68,7 @@ void AntHero::setupRing() {
 
 void AntHero::loadXML ( const Node& node )
 {
-  CTRACE;
   fireID=node.get("fireID").toInt();
-  cdebug("fireID:"<<fireID);
 
   AntEntity::loadXML ( node );
   primary= ( AGString ( "true" ) ==node.get ( "primary" ) );

@@ -19,10 +19,6 @@ void AntHouse::init()
   setProvide ( "house",true );
 }
 
-void AntHouse::removeMan ( AntMan* man )
-{
-//  atHome.erase ( man );
-}
 
 void AntHouse::setupRing()
 {
@@ -65,11 +61,10 @@ int AntHouse::getID()
 }
 
 void AntHouse::setHlJob ( AntHLJob* job ) {
-  CTRACE;
+  // set default job for house
   if(!job)
     job = new AntHLJobFetching ( this );
   AntBoss::setHlJob(job);
-
 }
 
 void AntHouse::eventNoJob()

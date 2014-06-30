@@ -556,20 +556,15 @@ public:
 
 DecimatedGraph::DecimatedGraph()
 {
-  CTRACE;
 }
 
 DecimatedGraph::DecimatedGraph ( const SimpleGraph &g ) :SimpleGraph ( g )
 {
-  CTRACE;
-  cdebug ( "old:"<< ( &g ) );
 }
 
 DecimatedGraph::~DecimatedGraph() throw()
 {
-  CTRACE;
 }
-
 
 
 void DecimatedGraph::decimate ( float amount,MapPathWeighter *pWeighter )
@@ -906,8 +901,6 @@ Pathfinder::Pathfinder ( SimpleGraph *pGraph,HeuristicFunction *pHeuristic,PathD
   mGraph ( pGraph ),mHeuristic ( pHeuristic ),
   mDebug ( d )
 {
-  CTRACE;
-  cdebug ( "Simplegraph:"<<mGraph );
 }
 
 struct Path;
@@ -922,7 +915,6 @@ bool Heuristic::operator() ( const Path &a,const Path &b )
 
 float Heuristic::distance ( const AGVector2&from )
 {
-  //  cdebug("from:"<<from<<" to:"<<to);
   if ( ( to-AGVector2 ( 90,90 ) ).length() <1 )
     throw int();
   return ( *p ) ( std::make_pair ( from,to ) );

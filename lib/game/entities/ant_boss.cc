@@ -51,40 +51,17 @@ void AntBoss::assignJob ( AntPerson* person )
   if ( !hlJob )
     eventNoHlJob();
 
-  //    std::cout<<"assign:"<<man<<" "<<typeid(*man).name()<<std::endl;
   if ( hlJob )
   {
     hlJob->checkPerson ( person );
   }
   else
   {
-    CTRACE;
-    //AntEntity *e= ( AntEntity* ) ( man );
     person->newRestJob ( 100 );
     person->setMeshState ( "sit" );
   }
 
 }
-/*
-void AntBoss::assignJob ( AntHero* man )
-{
-  //    std::cout<<"assign:"<<man<<" "<<typeid(*man).name()<<std::endl;
-  if ( !hlJob )
-    eventNoHlJob();
-
-  if ( hlJob )
-  {
-    hlJob->check ( man );
-  }
-  else
-  {
-    AntEntity *e= ( AntEntity* ) ( man );
-    e->newRestJob ( 100 );
-    //man->setMeshState("sit");
-  }
-
-}
-*/
 std::vector< AntPerson* > AntBoss::getMenWithBoss()
 {
   std::vector< AntPerson* > l;
@@ -118,7 +95,6 @@ AGVector2 AntBoss::getFormation ( AntPerson* e, const AGVector2& v )
 
 void AntBoss::setHlJob ( AntHLJob* job )
 {
-  CTRACE;
   if(hlJob)
     hlJob->eventJobDiscarded();
 
@@ -232,7 +208,6 @@ void AntBoss::eventLostMan(AntPerson *person) {
 } 
 
 void AntBoss::delJobs() {
-  CTRACE;
   for(auto entity:getMenWithBoss()) {
     entity->delJob();
   }

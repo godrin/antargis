@@ -46,6 +46,7 @@ AGLocalizer *getLocalizer()
     return gLocalizer;
   }
 
+bool localizerWarning=false;
 
 AGStringUtf8 translate(const AGString &s)
   {
@@ -53,7 +54,9 @@ AGStringUtf8 translate(const AGString &s)
 
     if(l)
       return l->find(s);
-    else
+    else if(!localizerWarning) {
       cdebug("No Localizer found!");
+      localizerWarning=true;
+    }
     return AGStringUtf8(s);
   }

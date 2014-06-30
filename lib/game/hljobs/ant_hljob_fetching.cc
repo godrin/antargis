@@ -21,11 +21,7 @@ bool AntStockNeed::operator<(const AntStockNeed& o) const
 
 AntHLJobFetching::AntHLJobFetching(AntBoss* pBoss): AntHLJob(pBoss)
 {
-  CTRACE;
   mode=FETCH;
-/*  for(auto man:getMenWithoutBoss()) {
-    checkPerson(man);
-  }*/
 }
 AGVector2 AntHLJobFetching::basePos()
 {
@@ -33,8 +29,6 @@ AGVector2 AntHLJobFetching::basePos()
 }
 bool AntHLJobFetching::checkPerson(AntPerson *person)
 {
-  CTRACE;
-  cdebug("checkPerson:"<<person);
   AntMan *man=dynamic_cast<AntMan*>(person);
   if(man) {
     if (atHome(man))  {
@@ -58,10 +52,7 @@ bool AntHLJobFetching::checkPerson(AntPerson *person)
         man->newRestJob(5+agRand(1.0f));
       }
     } else if (man->getMode()==AntPerson::FETCHING)  {
-      CTRACE;
-      cdebug("TAKING:"<<man->getTargetByID());
       auto *ent=man->getTargetByID();
-      cdebug("target:"<<ent->getPos2D()<<" man:"<<man->getPos2D());
       // check if target is somehow to far away
       if ((man->getTargetPos2D()-man->getPos2D()).length()>2) {
         man->setMode(AntPerson::HOMING);
@@ -69,12 +60,10 @@ bool AntHLJobFetching::checkPerson(AntPerson *person)
         man->newMoveJob(0,getBossEntity()->getPos2D(),0);
         return false;
       }
-      cdebug("DIG resource");
       man->setMeshState("walk");
       man->digResource(man->getFetchResource());
       man->setMode(AntPerson::DIGGING);
     } else if (man->getMode()==AntPerson::DIGGING) {
-      cdebug("was diging");
       // digging ready - take home
       man->newMoveJob(0,getBossEntity()->getPos2D(),0);
       //res=e.getMode.gsub(/.* /,"")
@@ -87,7 +76,6 @@ bool AntHLJobFetching::checkPerson(AntPerson *person)
       // take resource
       if (!man->getTargetByID()) // FIXME: error while loading
       {
-        cdebug("No target defined ?");
         return false;
       }
       man->collectResource(res);
@@ -95,7 +83,6 @@ bool AntHLJobFetching::checkPerson(AntPerson *person)
       float amount=std::min(target->resource.get(res),man->canCarry());
       target->resource.sub(res,amount);
       target->resourceChanged();
-      cdebug("GOT "<<amount<<" of "<<res<<" from "<<target);
       man->resource.add(res,amount);
     } else if (man->getMode()==AntPerson::HOMING) {
       man->newRestJob(1); // always rest a little
