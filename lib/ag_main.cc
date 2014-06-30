@@ -44,11 +44,6 @@ bool quited=false;
 void newInstanceKiller();
 void deleteInstanceKiller();
 
-#ifdef DRMUSER
-std::string gUserName=DRMUSER;
-bool gDRMok=false;
-#endif
-
 //FIXME: discard this function!
 bool hasQuit()
   {

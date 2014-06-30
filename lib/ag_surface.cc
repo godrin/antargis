@@ -40,9 +40,6 @@
 
 #include <ag_fs.h>
 
-bool gDRM=false;
-
-
 ///////////////////////////////////////////////////////////////////////
 // Tools
 ///////////////////////////////////////////////////////////////////////
@@ -170,8 +167,6 @@ AGSurface::~AGSurface() throw()
 
 void AGSurface::save(const std::string &pName) const
 {
-  if(gDRM==true)
-    throw std::runtime_error("saving disabled - because of DRM!");
   assert(s);
   assert(s->surface);
   std::string png=toPNG(s->surface);

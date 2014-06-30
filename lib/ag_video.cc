@@ -128,44 +128,6 @@ void AGVideoManager::initVideo(int w,int h,int d,bool fs,bool gl,int vw,int vh)
 
     SDL_WM_SetCaption("Antargis","Antargis");
 
-
-
-#ifdef DRMMD5
-
-    std::string mhash(DRMMD5);
-    AGFont f("Arial.ttf",23);
-
-    if(myHash(gUserName.substr(32,std::string::npos))==mhash.substr(32,std::string::npos))
-      {
-        std::cout<<"drm ok"<<std::endl;
-        AGTexture *t=AGFontEngine::renderText(0,0,AGStringUtf8("Registriert für :"+gUserName.substr(32,std::string::npos)),f);
-        getScreen().blit(*t,AGRect2(50,100,t->width(),t->height()),t->getRect());
-        gDRMok=true;
-        getScreen().flip();
-        SDL_Delay(3000);
-      }
-    else
-      {
-        std::cout<<"drm falied"<<std::endl;
-        AGTexture *t=AGFontEngine::renderText(0,0,AGStringUtf8("Registriert für :"+gUserName.substr(32,std::string::npos)),f);
-        getScreen().blit(*t,AGRect2(50,100,t->width(),t->height()),t->getRect());
-        //      getScreen().blit(*t);
-        gDRMok=true;
-        getScreen().flip();
-        SDL_Delay(4000);
-        exit(1);
-      }
-
-#endif
-
-
-
-
-
-
-
-
-
   }
 
 void AGVideoManager::toggleFull()
