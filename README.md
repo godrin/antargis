@@ -1,6 +1,6 @@
 Battles of Antargis
 ===================
-Antargis on Google+: [Google+](https://plus.google.com/101003433246259562872)
+Antargis on Google+: <a href="https://plus.google.com/101003433246259562872" rel="publisher">Google+</a>
 
 
 Description
