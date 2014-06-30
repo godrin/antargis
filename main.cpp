@@ -9,8 +9,6 @@
 #include <ag_rand.h>
 
 int main ( int argc, char **argv ) {
-    std::cout << "Hello, world!" << std::endl;
-
     setDebugLevel(0);
 
     AGMain main;

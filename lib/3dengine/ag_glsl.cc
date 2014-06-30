@@ -58,11 +58,11 @@ void printInfoLog(GLhandleARB obj)
 
     if (infologLength > 0)
       {
-        cdebug("GLSL ERROR:");
         infoLog = (char *)malloc(infologLength);
         glGetInfoLogARB(obj, infologLength, &charsWritten, infoLog);
-        if(infoLog)
-          cdebug(infoLog);
+        if(infoLog && charsWritten>0) {
+          cdebug("GLSL Error:"<<infoLog);
+        }
         free(infoLog);
       }
   }
@@ -70,7 +70,6 @@ void printInfoLog(GLhandleARB obj)
 
 AGVertexProgram::AGVertexProgram(const std::string &pFile)
   {
-    //  CTRACE;
     if(glslOk())
       {
         vertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);

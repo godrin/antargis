@@ -363,7 +363,6 @@ public:
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
-        CTRACE;
         AGString border=pNode.get("border");
         size_t width=pNode.get("width").toInt();
 

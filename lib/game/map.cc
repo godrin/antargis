@@ -71,7 +71,6 @@ AntEntity *AntMap::getEntity ( int id ) const
 
 int AntMap::getNewID()
 {
-  std::cout<<"getNewID:"<<maxID<<std::endl;
   return maxID++;
 }
 
@@ -206,7 +205,7 @@ void AntMap::processXMLNode ( const Node &node )
         {
           insertPlayer ( player );
         }
-      else
+      else if (node.getName()!="")
         {
 
           //  AntEntity *e=0;

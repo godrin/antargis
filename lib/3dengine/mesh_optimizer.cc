@@ -109,7 +109,6 @@ VertexArray MeshOptimizer::getArray()
 
     if(mIndices.size()==0)
       cdebug("NO TRIANGLES FOUND!");
-    cdebug("SAVED:"<<1.0f-float(saved)/mIndices.size());
     return a;
   }
 

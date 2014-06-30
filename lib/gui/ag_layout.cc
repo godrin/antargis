@@ -42,7 +42,6 @@
 AGLayout::AGLayout(AGWidget *pgParent):
   AGWidget(pgParent,AGRect2(0,0,0,0))
   {
-    CTRACE;
   }
 
 AGLayout::~AGLayout() throw()
@@ -51,7 +50,6 @@ AGLayout::~AGLayout() throw()
 
 void AGLayout::loadXML(const std::string &pXMLData)
   {
-    CTRACE;
     getLayoutFactory()->pushLayout(this);
 
     // disable GC here
@@ -59,9 +57,6 @@ void AGLayout::loadXML(const std::string &pXMLData)
     // when _() is called, which itself is a ruby-dependent thingy
     Document p;
     p.parseMemory(pXMLData);
-
-
-
 
     AGWidget *pgParent=getParent();
 
@@ -73,9 +68,6 @@ void AGLayout::loadXML(const std::string &pXMLData)
       geom=pgParent->getRect().origin();
     else
       geom=AGRect2(0,0,getVideo()->width(),getVideo()->height());
-
-
-    cdebug("GEOMETRY:"<<geom.toString());
 
     setRect(geom);
     setName(p.root().get("name"));
@@ -225,11 +217,12 @@ void parseChildren(AGWidget *pParent,const Node &pNode)
           {
             AGWidget *w=parseNode(pParent,**i);
             if(w) {
-              cdebug("added some child:"<<w);
               pParent->addChild(w);
             }
             else {
-              cdebug("Could create child for node:"<<((*i)->getName()));
+              AGString name=(*i)->getName();
+              if(name!="")
+                cdebug("Could not create child for node:"<<((*i)->getName()));
             }
           }
       }

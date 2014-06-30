@@ -28,6 +28,19 @@
 // AGScreen
 ////////////////////////////////////////////////////////////////////////
 
+AGScreen *mAGGScreen=0;
+
+AGScreen & AGEXPORT getScreen()
+  {
+    assert(mAGGScreen);
+    return *mAGGScreen;
+  }
+
+
+void setScreen(AGScreen *s)
+  {
+    mAGGScreen=s;
+  }
 AGScreen::AGScreen() {
     mFontEngine=new AGFontEngine();
 }

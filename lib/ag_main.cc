@@ -87,17 +87,12 @@ AGMain::AGMain():
 
 AGMain::~AGMain() throw()
   {
-    CTRACE;
     checkedDelete(mVideo);
     deleteInstanceKiller();
     mAGMain=0;
-    cdebug("QUIT");
     SDL_Quit();
     quited=true;
     setQuitting();
-
-    //  saveDelete(mRand);
-
 
     setRubyRaising(true);
   }

@@ -127,9 +127,7 @@ AGGLScreen::AGGLScreen(int W,int H,int VW,int VH):
       h=rh;
 
     mLineWidth=2;
-
-    cdebug("w:"<<w<<" h:"<<h);
-
+    
     // init GL
     glEnable(GL_TEXTURE_2D);
     glShadeModel(GL_SMOOTH);
@@ -157,14 +155,13 @@ AGGLScreen::AGGLScreen(int W,int H,int VW,int VH):
   }
 
 
-
-
 AGGLScreen::~AGGLScreen() throw()
   {
   }
 
 AGTexture AGGLScreen::screenshot(bool frontBuffer)
   {
+    throw std::runtime_error("Not implemented correctly ?");
     assert(0);
     AGTexture t(getWidth(),getHeight());
 

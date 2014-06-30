@@ -78,14 +78,9 @@ AnimMeshData::AnimMeshData(const AGString &xmlFilename):
     if(!useAnimation())
       animate=false;
 
-    cdebug("loading from:"<<root.get("model"));
-
     loadAnt3(loadFile(root.get("model")),root.get("scale").toFloat(),root.get("texture"));
 
     // load animations
-
-    cdebug("animTime:"<<animTime);
-
     Node::NodeVector anims=root.getChildren("animation");
     for(Node::NodeVector::iterator i=anims.begin();i!=anims.end();i++)
       {

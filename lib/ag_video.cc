@@ -60,7 +60,6 @@ void AGVideoManager::initVideo(int w,int h,int d,bool fs,bool gl,int vw,int vh)
     lastDepth=d;
     fullScreen=fs;
 
-    cdebug("videoInfo:"<<videoInfo);
     if(!videoInfo)
       {
         videoInfo = SDL_GetVideoInfo();
@@ -73,40 +72,32 @@ void AGVideoManager::initVideo(int w,int h,int d,bool fs,bool gl,int vw,int vh)
     int videoFlags=0;
 
     if(gl)
-      {
-        videoFlags|=SDL_OPENGL;
-        cdebug("initing opengl");
-      }
+      videoFlags|=SDL_OPENGL;
     else
       videoFlags |= SDL_SWSURFACE;
 
     if(fs)
       videoFlags|=SDL_FULLSCREEN;
-    
+
     if(gl)
       videoFlags|=SDL_DOUBLEBUF;
 
-
-    // set video mode
-    //  SDL_Init(SDL_INIT_VIDEO);
     SDL_Surface *ms=SDL_SetVideoMode(w,h,videoInfo->vfmt->BitsPerPixel,videoFlags);
     if(!ms)
-      {
-        std::cerr<<"Initing video mode failed!"<<std::endl;
-        std::cerr<<"SDL:Error:"<<SDL_GetError()<<std::endl;
-        std::cerr<<"If you experience errors here, it may be that one following is true:"<<std::endl;
-        std::cerr<<"* SDL is compiled without OpenGL support"<<std::endl;
-        std::cerr<<"* Your display has no support for GLX"<<std::endl;
-        std::cerr<<"* You're running SDL with framebuffer - instead of X"<<std::endl;
-        exit(1);
-      }
-
-
+    {
+      std::cerr<<"Initing video mode failed!"<<std::endl;
+      std::cerr<<"SDL:Error:"<<SDL_GetError()<<std::endl;
+      std::cerr<<"If you experience errors here, it may be that one following is true:"<<std::endl;
+      std::cerr<<"* SDL is compiled without OpenGL support"<<std::endl;
+      std::cerr<<"* Your display has no support for GLX"<<std::endl;
+      std::cerr<<"* You're running SDL with framebuffer - instead of X"<<std::endl;
+      exit(1);
+    }
 
     if(mScreen)
-      {
-        checkedDelete(mScreen);
-      }
+    {
+      checkedDelete(mScreen);
+    }
 
     if(vw<w)
       vw=w;
@@ -117,12 +108,12 @@ void AGVideoManager::initVideo(int w,int h,int d,bool fs,bool gl,int vw,int vh)
     lastVHeight=vh;
 
     if(gl)
-      {
-        AGGLScreen *ms=new AGGLScreen(w,h,vw,vh);
-        ms->screenUp();
+    {
+      AGGLScreen *ms=new AGGLScreen(w,h,vw,vh);
+      ms->screenUp();
 
-        setScreen(mScreen=ms);
-      }
+      setScreen(mScreen=ms);
+    }
     else
       setScreen(mScreen=new AGSDLScreen(ms));
 
@@ -131,27 +122,27 @@ void AGVideoManager::initVideo(int w,int h,int d,bool fs,bool gl,int vw,int vh)
   }
 
 void AGVideoManager::toggleFull()
-  {
-    initVideo(lastWidth,lastHeight,lastDepth,!fullScreen,lastGL,lastVWidth,lastVHeight);
-  }
+{
+  initVideo(lastWidth,lastHeight,lastDepth,!fullScreen,lastGL,lastVWidth,lastVHeight);
+}
 
 
 void AGVideoManager::setIcon(const std::string &pFile)
-  {
-    std::string file=loadFile(pFile);
+{
+  std::string file=loadFile(pFile);
 
-    if(file.length()==0)
-      cdebug("file :"<<pFile<<" possibly not found!");
+  if(file.length()==0)
+    cdebug("file :"<<pFile<<" possibly not found!");
 
-    SDL_Surface *s=IMG_Load_RW(SDL_RWFromMem(const_cast<char*>(file.c_str()),file.length()),false);
-    SDL_WM_SetIcon(s,0);
-    assertGL;
-  }
+  SDL_Surface *s=IMG_Load_RW(SDL_RWFromMem(const_cast<char*>(file.c_str()),file.length()),false);
+  SDL_WM_SetIcon(s,0);
+  assertGL;
+}
 
 void AGVideoManager::setCaption(const std::string &pCaption)
-  {
-    SDL_WM_SetCaption(pCaption.c_str(),0);
-  }
+{
+  SDL_WM_SetCaption(pCaption.c_str(),0);
+}
 
 bool AGVideoManager::fullscreen() const
 {
@@ -180,8 +171,8 @@ int AGVideoManager::height() const
 }
 
 AGVideoManager *getVideo()
-  {
-    AGVideoManager *m=dynamic_cast<AGVideoManager*>(getMain()->getVideo());
-    assert(m);
-    return m;
-  }
+{
+  AGVideoManager *m=dynamic_cast<AGVideoManager*>(getMain()->getVideo());
+  assert(m);
+  return m;
+}

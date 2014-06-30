@@ -130,26 +130,6 @@ void AGSDLScreen::blit(const AGTexture &pSource,const AGRect2 &pDest,const AGRec
 
 
 
-AGScreen *mAGGScreen=0;
-/*
-bool videoInited()
-{
-  return mAGGScreen;
-}*/
-
-AGScreen & AGEXPORT getScreen()
-  {
-    assert(mAGGScreen);
-    return *mAGGScreen;
-  }
-
-
-void setScreen(AGScreen *s)
-  {
-    TRACE;
-    cdebug("s:"<<s);
-    mAGGScreen=s;
-  }
 
 
 void AGSDLScreen::drawBorder(const AGRect2& rect,int W, const AGColor& c1, const AGColor& c2)

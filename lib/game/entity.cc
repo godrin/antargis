@@ -36,7 +36,6 @@
 
 AntEntity::AntEntity ( AntMap *pMap ) :mMap ( pMap ),mPos ( 0,0,0 )
 {
-  CTRACE;
   assert ( mMap );
   mID=getMap()->getNewID();
   mRing=0;
@@ -98,8 +97,6 @@ void AntEntity::init()
 
 AntEntity::~AntEntity() throw()
 {
-  CTRACE;
-  //#error called several times
   for ( Meshes::iterator i=mMeshes.begin(); i!=mMeshes.end(); i++ )
     checkedDelete ( i->mesh );
   mMeshes.clear();
@@ -644,7 +641,6 @@ void AntEntity::eventGotFight ( AntEntity*pOther )
 
 void AntEntity::eventDefeated()
 {
-  CTRACE;
 }
 
 void AntEntity::sigDefeated()

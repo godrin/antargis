@@ -10,7 +10,7 @@ AntPlayer* createPlayer(const Node& node, AntMap* pMap)
     if (type=="humanPlayer") {
         player=new AntHumanPlayer(pMap,name);
         player->loadXML(node);
-    } else {
+    } else if(type!="") {
       cdebug("UNKNOWN:"<<type);
     }
     return player;

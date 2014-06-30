@@ -13,12 +13,10 @@
 
 AntBoss::AntBoss ( ) :hlJob ( 0 ),menToAddCount ( 0 )
 {
-  CTRACE;
 }
 
 AntBoss::~AntBoss() throw()
 {
-  CTRACE;
   getPlayer()->remove ( this );
 }
 
@@ -168,7 +166,6 @@ void AntBoss::saveXMLBoss ( Node &node ) const {
 }
 void AntBoss::loadXMLBoss ( const Node& node )
 {
-  CTRACE;
   if ( node.get ( "men" ).length() >0 )
   {
     menToAddCount=node.get ( "men" ).toInt();
