@@ -205,7 +205,7 @@ void Scene::initScene()
     glLightfv(GL_LIGHT1, GL_SPECULAR, black);
     glEnable(GL_LIGHT1);
 
-    AGVector4 lightPosition2=AGVector4( 0, 0, -50,1);
+    //AGVector4 lightPosition2=AGVector4( 0, 0, -50,1);
 
     //  glLightfv(GL_LIGHT2, GL_POSITION, lightPosition2+scenePosition);
     glLightfv(GL_LIGHT2, GL_AMBIENT, black);

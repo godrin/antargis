@@ -696,7 +696,7 @@ std::list<std::pair<size_t,size_t> > getPossibleNeighbors ( size_t w,size_t h,co
           dx=x*res+curPos.first;
           dy=y*res+curPos.second;
 
-          if ( dx<w-1 && dy<h-1 && dx>=0 && dy>=0 )
+          if ( dx<(int)w-1 && dy<(int)h-1 && dx>=0 && dy>=0 )
             result.push_back ( std::make_pair ( dx,dy ) );
         }
 
@@ -798,8 +798,6 @@ HeuristicFunction *computeHeuristic ( SimpleGraph *g )
 {
   //  StoredHeuristicFunction *h=new StoredHeuristicFunction(32,g->width());
   StoredHeuristicFunction *h=new StoredHeuristicFunction;
-
-  size_t c=0;
 
   typedef SimpleGraph::Node* Node;
   typedef std::pair<Node,Node> NodePair;
@@ -936,8 +934,6 @@ std::list<AGVector2> Pathfinder::computePath ( const AGVector2 &pFrom, const AGV
 {
   STACKTRACE;
 
-  Uint32 t0=SDL_GetTicks();
-
   SimpleGraph::Node *from=mGraph->findNearest ( pFrom );
   SimpleGraph::Node *to=mGraph->findNearest ( pTo );
 
@@ -963,42 +959,12 @@ std::list<AGVector2> Pathfinder::computePath ( const AGVector2 &pFrom, const AGV
     if ( mDebug )
       mDebug->debugPath ( path,path.getWeight ( new Heuristic ( to->p,mHeuristic ) ) );
 
-    {
-      SimpleGraph::Node *oldi=0;
-      for ( Path::iterator i=path.begin(); i!=path.end(); i++ )
-      {
-        /*
-           std::cout<<(*i)->p<<":";
-           if(oldi)
-           {
-           for(SimpleGraph::Edges::iterator j=oldi->edges.begin();j!=oldi->edges.end();j++)
-           {
-           if((*j)->a==*i)
-           std::cout<<"("<<(*j)->w0<<")";
-           else if((*j)->b==*i)
-           std::cout<<"("<<(*j)->w1<<")";
-           }
-           }
-           */
-        oldi=*i;
-      }
-    }
-
     pathSet.erase ( pathSet.begin() );
     SimpleGraph::Node *last=path.back();
     if ( last==to )
     {
-      Uint32 t1=SDL_GetTicks();
-      /*
-      cdebug ( "time:"<<t1-t0 );
-      cdebug ( "len:"<<path.size() );
-      cdebug ( "tries:"<<tries );
-      cdebug ( "PATHHHHHHHHHHHHHHHHHHHH:" );
-      cdebug ( path.weight );
-*/
       for ( Path::iterator i=path.begin(); i!=path.end(); i++ )
       {
-  //      cdebug ( ( *i )->p );
         result.push_back ( ( *i )->p );
       }
 

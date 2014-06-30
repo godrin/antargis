@@ -19,7 +19,7 @@ MeshData *getGrassMeshData ( float size,size_t many=4,const AGString & texture="
     MeshOptimizer opt;
     MeshVertex mv0,mv1,mv2,mv3;
 
-    for ( int i=1;i<=many;i++ ) {
+    for ( size_t i=1;i<=many;i++ ) {
 
         mv0.c=mv1.c=mv2.c=mv3.c=AGVector4 ( 1,1,1,1 );
 

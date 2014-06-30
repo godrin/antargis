@@ -19,17 +19,6 @@ static bool useVBO()
     return s=="true";
   }
 
-static bool useVertexArrays()
-  {
-    AGString s=getConfig()->get("useVertexArrays");
-    if(s!="true" && s!="false")
-      {
-        s="true";
-        getConfig()->set("useVertexArrays",s);
-      }
-    return s=="true";
-  }
-
 
 VertexArray::VertexArray(bool pDynamic):mDynamic(pDynamic),bbox(AGVector3(),AGVector3())
 {

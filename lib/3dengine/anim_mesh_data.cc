@@ -289,7 +289,7 @@ void AnimMeshData::setupJoints()
         if(bone[i]!=-1)
           {
             AGMatrix4 m(bones[bone[i]]->mAbsolute);
-            AGVector3 test=pos[i];
+            //AGVector3 test=pos[i];
             inverseTranslate(pos[i],m);
             inverseRotate(pos[i],m);
 
