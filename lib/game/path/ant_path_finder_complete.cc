@@ -64,9 +64,7 @@ MapPathWeighter *AntPathFinderComplete::getPathWeighter ( MODE mode )
 }
 void AntPathFinderComplete::computeMode ( AntPathFinderComplete::MODE mode )
 {
-
-  CTRACE;
-// build a map-height/distance weighter
+  // build a map-height/distance weighter
   MapPathWeighter *weighter=getPathWeighter ( mode );
 
   // set initial distance of waypoints

@@ -47,7 +47,6 @@ void AntHeroFaces::update(AntPlayer *pPlayer) {
 
     AGString widgetName="HeroImage";
     widgetName+=AGString(index);
-    std::cout<<"NAME:"<<widgetName<<std::endl;
     AGWidget *widget=getChild(widgetName);
 
     AGImage *image=dynamic_cast<AGImage*>(widget);

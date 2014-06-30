@@ -53,7 +53,6 @@ AntMap::AntMap ( Scene *pScene,int w,int h ) :
 }
 AntMap::~AntMap() throw()
 {
-  CTRACE;
 }
 
 AGVector3 AntMap::getPos ( const AGVector2 &pPos ) const
@@ -160,8 +159,6 @@ void AntMap::removeEntity ( AntEntity *p )
 
 void AntMap::move ( float pTime )
 {
-  STACKTRACE;
-  //return;
   // first remove entities, which shall be deleted
   std::list<AntEntity*>::iterator d=mToDel.begin();
   for ( ; d!=mToDel.end(); d++ )
@@ -383,12 +380,10 @@ bool AntMap::loadMap ( const AGString &pFilename )
  */
 void AntMap::saveMap ( const AGString &pFilename )
 {
-  CTRACE;
   mName=AGString ( pFilename );
   Document d;
   Node &root=d.root();
   root.setName ( "antargisLevel" );
-  cdebug ( "root:"<<&root );
   saveXML ( root );
 
   AGString c=d.toString();
@@ -397,8 +392,6 @@ void AntMap::saveMap ( const AGString &pFilename )
 
 void AntMap::clear() throw()
 {
-  CTRACE;
-
   mEntQuad->clear();
   mEntityMap.clear();
 

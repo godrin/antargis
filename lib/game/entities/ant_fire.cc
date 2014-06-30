@@ -5,11 +5,9 @@
 #include "ant_sound.h"
 
 AntFire::AntFire(AntMap *pMap):AntEntity(pMap) {
-  CTRACE;
 }
 
 void AntFire::init() {
-  CTRACE;
   AntEntity::init();
   AGVector3 basePoint(0,0,0);
   setMesh("fire","on");
@@ -30,7 +28,6 @@ void AntFire::eventNoJob() {
 }
 
 void AntFire::disable() {
-  CTRACE;
   enabled=false;
   setMesh("fire","off");
   AntSound::stopLoopSound(getID());

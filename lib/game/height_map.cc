@@ -141,7 +141,6 @@ void HeightMap::set ( size_t x,size_t y,float height )
 
 void HeightMap::loadBinary ( BinaryIn &is )
 {
-  CTRACE;
   float f;
 
   Uint32 tw,th; // temporary sizes for AMD64
@@ -199,11 +198,7 @@ void HeightMap::saveBinary ( BinaryOut &os,int version ) const
 {
   if ( version==0 )
   {
-    CTRACE;
-    //  BinaryFileOut os(pName);
-
     os<< ( Uint32 ) mW<< ( Uint32 ) mH;
-    //  cdebug("pos:"<<os.pos());
 
     for ( size_t y=0; y<mH+2; y++ )
     {
@@ -256,13 +251,10 @@ void HeightMap::saveBinary ( BinaryOut &os,int version ) const
 
 bool HeightMap::loadXML ( const Node &node )
 {
-  CTRACE;
   AGString filename=node.get ( "filename" );
   if ( filename.length() )
   {
-    cdebug ( "FILENAME:"<<filename );
     filename=findFile ( filename );
-    cdebug ( "FILENAME:"<<filename );
     BinaryFileIn is ( filename );
     loadBinary ( is );
   }
@@ -280,14 +272,11 @@ bool HeightMap::loadXML ( const Node &node )
       mW=node.get ( "width" ).toInt();
       mH=node.get ( "height" ).toInt();
 
-      cdebug ( "mW:"<<mW );
-      cdebug ( "mH:"<<mH );
       mHeights=std::vector<float> ( mW*mH*4 );
 
       for ( int i=FIRSTTERRAIN; i<LASTTERRAIN; i++ )
       {
         mTerrainTypes[TerrainType ( i )]=std::vector<float> ( mW*mH*4 );
-        cdebug ( mW<<"   "<<mH );
         cdebug ( mTerrainTypes[TerrainType ( i )].size() );
         Node::NodeVector gv=node.getChildren ( TerrainNames[i] );
         if ( gv.size() ==0 )
@@ -417,19 +406,14 @@ void HeightMap::saveXML ( Node &node ) const
     std::string name=mName.replace ( ".antlvl",".hmap" );
     BinaryFileOut os ( name );
     saveBinary ( os ,version );
-    cdebug ( "try setting filename:" );
     node.set ( "filename",AGString ( name ) );
-    cdebug ( "done" );
   }
   else
   {
     BinaryStringOut os;
     saveBinary ( os ,version);
-    cdebug ( "try setting data:" );
     Node &n=node.addChild ( "data" );
-    cdebug ( "done1" );
     n.setContent ( AGString ( binaryToHex ( os.getString() ) ) );
-    cdebug ( "done2" );
   }
 }
 

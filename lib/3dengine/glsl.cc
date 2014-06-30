@@ -2,46 +2,12 @@
 #include "ag_vdebug.h"
 #include "ag_main.h"
 #include "scene.h"
-/*
-std::map<std::string,AntVertexProgram*> mVertexPrograms2;
-std::map<std::string,AntFragProgram*> mFragPrograms2;
-
-AntVertexProgram *getVertexProgram(const std::string &pFile)
-{
-  std::map<std::string,AntVertexProgram*>::iterator i=mVertexPrograms.find(pFile);
-
-  if(i==mVertexPrograms.end())
-    {
-      AntVertexProgram *p=new AntVertexProgram(pFile);
-      mVertexPrograms[pFile]=p;
-      return p;
-    }
-  return i->second;
-}
-
-AntFragProgram *getFragProgram(const std::string &pFile)
-{
-  std::map<std::string,AntFragProgram*>::iterator i=mFragPrograms.find(pFile);
-
-  if(i==mFragPrograms.end())
-    {
-      AntFragProgram *p=new AntFragProgram(pFile);
-      mFragPrograms[pFile]=p;
-      return p;
-    }
-  return i->second;
-}
- */
 
 bool glslOk();
-
 void printInfoLog(GLhandleARB obj);
-
-
 
 AntVertexProgram::AntVertexProgram(const std::string &pFile)
   {
-    //  CTRACE;
     if(glslOk())
       {
         vertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
@@ -58,7 +24,6 @@ AntVertexProgram::AntVertexProgram(const std::string &pFile)
 
 AntVertexProgram::~AntVertexProgram()
   {
-    CTRACE;
     if(glslOk() && !hasQuit())
       glDeleteObjectARB(vertexShader);
   }
@@ -66,7 +31,6 @@ AntVertexProgram::~AntVertexProgram()
 AntFragProgram::AntFragProgram(const std::string &pFile)
   {
     mValid=false;
-    //  CTRACE;
     if(glslOk() && pFile.length()>0)
       {
         fragShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB);
@@ -88,7 +52,6 @@ AntFragProgram::AntFragProgram()
 
 AntFragProgram::~AntFragProgram()
   {
-    CTRACE;
     if(glslOk() && !hasQuit())
       glDeleteObjectARB(fragShader);
   }
@@ -105,7 +68,6 @@ AntShaderProgram::AntShaderProgram(const std::string &pVertexFile,const std::str
   mVertexFile(pVertexFile),mFragFile(pFragFile),
   vertex(0),frag(0)
   {
-    //  CTRACE;
     on=false;
     matrixBuf=new float[16*100];
     name=pVertexFile+":"+pFragFile;
@@ -122,12 +84,10 @@ AntShaderProgram::~AntShaderProgram()
 
 void AntShaderProgram::onScreenUp()
   {
-    CTRACE;
     init();
   }
 void AntShaderProgram::onScreenDown()
   {
-    CTRACE;
     takeDown();
   }
 
@@ -156,11 +116,8 @@ void AntShaderProgram::init()
 void AntShaderProgram::takeDown()
   {
     disable();
-    CTRACE;
-    //  cdebug("name:"<<name);
     if(glslOk() && !hasQuit())
       glDeleteObjectARB(p);
-    //  cdebug("name:"<<name);
     checkedDelete(vertex);
     checkedDelete(frag); // checked - no agrubyobject
     locations.clear();
@@ -250,7 +207,6 @@ GLint AntShaderProgram::getLoc(const std::string &pName)
 
 GLint AntShaderProgram::getAttr(const std::string &pName)
   {
-    //  TRACE;
     // register only once !
     assert(on);
     std::map<std::string,GLint>::iterator i=attrs.find(pName);
@@ -259,7 +215,6 @@ GLint AntShaderProgram::getAttr(const std::string &pName)
 
     assertGL;
     GLint k=glGetAttribLocationARB(p,pName.c_str());
-    //  cdebug("k:"<<k);
     if(k<0)
       {
         cdebug("ERROR:attribute could be get! Maybe it was not defined in the vertex-shader? :"<<pName);

@@ -124,15 +124,11 @@ const AGTexture &AGTextureCache::get3D(const AGString &pTexture,int downScaleExp
         // load
         AGSurface ms=AGSurface::load(pTexture);
 
-        cdebug("3d texture size old0:"<<ms.width()<<","<<ms.height());
-
         while(downScaleExp>1 && ms.width()>16 && ms.height()>16)
           {
             ms=ms.scale(ms.width()/2,ms.height()/2);
             downScaleExp--;
           }
-
-        cdebug("3d texture size old1:"<<ms.width()<<","<<ms.height());
 
         while(downScaleZ>1)
           {
@@ -140,9 +136,6 @@ const AGTexture &AGTextureCache::get3D(const AGString &pTexture,int downScaleExp
 
             downScaleZ--;
           }
-
-        cdebug("3d texture size:"<<ms.width()<<","<<ms.height());
-
 
         mTextures[pTexture]=new AGTexture(ms,true);
       }

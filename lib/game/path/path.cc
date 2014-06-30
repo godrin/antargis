@@ -254,7 +254,6 @@ bool MapPathWeighter::accessible ( const AGVector2 &a )
 
 SimpleGraph::SimpleGraph()
 {
-  CTRACE;
   mWidth=0.00001;
 }
 
@@ -468,7 +467,6 @@ void SimpleGraph::removeNode ( Node *n )
 
 SimpleGraph::~SimpleGraph() throw()
 {
-  CTRACE;
   for ( NodeSet::iterator i=mNodes.begin(); i!=mNodes.end(); i++ )
     checkedDelete ( *i );
   for ( EdgeSet::iterator i=mEdges.begin(); i!=mEdges.end(); i++ )
@@ -707,7 +705,6 @@ std::list<std::pair<size_t,size_t> > getPossibleNeighbors ( size_t w,size_t h,co
 
 SimpleGraph *makeGraph ( HeightMap *pMap, MapPathWeighter *pWeighter,size_t res )
 {
-  TRACE;
   size_t x,y;
   SimpleGraph *graph=new SimpleGraph;
   std::map<std::pair<size_t,size_t>,SimpleGraph::Node*> nodes;
@@ -762,8 +759,6 @@ SimpleGraph *makeGraph ( HeightMap *pMap, MapPathWeighter *pWeighter,size_t res 
 #endif
 
       }
-  cdebug("Graph procued");
-  cdebug("size:"<<graph->size());
   return graph;
 
 }
@@ -924,14 +919,8 @@ float Heuristic::distance ( const AGVector2&from )
 
 std::list<AGVector2> Pathfinder::computePath ( const AGVector2 &pFrom, const AGVector2 &pTo )
 {
-  STACKTRACE;
-
   SimpleGraph::Node *from=mGraph->findNearest ( pFrom );
   SimpleGraph::Node *to=mGraph->findNearest ( pTo );
-
-
-  cdebug ( "FROM:"<<from->p );
-  cdebug ( "TO:"<<to->p );
 
   Path initial;
   initial.push ( from,0 );
@@ -1016,8 +1005,6 @@ std::list<AGVector2> Pathfinder::refinePath ( const std::list<AGVector2> &p,MapP
     float w0=pWeighter->weight ( a,b );
     float w1=pWeighter->weight ( b,c );
     float w2=pWeighter->weight ( a,c );
-
-    cdebug ( "WEIGHTS:"<<w0<<"  "<<w1<<"  "<<w2 );
 
     if ( w0+w1>w2 && w2<16 )
       i=result.erase ( i );

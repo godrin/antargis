@@ -139,7 +139,6 @@ bool AntHLJob::checkPerson ( AntPerson* p )
 }
 
 void AntHLJob::assignAll() {
-  CTRACE;
   for(auto entityIter:getMenWithBoss()) {
     checkPerson(entityIter);
   }

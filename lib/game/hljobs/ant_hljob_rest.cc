@@ -19,7 +19,6 @@ void AntHLJobRest::init() {
 }
 
 void AntHLJobRest::initRestJob() {
-  CTRACE;
   firstTime=true;
   spreadingThings=false;
   jobFinished=false;

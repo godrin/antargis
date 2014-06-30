@@ -295,12 +295,11 @@ public:
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
-        CTRACE;
         AGString filename=pNode.get("filename");
         AGWidget *w=new AGWidget(pParent,pRect);
         setResult(w);
         AGLayout *l=new AGLayout(w);
-        l->loadXML(loadFile(filename));//pRect);
+        l->loadXML(loadFile(filename));
         w->addChild(l);
     }
 };
