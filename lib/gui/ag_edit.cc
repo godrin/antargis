@@ -356,15 +356,10 @@ void AGEdit::draw(AGPainter &p)
   }
 
 void AGEdit::drawBackground(AGPainter &p)
-  {
-    //  CTRACE;
-    if(mDrawBackground)
-      {
-        //  CTRACE;
-        mBackground.draw(getRect().origin(),p);
-      }
-    //    p.tile(mBackground,getRect());
-  }
+{
+  if(mDrawBackground)
+    mBackground.draw(getRect().origin(),p);
+}
 
 bool AGEdit::eventKeyUp(AGEvent *m)
   {
