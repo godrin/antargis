@@ -2,7 +2,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(antargis)
 
-
 # when linking boost statically use the following line:
 set(Boost_USE_STATIC_LIBS "ON")
 # otherwise use the following line to support dynamic linking within tests
@@ -53,9 +52,15 @@ include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOUR
   /usr/include/glm
 )
 
-#INCLUDE(${SWIG_USE_FILE})
-#list( APPEND CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
-list( APPEND CMAKE_CXX_FLAGS " -fopenmp -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs -Wall") #-dH -da
+# for test-coverage and everything else use:
+#list( APPEND CMAKE_CXX_FLAGS " -fopenmp -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs -Wall") #-dH -da
+
+# typical with debugging:
+list( APPEND CMAKE_CXX_FLAGS " -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -g -Wall") #-dH -da
+
+# release
+#list( APPEND CMAKE_CXX_FLAGS " -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -O2 -Wall") #-dH -da
+
 #list( APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG "-dH -da")
 
 #list( APPEND CMAKE_CXX_FLAGS " -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
