@@ -72,10 +72,6 @@ void initGUIView(int w,int h)
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity( );
 
-    GLfloat ratio;
-
-    ratio = ( float )w / ( float )h;
-
     gluOrtho2D(0,w,0,h);
 
     glMatrixMode( GL_MODELVIEW );
@@ -141,12 +137,6 @@ AGGLScreen::AGGLScreen(int W,int H,int VW,int VH):
     glViewport( 0, 0, rw, rh );
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity( );
-
-    GLfloat ratio;
-
-    ratio = ( float )w / ( float )h;
-
-    //  gluPerspective( 45.0f, ratio, 1.0f, 100.0f );
 
     gluOrtho2D(0,w,0,h);
 
@@ -293,11 +283,6 @@ void AGGLScreen::begin()
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity( );
 
-    GLfloat ratio;
-
-    ratio = ( float )w / ( float )h;
-
-    //gluOrtho2D(0,w,0,h);
     glOrtho(0,w,0,h,-1,1);
 
     glMatrixMode( GL_MODELVIEW );

@@ -255,17 +255,12 @@ void AGEditLine::setText(const AGStringUtf8 &s)
     mText=s;
   }
 
-
-
-
-
-
-
 AGEdit::AGEdit(AGWidget *pParent,const AGRect2 &pRect):
-  AGWidget(pParent,pRect),mCursorTime(0),mCursorLast(SDL_GetTicks()),
+  AGWidget(pParent,pRect),
+  sigModified(this,"sigModified"),
+  mCursorTime(0),mCursorLast(SDL_GetTicks()),
   mLShift(false),mRShift(false),mLCtrl(false),mRCtrl(false),mLAlt(false),mRAlt(false),
-  mMultiLine(true),mWrapLines(true),
-  sigModified(this,"sigModified")
+  mMultiLine(true),mWrapLines(true)
     {
       mInserting=true;
       mMaxLength=-1;
@@ -375,12 +370,9 @@ bool AGEdit::eventKeyUp(AGEvent *m)
   {
     if(!mMutable)
       return false;
-    //  const AGSDLEvent *m=reinterpret_cast<const AGSDLEvent*>(m2);
     if(m->isSDLEvent())
       {
         SDLKey k=m->getKey();
-        //      char ins=0;
-        //      bool doInsert=false;
         if(k==SDLK_LSHIFT)
           mLShift=false;
         else if(k==SDLK_RSHIFT)
