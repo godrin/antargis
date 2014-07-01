@@ -2,6 +2,12 @@
 cmake_minimum_required(VERSION 2.8)
 project(antargis)
 
+
+# when linking boost statically use the following line:
+set(Boost_USE_STATIC_LIBS "ON")
+# otherwise use the following line to support dynamic linking within tests
+# add_definitions (-DBOOST_TEST_DYN_LINK)
+
 find_package(SDL)
 find_package(SDL_image)
 find_package(SDL_ttf)
@@ -13,7 +19,6 @@ find_package(PNG)
 find_package(Boost COMPONENTS signals unit_test_framework REQUIRED)
 #FIND_PACKAGE(SWIG REQUIRED)
 find_package(Curses)
-add_definitions (-DBOOST_TEST_DYN_LINK)
 if ( NOT SDL_FOUND )
    message ( FATAL_ERROR "Make sure that SDL is installed" )
 endif ( NOT SDL_FOUND )
@@ -112,7 +117,7 @@ SET (CPACK_PACKAGE_CONTACT "David Kamphausen <david.kamphausen@web.de> ")
 SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl-image1.2 (>=1.2.10-2.1), libsdl-mixer1.2 (>=1.2.8-6.3build1), 
  libsdl-ttf2.0-0 (>=2.0.9-1build2)")
 
-
+SET(CPACK_SOURCE_GENERATOR "TGZ")
 SET(DEBIAN_PACKAGE_BUILDS_DEPENDS " libsdl-image1.2-dev (>=1.2.10-2.1)
  libsdl-mixer1.2-dev (>=1.2.8-6.3build1)
  libsdl-ttf2.0-dev (>=2.0.9-1build2)
