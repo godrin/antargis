@@ -5,6 +5,13 @@
 #include <SDL.h>
 #include <SDL_thread.h>
 
+
+
+/**
+ *
+ * Simple Mutex class
+ * FIXME: use C++0x standard mutexes
+ */
 class AGEXPORT AGMutex
 {
  public:

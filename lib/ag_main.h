@@ -69,6 +69,7 @@ class AGEXPORT AGMain
   AGVideoBase *getVideo();
   void setVideo(AGVideoBase *p);
 
+  /** get called by AGApplication::run */
   void repeatedCalls();
 
   void delay(int ms);
@@ -92,7 +93,6 @@ AGEXPORT bool hasQuit();
 
 AGEXPORT void setAppName(const std::string &pName);
 AGEXPORT std::string getAppName();
-//std::string AGEXPORT myHash(const std::string &p);
 
 // from ag_debug
 AGEXPORT size_t getDebugLevel();

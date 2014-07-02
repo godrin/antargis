@@ -26,8 +26,6 @@
 
 std::vector<AntActionWidget::Action> getActions ( AntHero *hero,AntEntity *selectedEntity );
 
-void testing();
-
 AntGameApp::AntGameApp ( int w, int h ) : AntBasicGameApp ( w, h )
 {
   // REVIEWED
@@ -36,7 +34,6 @@ AntGameApp::AntGameApp ( int w, int h ) : AntBasicGameApp ( w, h )
   currentHeroId=-1;
   actionWidget=0;
   mPaused=false;
-  testing();
   speed=1;
 }
 

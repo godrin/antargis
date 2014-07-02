@@ -8,10 +8,6 @@
 template<class TMatrix>
 bool gauss(TMatrix &a,TMatrix &b,int size)
   {
-    //TRACE;
-    // cdebug("A:\n"<<a.toString());
-    // cdebug("B:\n"<<b.toString());
-
     // lower-left triangle
     for(int c=0;c<size-1;c++) // cols
       {
@@ -23,7 +19,6 @@ bool gauss(TMatrix &a,TMatrix &b,int size)
             for(k=1;k+c<size;k++)
               if(fabs(b.get(c,c+k))>0)
                 {
-                  //cdebug("SWAP:"<<c<<" and "<<c+k);
                   // swap rows
                   b.swapRows(c,c+k);
                   a.swapRows(c,c+k);
@@ -40,20 +35,13 @@ bool gauss(TMatrix &a,TMatrix &b,int size)
                 float f=-b.get(c,c)/b.get(c,r);
                 for(int i=0;i<size;i++)
                   {
-                    //cdebug("modrows:("<<r<<")=("<<c<<")+("<<r<<")*"<<f);
                     // modify row
                     a.set(i,r,a.get(i,c)+a.get(i,r)*f);
                     b.set(i,r,b.get(i,c)+b.get(i,r)*f);
                   }
-                // cdebug("c:"<<c<<" r:"<<r);
-                // cdebug("INTERMED A:\n"<<a.toString());
-                // cdebug("INTERMED B:\n"<<b.toString());
               }
           }
       }
-    //cdebug("A:\n"<<a.toString());
-    //cdebug("B:\n"<<b.toString());
-
     // upper-right triangle
     for(int c=size-1;c>0;c--) // cols
       {
@@ -74,7 +62,6 @@ bool gauss(TMatrix &a,TMatrix &b,int size)
                 if(f==0)
                   throw GeometryException("Matrix is not invertable - f=0");
 
-                //cdebug("modifyrow:("<<r<<")=("<<r+1<<")+("<<r<<")*"<<f);
                 for(int i=0;i<size;i++)
                   {
                     // modify row
@@ -84,11 +71,7 @@ bool gauss(TMatrix &a,TMatrix &b,int size)
               }
           }
       }
-    //cdebug("A:\n"<<a.toString());
-    //cdebug("B:\n"<<b.toString());
-
     // norming
-
     for(int r=0;r<size;r++)
       {
         float v=b.get(r,r);
@@ -99,8 +82,6 @@ bool gauss(TMatrix &a,TMatrix &b,int size)
               b.set(c,r,b.get(c,r)/v);
             }
       }
-    //cdebug("A:\n"<<a.toString());
-    //cdebug("B:\n"<<b.toString());
     return true; // everythin ok
   }
 

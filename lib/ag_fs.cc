@@ -18,9 +18,6 @@
  * License along with this program.
  */
 
-
-// TODO: Code-review !!!
-
 #include <string>
 #include <list>
 #include <assert.h>
@@ -47,66 +44,18 @@ static std::list<AGString> gFilesystemPathes;
 void addPath(const AGString &pName)
   {
     gFilesystemPathes.push_back(pName);
-#ifdef USE_PHYSFS
-    TRACE;
-    PHYSFS_addToSearchPath(pName.c_str(),1);
-    char **p=PHYSFS_getSearchPath();
-    for(;*p;p++)
-      {
-        dbout(0,*p);
-
-      }
-#endif
     updateConfig();
   }
 
 void addPathFront(const AGString &pName)
   {
     gFilesystemPathes.push_front(pName);
-#ifdef USE_PHYSFS
-    TRACE;
-    PHYSFS_addToSearchPath(pName.c_str(),1);
-    char **p=PHYSFS_getSearchPath();
-    for(;*p;p++)
-      {
-        dbout(0,*p);
-
-      }
-#endif
     updateConfig();
   }
 
 
 void initFS(const char *argv0)
   {
-#ifdef USE_PHYSFS
-    TRACE;
-    PHYSFS_init(argv0);
-    PHYSFS_setSaneConfig("Antargis","Antargis","ZIP",false,false);
-    FSinited=true;
-    const char *wp=PHYSFS_getWriteDir();
-    dbout(0,"writedir:"<<wp);
-
-    dbout(0,"searchpath:");
-
-    PHYSFS_addToSearchPath("./data/",1);
-    PHYSFS_addToSearchPath("/usr/share/antargisgui/",1);
-    PHYSFS_addToSearchPath("/usr/share/antargisgui/pics",1);
-    PHYSFS_addToSearchPath("/usr/local/share/antargisgui/",1);
-    PHYSFS_addToSearchPath("/usr/local/share/antargisgui/pics",1);
-    PHYSFS_addToSearchPath("./",1);
-    PHYSFS_addToSearchPath("../",1);
-
-    char **p=PHYSFS_getSearchPath();
-    for(;*p;p++)
-      {
-        dbout(0,*p);
-
-      }
-
-    dbout(0,"--");
-
-#endif
     addPath("data");
     addPath("data/fonts");
 #ifndef WIN32
@@ -238,7 +187,6 @@ AGString findFile(const AGString &pName)
           return findFile(pName.substr(0,pName.length()-3)+"jpg");
       }
 
-    //  throw std::runtime_error("File not found!");
     return "";
   }
 
@@ -256,9 +204,6 @@ std::string loadFromPath(const std::string &pName)
           return r;
       }
 
-    //  if(mFsPaths.size()==0)
-    //    throw std::runtime_error("Not yet inited fs-paths!");
-
     for(std::list<AGString>::iterator i=gFilesystemPathes.begin();i!=gFilesystemPathes.end();i++)
       cdebug("path:"<<*i);
 
@@ -270,39 +215,6 @@ std::string loadFromPath(const std::string &pName)
 AGString loadFile(const AGString &pName)
   {
     return loadFromPath(checkFileName(pName));
-#ifdef USE_PHYSFS
-    TRACE;
-    assert(FSinited);
-
-    std::string r=directLoad(pName);
-    if(r.length()!=0)
-      return r;
-
-    if(!fileExists(pName))
-      {
-        std::string r=directLoad(pName);
-        if(r.length()==0)
-          std::cerr<<"File '"<<pName<<"' does not exist!"<<std::endl;
-        return r;
-      }
-
-    std::cerr<<"File probably doesn't exist:"<<pName<<std::endl;
-    PHYSFS_file *f=PHYSFS_openRead(pName.c_str());
-    std::string o;
-
-    char buf[1001];
-    PHYSFS_uint32 c=0;
-
-    do
-      {
-        c=PHYSFS_read(f,buf,1,1000);
-        o+=std::string(buf,c);
-      }
-    while(c);
-
-    PHYSFS_close(f);
-    return o;
-#endif
   }
 
 #ifdef WIN32
@@ -428,22 +340,6 @@ AGString getWriteDir()
 
 bool saveFile(const AGString &pName,const AGString &pContent)
   {
-#ifdef USE_PHYSFS
-    TRACE;
-    assert(FSinited);
-
-    PHYSFS_file *f=PHYSFS_openWrite(pName.c_str());
-
-    if(!f)
-      {
-        dbout(0,"Error saving file:"<<pName);
-      }
-    assert(f);
-
-    PHYSFS_write(f,pContent.c_str(),1,pContent.length());
-
-    PHYSFS_close(f);
-#else
     std::string n=checkFileName(getWriteDir()+"/"+pName);
 
     checkParentDirs(n);
@@ -455,7 +351,6 @@ bool saveFile(const AGString &pName,const AGString &pContent)
     fwrite(pContent.c_str(),pContent.length(),1,f);
     fclose(f);
 
-#endif
     return true;
   }
 
@@ -477,31 +372,10 @@ bool fileExists(const AGString &pName)
       }
 
     return found;
-#ifdef USE_PHYSFS
-    TRACE;
-    return PHYSFS_exists(pName.c_str());
-#endif
   }
 
 std::vector<AGString> getDirectoryInternal(const AGString &pDir)
   {
-#ifdef USE_PHYSFS
-    TRACE;
-    char **files= PHYSFS_enumerateFiles(pDir.c_str());
-    std::vector<std::string> v;
-
-    char **p=files;
-
-    while(*p)
-      {
-        v.push_back(*p);
-        p++;
-      }
-
-    PHYSFS_freeList(files);
-    return v;
-#else
-
     std::vector<AGString> v;
 
 #ifdef WIN32
@@ -546,7 +420,6 @@ std::vector<AGString> getDirectoryInternal(const AGString &pDir)
 #endif
 
     return v;
-#endif
   }
 
 std::vector<AGString> getDirectory(const AGString &pDir)
