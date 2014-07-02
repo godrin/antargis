@@ -52,11 +52,16 @@ include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOUR
   /usr/include/glm
 )
 
+# debugging the makefile
+#SET(CMAKE_VERBOSE_MAKEFILE "on")
+
 # for test-coverage and everything else use:
 #list( APPEND CMAKE_CXX_FLAGS " -fopenmp -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs -Wall") #-dH -da
 
-# typical with debugging:
-list( APPEND CMAKE_CXX_FLAGS " -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -g -Wall") #-dH -da
+# typical
+list( APPEND CMAKE_CXX_FLAGS " -lpthread -std=c++0x ${CMAKE_CXX_FLAGS}") #-dH -da
+# set debugging
+SET(CMAKE_CXX_FLAGS_DEBUG "-g -Wall") #-dH -da
 
 # release
 #list( APPEND CMAKE_CXX_FLAGS " -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -O2 -Wall") #-dH -da
