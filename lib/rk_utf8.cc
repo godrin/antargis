@@ -22,15 +22,12 @@ size_t agStringLength(const std::string &s)
 {
   size_t c=0;
   size_t l=0;
-  //  cdebug("in:"<<s);
   while(c<s.length())
     {
       size_t cl=agFirstCharSize(s,c);
-      //      cdebug(cl<<"::"<<c<<"  "<<s.length());
       c+=cl;
       l++;
     }
-  //  cdebug("len:"<<l);
   return l;
 }
 
