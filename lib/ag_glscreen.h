@@ -30,17 +30,13 @@
 #include "ag_gl.h"
 
 #include <string>
-#include <map>
 #include <list>
 #include <set>
 #include <SDL.h>
 
-#define NEW_TEXTURES
-
 class AGColor;
 
 typedef GLuint TextureID;
-
 
 class AGEXPORT AGGLObject
 {

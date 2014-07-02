@@ -50,9 +50,6 @@ std::set<SDL_Surface *> glTestSurfaces;
 
 std::set<AGGLObject*> AGGLScreen::msObjects;
 
-#define SIMPLE
-
-
 void initDraw()
   {
     glEnable( GL_BLEND );
@@ -62,7 +59,6 @@ void initDraw()
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT); // clear screen and depth buffer
     glLoadIdentity();
     glDepthMask(false);
-    //  glTranslatef(0.375, 0.375, 0.0);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
   }
@@ -308,16 +304,6 @@ void AGGLScreen::flip()
 void AGGLScreen::update(const std::list<AGRect2> &rs)
   {
     flip();
-  }
-
-
-size_t next2pow(size_t i)
-  {
-    size_t j=1;
-    while(j<i)
-      j<<=1;
-
-    return j;
   }
 
 
