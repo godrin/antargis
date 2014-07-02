@@ -97,7 +97,6 @@ AGEXPORT std::string getAppName();
 // from ag_debug
 AGEXPORT size_t getDebugLevel();
 AGEXPORT void setDebugLevel(size_t t);
-AGEXPORT void setRubyRaising(bool flag);
 
 AGEXPORT bool videoInited();
 

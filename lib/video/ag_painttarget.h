@@ -30,7 +30,7 @@
 class AGSurface;
 class AGTexture;
 
-#define MSTUB { throw int();}
+#define MSTUB { throw std::runtime_error("not implemented");}
 
 class AGEXPORT AGPaintTarget
 {

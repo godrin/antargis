@@ -29,34 +29,10 @@
 #include <SDL.h>
 
 bool quietLog=false;
+
 void setQuiet()
 {
     quietLog=true;
-}
-/*
-static bool gRubyRaising=false;
-void agRaise(const std::string &s)
-  {
-    cdebug("assertion failed:"<<s);
-    if(gRubyRaising)
-      rb_raise(rb_eRuntimeError,s.c_str(),"");
-    else
-      throw std::runtime_error(s);
-  }
-
-void setRubyRaising(bool flag)
-  {
-    gRubyRaising=flag;
-  }
-*/
-
-void agRaise(const std::string &s)
-{
-  cdebug("AG_RAISE:"<<s);
-    throw std::runtime_error(s);
-}
-
-void setRubyRaising(bool flag) {
 }
 
 

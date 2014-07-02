@@ -5,12 +5,6 @@
 #include <SDL_error.h>
 #include <GL/gl.h>
 
-void checkGLReal(const std::string &pString)
-  {
-    agAssertGL(pString);
-  }
-
-
 void agAssertGL(std::string s)
   {
     if(opengl())
@@ -23,9 +17,6 @@ void agAssertGL(std::string s)
 
           std::cerr<<msg.str()<<std::endl;
           throw std::runtime_error(msg.str());
-#ifndef MNDEBUG
-          agRaise(msg.str());
-#endif
         }
       }
 
@@ -39,10 +30,8 @@ void agAssertGL(std::string s)
             if(std::string(se).substr(0,37)=="Failed loading glXGetSwapIntervalMESA" ||
                 std::string(se).substr(0,40)=="DirectSoundCreate: No audio device found")
               std::cerr<<"IGNORING THIS ERROR!"<<std::endl;
-#ifndef MNDEBUG
             else
-              agRaise(se);
-#endif
+              throw std::runtime_error(se);
             SDL_ClearError();
           }
       }

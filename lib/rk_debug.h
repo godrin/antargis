@@ -43,7 +43,6 @@ AGEXPORT void setQuiet();
 #define TRACE
 #define CTRACE
 #define CHECK_ZERO(x)
-#define STUB
 
 #else
 // needed for CTRACE
@@ -81,14 +80,11 @@ private:
 #define TRACE D test__LINE__(::toString(__FILE__)+::toString(" ")+::toString(__LINE__)+::toString(" ")+::toString( __PRETTY_FUNCTION__))
 #define CTRACE D test__LINE__(::toString(__FILE__)+::toString(" ")+::toString(__LINE__)+::toString(" ")+::toString( __PRETTY_FUNCTION__)+::toString(" ")+::toString(((void*)this))+::toString(" ")+typeid(*this).name())
 
-AGEXPORT void agRaise(const std::string &s);
-
 #ifndef __WIN32__
 #undef assert
-#define assert(x) {if(!(x)) agRaise((::toString("assert failed ")+LINEINFO(__STRING(x))).c_str()); }
+#define assert(x) {if(!(x)) throw std::runtime_error((::toString("assert failed ")+LINEINFO(__STRING(x))).c_str()); }
 #endif
 
-#define STUB cdebug("STUB in File "<<__FILE__<<" line:"<<__LINE__<<" function:"<<__PRETTY_FUNCTION__)
 
 
 #endif
