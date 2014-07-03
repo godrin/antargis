@@ -31,9 +31,6 @@ class AntHouse:public AntEntity,public AntBoss
     int getID();
 
     virtual void process();
-  private:
-//    std::set<AntMan*> atHome;
-
 };
 
 #endif

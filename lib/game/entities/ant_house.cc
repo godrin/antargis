@@ -7,16 +7,14 @@ AntHouse::AntHouse ( AntMap* pMap ) : AntEntity ( pMap )
 
 }
 
-AntHouse::~AntHouse() throw()
-{
-
+AntHouse::~AntHouse() throw() {
 }
 
 void AntHouse::init()
 {
   AntEntity::init();
   AntBoss::init();
-  setProvide ( "house",true );
+  setProvide("house", true);
 }
 
 
@@ -26,32 +24,31 @@ void AntHouse::setupRing()
 }
 
 
-ColoredMesh* AntHouse::getRing()
-{
+ColoredMesh* AntHouse::getRing() {
   return makeBigRingMesh ( getMap() );
 }
 
 
-AntEntity* AntHouse::getEntity()
-{
+AntEntity* AntHouse::getEntity() {
   return this;
 }
 
-void AntHouse::eventNoHlJob()
-{
+void AntHouse::eventNoHlJob() {
   setHlJob (0);
 }
+
 void AntHouse::saveXML(Node & node) const {
   AntEntity::saveXML ( node );
   AntBoss::saveXMLBoss(node);
 }
+
 void AntHouse::loadXML ( const Node& node )
 {
   AntEntity::loadXML ( node );
   AntBoss::loadXMLBoss ( node );
 }
-AntMap* AntHouse::getMap()
-{
+
+AntMap* AntHouse::getMap() {
   return AntEntity::getMap();
 }
 
@@ -67,8 +64,7 @@ void AntHouse::setHlJob ( AntHLJob* job ) {
   AntBoss::setHlJob(job);
 }
 
-void AntHouse::eventNoJob()
-{
+void AntHouse::eventNoJob() {
   checkHlJobEnd();
   newRestJob(2);
   if(!getHlJob())
@@ -77,3 +73,4 @@ void AntHouse::eventNoJob()
 
 void AntHouse::process() {
 }
+
