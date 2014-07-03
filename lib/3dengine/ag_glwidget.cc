@@ -24,10 +24,8 @@ void AGGLWidget::drawAll(AGPainter &p)
   AGPainter p2(p);
   p2.translate(getRect()[0]);
   p2.clip(getRect().origin());
-  //  p2.transform(getRect());
 
   std::list<AGWidget*>::reverse_iterator i=mChildren.rbegin(); // draw from back to front
-  //  AGRect2 r2=r.project(mr);
   for(;i!=mChildren.rend();i++)
     (*i)->drawAll(p2);
 
@@ -49,9 +47,6 @@ void AGGLWidget::beginGL()
   glDepthMask(true);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHTING);
-
-
-
 }
 
 float AGGLWidget::getRatio() const
@@ -100,3 +95,4 @@ void AGGLWidget::setPerspective(float openAngle,float pnear,float pfar)
   gluPerspective(openAngle,r,pnear,pfar);
   glGetFloatv(GL_PROJECTION_MATRIX, pMatrix);
 }
+
