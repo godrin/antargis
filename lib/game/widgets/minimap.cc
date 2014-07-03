@@ -365,7 +365,6 @@ AGVector2 MiniMap::fromMapCoords(AGVector2 v) const
 
 
 
-
 MiniMap *toMiniMap(AGWidget *w)
   {
     return dynamic_cast<MiniMap*>(w);
@@ -375,7 +374,6 @@ MiniMap *toMiniMap(AGWidget *w)
 class AGMiniMapLayoutCreator:public AGLayoutCreator
   {
     public:
-      REGISTER_COMPONENT(MiniMap,"miniMap")
 
       virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
         {

@@ -26,6 +26,9 @@ AGLayoutCreator::AGLayoutCreator():mWidget(0),mClient(0)
 {
 }
 
+AGLayoutCreator::~AGLayoutCreator() {
+}
+
 void AGLayoutCreator::create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
   {
   }
@@ -68,18 +71,15 @@ AGLayoutFactory::AGLayoutFactory()
 
 AGLayoutFactory::~AGLayoutFactory()
   {
+    for(auto creator:mCreators) {
+      delete creator.second;
+    }
+    mCreators.clear();
   }
 
 void AGLayoutFactory::addCreator(const AGString &pName,AGLayoutCreator *creator)
   {
     mCreators[pName]=creator;
-  }
-
-void AGLayoutFactory::removeCreator(const AGString &pName,AGLayoutCreator *creator)
-  {
-    std::map<AGString,AGLayoutCreator*>::iterator i=mCreators.find(pName);
-    if(i->second==creator)
-      mCreators.erase(i);
   }
 
 

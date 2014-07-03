@@ -26,7 +26,6 @@ AGWidget *parseNode(AGWidget *pParent,const Node &pNode);
 class AGButtonLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Button,"button")
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
         AGButton *b=AGButton::create(pParent,pRect,_(pNode.get("caption")),pNode.get("caption-image"),pNode.get("enabled")!="false",pNode.get("theme"));
@@ -39,8 +38,6 @@ public:
 class AGTableLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Table,"table")
-
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -148,7 +145,6 @@ public:
 class AGWindowLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Window,"window")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -160,16 +156,11 @@ public:
     }
 };
 
-IMPLEMENT_COMPONENT_FACTORY(Table);
-IMPLEMENT_COMPONENT_FACTORY(Button);
-IMPLEMENT_COMPONENT_FACTORY(Window);
-
 
 // AGText creator
 class AGTextLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Text,"text")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -208,14 +199,12 @@ public:
         w->setBackground(false);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(Text);
 
 
 // AGText creator
 class AGEditLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Edit,"edit")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -241,7 +230,6 @@ public:
             w->setVAlign(EDIT_VCENTER);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(Edit);
 
 
 
@@ -249,7 +237,6 @@ IMPLEMENT_COMPONENT_FACTORY(Edit);
 class AGListBoxLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(ListBox,"listBox")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -259,14 +246,12 @@ public:
         setResult(l);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(ListBox);
 
 
 // AGComboBox creator
 class AGComboBoxLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(ComboBox,"comboBox")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -283,7 +268,6 @@ public:
 
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(ComboBox);
 
 
 
@@ -291,7 +275,6 @@ IMPLEMENT_COMPONENT_FACTORY(ComboBox);
 class AGLayoutLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Layout,"layout")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -303,14 +286,12 @@ public:
         w->addChild(l);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(Layout);
 
 
 // AGLayout creator
 class AGImageLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Image,"image")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -351,14 +332,12 @@ public:
         setResult(w);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(Image);
 
 
 // AGLayout creator
 class AGFrameLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Frame,"frame")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -385,14 +364,12 @@ public:
             w->setCaching(true);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(Frame);
 
 
 // AGLayout creator
 class AGCellLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Cell,"cell")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -409,14 +386,12 @@ public:
         setResult(cell);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(Cell);
 
 
 // AGRadio creator
 class AGCheckBoxLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(CheckBox,"checkBox")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -444,19 +419,16 @@ public:
         setResult(b);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(CheckBox);
 
 // Layout-Factories
 class AGColorButtonLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(ColorButton,"colorButton")
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
         setResult(new AGColorButton(pParent,pRect,pNode.get("gridx").toInt(),pNode.get("gridy").toInt()));
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(ColorButton);
 
 
 
@@ -464,20 +436,17 @@ IMPLEMENT_COMPONENT_FACTORY(ColorButton);
 class AGRadioGroupLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(RadioGroup,"radioGroup")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
         setResult(new AGRadioGroup(pParent,pRect));
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(RadioGroup);
 
 // AGRadio creator
 class AGRadioLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(Radio,"radio")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -498,14 +467,12 @@ public:
         setResult(b);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(Radio);
 
 
 
 class AGScreenWidgetLayoutCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(ScreenWidget,"screenWidget")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -513,7 +480,6 @@ public:
         setResult(new AGScreenWidget());
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(ScreenWidget);
 
 
 
@@ -521,7 +487,6 @@ IMPLEMENT_COMPONENT_FACTORY(ScreenWidget);
 class AGScrollingWidgetCreator:public AGLayoutCreator
 {
 public:
-    REGISTER_COMPONENT(AGScrollingWidget,"scrollingWidget")
 
     virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
     {
@@ -537,7 +502,6 @@ public:
         w->setClientRect(r);
     }
 };
-IMPLEMENT_COMPONENT_FACTORY(ScrollingWidget);
 
 
 void AGLayout::registerLayouts()

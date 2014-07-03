@@ -23,17 +23,16 @@
 #ifndef AG_LAYOUTFACTORY_H
 #define AG_LAYOUTFACTORY_H
 
-#include <rk_singleton.h>
 #include <rk_utf8.h>
 #include <ag_widget.h>
 #include <ag_xml.h>
 #include <ag_layout.h>
 
-class AGEXPORT AGLayoutCreator:public RKSingleton<AGLayoutCreator>
+class AGEXPORT AGLayoutCreator
 {
  public:
-  AGLayoutCreator();//const AGString &pName);
-  //  virtual ~AGLayoutCreator();
+  AGLayoutCreator();
+  virtual ~AGLayoutCreator();
   virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode);
   void setResult(AGWidget *pWidget);
   void setClient(AGWidget *pWidget);
@@ -45,8 +44,6 @@ class AGEXPORT AGLayoutCreator:public RKSingleton<AGLayoutCreator>
  private:
 
   AGWidget *mWidget,*mClient;
-
-
 };
 
 class AGEXPORT AGLayoutFactory
@@ -57,8 +54,8 @@ class AGEXPORT AGLayoutFactory
  public:
   ~AGLayoutFactory();
 
+  // creators are claimed and will be deleted on destruction of AGLayoutFactory
   void addCreator(const AGString &pName,AGLayoutCreator *creator);
-  void removeCreator(const AGString &pName,AGLayoutCreator *creator);
 
   std::pair<AGWidget*,AGWidget*> create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode);
 
@@ -75,15 +72,5 @@ class AGEXPORT AGLayoutFactory
 };
 
 AGEXPORT AGLayoutFactory *getLayoutFactory();
-/*
-#define IMPLEMENT_COMPONENT_FACTORY(CLASS) \
-AG##CLASS##LayoutCreator factory_##CLASS
-
-#define REGISTER_COMPONENT(CLASS,NAME) AG##CLASS##LayoutCreator():AGLayoutCreator(NAME){}
-*/
-
-#define IMPLEMENT_COMPONENT_FACTORY(CLASS)
-#define REGISTER_COMPONENT(CLASS,NAME)
-
 
 #endif
