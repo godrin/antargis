@@ -50,6 +50,7 @@ include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOUR
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/formations
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/path
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/widgets
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/game/scene
   /usr/include/glm
 )
 
@@ -95,6 +96,7 @@ FILE(GLOB MYLIB_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
   lib/game/formations/*.cc
   lib/game/path/*.cc
   lib/game/widgets/*.cc
+  lib/game/scene/*.cc
 )
 FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
   lib/*.h 
@@ -107,6 +109,7 @@ FILE(GLOB MYLIB_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
   lib/formations/*.h
   lib/path/*.h
   lib/game/widgets/*.h
+  lib/game/scene/*.h
 )
 
 add_library(antlib STATIC ${MYLIB_SOURCES})

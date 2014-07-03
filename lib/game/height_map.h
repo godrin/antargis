@@ -5,7 +5,6 @@
 
 #include <ag_geometry.h>
 #include <ag_xml.h>
-#include "entptr.h"
 #include <ag_messageobject.h>
 #include <ag_serial.h>
 
