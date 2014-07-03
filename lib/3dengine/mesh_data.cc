@@ -61,22 +61,15 @@ void MeshData::loadFromAnt2File(const std::string &filename,float zoom,const std
     bool withTex=filename.find(".ant2")!=filename.npos;
 
     BinaryFileIn f(filename);
-    /*
-
-    FILE *f=fopen(filename.c_str(),"rb");
-    assert(f);
-    fread(&meshes,sizeof(Uint16),1,f);*/
 
     f>>meshes;
 
     for (;meshes>0;meshes--)
     {
         f>>faces;
-        //      fread(&faces,sizeof(Uint16),1,f);
 
         for (Uint16 i=0;i<faces;i++)
         {
-            //  fread(&vertices,sizeof(Uint16),1,f);
             f>>vertices;
             assert(vertices<=4);
             for (Uint16 j=0;j<vertices;j++)
@@ -115,12 +108,8 @@ void MeshData::loadFromAnt2File(const std::string &filename,float zoom,const std
             }
         }
     }
-    //  fclose(f);
     mShadow=pShadow;
     mArray=opt.getArray();
-
-
-
 
     drawColors=true;
     mPickable=true;
@@ -128,7 +117,6 @@ void MeshData::loadFromAnt2File(const std::string &filename,float zoom,const std
 
 MeshData::~MeshData() throw()
 {
-    //  TRACE;
 }
 
 bool MeshData::transparent()
@@ -192,70 +180,6 @@ void MeshData::drawPick()
     if (mPickable)
         mArray.drawPick();
 }
-#ifdef OLD
-void MeshData::draw()
-{
-    if (!mShadow)
-        glDepthMask(false);
-
-    if (mTransparent)
-        glDisable(GL_CULL_FACE);
-
-    glEnable(GL_ALPHA_TEST);
-    glAlphaFunc(GL_GREATER,0.9);
-
-
-    if (mLighting)
-        glEnable(GL_LIGHTING);
-    else
-        glDisable(GL_LIGHTING);
-
-    glBindTexture(GL_TEXTURE_2D,0);
-    glEnable(GL_COLOR_MATERIAL);
-    glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
-
-
-    if (mWithTexture)
-        glBindTexture(GL_TEXTURE_2D,mTexture.getTextureID());
-
-    if (mTransparent)
-    {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);//_MIPMAP_LINEAR);//NEAREST);//GL_LINEAR);
-
-        //      glDisable(GL_LIGHTING);
-        glAlphaFunc(GL_GREATER,0.4f);
-        glEnable(GL_ALPHA_TEST);
-    }
-    if (overdraw)
-    {
-        glDisable(GL_ALPHA_TEST);
-        glDisable(GL_DEPTH_TEST);
-    }
-    mArray.setColors(drawColors);
-    mArray.draw();
-    if (overdraw)
-    {
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_ALPHA_TEST);
-    }
-    if (mTransparent)
-    {
-        glAlphaFunc(GL_GREATER,0.9f);
-        glEnable(GL_LIGHTING);
-    }
-    //    glEnable(GL_ALPHA_TEST);
-
-
-    glBindTexture(GL_TEXTURE_2D,0);
-    if (!mShadow)
-        glDepthMask(true);
-
-    glDisable(GL_ALPHA_TEST);
-    if (mTransparent)
-        glEnable(GL_CULL_FACE);
-}
-#else
-
 void MeshData::setCulling(bool c)
 {
     mCulling=c;
@@ -297,8 +221,6 @@ void MeshData::draw(const AGVector4 &pColor)
     mArray.setColors(drawColors);
     mArray.draw();
 }
-
-#endif
 
 
 void MeshData::setColors(bool c)
