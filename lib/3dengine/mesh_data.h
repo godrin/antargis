@@ -1,10 +1,6 @@
 #ifndef MESH_DATA_H
 #define MESH_DATA_H
 
-// INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
-
-#include "scenenode.h"
-#include "mesh_data.h"
 #include "vertex_array.h"
 #include "ag_texture.h"
 
@@ -30,16 +26,12 @@ class AGEXPORT MeshData
  public:
   MeshData(const std::string &filename,float zoom,const std::string &pTexture="",bool pShadow=true);
   MeshData(const VertexArray &va,const std::string &pTexture,bool pShadow=true);
-  MeshData(const std::string &staticDefFilename);
   ~MeshData() throw();
-
-  
   
   void draw(const AGVector4 &pColor);
   void drawShadow();
   void drawDepth();
   void drawPick();
-
 
   AGBox3 bbox() const;
 
