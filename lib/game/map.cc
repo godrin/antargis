@@ -209,7 +209,6 @@ void AntMap::processXMLNode ( const Node &node )
           cdebug ( "type unknown:"<<node.getName() );
         }
     }
-  //  return e;
 }
 AntMap::EntityList AntMap::getEntities ( const AGRect2&r )
 {
@@ -219,14 +218,6 @@ AntMap::EntityList AntMap::getAllEntities()
 {
   return mEntities;
 }
-/*
-std::vector<AntEntityPtr> AntMap::getAllEntitiesV()
-{
-  std::vector<AntEntityPtr> v;
-  std::copy(mEntities.begin(),mEntities.end(),std::back_inserter(v));
-  return v;
-}
- */
 
 std::vector<AntEntity*> AntMap::getEntities ( const AGString &pName )
 {
