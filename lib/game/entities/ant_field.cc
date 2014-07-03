@@ -2,12 +2,11 @@
 #include "ant_farm.h"
 #include "map.h"
 
-
 AntField::AntField(AntMap* pMap):AntEntity(pMap),
   mFarmId(-1), mSize(0),mGrowTime(20),mBegin(true),mMax(3) {
     setProvide("field",true);
-
   }
+
 void AntField::init() {
   AntEntity::init();
   newRestJob(mGrowTime);
@@ -15,9 +14,9 @@ void AntField::init() {
 }
 
 void AntField::setupMesh() {
-  CTRACE;
   setMesh("field",AGString(mSize));
 }
+
 void AntField::resourceChanged() {
   if(mSize==mMax)
     if(resource.get("crop")==0) {
@@ -47,7 +46,7 @@ AntFarm *AntField::getFarm() {
   return dynamic_cast<AntFarm*>(getMap()->getEntity(mFarmId));
 }
 
-
 void AntField::setFarmId(int farmId) {
   mFarmId=farmId;
 }
+
