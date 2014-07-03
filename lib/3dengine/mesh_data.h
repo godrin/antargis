@@ -40,9 +40,6 @@ class AGEXPORT MeshData
   void drawDepth();
   void drawPick();
 
-  /// test function "instancing"
-  void makeInstances(const std::vector<AGMatrix4> &ts);
-
 
   AGBox3 bbox() const;
 

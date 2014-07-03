@@ -293,10 +293,3 @@ void MeshData::setPickable(bool p)
 {
     mPickable=p;
 }
-
-void MeshData::makeInstances(const std::vector<AGMatrix4> &ts)
-{
-    VertexArray *va=::makeInstances(mArray,ts);
-    mArray=*va;
-    checkedDelete(va);
-}
