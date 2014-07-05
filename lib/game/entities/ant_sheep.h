@@ -8,7 +8,6 @@ public:
     AntSheep(AntMap* pMap);
     virtual ~AntSheep() throw();
     void init();
-    virtual void eventNoJob();
     virtual AntSheep *createOne();
     void setMeshState(const AGString& arg1);
     virtual void die();
@@ -16,11 +15,10 @@ public:
     virtual AGString xmlName() const {
       return "antSheep";
     }
-private:
-    AGVector2 getTargetPos();
+protected:
+    void moveAround();
 
-    bool wasdead;
-    size_t food;
+    AGVector2 getTargetPos();
 };
 
 #endif

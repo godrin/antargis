@@ -7,14 +7,21 @@ class AntAnimal:public AntEntity {
 public:
     AntAnimal(AntMap *pMap);
 
+    void init();
+
     virtual AntAnimal *createOne()=0;
     bool dead();
     virtual void die();
+
+    void eventNoJob();
 protected:
     bool giveBirth();
+    virtual void moveAround();
 private:
-    float lastBirth;
+    float mLastBirth;
     bool mDead;
+    bool mAlreadyDead;
+    size_t mFood;
 };
 
 #endif

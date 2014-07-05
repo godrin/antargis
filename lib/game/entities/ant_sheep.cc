@@ -6,7 +6,6 @@
 
 AntSheep::AntSheep(AntMap* pMap): AntAnimal(pMap)
 {
-  wasdead=false;
 }
 
 AntSheep::~AntSheep() throw()
@@ -16,43 +15,22 @@ AntSheep::~AntSheep() throw()
 
 void AntSheep::init()
 {
-  AntEntity::init();
+  AntAnimal::init();
   setMesh("sheep","");
-  //setMesh(AntModels::createModel(getScene(),"sheep",""));
-  food=0;
   setSpeed(0.4);
 }
 
-
-void AntSheep::eventNoJob()
-{
-  AntEntity::eventNoJob();
-  if (dead()) {
-    newRestJob(30);
-    if (wasdead) {
-      getMap()->removeEntity(this);
-    }
-    wasdead=true;
-    return;
+void AntSheep::moveAround() {
+  if (rand()%10<5) {
+    newMoveJob(0,getTargetPos(),0);
+    setMeshState("go");
+  } else {
+    newRestJob(3);
+    setMeshState("eat");
+    playSound("sheep");
   }
-  if (!giveBirth()) {
-    if (rand()%10<5) {
-      newMoveJob(0,getTargetPos(),0);
-      setMeshState("go");
-    } else {
-      newRestJob(3);
-      setMeshState("eat");
-      playSound("sheep");
-    }
-  }
-
-  food++;
-  if(food>3 && resource.get("food")<10) {
-    resource.add("food",1);
-    food=0;
-  }
-
 }
+
 AGVector2 AntSheep::getTargetPos()
 {
   AGVector2 p=getPos2D();
@@ -80,16 +58,7 @@ AntSheep* AntSheep::createOne()
 void AntSheep::setMeshState(const AGString &name)
 {
   setMesh("sheep",name);
-/*
-  SceneNode*n=getFirstMesh();
-  AnimMesh *mesh=dynamic_cast<AnimMesh*>(n);
-  if (mesh)
-    mesh->setAnimation(name);
-  else
-    std::cout<<"no animmesh:"<<(typeid(*n).name())<<std::endl;
-    */
 }
-
 
 void AntSheep::die()
 {
@@ -98,3 +67,4 @@ void AntSheep::die()
   newRestJob(1);
   setProvide("sheep",false);
 }
+

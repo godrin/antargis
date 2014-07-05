@@ -15,11 +15,8 @@ public:
     }
     virtual AntFish *createOne();
 protected:
-    void eventNoJob();
-private:
+    void moveAround();
     AGVector2 getTargetPos();
-    int mFoodAdd;
-    bool alreadyDead;
 };
 
 #endif
