@@ -29,8 +29,6 @@ Scene::Scene(int w,int h):
   white=AGVector4(1,1,1,1);
   black=AGVector4(0,0,0,1);
 
-  GLeeInit();
-
   if(getRenderer()->canShadow())
     mShadow=1;
   else

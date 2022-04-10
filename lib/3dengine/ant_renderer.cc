@@ -15,7 +15,6 @@ Renderer::Renderer():
   mCanGLSL(-1)
   {
     mFBO=0;
-    GLeeInit(); // this call is essential for letting glee work
     assert(gRenderer==0);
     gRenderer=this;
     mScene=0;
@@ -41,7 +40,7 @@ Renderer::Renderer():
 
     shadowInited=false;
 
-    if(!GLEE_EXT_texture3D)
+    if(!GL_EXT_texture3D)
       std::cerr<<"Sorry, Battles of Antargis won't work properly without GL_EXT_texture3D extension!"<<std::endl;
   }
 
@@ -55,21 +54,21 @@ Renderer::~Renderer()
 bool Renderer::canMultitexture()
   {
     if(mCanMultitexture<0)
-      mCanMultitexture=GLEE_ARB_multitexture;
+      mCanMultitexture=GL_ARB_multitexture;
     return mCanMultitexture;
   }
 
 bool Renderer::canShadow()
   {
     if(mCanShadow<0)
-      mCanShadow=(GLEE_ARB_shadow && GLEE_ARB_shadow_ambient);
+      mCanShadow=(GL_ARB_shadow && GL_ARB_shadow_ambient);
     return mCanShadow && shadowMapSize>0;
   }
 
 bool Renderer::canGLSL()
   {
     if(mCanGLSL<0)
-      mCanGLSL=(GLEE_ARB_vertex_shader && GLEE_ARB_fragment_shader && GLEE_ARB_shading_language_100);
+      mCanGLSL=(GL_ARB_vertex_shader && GL_ARB_fragment_shader && GL_ARB_shading_language_100);
     return mCanGLSL;
   }
 

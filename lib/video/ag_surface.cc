@@ -218,7 +218,7 @@ AGColor AGSurface::getPixel(int x,int y) const
 
 
 
-AGSurface AGSurface::getSubSurface(const AGRect2 &sr) const throw(AGSurfaceEmptyException)
+AGSurface AGSurface::getSubSurface(const AGRect2 &sr) const
 {
   if(!s)
     throw AGSurfaceEmptyException();
@@ -245,14 +245,14 @@ AGSurface AGSurface::getSubSurface(const AGRect2 &sr) const throw(AGSurfaceEmpty
 }
 
 
-Uint32 AGSurface::color(const AGColor &c) const throw(AGSurfaceEmptyException)
+Uint32 AGSurface::color(const AGColor &c) const
 {
   if(!s)
     throw AGSurfaceEmptyException();
   return c.mapRGB(s->surface->format);
 }
 
-AGRect2 AGSurface::getRect() const throw(AGSurfaceEmptyException)
+AGRect2 AGSurface::getRect() const
 {
   if(!s)
     throw AGSurfaceEmptyException();
@@ -265,20 +265,20 @@ AGRect2 AGSurface::getRect() const throw(AGSurfaceEmptyException)
 /**
  * @return width of the surface
  */
-int AGSurface::width() const throw(AGSurfaceEmptyException)
+int AGSurface::width() const
 {
   if(!s)
     throw AGSurfaceEmptyException();
   return s->surface->w;
 }
-int AGSurface::height() const throw(AGSurfaceEmptyException)
+int AGSurface::height() const
 {
   if(!s)
     throw AGSurfaceEmptyException();
   return s->surface->h;
 }
 
-void AGSurface::drawGradient(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr)  throw(AGSurfaceEmptyException)
+void AGSurface::drawGradient(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr)
 {
   if(!s)
     throw AGSurfaceEmptyException();
@@ -286,14 +286,14 @@ void AGSurface::drawGradient(const AGRect2& rect, const AGColor& ul, const AGCol
   s->version++;
 }
 
-void AGSurface::drawGradientAlpha(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr) throw(AGSurfaceEmptyException)
+void AGSurface::drawGradientAlpha(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr)
 {
   if(!s)
     throw AGSurfaceEmptyException();
   AGSDLPainter::drawGradientAlpha(s->surface,rect,ul,ur,dl,dr);
   s->version++;
 }
-void AGSurface::drawBorder(const AGRect2& rect,int W, const AGColor& c1, const AGColor& c2) throw(AGSurfaceEmptyException)
+void AGSurface::drawBorder(const AGRect2& rect,int W, const AGColor& c1, const AGColor& c2)
 {
   if(!s)
     throw AGSurfaceEmptyException();
@@ -301,7 +301,7 @@ void AGSurface::drawBorder(const AGRect2& rect,int W, const AGColor& c1, const A
   s->version++;
 }
 
-void AGSurface::blit(const AGSurface &pSource,const AGRect2 &pDest,const AGRect2 &pSrc,const AGColor &pColor) throw(AGSurfaceEmptyException)
+void AGSurface::blit(const AGSurface &pSource,const AGRect2 &pDest,const AGRect2 &pSrc,const AGColor &pColor)
 {
   if(!s)
     throw AGSurfaceEmptyException();
@@ -338,7 +338,7 @@ AGInternalSurface *AGSurface::surface() const
   return s;
 }
 
-AGSurface AGSurface::load(const std::string &pFilename) throw (FileNotFound)
+AGSurface AGSurface::load(const std::string &pFilename)
 {
   AGSurface n;
   n.s=new AGInternalSurface;

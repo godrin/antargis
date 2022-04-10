@@ -687,7 +687,7 @@ AGMatrix3 AGMatrix3::transposed() const
 }
 
 
-AGMatrix3 AGMatrix3::inverted() const throw(GeometryException)
+AGMatrix3 AGMatrix3::inverted() const
     {
       // gauss-alg.
       AGMatrix3 a;

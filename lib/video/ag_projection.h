@@ -13,7 +13,7 @@ public:
   AGProjection2D();
   AGProjection2D(const AGProjection2D &p);
   AGProjection2D(const AGRect2 &from, const AGRect2 &to);
-  AGProjection2D(const AGMatrix3 &pMatrix) throw (GeometryException);
+  AGProjection2D(const AGMatrix3 &pMatrix);
 
   AGRect2 project(const AGRect2 &r) const;
   AGVector2 project(const AGVector2 &p) const;
@@ -21,7 +21,7 @@ public:
   AGTriangle2 project(const AGTriangle2 &t) const;
   AGTriangle3 project(const AGTriangle3 &t) const;
 
-  AGProjection2D inverse() const throw (GeometryException);
+  AGProjection2D inverse() const;
 
   void pushProjection(const AGProjection2D &p);
 

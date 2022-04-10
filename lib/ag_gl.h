@@ -1,7 +1,7 @@
 #ifndef AG_GL_H
 #define AG_GL_H
 
-#include <GLee.h>
+///#include <GLee.h>
 
 #ifdef __APPLE__
 // patch for mac os
@@ -9,8 +9,9 @@
 #undef GL_GLEXT_VERSION
 #endif
 #endif
-
+#define NO_SDL_GLEXT
+#define GL_GLEXT_PROTOTYPES
 #include <SDL_opengl.h>
-#include <GL/glu.h>
+#include <GL/gl.h>
 
 #endif

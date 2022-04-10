@@ -7,7 +7,7 @@ AGProjection2D::AGProjection2D() :
   {
   }
 
-AGProjection2D::AGProjection2D(const AGMatrix3 &pMatrix) throw (GeometryException) :
+AGProjection2D::AGProjection2D(const AGMatrix3 &pMatrix) :
   mInited(true), m(pMatrix)
   {
     bool invertable=isInvertable(m);
@@ -74,7 +74,7 @@ void AGProjection2D::pushProjection(const AGProjection2D &p)
     m*=p.m;
   }
 
-AGProjection2D AGProjection2D::inverse() const throw (GeometryException)
+AGProjection2D AGProjection2D::inverse() const
   {
     CTRACE;
     bool invertable=isInvertable(m);

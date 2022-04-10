@@ -282,7 +282,7 @@ public:
 
   AGMatrix3 operator-() const;
 
-  AGMatrix3 inverted() const throw (GeometryException);
+  AGMatrix3 inverted() const;
   AGMatrix3 transposed() const;
 
 

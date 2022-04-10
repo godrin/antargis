@@ -22,6 +22,7 @@
 #define AG_FBO_H
 
 #include <rk_base.h>
+#include <ag_gl.h>
 
 class AGGLTexture;
 

@@ -78,7 +78,7 @@ AGGLTexture::AGGLTexture(size_t W,size_t H,GLint format):w(W),h(H),d(1),m3d(fals
     if(!(isPowerOf2(w) && isPowerOf2(h)))
       {
         //cdebug("not power of 2");
-        if(GLEE_ARB_texture_rectangle && false)
+        if(GL_ARB_texture_rectangle && false)
           {
             mTarget=GL_TEXTURE_RECTANGLE_ARB;
           }

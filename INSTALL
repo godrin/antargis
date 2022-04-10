@@ -6,7 +6,7 @@ On Ubuntu ( Debian ? )
 
 First install some dependencies:
 
-> sudo apt-get install g++ libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libpng12-dev cmake libboost.*signal.*dev fluid-soundfont-gm musescore-soundfont-gm
+> sudo apt-get install g++ libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libpng-dev cmake libgl-dev libboost-dev libboost-test1.74-dev libglm-dev
 
 continue with 'Linux'
 

@@ -461,7 +461,7 @@ AGString Parser::Data::getFirst(size_t i) const
   return os.str();
 }
 
-void Parser::Data::eat(size_t i) throw (XMLParseError)
+void Parser::Data::eat(size_t i)
 {
   STACKTRACE;
   if(pos+i>s.length())
@@ -496,7 +496,7 @@ void Parser::Data::discard()
   linestack.pop_back();
 }
 
-void Parser::Data::eatBlanks() throw (XMLParseError)
+void Parser::Data::eatBlanks()
 {
   AGString f=getFirst(1);
 

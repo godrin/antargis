@@ -65,12 +65,12 @@ class AGEXPORT AGSurface:public AGPaintTarget
 
   AGSurface copy() const;
 
-  int width() const throw(AGSurfaceEmptyException);
-  int height() const throw(AGSurfaceEmptyException);
+  int width() const;
+  int height() const;
 
-  AGRect2 getRect() const throw(AGSurfaceEmptyException);
+  AGRect2 getRect() const;
 
-  AGSurface getSubSurface(const AGRect2 &r) const throw(AGSurfaceEmptyException);
+  AGSurface getSubSurface(const AGRect2 &r) const;
 
   bool valid() const;
 
@@ -81,11 +81,11 @@ class AGEXPORT AGSurface:public AGPaintTarget
   #endif
   bool operator==(const AGSurface &p) const;
 
-  virtual void blit(const AGSurface &pSource,const AGRect2 &pDest,const AGRect2 &pSrc,const AGColor &pColor) throw(AGSurfaceEmptyException);
+  virtual void blit(const AGSurface &pSource,const AGRect2 &pDest,const AGRect2 &pSrc,const AGColor &pColor);
 
-  void drawGradient(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr) throw(AGSurfaceEmptyException);
-  void drawGradientAlpha(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr) throw(AGSurfaceEmptyException);
-  void drawBorder(const AGRect2& rect,int width, const AGColor& c1, const AGColor& c2) throw(AGSurfaceEmptyException);
+  void drawGradient(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr);
+  void drawGradientAlpha(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr);
+  void drawBorder(const AGRect2& rect,int width, const AGColor& c1, const AGColor& c2);
 
   virtual void putPixel(int x,int y,const AGColor &c);
   virtual AGColor getPixel(int x,int y) const;
@@ -96,7 +96,7 @@ class AGEXPORT AGSurface:public AGPaintTarget
 
   void save(const std::string &pName) const;
 
-  static AGSurface load(const std::string &pName) throw(FileNotFound);
+  static AGSurface load(const std::string &pName);
 
   AGInternalSurface *surface() const;
 
@@ -111,7 +111,7 @@ class AGEXPORT AGSurface:public AGPaintTarget
 
  private:
 
-  Uint32 color(const AGColor &c) const throw(AGSurfaceEmptyException);;
+  Uint32 color(const AGColor &c) const;
 
   AGInternalSurface *s;
 

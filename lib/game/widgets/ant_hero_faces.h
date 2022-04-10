@@ -3,7 +3,8 @@
 
 #include "ag_widget.h"
 #include "ag_texture.h"
-#include <boost/signals.hpp>
+
+#include <boost/signals2.hpp>
 
 class AntPlayer;
 class AntHero;
@@ -17,7 +18,7 @@ class AntHeroFaces:public AGWidget {
 
     void update(AntPlayer *pPlayer);
 
-    boost::signal<void(AntHero*)> sigHeroClicked;
+    boost::signals2::signal<void(AntHero*)> sigHeroClicked;
   private:
 
     bool buttonClicked(AGEvent *e);

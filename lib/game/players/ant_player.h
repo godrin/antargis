@@ -3,9 +3,9 @@
 
 #include <rk_string.h>
 
-#include <list>
+#include <boost/signals2.hpp>
 
-#include <boost/signals.hpp>
+#include <list>
 
 class AntMap;
 class AntHero;
@@ -34,7 +34,7 @@ public:
   
   virtual AGString xmlName()=0;
 
-  boost::signal<void(AntPlayer*)> sigHeroesChanged;
+  boost::signals2::signal<void(AntPlayer*)> sigHeroesChanged;
 
 private:
   

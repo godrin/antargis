@@ -23,12 +23,11 @@ static bool useVBO()
 VertexArray::VertexArray(bool pDynamic):mDynamic(pDynamic),bbox(AGVector3(),AGVector3())
 {
   bColor=true;
-  GLeeInit();
-  mBuffers=GLEE_ARB_vertex_buffer_object && useVBO();
-  mArrays=GLEE_EXT_vertex_array && useVertexArrays();
+  mBuffers=GL_ARB_vertex_buffer_object && useVBO();
+  mArrays=GL_EXT_vertex_array && useVertexArrays();
 
   if(videoInited())
-    assert(GLEE_EXT_vertex_array || GLEE_VERSION_1_2); // vertex-arrays were introduced in GL 1.1, but glee has no flag for  that
+    assert(GL_EXT_vertex_array || GL_VERSION_1_2); // vertex-arrays were introduced in GL 1.1, but glee has no flag for  that
 
   displayListInited=false;
 

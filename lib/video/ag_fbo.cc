@@ -19,7 +19,6 @@
  */
 
 
-#include "GLee.h"
 #include "ag_fbo.h"
 #include "ag_surface.h"
 #include "ag_vdebug.h"
@@ -56,11 +55,11 @@ mWithDepth(false) {
 
 #ifdef USE_FBO
 
-  glGenFramebuffersEXT(1, &fb);
+  glGenFramebuffers(1, &fb);
   if (mWithDepth)
-    glGenFramebuffersEXT(1, &depth_rb); // FIXME: this should read glGenRenderbuffersEXT
+    glGenFramebuffers(1, &depth_rb); // FIXME: this should read glGenRenderbuffersEXT
 
-  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
+  glBindFramebuffer(GL_FRAMEBUFFER_EXT, fb);
 
 
   glBindTexture(GL_TEXTURE_2D, mTextureID);
@@ -150,7 +149,7 @@ bool canFBO() {
 #else
 
     if (getConfig()->get("useFBO", "false", "<!--enable Frame-Buffer-Objects - can make problems on some drivers. options:true,false -->") == "true")
-      meCanFBO = GLEE_EXT_framebuffer_object ? 1 : 0;
+      meCanFBO = GL_EXT_framebuffer_object ? 1 : 0;
     else
       meCanFBO = 0;
 #endif

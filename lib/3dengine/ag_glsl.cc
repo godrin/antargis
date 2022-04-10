@@ -3,7 +3,6 @@
 #include "ag_vdebug.h"
 #include "ag_main.h"
 
-
 std::map<std::string,AGVertexProgram*> mVertexPrograms;
 std::map<std::string,AGFragProgram*> mFragPrograms;
 
@@ -40,8 +39,8 @@ bool glslOk()
     // do not check in each call, because this is slow!!!
     if(GLSL_ok<0)
       {
-        GLeeInit();
-        GLSL_ok=(GLEE_ARB_vertex_shader && GLEE_ARB_fragment_shader && GLEE_ARB_shading_language_100);
+        //GLeeInit();
+        GLSL_ok=(GL_EXT_vertex_shader && GL_ARB_fragment_shader && GL_ARB_shading_language_100);
       }
 
     return GLSL_ok;
@@ -53,13 +52,13 @@ void printInfoLog(GLhandleARB obj)
     int charsWritten  = 0;
     char *infoLog;
 
-    glGetObjectParameterivARB(obj, GL_OBJECT_INFO_LOG_LENGTH_ARB,
+    glGetShaderiv(obj, GL_OBJECT_INFO_LOG_LENGTH_ARB,
         &infologLength);
 
     if (infologLength > 0)
       {
         infoLog = (char *)malloc(infologLength);
-        glGetInfoLogARB(obj, infologLength, &charsWritten, infoLog);
+        glGetShaderInfoLog(obj, infologLength, &charsWritten, infoLog);
         if(infoLog && charsWritten>0) {
           cdebug("GLSL Error:"<<infoLog);
         }
@@ -72,13 +71,13 @@ AGVertexProgram::AGVertexProgram(const std::string &pFile)
   {
     if(glslOk())
       {
-        vertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
+        vertexShader = glCreateShader(GL_VERTEX_SHADER);
         std::string s=loadFile(pFile);
 
         const char*a=s.c_str();
-        const GLcharARB**x=&a;
-        glShaderSourceARB(vertexShader, 1, x,NULL);
-        glCompileShaderARB(vertexShader);
+        const GLchar**x=&a;
+        glShaderSource(vertexShader, 1, x,NULL);
+        glCompileShader(vertexShader);
         printInfoLog(vertexShader);
         assertGL;
       }
@@ -87,7 +86,7 @@ AGVertexProgram::AGVertexProgram(const std::string &pFile)
 AGVertexProgram::~AGVertexProgram()
   {
     if(glslOk() && !hasQuit())
-      glDeleteObjectARB(vertexShader);
+      glDeleteShader(vertexShader);
     assertGL;
   }
 
@@ -97,12 +96,12 @@ AGFragProgram::AGFragProgram(const std::string &pFile)
     //  CTRACE;
     if(glslOk() && pFile.length()>0)
       {
-        fragShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB);
+        fragShader = glCreateShader(GL_FRAGMENT_SHADER);
         std::string s=loadFile(pFile);
         const char*a=s.c_str();
-        const GLcharARB**x=&a;
-        glShaderSourceARB(fragShader, 1, x,NULL);
-        glCompileShaderARB(fragShader);
+        const GLchar**x=&a;
+        glShaderSource(fragShader, 1, x,NULL);
+        glCompileShader(fragShader);
         printInfoLog(fragShader);
         mValid=true;
         assertGL;
@@ -119,7 +118,7 @@ AGFragProgram::~AGFragProgram()
   {
     CTRACE;
     if(glslOk() && !hasQuit())
-      glDeleteObjectARB(fragShader);
+      glDeleteShader(fragShader);
     assertGL;
 
   }
@@ -138,12 +137,12 @@ AGShaderProgram::AGShaderProgram(const std::string &pVertexFile,const std::strin
     //  CTRACE;
     if(glslOk())
       {
-        p = glCreateProgramObjectARB();
-        glAttachObjectARB(p,vertex.vertexShader);
+        p = glCreateProgram();
+        glAttachShader(p,vertex.vertexShader);
         if(frag.valid())
-          glAttachObjectARB(p,frag.fragShader);
+          glAttachShader(p,frag.fragShader);
 
-        glLinkProgramARB(p);
+        glLinkProgram(p);
         printInfoLog(p);
 
         assert(p);
@@ -161,7 +160,7 @@ AGShaderProgram::~AGShaderProgram()
     CTRACE;
     cdebug("name:"<<name);
     if(glslOk() && !hasQuit())
-      glDeleteObjectARB(p);
+      glDeleteShader(p);
     cdebug("name:"<<name);
     checkedDeleteArray(matrixBuf); // checked - no agrubyobject
     cdebug("name:"<<name);
@@ -174,7 +173,7 @@ void AGShaderProgram::enable()
   {
     if(glslOk())
       {
-        glUseProgramObjectARB(p);
+        glUseProgram(p);
         on=true;
         assertGL;
 
@@ -184,7 +183,7 @@ void AGShaderProgram::disable()
   {
     if(glslOk())
       {
-        glUseProgramObjectARB(0);
+        glUseProgram(0);
         on=false;
         assertGL;
       }
@@ -207,27 +206,27 @@ void AGShaderProgram::doUpdate(float time)
 
 void AGShaderProgram::sendUniform(const std::string &pName,int i)
   {
-    glUniform1iARB(getLoc(pName),i);
+    glUniform1i(getLoc(pName),i);
     assertGL;
   }
 void AGShaderProgram::sendUniform(const std::string &pName,float f)
   {
-    glUniform1fARB(getLoc(pName),f);
+    glUniform1f(getLoc(pName),f);
     assertGL;
   }
 void AGShaderProgram::sendUniform(const std::string &pName,const AGVector3 &m)
   {
-    glUniform3fARB(getLoc(pName),m[0],m[1],m[2]);
+    glUniform3f(getLoc(pName),m[0],m[1],m[2]);
     assertGL;
   }
 void AGShaderProgram::sendUniform(const std::string &pName,const AGVector4 &m)
   {
-    glUniform4fARB(getLoc(pName),m[0],m[1],m[2],m[3]);
+    glUniform4f(getLoc(pName),m[0],m[1],m[2],m[3]);
     assertGL;
   }
 void AGShaderProgram::sendUniform(const std::string &pName,const AGMatrix4 &m)
   {
-    glUniformMatrix4fvARB(getLoc(pName),1,false,m);
+    glUniformMatrix4fv(getLoc(pName),1,false,m);
     assertGL;
   }
 void AGShaderProgram::sendUniform(const std::string &pName,const std::vector<AGMatrix4> &m)
@@ -242,7 +241,7 @@ void AGShaderProgram::sendUniform(const std::string &pName,const std::vector<AGM
           *(p++)=*(s++);
       }
     assertGL;
-    glUniformMatrix4fvARB(getLoc(pName),m.size(),false,matrixBuf);
+    glUniformMatrix4fv(getLoc(pName),m.size(),false,matrixBuf);
     assertGL;
   }
 
@@ -254,7 +253,7 @@ GLint AGShaderProgram::getLoc(const std::string &pName)
     if(i!=locations.end())
       return i->second;
 
-    GLint k=glGetUniformLocationARB(p,pName.c_str());
+    GLint k=glGetUniformLocation(p,pName.c_str());
     locations.insert(std::make_pair(pName,k));
     assertGL;
     return k;
@@ -270,7 +269,7 @@ GLint AGShaderProgram::getAttr(const std::string &pName)
       return i->second;
 
     assertGL;
-    GLint k=glGetAttribLocationARB(p,pName.c_str());
+    GLint k=glGetAttribLocation(p,pName.c_str());
     //  cdebug("k:"<<k);
     if(k<0)
       {
@@ -289,10 +288,10 @@ void AGShaderProgram::sendAttribute(const std::string &pName,const std::vector<f
     assertGL;
     glEnableClientState(GL_VERTEX_ARRAY);
     assertGL;
-    glEnableVertexAttribArrayARB(loc); // add array
+    glEnableVertexAttribArray(loc); // add array
     assertGL;
 
-    glVertexAttribPointerARB(loc,1,GL_FLOAT,0,0,&vf[0]); // set attributes (for each vertex an attribute)
+    glVertexAttribPointer(loc,1,GL_FLOAT,0,0,&vf[0]); // set attributes (for each vertex an attribute)
     assertGL;
   }
 

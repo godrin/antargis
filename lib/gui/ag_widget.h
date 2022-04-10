@@ -29,9 +29,10 @@
 #include "ag_projection.h"
 
 #include <list>
-#include <boost/signals.hpp>
 
 #include "ag_painter.h"
+
+#include <boost/signals2.hpp>
 
 class AGTooltip;
 class AGLayout;
@@ -132,7 +133,7 @@ public:
   AGSignal sigClick;
   AGSignal sigDragBy;
   
-  boost::signal<bool(AGWidget *)> sigClickBoost;
+  boost::signals2::signal<bool(AGWidget *)> sigClickBoost;
 
   virtual float minWidth() const;
   virtual float minHeight() const;

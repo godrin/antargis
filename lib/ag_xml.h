@@ -149,12 +149,12 @@ class AGEXPORT Parser
 
     bool first(const AGString &p) const;
     AGString getFirst(size_t i) const;
-    void eat(size_t i) throw (XMLParseError);
+    void eat(size_t i);
     void push();
     void pop();
     void discard();
     AGString getTil(const AGString &p) const;
-    void eatBlanks() throw (XMLParseError);
+    void eatBlanks();
   };
 
   struct NodeStartInfo

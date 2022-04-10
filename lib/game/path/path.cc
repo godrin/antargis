@@ -329,7 +329,7 @@ SimpleGraph::Node *SimpleGraph::addNode ( const AGVector2 &p )
       mNodeMap[p]=n;
     }
 
-  mWidth=std::max ( ( double ) mWidth,std::max ( fabs ( p[0] ),fabs ( p[1] ) ) );
+  mWidth=std::max ( ( float ) mWidth,std::max ( fabs ( p[0] ),fabs ( p[1] ) ) );
 
   return n;
 }

@@ -37,7 +37,7 @@ AGTextureCache::AGTextureCache()
     getInstanceKiller()->reg(createKiller(this));
   }
 
-const AGTexture &AGTextureCache::get(const AGString &pTexture,const AGRect2 &pSub) throw (FileNotFound)
+const AGTexture &AGTextureCache::get(const AGString &pTexture,const AGRect2 &pSub)
   {
     std::string s=pTexture+":"+pSub.toString();
 
@@ -53,7 +53,7 @@ const AGTexture &AGTextureCache::get(const AGString &pTexture,const AGRect2 &pSu
   }
 
 
-const AGTexture &AGTextureCache::get(const AGString &pTexture,int downScaleExp) throw (FileNotFound)
+const AGTexture &AGTextureCache::get(const AGString &pTexture,int downScaleExp)
   {
     std::map<AGString,AGTexture*>::iterator i=mTextures.find(pTexture);
     if(i==mTextures.end())
@@ -116,7 +116,7 @@ AGSurface skipHalfTexture(const AGSurface &s)
   }
 
 
-const AGTexture &AGTextureCache::get3D(const AGString &pTexture,int downScaleExp,int downScaleZ) throw (FileNotFound)
+const AGTexture &AGTextureCache::get3D(const AGString &pTexture,int downScaleExp,int downScaleZ)
   {
     std::map<AGString,AGTexture*>::iterator i=mTextures.find(pTexture);
     if(i==mTextures.end())

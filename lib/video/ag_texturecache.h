@@ -37,10 +37,10 @@ class AGEXPORT AGTextureCache
   {
     AGTextureCache();
   public:
-    const AGTexture &get(const AGString &pTextureFilename ,int downScaleExp=1) throw (FileNotFound);
-    const AGTexture &get3D(const AGString &pTextureFilename,int downScaleExp=1,int downScaleZ=1) throw (FileNotFound);
+    const AGTexture &get(const AGString &pTextureFilename ,int downScaleExp=1);
+    const AGTexture &get3D(const AGString &pTextureFilename,int downScaleExp=1,int downScaleZ=1);
 
-    const AGTexture &get(const AGString &pTextureFilename,const AGRect2 &pSub) throw (FileNotFound);
+    const AGTexture &get(const AGString &pTextureFilename,const AGRect2 &pSub);
   private:
     std::map<AGString,AGTexture*> mTextures;
 
