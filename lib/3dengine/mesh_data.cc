@@ -230,6 +230,7 @@ size_t MeshData::getTriangles() const
 
 void MeshData::drawShadow()
 {
+	assertGL;
   if (mTransparent)
     glDisable(GL_CULL_FACE);
 
@@ -237,6 +238,7 @@ void MeshData::drawShadow()
 
   if (mTransparent)
     glEnable(GL_CULL_FACE);
+	assertGL;
 }
 void MeshData::drawDepth()
 {

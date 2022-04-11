@@ -32,6 +32,7 @@
 #include "ag_video.h"
 
 #include "ag_surface_internal.h"
+#include <ag_vdebug.h>
 
 #include <stdexcept>
 
@@ -230,6 +231,7 @@ AGGLTexture *AGTexture::glTexture()
       }
     else
       {
+	assertGL;
         STACKTRACE;
         // check if resident
         //      GLuint id=mTexture->id();
@@ -247,6 +249,7 @@ AGGLTexture *AGTexture::glTexture()
 #endif
       }
     mTextureUsed=true;
+	assertGL;
     return mTexture;
   }
 
@@ -257,6 +260,7 @@ bool AGTexture::textureUsed() const
 
 void AGTexture::beginPaint()
   {
+	assertGL;
     assert(!isRendering());
     assert(!m3d);
     if(opengl())
@@ -320,9 +324,11 @@ void AGTexture::beginPaint()
       }
 
     mPainting=true;
+	assertGL;
   }
 void AGTexture::endPaint()
   {
+	assertGL;
     if(opengl())
       {
 
@@ -350,10 +356,12 @@ void AGTexture::endPaint()
 
       }
     mPainting=false;
+	assertGL;
   }
 
 void AGTexture::putPixel(int x,int y,const AGColor &c)
   {
+	assertGL;
     assert(mPainting);
     if(opengl())
       {
@@ -377,6 +385,7 @@ void AGTexture::putPixel(int x,int y,const AGColor &c)
 
         sge_PutPixel(s->surface,x,y,c.mapRGB(s->surface->format));
       }
+	assertGL;
   }
 
 
@@ -500,8 +509,10 @@ void AGTexture::setWrapping(bool pWrap)
   }
 void AGTexture::setFilter(GLuint mag,GLuint min)
   {
+	assertGL;
     glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, mag);
     glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, min);
+	assertGL;
   }
 
 void AGTexture::bindTexture()
@@ -549,6 +560,7 @@ bool AGTexture::is3d() const
 
 void AGTexture::setClamp(GLuint s,GLuint t,GLuint r)
   {
+	assertGL;
     if(!opengl())
       return;
     if(is3d())
@@ -564,6 +576,7 @@ void AGTexture::setClamp(GLuint s,GLuint t,GLuint r)
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, s);
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, t);
       }
+	assertGL;
   }
 
 void AGTexture::useTexture()

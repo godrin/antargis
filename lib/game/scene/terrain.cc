@@ -132,7 +132,9 @@ void TerrainPiece::drawShadow()
 void TerrainPiece::drawDepth()
   {
     return;
+	assertGL;
     glDepthMask(true);
+	assertGL;
     m3dArray.setColors(false);
     m3dArray.draw();
     m3dArray.setColors(true);

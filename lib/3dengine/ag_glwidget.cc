@@ -3,6 +3,7 @@
 #include "ag_glwidget.h"
 #include "ag_screen.h"
 #include <GL/glu.h>
+#include <ag_vdebug.h>
 
 AGGLWidget::AGGLWidget(AGWidget *pParent,const AGRect2 &r):
   AGWidget(pParent,r)
@@ -33,6 +34,8 @@ void AGGLWidget::drawAll(AGPainter &p)
 
 void AGGLWidget::beginGL()
 {
+	assertGL;
+
   getScreen().fillRect(getRect(),AGColor(0,0,0)); // draw bg-color
 
   glMatrixMode(GL_MODELVIEW);
@@ -47,6 +50,7 @@ void AGGLWidget::beginGL()
   glDepthMask(true);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHTING);
+	assertGL;
 }
 
 float AGGLWidget::getRatio() const
@@ -58,6 +62,7 @@ float AGGLWidget::getRatio() const
 
 void AGGLWidget::endGL()
 {
+	assertGL;
   glDisable(GL_LIGHTING);
   glEnable(GL_TEXTURE_2D);
   glShadeModel(GL_SMOOTH);
@@ -86,13 +91,16 @@ void AGGLWidget::endGL()
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);//NEAREST);//LINEAR);
   glEnable(GL_COLOR_MATERIAL);
+	assertGL;
 }
 
 void AGGLWidget::setPerspective(float openAngle,float pnear,float pfar)
 {
+	assertGL;
   glMatrixMode(GL_PROJECTION);
   GLdouble r=getRatio();
   gluPerspective(openAngle,r,pnear,pfar);
   glGetFloatv(GL_PROJECTION_MATRIX, pMatrix);
+	assertGL;
 }
 

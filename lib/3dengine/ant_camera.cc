@@ -24,6 +24,7 @@
 #include <cmath>
 
 #include "rk_debug.h"
+#include <ag_vdebug.h>
 
 AntCamera::AntCamera(int w,int h)
   {
@@ -60,6 +61,7 @@ void AntCamera::decCameraDistance()
 
 void AntCamera::updateMatrices()
   {
+		assertGL;
 
     // 1. init camera view matrix
     glMatrixMode(GL_MODELVIEW);
@@ -76,6 +78,7 @@ void AntCamera::updateMatrices()
     gluPerspective(45.0f, ((float)mWidth)/mHeight, 3.0f, 63.0f);
     glGetFloatv(GL_PROJECTION_MATRIX, cameraProjection);
     glMatrixMode(GL_MODELVIEW);
+		assertGL;
     if(mPSM)
       {
         // PSM
@@ -170,6 +173,7 @@ void AntCamera::updateMatrices()
 
       // viewport
       glMatrixMode(GL_MODELVIEW);
+		assertGL;
 
   }
 

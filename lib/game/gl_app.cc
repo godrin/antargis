@@ -30,6 +30,7 @@ void GLApp::draw()
 void GLApp::drawGL()
   {
     STACKTRACE;
+		assertGL;
     glEnable(GL_DEPTH_TEST); // enable depth test
     glDepthMask(true);
 

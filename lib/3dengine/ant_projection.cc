@@ -1,6 +1,7 @@
 #include "ant_projection.h"
 
 #include <rk_debug.h>
+#include <ag_vdebug.h>
 
 #include <GL/glu.h>
 
@@ -26,7 +27,9 @@ AGVector3 AntProjection::project(const AGVector3 &p) const
       pr[i]=((const float*)projection)[i];
     }
 
+	assertGL;
   gluProject(p[0],p[1],p[2],mv,pr,viewport,&x,&y,&z);
+	assertGL;
   return AGVector3(x,y,z);
 
 }
@@ -41,7 +44,9 @@ AGVector3 AntProjection::unProject(const AGVector3 &p) const
       pr[i]=((const float*)projection)[i];
     }
 
+	assertGL;
   gluUnProject(p[0],p[1],p[2],mv,pr,viewport,&x,&y,&z);
+	assertGL;
   return AGVector3(x,y,z);
 }
 

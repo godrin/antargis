@@ -175,6 +175,7 @@ void Scene::calcShadowMap()
   */
 void Scene::initScene()
 {
+	assertGL;
   glClear(GL_DEPTH_BUFFER_BIT);
 
   glMatrixMode(GL_PROJECTION);
@@ -222,6 +223,7 @@ void Scene::initScene()
 
   //  glLoadMatrixf(cameraViewMatrix);
   glLoadMatrixf(mCamera.getModelview());
+	assertGL;
 }
 
 #ifdef TEST_DL
@@ -231,6 +233,7 @@ static bool dlInited=false;
 
 void Scene::drawScene()
 {
+	assertGL;
 #ifdef TEST_DL
   // this was for testing only - to check if display-lists are any good.
   // it seems they are comparable with VBOs - the problem is that they're inflexible
@@ -313,6 +316,7 @@ void Scene::drawScene()
     glCallList(displayList);
   }
 #endif
+	assertGL;
 
 }
 
@@ -343,6 +347,7 @@ AGVector3 Scene::getCameraDirTo(const AGVector3 &p) const
   */
 void Scene::pickDraw()
 {
+	assertGL;
   STACKTRACE;
   GLuint name=1;
   pickNames.clear();
@@ -370,6 +375,7 @@ void Scene::pickDraw()
   }
 
   glEnable(GL_CULL_FACE);
+	assertGL;
 }
 
 /// this a global function - use this for picking!
@@ -378,6 +384,7 @@ void Scene::pickDraw()
 /// the same for w and h
 PickResult Scene::pick(float x,float y,float w,float h)
 {
+	assertGL;
   STACKTRACE;
   size_t bufsize=4000;
   GLuint buffer[bufsize+1];
@@ -422,12 +429,14 @@ PickResult Scene::pick(float x,float y,float w,float h)
   assertGL;
   PickResult r=processHits(hits,buffer,x+w/2,mCamera.getHeight()-(y+h/2));
   std::sort(r.begin(),r.end());
+	assertGL;
   return r;
 }
 
 /// helper function for gettin PickResult from opengl's buffers
 PickResult Scene::processHits (int hits, GLuint *buffer,float px,float py)
 {
+	assertGL;
   STACKTRACE;
   PickResult result;
   if(hits==0)
@@ -475,6 +484,7 @@ PickResult Scene::processHits (int hits, GLuint *buffer,float px,float py)
 
     ptr += names+2;
   }
+	assertGL;
 
   return result;
 }
@@ -513,7 +523,9 @@ AGVector2 Scene::getPosition(const AGVector4 &v) const
     projection[i]=((const float*)mCamera.getProjection())[i];
   }
 
+	assertGL;
   gluProject(v[0],v[1],v[2],modelview,projection,getViewport(),&x,&y,&z);
+	assertGL;
   return AGVector2((int)x,((int)mCamera.getHeight()-y));
 }
 

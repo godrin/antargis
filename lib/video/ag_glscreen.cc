@@ -52,6 +52,7 @@ std::set<AGGLObject*> AGGLScreen::msObjects;
 
 void initDraw()
   {
+	assertGL;
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
@@ -61,10 +62,12 @@ void initDraw()
     glDepthMask(false);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
+	assertGL;
   }
 
 void initGUIView(int w,int h)
   {
+	assertGL;
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity( );
 
@@ -72,6 +75,7 @@ void initGUIView(int w,int h)
 
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
+	assertGL;
 
   }
 
@@ -113,6 +117,7 @@ AGGLScreen::AGGLScreen(int W,int H,int VW,int VH):
   w(VW),h(VH),
   rw(W),rh(H)
   {
+	assertGL;
     if(w<rw)
       w=rw;
     if(h<rh)
@@ -138,6 +143,7 @@ AGGLScreen::AGGLScreen(int W,int H,int VW,int VH):
 
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
+	assertGL;
   }
 
 
@@ -147,6 +153,7 @@ AGGLScreen::~AGGLScreen() throw()
 
 AGTexture AGGLScreen::screenshot(bool frontBuffer)
   {
+	assertGL;
     throw std::runtime_error("Not implemented correctly ?");
     assert(0);
     AGTexture t(getWidth(),getHeight());
@@ -184,12 +191,14 @@ AGTexture AGGLScreen::screenshot(bool frontBuffer)
     // Dootherworkprocessinghere,usingadoubleortriplebuffer
     glReadBuffer(GL_BACK);
 
+	assertGL;
 
     return t;
   }
 
 AGSurface AGGLScreen::screenshotSurface(bool frontBuffer)
   {
+	assertGL;
     AGSurface s(getWidth(),getHeight());
 
     size_t bufSize=getWidth()*getHeight()*4+16;
@@ -257,6 +266,7 @@ AGSurface AGGLScreen::screenshotSurface(bool frontBuffer)
     assertGL;
     checkedDeleteArray(buffer);
 
+	assertGL;
 
 
     return s;
@@ -265,6 +275,7 @@ AGSurface AGGLScreen::screenshotSurface(bool frontBuffer)
 
 void AGGLScreen::begin()
   {
+	assertGL;
     glViewport( 0, 0, rw, rh );
     glDisable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
@@ -290,6 +301,7 @@ void AGGLScreen::begin()
     glDisable(GL_DEPTH_TEST); // enable depth test
 
     glDepthMask(false);
+	assertGL;
   }
 
 
@@ -362,7 +374,9 @@ AGRect2 AGGLScreen::getRect() const
 
 void glColor(const AGColor &c)
   {
+	assertGL;
     glColor4f(c.r/255.0,c.g/255.0,c.b/255.0,c.a/255.0);
+	assertGL;
   }
 
 void AGGLScreen::drawGradientAlpha(const AGRect2& pRect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr)
@@ -413,6 +427,7 @@ void AGGLScreen::clip(const AGRect2 &r)
   {
     //return;
 #warning "insert clipping facility for opengl"
+	assertGL;
 
     AGRect2 x=AGRect2(0,0,w,h);
     AGRect2 m=x.intersect(r);
@@ -432,6 +447,7 @@ void AGGLScreen::clip(const AGRect2 &r)
   }
 void AGGLScreen::unclip()
   {
+	assertGL;
     glDisable(GL_SCISSOR_TEST);
     assertGL;
   }
@@ -439,17 +455,21 @@ void AGGLScreen::unclip()
 
 void AGGLScreen::beginPaint()
   {
+	assertGL;
     //  CTRACE;
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glTranslatef(0,getHeight(),0);
     glScalef(1,-1,1);
+	assertGL;
   }
 
 void AGGLScreen::endPaint()
   {
+	assertGL;
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+	assertGL;
   }
 
 void AGGLScreen::setLineWidth(float w)
@@ -483,5 +503,9 @@ void AGGLScreen::screenUp()
 
 bool opengl()
   {
-    return dynamic_cast<AGGLScreen*>(&getScreen());
+		if(getScreenPtr()) {
+			return dynamic_cast<AGGLScreen*>(getScreenPtr());
+		} else {
+			return false;
+		}
   }

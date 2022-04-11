@@ -43,6 +43,7 @@ VertexArray::VertexArray(bool pDynamic):mDynamic(pDynamic),bbox(AGVector3(),AGVe
 
 VertexArray::~VertexArray()
   {
+	assertGL;
     //  CTRACE;
     if(mBuffers && mVertexBuffer!=0) //mChanged==false)
       {
@@ -53,6 +54,7 @@ VertexArray::~VertexArray()
         if(!mDynamic)
           glDeleteBuffersARB( 1, &mIndexBuffer );
       }
+	assertGL;
   }
 
 
@@ -97,6 +99,7 @@ void VertexArray::addTriangle(size_t p0,size_t p1,size_t p2)
 
 void VertexArray::init()
   {
+	assertGL;
     if(mBuffers)
       {
         STACKTRACE;
@@ -132,6 +135,7 @@ void VertexArray::init()
 
       }
     mChanged=false;
+	assertGL;
   }
 
 void VertexArray::setColors(bool color)
@@ -244,6 +248,7 @@ void VertexArray::draw()
 
 void VertexArray::drawPick()
   {
+	assertGL;
     STACKTRACE;
     if(false)
       {
@@ -314,12 +319,14 @@ void VertexArray::drawPick()
 
           glDisableClientState(GL_VERTEX_ARRAY);
       }
+	assertGL;
   }
 
 
 
 void VertexArray::drawDepth()
   {
+	assertGL;
 #ifdef OLD
     if(mChanged)
       init();
@@ -408,12 +415,14 @@ void VertexArray::drawDepth()
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 #endif
+	assertGL;
   }
 
 
 
 AGVector4 VertexArray::lineHit(const AGLine3 &pLine) const
 {
+	assertGL;
   AGVector4 mfalse(0,0,0,0);
   //  cdebug("box:"<<bbox.toString());
   if(!bbox.collides(pLine))
@@ -433,11 +442,13 @@ AGVector4 VertexArray::lineHit(const AGLine3 &pLine) const
           return r;
         }
     }
+	assertGL;
   return mfalse;
 }
 
 void VertexArray::update()
   {
+	assertGL;
     if(mBuffers && mVertexBuffer!=0) //mChanged==false)
       {
         glDeleteBuffersARB( 1, &mVertexBuffer );
@@ -448,6 +459,7 @@ void VertexArray::update()
         mVertexBuffer=0;
       }
     mChanged=true;
+	assertGL;
   }
 void VertexArray::clear()
   {
@@ -506,6 +518,7 @@ void VertexArray::onScreenUp()
 
 void VertexArray::onScreenDown()
   {
+	assertGL;
     if(mBuffers && mVertexBuffer!=0) //mChanged==false)
       {
         glDeleteBuffersARB( 1, &mVertexBuffer );
@@ -516,6 +529,7 @@ void VertexArray::onScreenDown()
           glDeleteBuffersARB( 1, &mIndexBuffer );
       }
     mVertexBuffer=mColorBuffer=mNormalBuffer=mTexBuffer=mIndexBuffer=0;
+	assertGL;
   }
 
 
@@ -591,6 +605,7 @@ void VertexArrayShader::draw()
 
 void VertexArrayShader::attach()
   {
+	assertGL;
     //  if(useVertexArrays())
       {
         for(std::map<std::string,unsigned int>::iterator i=aids.begin();i!=aids.end();i++)
@@ -620,10 +635,12 @@ void VertexArrayShader::attach()
           }
 
       }
+	assertGL;
   }
 
 void VertexArrayShader::aInit()
   {
+	assertGL;
     for(std::map<std::string,std::vector<float>*>::iterator i=as.begin();i!=as.end();i++)
       {
         unsigned int id;
@@ -648,6 +665,7 @@ void VertexArrayShader::aInit()
 
 
     aInited=true;
+	assertGL;
   }
 
 

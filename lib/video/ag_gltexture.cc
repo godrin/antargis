@@ -64,6 +64,7 @@ char *AGGLTexture::dmaBuffer=0;
 
 AGGLTexture::AGGLTexture(size_t W,size_t H,GLint format):w(W),h(H),d(1),m3d(false),mRectTex(false),mTarget(GL_TEXTURE_2D)
   {
+	assertGL;
     //cdebug("HUPE");
     initDMABuffer();
     assertGL;
@@ -247,6 +248,7 @@ AGRect2 AGGLTexture::getRect() const
 AGSurface AGGLTexture::getSurface() const
 {
   AGSurface s(w,h*d);
+	assertGL;
   size_t bufSize=width()*height()*4;
   unsigned char *pixels=new unsigned char[bufSize];
 
@@ -265,6 +267,7 @@ AGSurface AGGLTexture::getSurface() const
           s.putPixel(x,y,c);
         }
   }
+	assertGL;
 
   return s;
 }

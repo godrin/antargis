@@ -7,6 +7,7 @@
 #include "map.h"
 #include "ag_config.h"
 #include "ag_profiler.h"
+#include <ag_vdebug.h>
 
 static bool gParticle=true;
 static long lastParticleTest=0;
@@ -128,6 +129,7 @@ void AntParticle::advance(float time)
 void AntParticle::draw()
   {
     STACKTRACE;
+		assertGL;
 
     if(!particleEnabled())
       return;
@@ -195,6 +197,7 @@ void AntParticle::draw()
       }
     glEnd();
 
+		assertGL;
   }
 
 void AntParticle::setEnabled(bool f)

@@ -29,6 +29,10 @@
 ////////////////////////////////////////////////////////////////////////
 
 AGScreen *mAGGScreen=0;
+AGScreen * AGEXPORT getScreenPtr()
+  {
+    return mAGGScreen;
+  }
 
 AGScreen & AGEXPORT getScreen()
   {

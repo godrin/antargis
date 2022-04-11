@@ -18,7 +18,6 @@
  * License along with this program.
  */
 
-#include "GLee.h"
 #include "ag_color.h"
 #include "ag_geometry.h"
 #include "rk_debug.h"

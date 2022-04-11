@@ -12,7 +12,7 @@ void agAssertGL(std::string s)
         GLenum error = glGetError();
         if(error != GL_NO_ERROR) {
           std::ostringstream msg;
-          msg <<s<< ": OpenGLError "
+          msg <<s<< ": OpenGLError gluErrorString:"
           << gluErrorString(error);
 
           std::cerr<<msg.str()<<std::endl;

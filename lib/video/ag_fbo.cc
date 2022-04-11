@@ -47,6 +47,7 @@ mWithDepth(withDepth) {
 AGFBO::AGFBO(GLuint pTexture, size_t pW, size_t pH) :
 mTexture(0), mTextureID(pTexture),
 mWithDepth(false) {
+	assertGL;
   fb = depth_rb = 0;
   w = pW;
   h = pH;
@@ -81,11 +82,14 @@ mWithDepth(false) {
   }
 
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	assertGL;
 
 #endif
+	assertGL;
 }
 
 void AGFBO::init() {
+	assertGL;
 #ifdef USE_FBO
   glGenFramebuffersEXT(1, &fb);
   if (mWithDepth)
@@ -113,6 +117,7 @@ void AGFBO::init() {
 }
 
 AGFBO::~AGFBO() {
+	assertGL;
 #ifdef USE_FBO
   CTRACE;
   if (fb)
@@ -120,22 +125,27 @@ AGFBO::~AGFBO() {
   if (depth_rb)
     glDeleteRenderbuffersEXT(1, &depth_rb);
 #endif
+	assertGL;
 }
 
 void AGFBO::beginDraw() {
+	assertGL;
 #ifdef USE_FBO
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
   assertGL;
 
 #endif
+	assertGL;
 }
 
 void AGFBO::endDraw() {
+	assertGL;
 #ifdef USE_FBO
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
   assertGL;
 
 #endif
+	assertGL;
 }
 
 

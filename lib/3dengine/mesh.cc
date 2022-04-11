@@ -87,10 +87,13 @@ void Mesh::begin()
     AGVector4 p=getPos();
     glTranslatef(p[0],p[1],p[2]);
     glRotatef(mRotation,0.0,0.0,1.0);
+		assertGL;
   }
 void Mesh::end()
   {
+		assertGL;
     glPopMatrix();
+		assertGL;
   }
 
 

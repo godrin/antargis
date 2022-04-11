@@ -50,6 +50,7 @@ private:
   AGFontEngine *mFontEngine;
 };
 
+AGEXPORT AGScreen *getScreenPtr();
 AGEXPORT AGScreen &getScreen();
 AGEXPORT void setScreen(AGScreen *s);
 

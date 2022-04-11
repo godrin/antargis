@@ -7,236 +7,270 @@ bool glslOk();
 void printInfoLog(GLhandleARB obj);
 
 AntVertexProgram::AntVertexProgram(const std::string &pFile)
-  {
-    if(glslOk())
-      {
-        vertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
-        std::string s=loadFile(pFile);
+{
+	assertGL;
+	if(glslOk())
+	{
+		vertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
+		std::string s=loadFile(pFile);
 
-        const char*a=s.c_str();
-        const GLcharARB**x=&a;
-        glShaderSourceARB(vertexShader, 1, x,NULL);
-        glCompileShaderARB(vertexShader);
-        printInfoLog(vertexShader);
+		const char*a=s.c_str();
+		const GLcharARB**x=&a;
+		glShaderSourceARB(vertexShader, 1, x,NULL);
+		glCompileShaderARB(vertexShader);
+		printInfoLog(vertexShader);
 
-      }
-  }
+	}
+	assertGL;
+}
 
 AntVertexProgram::~AntVertexProgram()
-  {
-    if(glslOk() && !hasQuit())
-      glDeleteObjectARB(vertexShader);
-  }
+{
+	assertGL;
+	if(glslOk() && !hasQuit())
+		glDeleteObjectARB(vertexShader);
+	assertGL;
+}
 
 AntFragProgram::AntFragProgram(const std::string &pFile)
-  {
-    mValid=false;
-    if(glslOk() && pFile.length()>0)
-      {
-        fragShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB);
-        std::string s=loadFile(pFile);
-        const char*a=s.c_str();
-        const GLcharARB**x=&a;
-        glShaderSourceARB(fragShader, 1, x,NULL);
-        glCompileShaderARB(fragShader);
-        printInfoLog(fragShader);
-        mValid=true;
+{
+	assertGL;
+	mValid=false;
+	if(glslOk() && pFile.length()>0)
+	{
+		fragShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB);
+		std::string s=loadFile(pFile);
+		const char*a=s.c_str();
+		const GLcharARB**x=&a;
+		glShaderSourceARB(fragShader, 1, x,NULL);
+		glCompileShaderARB(fragShader);
+		printInfoLog(fragShader);
+		mValid=true;
 
-      }
-  }
+	}
+	assertGL;
+}
 
 AntFragProgram::AntFragProgram()
-  {
-    mValid=false;
-  }
+{
+	mValid=false;
+}
 
 AntFragProgram::~AntFragProgram()
-  {
-    if(glslOk() && !hasQuit())
-      glDeleteObjectARB(fragShader);
-  }
+{
+	assertGL;
+	if(glslOk() && !hasQuit())
+		glDeleteObjectARB(fragShader);
+	assertGL;
+}
 
 
 bool AntFragProgram::valid() const
 {
-  return mValid;
+	return mValid;
 }
 
 
 AntShaderProgram::AntShaderProgram(const std::string &pVertexFile,const std::string &pFragFile):
-  //  vertex(getVertexProgram(pVertexFile)),frag(getFragProgram(pFragFile))
-  mVertexFile(pVertexFile),mFragFile(pFragFile),
-  vertex(0),frag(0)
-  {
-    on=false;
-    matrixBuf=new float[16*100];
-    name=pVertexFile+":"+pFragFile;
+	//  vertex(getVertexProgram(pVertexFile)),frag(getFragProgram(pFragFile))
+	mVertexFile(pVertexFile),mFragFile(pFragFile),
+	vertex(0),frag(0)
+{
+	on=false;
+	matrixBuf=new float[16*100];
+	name=pVertexFile+":"+pFragFile;
 
-    init();
-  }
+	init();
+}
 
 AntShaderProgram::~AntShaderProgram()
-  {
-    takeDown();
+{
+	takeDown();
 
-    checkedDeleteArray(matrixBuf);
-  }
+	checkedDeleteArray(matrixBuf);
+}
 
 void AntShaderProgram::onScreenUp()
-  {
-    init();
-  }
+{
+	init();
+}
 void AntShaderProgram::onScreenDown()
-  {
-    takeDown();
-  }
+{
+	takeDown();
+}
 
 
 void AntShaderProgram::init()
-  {
-    if(glslOk())
-      {
-        locations.clear();
-        attrs.clear();
-        vertex=new AntVertexProgram(mVertexFile);
-        frag=new AntFragProgram(mFragFile);
+{
+	assertGL;
+	if(glslOk())
+	{
+		locations.clear();
+		attrs.clear();
+		vertex=new AntVertexProgram(mVertexFile);
+		frag=new AntFragProgram(mFragFile);
 
-        p = glCreateProgramObjectARB();
-        glAttachObjectARB(p,vertex->vertexShader);
-        if(frag->valid())
-          glAttachObjectARB(p,frag->fragShader);
+		p = glCreateProgramObjectARB();
+	assertGL;
+		glAttachObjectARB(p,vertex->vertexShader);
+	assertGL;
+		if(frag->valid())
+			glAttachObjectARB(p,frag->fragShader);
 
-        glLinkProgramARB(p);
-        printInfoLog(p);
+	assertGL;
+		glLinkProgramARB(p);
+	assertGL;
+	// FIXME: use PROGRAM_INFO
+//		printInfoLog(p);
 
-        assert(p);
-      }
-  }
+		assert(p);
+	}
+	assertGL;
+}
 
 void AntShaderProgram::takeDown()
-  {
-    disable();
-    if(glslOk() && !hasQuit())
-      glDeleteObjectARB(p);
-    checkedDelete(vertex);
-    checkedDelete(frag); // checked - no agrubyobject
-    locations.clear();
-  }
+{
+	assertGL;
+	disable();
+	if(glslOk() && !hasQuit())
+		glDeleteObjectARB(p);
+	checkedDelete(vertex);
+	checkedDelete(frag); // checked - no agrubyobject
+	locations.clear();
+	assertGL;
+}
 
 
 
 void AntShaderProgram::enable()
-  {
-    if(glslOk())
-      {
-        glUseProgramObjectARB(p);
-        on=true;
-      }
-  }
+{
+	assertGL;
+	if(glslOk())
+	{
+		glUseProgramObjectARB(p);
+		on=true;
+	}
+	assertGL;
+}
 void AntShaderProgram::disable()
-  {
-    if(glslOk())
-      {
-        glUseProgramObjectARB(0);
-        on=false;
-      }
-  }
+{
+	assertGL;
+	if(glslOk())
+	{
+		glUseProgramObjectARB(0);
+		on=false;
+	}
+	assertGL;
+}
 
 void AntShaderProgram::update(float time)
-  {
-    if(glslOk())
-      {
-        enable();
-        doUpdate(time);
-        disable();
-      }
-  }
+{
+	if(glslOk())
+	{
+		enable();
+		doUpdate(time);
+		disable();
+	}
+}
 
 void AntShaderProgram::doUpdate(float time)
-  {
-  }
+{
+}
 
 void AntShaderProgram::sendUniform(const std::string &pName,int i)
-  {
-    glUniform1iARB(getLoc(pName),i);
-  }
+{
+	assertGL;
+	glUniform1iARB(getLoc(pName),i);
+	assertGL;
+}
 void AntShaderProgram::sendUniform(const std::string &pName,float f)
-  {
-    glUniform1fARB(getLoc(pName),f);
-  }
+{
+	assertGL;
+	glUniform1fARB(getLoc(pName),f);
+	assertGL;
+}
 void AntShaderProgram::sendUniform(const std::string &pName,const AGVector3 &m)
-  {
-    glUniform3fARB(getLoc(pName),m[0],m[1],m[2]);
-  }
+{
+	assertGL;
+	glUniform3fARB(getLoc(pName),m[0],m[1],m[2]);
+	assertGL;
+}
 void AntShaderProgram::sendUniform(const std::string &pName,const AGVector4 &m)
-  {
-    glUniform4fARB(getLoc(pName),m[0],m[1],m[2],m[3]);
-  }
+{
+	assertGL;
+	glUniform4fARB(getLoc(pName),m[0],m[1],m[2],m[3]);
+	assertGL;
+}
 void AntShaderProgram::sendUniform(const std::string &pName,const AGMatrix4 &m)
-  {
-    glUniformMatrix4fvARB(getLoc(pName),1,false,m);
-  }
+{
+	assertGL;
+	glUniformMatrix4fvARB(getLoc(pName),1,false,m);
+	assertGL;
+}
 void AntShaderProgram::sendUniform(const std::string &pName,const std::vector<AGMatrix4> &m)
-  {
-    assert(m.size()<100);
-    float *p=matrixBuf;
+{
+	assert(m.size()<100);
+	float *p=matrixBuf;
 
-    for(size_t i=0;i<m.size();i++)
-      {
-        const float *s=m[i];
-        for(size_t j=0;j<16;j++)
-          *(p++)=*(s++);
-      }
-    assertGL;
-    glUniformMatrix4fvARB(getLoc(pName),m.size(),false,matrixBuf);
-    assertGL;
-  }
+	for(size_t i=0;i<m.size();i++)
+	{
+		const float *s=m[i];
+		for(size_t j=0;j<16;j++)
+			*(p++)=*(s++);
+	}
+	assertGL;
+	glUniformMatrix4fvARB(getLoc(pName),m.size(),false,matrixBuf);
+	assertGL;
+}
 
 GLint AntShaderProgram::getLoc(const std::string &pName)
-  {
-    // register only once !
+{
+	// register only once !
 
-    std::map<std::string,GLint>::iterator i=locations.find(pName);
-    if(i!=locations.end())
-      return i->second;
+	std::map<std::string,GLint>::iterator i=locations.find(pName);
+	if(i!=locations.end())
+		return i->second;
 
-    GLint k=glGetUniformLocationARB(p,pName.c_str());
-    locations.insert(std::make_pair(pName,k));
-    return k;
-  }
+	assertGL;
+	GLint k=glGetUniformLocationARB(p,pName.c_str());
+	assertGL;
+	locations.insert(std::make_pair(pName,k));
+	return k;
+}
 
 GLint AntShaderProgram::getAttr(const std::string &pName)
-  {
-    // register only once !
-    assert(on);
-    std::map<std::string,GLint>::iterator i=attrs.find(pName);
-    if(i!=attrs.end())
-      return i->second;
+{
+	assertGL;
+	// register only once !
+	assert(on);
+	std::map<std::string,GLint>::iterator i=attrs.find(pName);
+	if(i!=attrs.end())
+		return i->second;
 
-    assertGL;
-    GLint k=glGetAttribLocationARB(p,pName.c_str());
-    if(k<0)
-      {
-        cdebug("ERROR:attribute could be get! Maybe it was not defined in the vertex-shader? :"<<pName);
-      }
-    assertGL;
-    attrs.insert(std::make_pair(pName,k));
-    return k;
-  }
+	assertGL;
+	GLint k=glGetAttribLocationARB(p,pName.c_str());
+	if(k<0)
+	{
+		cdebug("ERROR:attribute could be get! Maybe it was not defined in the vertex-shader? :"<<pName);
+	}
+	assertGL;
+	attrs.insert(std::make_pair(pName,k));
+	return k;
+}
 
 void AntShaderProgram::sendAttribute(const std::string &pName,const std::vector<float> &vf)
-  {
-    assertGL;
-    GLint loc=getAttr(pName);
-    assertGL;
-    glEnableClientState(GL_VERTEX_ARRAY);
-    assertGL;
-    glEnableVertexAttribArrayARB(loc); // add array
-    assertGL;
+{
+	assertGL;
+	GLint loc=getAttr(pName);
+	assertGL;
+	glEnableClientState(GL_VERTEX_ARRAY);
+	assertGL;
+	glEnableVertexAttribArrayARB(loc); // add array
+	assertGL;
 
-    glVertexAttribPointerARB(loc,1,GL_FLOAT,0,0,&vf[0]); // set attributes (for each vertex an attribute)
-    assertGL;
-  }
+	glVertexAttribPointerARB(loc,1,GL_FLOAT,0,0,&vf[0]); // set attributes (for each vertex an attribute)
+	assertGL;
+}
 
 
 
@@ -245,61 +279,65 @@ void AntShaderProgram::sendAttribute(const std::string &pName,const std::vector<
 //
 ///////////////////////////////////////////////////////////////////////////
 AntShadowShader::AntShadowShader(const std::string &pVertexFile,const std::string &pFragFile):
-  AntShaderProgram(pVertexFile,pFragFile)
-  {
-  }
+	AntShaderProgram(pVertexFile,pFragFile)
+{
+}
 
 void AntShadowShader::doUpdate(float time)
-  {
-    if(glslOk())
-      {
-        Renderer *r=getRenderer();
-        sendUniform("shadowTex",r->getShadowUnit());
-        sendUniform("normalTex",r->getNormalUnit());
-        sendUniform("lightComplete",r->getCurrentScene()->getLightComplete());
-      }
-  }
+{
+	if(glslOk())
+	{
+		Renderer *r=getRenderer();
+		sendUniform("shadowTex",r->getShadowUnit());
+		sendUniform("normalTex",r->getNormalUnit());
+		sendUniform("lightComplete",r->getCurrentScene()->getLightComplete());
+	}
+}
 
 
 void AntShadowShader::enable()
-  {
-    AntShaderProgram::enable();
-    if(glslOk())
-      {
-        Scene *scene=getRenderer()->getCurrentScene();
+{
+	assertGL;
+	AntShaderProgram::enable();
+	if(glslOk())
+	{
+		Scene *scene=getRenderer()->getCurrentScene();
 
-        glActiveTexture(getRenderer()->getShadowUnit()); // shadow unit
+		glActiveTexture(getRenderer()->getShadowUnit()); // shadow unit
 
-        glMatrixMode(GL_TEXTURE);
-        glPushMatrix();
+		glMatrixMode(GL_TEXTURE);
+		glPushMatrix();
 
-        // FIXME: move bias to frag-shader, as this shall reduce z-fighting
-        float bias[]={0.5f, 0.0f, 0.0f, 0.0f,
-            0.0f, 0.5f, 0.0f, 0.0f,
-            0.0f, 0.0f, 0.5f, 0.0f,
-            0.5f, 0.5f, 0.5f, 1.0f};        //bias from [-1, 1] to [0, 1]
-        glLoadMatrixf(bias);
+		// FIXME: move bias to frag-shader, as this shall reduce z-fighting
+		float bias[]={0.5f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.5f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.5f, 0.0f,
+			0.5f, 0.5f, 0.5f, 1.0f};        //bias from [-1, 1] to [0, 1]
+		glLoadMatrixf(bias);
 
-        glMultMatrixf(scene->getLightProj());
-        glMultMatrixf(scene->getLightView());
+		glMultMatrixf(scene->getLightProj());
+		glMultMatrixf(scene->getLightView());
 
-        glActiveTexture(getRenderer()->getNormalUnit()); // tex unit
+		glActiveTexture(getRenderer()->getNormalUnit()); // tex unit
 
-        glMatrixMode(GL_MODELVIEW);
-      }
-  }
+		glMatrixMode(GL_MODELVIEW);
+	}
+	assertGL;
+}
 void AntShadowShader::disable()
-  {
-    AntShaderProgram::disable();
-    if(glslOk())
-      {
-        glActiveTexture(getRenderer()->getShadowUnit()); // shadow unit
-        glMatrixMode(GL_TEXTURE);
-        glPopMatrix();
-        glMatrixMode(GL_MODELVIEW);
-        glActiveTexture(getRenderer()->getNormalUnit()); // tex unit
-      }
-  }
+{
+	assertGL;
+	AntShaderProgram::disable();
+	if(glslOk())
+	{
+		glActiveTexture(getRenderer()->getShadowUnit()); // shadow unit
+		glMatrixMode(GL_TEXTURE);
+		glPopMatrix();
+		glMatrixMode(GL_MODELVIEW);
+		glActiveTexture(getRenderer()->getNormalUnit()); // tex unit
+	}
+	assertGL;
+}
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -309,19 +347,19 @@ void AntShadowShader::disable()
 
 
 AntWaterShader::AntWaterShader():
-  AntShaderProgram("data/shaders/simplewater.vert","data/shaders/simplewater.frag")
-  {
-  }
+	AntShaderProgram("data/shaders/simplewater.vert","data/shaders/simplewater.frag")
+{
+}
 void AntWaterShader::doUpdate(float time)
-  {
-    if(glslOk())
-      {
-        AntShaderProgram::doUpdate(time);
+{
+	if(glslOk())
+	{
+		AntShaderProgram::doUpdate(time);
 
-        t+=time;
-        sendUniform("time", t);
-      }
-  }
+		t+=time;
+		sendUniform("time", t);
+	}
+}
 
 
 

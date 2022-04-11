@@ -86,18 +86,19 @@ Scene *Renderer::getCurrentScene()
 GLint Renderer::getShadowUnit()
   {
     assert(canMultitexture());
-    return 1;
+    return GL_TEXTURE1;
   }
 GLint Renderer::getNormalUnit()
-  {
-    if(canMultitexture())
-      return 0;
-    else
-      return 0;
-  }
+{
+	if(canMultitexture())
+		return GL_TEXTURE0;
+	else
+		return GL_TEXTURE0;
+}
 
 void Renderer::initShadowTexture()
   {
+	assertGL;
     if(!canShadow())
       return;
 
@@ -124,11 +125,13 @@ void Renderer::initShadowTexture()
       {
         mFBO=new AGFBO(shadowMapTexture,shadowMapSize,shadowMapSize);//,true);
       }
+	assertGL;
 
   }
 
 void Renderer::beginShadowComputation()
   {
+	assertGL;
     if(!shadowInited)
       initShadowTexture();
 
@@ -168,6 +171,7 @@ void Renderer::beginShadowComputation()
   }
 void Renderer::endShadowComputation()
   {
+	assertGL;
     glDisable(GL_POLYGON_OFFSET_FILL);
     assertGL;
     //Read the depth buffer into the shadow map texture
@@ -198,6 +202,7 @@ void Renderer::endShadowComputation()
 
     glShadeModel(GL_SMOOTH);
     glColorMask(1, 1, 1, 1);
+	assertGL;
   }
 
 
@@ -280,7 +285,11 @@ void Renderer::beginShadowDrawing()
         assertGL;
         glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE_ARB, GL_LUMINANCE);//INTENSITY);
         assertGL;
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FAIL_VALUE_ARB, 1.0f-0.3f);//shadowAlpha);
+//        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FAIL_VALUE, 1.0f-0.3f);//shadowAlpha);
+
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL );
+
         assertGL;
         //      glColor4f(0,0,0,0.3);
         assertGL;
