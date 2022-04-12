@@ -25,16 +25,16 @@
 
 #include "ag_table.h"
 
-class AGEXPORT AGWindow:public AGTable
-{
- public:
-  AGWindow(AGWidget *pWidget,const AGRect2 &pRect,const AGStringUtf8 &pTitle="",const AGString &pTheme="");
-  virtual ~AGWindow()  throw();
+class AGEXPORT AGWindow : public AGTable {
+public:
+  AGWindow(AGWidget *pWidget, const AGRect2 &pRect,
+           const AGStringUtf8 &pTitle = "", const AGString &pTheme = "");
+  virtual ~AGWindow() throw();
 
   AGWidget *getClient();
 
   virtual bool eventMouseButtonDown(AGEvent *m);
-  bool eventDragBy(AGEvent *event,const AGVector2 &pDiff);
+  bool eventDragBy(AGEvent *event, const AGVector2 &pDiff);
 
   void close();
 
@@ -45,14 +45,13 @@ class AGEXPORT AGWindow:public AGTable
 
   AGSignal sigClose;
 
- private:
-
-  AGWidget *getTitleBar(int w,int h);
+private:
+  AGWidget *getTitleBar(int w, int h);
 
   AGStringUtf8 mTitle;
   AGWidget *mClient;
 };
 
-//AGWindow &toAGWindow(AGWidget &w);
+// AGWindow &toAGWindow(AGWidget &w);
 
 #endif

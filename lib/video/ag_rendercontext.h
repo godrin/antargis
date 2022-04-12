@@ -23,15 +23,13 @@
 #ifndef __AG_RENDERCONTEXT_H
 #define __AG_RENDERCONTEXT_H
 
-
 #include "ag_geometry.h"
 #include "ag_gltexture.h"
 
 class AGShaderProgram;
 
-class AGEXPORT AGRenderContext
-{
- public:
+class AGEXPORT AGRenderContext {
+public:
   AGRenderContext();
   AGRenderContext(const AGRenderContext &c);
   virtual ~AGRenderContext();
@@ -46,7 +44,7 @@ class AGEXPORT AGRenderContext
   void setDepthWrite(bool w);
   void setDepthTest(bool t);
   void setCulling(bool c);
-  void setAlpha(float v,GLuint g);
+  void setAlpha(float v, GLuint g);
 
   static AGRenderContext *getCurrent();
 
@@ -57,7 +55,7 @@ class AGEXPORT AGRenderContext
   AGRenderContext &operator=(const AGRenderContext &c);
 #endif
 
- private:
+private:
   AGVector4 *mColor;
   AGGLTexture *mTexture;
   AGShaderProgram *mProgram;
@@ -72,4 +70,3 @@ class AGEXPORT AGRenderContext
 };
 
 #endif
-

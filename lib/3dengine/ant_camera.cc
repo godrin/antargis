@@ -26,246 +26,198 @@
 #include "rk_debug.h"
 #include <ag_vdebug.h>
 
-AntCamera::AntCamera(int w,int h)
-  {
-    mWidth=w;
-    mHeight=h;
+AntCamera::AntCamera(int w, int h) {
+  mWidth = w;
+  mHeight = h;
 
-    cameraPosition=AGVector4(0,-20,20);
-    lightPosition=AGVector4( -25, -50, 60,1);
-    scenePosition=AGVector4(0,0,0,1);
+  cameraPosition = AGVector4(0, -20, 20);
+  lightPosition = AGVector4(-25, -50, 60, 1);
+  scenePosition = AGVector4(0, 0, 0, 1);
 
-    cameraPosition=AGVector4(0,-15,15);
+  cameraPosition = AGVector4(0, -15, 15);
 
-    mPSM=false;
-    updateMatrices();
-  }
+  mPSM = false;
+  updateMatrices();
+}
 
-void AntCamera::incCameraDistance()
-  {
-    float d=cameraPosition[2]+0.3;
+void AntCamera::incCameraDistance() {
+  float d = cameraPosition[2] + 0.3;
 
-    d=std::min(d,20.0f);
-    cameraPosition=AGVector4(0,-d,d);
-    updateMatrices();
-  }
-void AntCamera::decCameraDistance()
-  {
-    float d=cameraPosition[2]-0.3;
+  d = std::min(d, 20.0f);
+  cameraPosition = AGVector4(0, -d, d);
+  updateMatrices();
+}
+void AntCamera::decCameraDistance() {
+  float d = cameraPosition[2] - 0.3;
 
-    d=std::max(d,12.0f);
-    cameraPosition=AGVector4(0,-d,d);
-    updateMatrices();
-  }
+  d = std::max(d, 12.0f);
+  cameraPosition = AGVector4(0, -d, d);
+  updateMatrices();
+}
 
+void AntCamera::updateMatrices() {
+  assertGL;
 
-void AntCamera::updateMatrices()
-  {
-		assertGL;
+  // 1. init camera view matrix
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  gluLookAt(cameraPosition[0] + scenePosition[0],
+            cameraPosition[1] + scenePosition[1],
+            cameraPosition[2] + scenePosition[2], scenePosition[0],
+            scenePosition[1], scenePosition[2], 0, 0, 1);
+  glGetFloatv(GL_MODELVIEW_MATRIX, cameraView);
 
-    // 1. init camera view matrix
-    glMatrixMode(GL_MODELVIEW);
+  // 2. init camera projection matrix
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(45.0f, ((float)mWidth) / mHeight, 3.0f, 63.0f);
+  glGetFloatv(GL_PROJECTION_MATRIX, cameraProjection);
+  glMatrixMode(GL_MODELVIEW);
+  assertGL;
+  if (mPSM) {
+    // PSM
+    // calculation of lightposition is somehow crappy
+
+    // PSMs
+    //  lightPosition=AGVector4( -2.0, -3, 5.1,1)*100;
+
+    // light View Matrix
     glLoadIdentity();
-    gluLookAt(cameraPosition[0]+scenePosition[0],cameraPosition[1]+scenePosition[1],cameraPosition[2]+scenePosition[2],
-        scenePosition[0],scenePosition[1],scenePosition[2],
-        0,0,1);
-    glGetFloatv(GL_MODELVIEW_MATRIX, cameraView);
 
-    // 2. init camera projection matrix
+    AGVector4 lp = lightPosition;
+    //    lp[
+    lp[3] = 1;
+    lp = cameraProjection * cameraView * lp;
 
-    glMatrixMode(GL_PROJECTION);
+    lp /= lp[3];
+
+    // it is something like (12,-10,10)
+
+    lp = AGVector4(-0.5, 1.5, -0.5, 1); // should be something like this
+    lp *= 100;
+
+    // lp=AGVector4(-2,2,-2,1);
+    gluLookAt(lp[0], lp[1], lp[2], 0, 0, 0, 0.0f, 1.0f, 0.0f);
+    glGetFloatv(GL_MODELVIEW_MATRIX, lightView);
+
+    lightView = lightView * cameraProjection * cameraView;
+    // light projection Matrix
     glLoadIdentity();
-    gluPerspective(45.0f, ((float)mWidth)/mHeight, 3.0f, 63.0f);
-    glGetFloatv(GL_PROJECTION_MATRIX, cameraProjection);
-    glMatrixMode(GL_MODELVIEW);
-		assertGL;
-    if(mPSM)
-      {
-        // PSM
-        // calculation of lightposition is somehow crappy
+    //    glOrtho(-10,10,-15,20,10,1000);
+    cdebug(lp.toString());
+    float s2 = sqrt(2.0f);
+    float ldist = lp.length3();
 
+    glOrtho(-s2, s2, -s2, s2, ldist - 2 * s2,
+            ldist + 10); // 1,10);//ldist-2*s2,ldist+10*s2);
 
-        // PSMs
-        //  lightPosition=AGVector4( -2.0, -3, 5.1,1)*100;
+    // very old:glOrtho(-1,2,-1.5,3,700,750);
+    //       glOrtho(-1,2,-1,1,2,8);
 
-        // light View Matrix
-        glLoadIdentity();
+    glGetFloatv(GL_MODELVIEW_MATRIX, lightProjection);
+  }
 
-        AGVector4 lp=lightPosition;
-        //    lp[
-        lp[3]=1;
-        lp=cameraProjection*cameraView*lp;
+  {
+    //  lightPosition=AGVector4( -1.0, -3, 5.1,1);
 
-        lp/=lp[3];
+    // calc light view,too
+    // light View Matrix
+    glLoadIdentity();
+    gluLookAt(lightPosition[0] + scenePosition[0],
+              lightPosition[1] + scenePosition[1],
+              lightPosition[2] + scenePosition[2], scenePosition[0],
+              scenePosition[1], scenePosition[2], 0.0f, 0.0f, 1.0f);
+    glGetFloatv(GL_MODELVIEW_MATRIX, lightView);
 
-        // it is something like (12,-10,10)
+    // light projection Matrix
+    glLoadIdentity();
 
-
-
-
-        lp=AGVector4(-0.5,1.5,-0.5,1); // should be something like this
-        lp*=100;
-
-
-        //lp=AGVector4(-2,2,-2,1);
-        gluLookAt(lp[0], lp[1], lp[2],
-            0,0,0,
-            0.0f, 1.0f, 0.0f);
-        glGetFloatv(GL_MODELVIEW_MATRIX, lightView);
-
-        lightView=lightView*cameraProjection*cameraView;
-        // light projection Matrix
-        glLoadIdentity();
-        //    glOrtho(-10,10,-15,20,10,1000);
-        cdebug(lp.toString());
-        float s2=sqrt(2.0f);
-        float ldist=lp.length3();
-
-        glOrtho(-s2,s2,-s2,s2,ldist-2*s2,ldist+10);//1,10);//ldist-2*s2,ldist+10*s2);
-
-
-        //very old:glOrtho(-1,2,-1.5,3,700,750);
-        //      glOrtho(-1,2,-1,1,2,8);
-
-        glGetFloatv(GL_MODELVIEW_MATRIX, lightProjection);
-      }
-
-      {
-        //  lightPosition=AGVector4( -1.0, -3, 5.1,1);
-
-        // calc light view,too
-        // light View Matrix
-        glLoadIdentity();
-        gluLookAt(lightPosition[0]+scenePosition[0], lightPosition[1]+scenePosition[1], lightPosition[2]+scenePosition[2],
-            scenePosition[0],scenePosition[1],scenePosition[2],
-            0.0f, 0.0f, 1.0f);
-        glGetFloatv(GL_MODELVIEW_MATRIX, lightView);
-
-
-        // light projection Matrix
-        glLoadIdentity();
-
-          {
+    {
 #warning "add some decent calculation here"
-            // use getFrustum for estimating a good light-frustum
+      // use getFrustum for estimating a good light-frustum
 
-            float near0=20,near1=60;
-            float far0=20,far1=110;
+      float near0 = 20, near1 = 60;
+      float far0 = 20, far1 = 110;
 
-            float mnear=sqrt(near0*near0+near1*near1);
-            float mfar=sqrt(far0*far0+far1*far1);
+      float mnear = sqrt(near0 * near0 + near1 * near1);
+      float mfar = sqrt(far0 * far0 + far1 * far1);
 
-            float left=-25;
-            float right=14;
-            float bottom=-15;
-            float top=14;
+      float left = -25;
+      float right = 14;
+      float bottom = -15;
+      float top = 14;
 
-            if(getRenderer()->badShadowMap())
-              top=bottom+(top-bottom)*1024.0f/768.0f;
+      if (getRenderer()->badShadowMap())
+        top = bottom + (top - bottom) * 1024.0f / 768.0f;
 
-            glFrustum(left, right, bottom, top,
-                mnear,mfar);
+      glFrustum(left, right, bottom, top, mnear, mfar);
+    }
 
-          }
-
-          glGetFloatv(GL_MODELVIEW_MATRIX, lightProjection);
-      }
-
-      // viewport
-      glMatrixMode(GL_MODELVIEW);
-		assertGL;
-
+    glGetFloatv(GL_MODELVIEW_MATRIX, lightProjection);
   }
 
+  // viewport
+  glMatrixMode(GL_MODELVIEW);
+  assertGL;
+}
 
-Viewport AntCamera::getViewport() const
-{
+Viewport AntCamera::getViewport() const {
   Viewport p;
-  p.viewport[0]=0;
-  p.viewport[1]=0;
-  p.viewport[2]=mWidth;
-  p.viewport[3]=mHeight;
+  p.viewport[0] = 0;
+  p.viewport[1] = 0;
+  p.viewport[2] = mWidth;
+  p.viewport[3] = mHeight;
   return p;
 }
-AGMatrix4 AntCamera::getModelview() const
-{
-  return cameraView;
-}
-AGMatrix4 AntCamera::getProjection() const
-{
-  return cameraProjection;
+AGMatrix4 AntCamera::getModelview() const { return cameraView; }
+AGMatrix4 AntCamera::getProjection() const { return cameraProjection; }
+
+void AntCamera::setPosition(const AGVector3 &p) {
+  scenePosition = AGVector4(p, 1);
+  updateMatrices();
 }
 
-void AntCamera::setPosition(const AGVector3 &p)
-  {
-    scenePosition=AGVector4(p,1);
-    updateMatrices();
-  }
-
-AGVector4 AntCamera::getCameraPosition() const
-{
-  return AGVector4(scenePosition.dim3()+cameraPosition.dim3(),1);
+AGVector4 AntCamera::getCameraPosition() const {
+  return AGVector4(scenePosition.dim3() + cameraPosition.dim3(), 1);
 }
-AGVector4 AntCamera::getCameraPositionR() const
-{
-  return cameraPosition;
+AGVector4 AntCamera::getCameraPositionR() const { return cameraPosition; }
+
+AGVector4 AntCamera::getLightPosition() const {
+  return AGVector4(scenePosition.dim3() + lightPosition.dim3(), 1);
 }
 
-AGVector4 AntCamera::getLightPosition() const
-{
-  return AGVector4(scenePosition.dim3()+lightPosition.dim3(),1);
-}
+AGVector3 AntCamera::getPosition() const { return scenePosition.dim3(); }
 
+int AntCamera::getWidth() const { return mWidth; }
+int AntCamera::getHeight() const { return mHeight; }
 
-AGVector3 AntCamera::getPosition() const
-{
-  return scenePosition.dim3();
-}
-
-int AntCamera::getWidth() const
-{
-  return mWidth;
-}
-int AntCamera::getHeight() const
-{
-  return mHeight;
-}
-
-AGMatrix4 AntCamera::getLightComplete() const
-{
-  float bias[]={0.5f, 0.0f, 0.0f, 0.0f,
-      0.0f, 0.5f, 0.0f, 0.0f,
-      0.0f, 0.0f, 0.5f, 0.0f,
-      0.5f, 0.5f, 0.5f, 1.0f};        //bias from [-1, 1] to [0, 1]
+AGMatrix4 AntCamera::getLightComplete() const {
+  float bias[] = {
+      0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
+      0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f}; // bias from [-1, 1] to [0, 1]
   static AGMatrix4 biasMatrix(bias);
-  return biasMatrix*lightProjection*lightView;
+  return biasMatrix * lightProjection * lightView;
 }
 
-AGMatrix4 AntCamera::getLightView() const
-{
-  return lightView;
-}
-AGMatrix4 AntCamera::getLightProjectionMatrix() const
-{
+AGMatrix4 AntCamera::getLightView() const { return lightView; }
+AGMatrix4 AntCamera::getLightProjectionMatrix() const {
   return lightProjection;
 }
 
-AntProjection AntCamera::getCameraProjection() const
-{
-  return AntProjection(getModelview(),getProjection(),getViewport());
+AntProjection AntCamera::getCameraProjection() const {
+  return AntProjection(getModelview(), getProjection(), getViewport());
 }
-AntProjection AntCamera::getLightProjection() const
-{
-  return AntProjection(getLightView(),getLightProjectionMatrix(),getViewport());
+AntProjection AntCamera::getLightProjection() const {
+  return AntProjection(getLightView(), getLightProjectionMatrix(),
+                       getViewport());
 }
 
-void AntCamera::setWidth(int w)
-  {
-    mWidth=w;
-    updateMatrices();
-  }
-void AntCamera::setHeight(int h)
-  {
-    mHeight=h;
-    updateMatrices();
-  }
+void AntCamera::setWidth(int w) {
+  mWidth = w;
+  updateMatrices();
+}
+void AntCamera::setHeight(int h) {
+  mHeight = h;
+  updateMatrices();
+}

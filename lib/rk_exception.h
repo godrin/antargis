@@ -26,21 +26,13 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
-class AGEXPORT AGException:public std::exception
-{
+class AGEXPORT AGException : public std::exception {
 public:
-  AGException(const std::string &e):s(e)
-  {
-  }
+  AGException(const std::string &e) : s(e) {}
 
-  virtual ~AGException() throw ()
-  {
-  }
+  virtual ~AGException() throw() {}
 
-  const char*what() const throw()
-  {
-    return s.c_str();
-  }
+  const char *what() const throw() { return s.c_str(); }
 
 private:
   std::string s;

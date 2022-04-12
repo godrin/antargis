@@ -23,7 +23,6 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
-
 #include "ag_gl.h"
 #include <ant_frustum.h>
 #include <ant_projection.h>
@@ -33,14 +32,13 @@
    \ingroup Engine3d
 
    This function provides functions for moving a camera about and
-   computation of the used 4x4-matrixes for camera-view and lighting (mainly used for shadows)
+   computation of the used 4x4-matrixes for camera-view and lighting (mainly
+   used for shadows)
  */
 
-
-class AGEXPORT AntCamera
-{
- public:
-  AntCamera(int w,int h);
+class AGEXPORT AntCamera {
+public:
+  AntCamera(int w, int h);
 
   void incCameraDistance();
   void decCameraDistance();
@@ -71,26 +69,25 @@ class AGEXPORT AntCamera
   AntProjection getCameraProjection() const;
   AntProjection getLightProjection() const;
 
- private:
-
+private:
   void updateMatrices();
-
 
   /// this position is changed when moving around
   AGVector4 scenePosition;
-  /// camera and light position are fixed - to be understand as relative positions to scenePosition
+  /// camera and light position are fixed - to be understand as relative
+  /// positions to scenePosition
   AGVector4 cameraPosition;
   AGVector4 lightPosition;
 
-  AGMatrix4 lightView,lightProjection;
-  AGMatrix4 cameraView,cameraProjection;
+  AGMatrix4 lightView, lightProjection;
+  AGMatrix4 cameraView, cameraProjection;
 
   AGMatrix4 cameraPick;
 
   /// use perspective shadow maps ?
   bool mPSM;
 
-  int mWidth,mHeight;
+  int mWidth, mHeight;
 };
 
 #endif

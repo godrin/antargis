@@ -20,13 +20,12 @@
 
 #include "ag_gradient.h"
 
-AGGradient::AGGradient()
-  {}
+AGGradient::AGGradient() {}
 
-AGGradient::AGGradient(const AGColor &c0,const AGColor &c1,const AGColor &c2,const AGColor &c3)
-  {
-    mColors[0]=c0;
-    mColors[1]=c1;
-    mColors[2]=c2;
-    mColors[3]=c3;
-  }
+AGGradient::AGGradient(const AGColor &c0, const AGColor &c1, const AGColor &c2,
+                       const AGColor &c3) {
+  mColors[0] = c0;
+  mColors[1] = c1;
+  mColors[2] = c2;
+  mColors[3] = c3;
+}

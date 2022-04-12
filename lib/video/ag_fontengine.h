@@ -30,22 +30,21 @@
 #include <ag_geometry.h>
 #include <ag_surface.h>
 
-class AGEXPORT AGFontEngine
-{
- public:
+class AGEXPORT AGFontEngine {
+public:
   AGFontEngine();
   ~AGFontEngine() throw();
 
-  AGTexture *renderText(int BaseLineX, int BaseLineY, const AGStringUtf8 &pText, const AGFont &ParamIn);
+  AGTexture *renderText(int BaseLineX, int BaseLineY, const AGStringUtf8 &pText,
+                        const AGFont &ParamIn);
 
-  int getWidth(const AGFont &pFont,const AGStringUtf8 &pText);
-  int getHeight(const AGFont &pFont,const AGStringUtf8 &pText);
+  int getWidth(const AGFont &pFont, const AGStringUtf8 &pText);
+  int getHeight(const AGFont &pFont, const AGStringUtf8 &pText);
 
- private:
-  std::map<std::pair<AGFont,AGStringUtf8>,AGTexture*> fontCache;
+private:
+  std::map<std::pair<AGFont, AGStringUtf8>, AGTexture *> fontCache;
 };
 
 AGFontEngine *getFontEngine();
 
 #endif
-

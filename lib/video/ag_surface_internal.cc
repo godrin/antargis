@@ -21,16 +21,14 @@
 #include "ag_surface_internal.h"
 #include "ag_surfacemanager.h"
 
-AGInternalSurface::AGInternalSurface()
-{
-  sdlTexture=0;
-  glTexture=0;
-  surface=0;
+AGInternalSurface::AGInternalSurface() {
+  sdlTexture = 0;
+  glTexture = 0;
+  surface = 0;
   getSurfaceManager()->registerMe(this);
-  version=1;
+  version = 1;
 }
 
-AGInternalSurface::~AGInternalSurface()
-{
+AGInternalSurface::~AGInternalSurface() {
   getSurfaceManager()->deregisterMe(this);
 }

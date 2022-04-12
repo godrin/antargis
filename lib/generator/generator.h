@@ -6,21 +6,20 @@
 
 namespace Generator {
 
-  class Generator {
-    int w;
-    SimulationState state;
-    FluidSimulation sim;
-    float dt;
-    public:
-    Generator();
-    void update();
+class Generator {
+  int w;
+  SimulationState state;
+  FluidSimulation sim;
+  float dt;
 
-    Grid2D<float> &terrain();
-    Grid2D<float> &water();
+public:
+  Generator();
+  void update();
 
-  };
+  Grid2D<float> &terrain();
+  Grid2D<float> &water();
+};
 
-}
+} // namespace Generator
 
 #endif
-

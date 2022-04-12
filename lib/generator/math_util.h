@@ -12,9 +12,6 @@
 #ifndef MATHUTIL_H
 #define MATHUTIL_H
 
-inline int Floor2Int(float v)
-{
-    return int(floor(v));
-}
+inline int Floor2Int(float v) { return int(floor(v)); }
 
 #endif // MATHUTIL_H

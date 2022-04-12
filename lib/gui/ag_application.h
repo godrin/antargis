@@ -24,27 +24,26 @@
 #define AG_APPLICATION_H
 
 #include <ag_messageobject.h>
-#include <ag_widget.h>
-#include <ag_tooltip.h>
 #include <ag_texture.h>
+#include <ag_tooltip.h>
+#include <ag_widget.h>
 
 /**
    \defgroup application Application
 */
-
 
 /**
    \brief Base class for application - holds the main loop
    \ingroup application
 
   Use AGApplication as base class your application's class.
-  In this library it's assumed that you have different parts of your program, that
-  are really different. Each of these parts has its own AGApplication.
-  The actual control of these applications is done through a main-loop, that
-  queries new events from libSDL and gives them to the correct widgets.
-  This main-loop can by started by run(). After this your have some possibilities to access
-  control. FOr instance there are the different event* functions, which you can override in
-  an AGApplication's subclass.
+  In this library it's assumed that you have different parts of your program,
+  that are really different. Each of these parts has its own AGApplication. The
+  actual control of these applications is done through a main-loop, that queries
+  new events from libSDL and gives them to the correct widgets. This main-loop
+  can by started by run(). After this your have some possibilities to access
+  control. FOr instance there are the different event* functions, which you can
+  override in an AGApplication's subclass.
 
   If you want to quit this application call tryQuit().
 
@@ -75,16 +74,15 @@
   }
   </pre>
 */
-class AGEXPORT AGApplication:public AGMessageObject
-{
- public:
+class AGEXPORT AGApplication : public AGMessageObject {
+public:
   AGApplication();
   virtual ~AGApplication() throw();
 
   bool run();
 
   /// called in each frame when idling
-  virtual bool eventIdle();           
+  virtual bool eventIdle();
 
   virtual bool eventPrepareFrame(float pTime);
 
@@ -92,7 +90,6 @@ class AGEXPORT AGApplication:public AGMessageObject
   virtual bool eventFrame(float pTime);
   /// called after drawing - so before event handling
   virtual bool eventFrameEnd(float pTime);
-
 
   virtual bool eventQuit(AGEvent *m);
   virtual bool eventKeyDown(AGEvent *m2);
@@ -114,7 +111,7 @@ class AGEXPORT AGApplication:public AGMessageObject
   long getTicks() const;
   void delay(int ms);
 
-  void setTooltip(AGTooltip *pTooltip); // transfers ownage !
+  void setTooltip(AGTooltip *pTooltip);   // transfers ownage !
   void resetTooltip(AGTooltip *pTooltip); // try to reset this one
 
   void setOverlay(AGWidget *pOverlay);
@@ -129,12 +126,12 @@ class AGEXPORT AGApplication:public AGMessageObject
   void setKeyRepeat(bool enable);
 
   void setDemoTime(float t);
-  
+
   bool doEvent(const SDL_Event &e);
-  
+
   AGSignal sigFrameFinished;
-  
- private:
+
+private:
   void clearOldMousePosition();
   void drawCursor();
 
@@ -150,21 +147,21 @@ class AGEXPORT AGApplication:public AGMessageObject
   AGTexture *mCursor;
   AGRect2 mCursorOld;
 
-  std::list<AGWidget*> delCue;
+  std::list<AGWidget *> delCue;
 
   SDL_Event mEvent;
 
   float mDemoTime;
-  
 };
 
 /**
    getApplication returns the current active application.
-   This gets set on each iteration of AGApplication::run. 
+   This gets set on each iteration of AGApplication::run.
    So it will be correct after finishing a frame, when you are
    using nested AGApplications.
 */
-//AGEXPORT AGApplication *getApplication(); // returns current active application
+// AGEXPORT AGApplication *getApplication(); // returns current active
+// application
 
 AGEXPORT void disableKeyrepeat();
 

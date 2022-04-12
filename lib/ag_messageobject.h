@@ -24,13 +24,13 @@
 #define AG_MESSAGEOBJECT_H
 
 #include <SDL.h>
-#include <string>
 #include <set>
+#include <string>
 
 #include "ag_geometry.h"
 #include "rk_string.h"
 
-#if SDL_COMPILEDVERSION>1300
+#if SDL_COMPILEDVERSION > 1300
 #define MSDLMod Uint16
 #else
 #define MSDLMod SDLMod
@@ -45,21 +45,19 @@ class AGSignal;
     AntargisGUI contains a small event handling mechanism for both ruby and C++.
     However they do work a little different.
 
-    Each object that wants to send or receive a message (or event) must be derived from
-    AGMessageObject.
+    Each object that wants to send or receive a message (or event) must be
+   derived from AGMessageObject.
 
 */
-
-
 
 /** AGEvent is the typical event which is passed when the user does anything.
     You can however derive from it and pass it through a signal.
     But you shouldn't delet it for yourself.
  */
-class AGEXPORT AGEvent
-{
- public:
-  AGEvent(AGListener *pCaller,const AGString &pName,const SDL_Event &pEvent=NullEvent);
+class AGEXPORT AGEvent {
+public:
+  AGEvent(AGListener *pCaller, const AGString &pName,
+          const SDL_Event &pEvent = NullEvent);
   virtual ~AGEvent();
 
   AGListener *getCaller() const;
@@ -90,7 +88,7 @@ class AGEXPORT AGEvent
 
   bool isMouseEvent() const;
 
- private:
+private:
   AGListener *mCaller;
   AGString mName;
 
@@ -102,24 +100,21 @@ class AGEXPORT AGEvent
 
   bool mClipped;
 
- protected:
+protected:
   static SDL_Event NullEvent;
 };
 
-
 /**
-   AGListener is the base for receiving an event. Any object which is derived from AGListener can
-   receive an event. But you should use AGMessageObject for this, as it holds basic "listening"
-   facilities.
+   AGListener is the base for receiving an event. Any object which is derived
+   from AGListener can receive an event. But you should use AGMessageObject for
+   this, as it holds basic "listening" facilities.
    @see AGEvent
 */
-class AGEXPORT AGListener
-{
- public:
+class AGEXPORT AGListener {
+public:
   AGListener();
   virtual ~AGListener();
   virtual bool signal(AGEvent *m);
-
 };
 
 /**
@@ -127,11 +122,10 @@ class AGEXPORT AGListener
    @see AGSignal
    @see AGMessageObject
 */
-class AGEXPORT AGCPPListener
-{
- public:
+class AGEXPORT AGCPPListener {
+public:
   virtual ~AGCPPListener();
-  virtual bool signal(AGEvent *m) const=0;
+  virtual bool signal(AGEvent *m) const = 0;
 };
 
 /**
@@ -139,40 +133,29 @@ class AGEXPORT AGCPPListener
    @see AGSignal
    @see AGMessageObject
 */
-template<class T>
-class AGEXPORT AGSlot0:public AGCPPListener
-{
- public:
+template <class T> class AGEXPORT AGSlot0 : public AGCPPListener {
+public:
   typedef bool (T::*FKT)(AGEvent *m);
   T *base;
   FKT f;
 
-  AGSlot0(T *pBase,FKT pF):
-    base(pBase),f(pF)
-    {
-    }
-    virtual ~AGSlot0()
-      {
-      }
+  AGSlot0(T *pBase, FKT pF) : base(pBase), f(pF) {}
+  virtual ~AGSlot0() {}
 
-    virtual bool signal(AGEvent *m) const
-    {
-      return (base->*f)(m);
-    }
+  virtual bool signal(AGEvent *m) const { return (base->*f)(m); }
 };
 
 class AGMessageObject;
 
-/** AGSignal is a placeholder-class for a function which calls all the Slots, which
-    are connected to this signal.
-    For instance a button named "close" holds a sigClick signal and a dialog box has a slotClose.
-    You call sigClick(event) in the button and the connected slot is automatically called.
+/** AGSignal is a placeholder-class for a function which calls all the Slots,
+   which are connected to this signal. For instance a button named "close" holds
+   a sigClick signal and a dialog box has a slotClose. You call sigClick(event)
+   in the button and the connected slot is automatically called.
     @see connect()
 */
-class AGEXPORT AGSignal
-{
- public:
-  AGSignal(AGMessageObject *pCaller,const AGString &pName);
+class AGEXPORT AGSignal {
+public:
+  AGSignal(AGMessageObject *pCaller, const AGString &pName);
 
   virtual ~AGSignal();
 
@@ -185,10 +168,11 @@ class AGEXPORT AGSignal
   bool signal(AGEvent *m);
 
   bool operator()(AGEvent *m);
- private:
-  std::set<AGListener*> mListeners;
 
-  std::set<AGCPPListener*> mSimpleListeners;
+private:
+  std::set<AGListener *> mListeners;
+
+  std::set<AGCPPListener *> mSimpleListeners;
 
   AGString mName;
   AGMessageObject *mCaller;
@@ -197,16 +181,14 @@ class AGEXPORT AGSignal
 /**
    AGMessageObject handles libSDL-events and provides virtual handlers.
 */
-class AGEXPORT AGMessageObject:public AGListener
-{
- public:
+class AGEXPORT AGMessageObject : public AGListener {
+public:
   AGMessageObject();
   virtual ~AGMessageObject();
 
   bool processEvent(AGEvent *pEvent);
 
   virtual bool acceptEvent(const SDL_Event *pEvent);
-
 
   // event handler
   virtual bool eventActive(AGEvent *m);
@@ -223,7 +205,6 @@ class AGEXPORT AGMessageObject:public AGListener
   virtual Uint8 getButtonState() const;
   virtual AGVector2 getMousePosition() const;
 
-
   AGSignal sigActive;
   AGSignal sigKeyDown;
   AGSignal sigKeyUp;
@@ -237,26 +218,23 @@ class AGEXPORT AGMessageObject:public AGListener
   void pushSignal(AGSignal *pSignal);
   void popSignal(AGSignal *pSignal);
 
- private:
+private:
   bool mCanReceiveMessages;
 
-  std::set<AGSignal*> mSignals;
+  std::set<AGSignal *> mSignals;
 
   static AGMessageObject *captureObject;
 };
 
-
-AGEXPORT AGEvent *newEvent(AGListener *pCaller,const AGString &pName,const SDL_Event &s);
+AGEXPORT AGEvent *newEvent(AGListener *pCaller, const AGString &pName,
+                           const SDL_Event &s);
 
 /**
  */
 
-template<class T>
-AGCPPListener *slot(T *base,bool (T::*f)(AGEvent *))
-{
-  return new AGSlot0<T>(base,f);
+template <class T> AGCPPListener *slot(T *base, bool (T::*f)(AGEvent *)) {
+  return new AGSlot0<T>(base, f);
 }
-
 
 AGEXPORT AGString toString(const SDL_Event *pEvent);
 AGEXPORT SDL_Event *toSDLEvent(const AGString &p);

@@ -28,26 +28,27 @@
 #include "ag_surface.h"
 #include <ag_fs.h>
 
-#include <string>
 #include <map>
+#include <string>
 
 class AGRect2;
 
-class AGEXPORT AGTextureCache
-  {
-    AGTextureCache();
-  public:
-    const AGTexture &get(const AGString &pTextureFilename ,int downScaleExp=1);
-    const AGTexture &get3D(const AGString &pTextureFilename,int downScaleExp=1,int downScaleZ=1);
+class AGEXPORT AGTextureCache {
+  AGTextureCache();
 
-    const AGTexture &get(const AGString &pTextureFilename,const AGRect2 &pSub);
-  private:
-    std::map<AGString,AGTexture*> mTextures;
+public:
+  const AGTexture &get(const AGString &pTextureFilename, int downScaleExp = 1);
+  const AGTexture &get3D(const AGString &pTextureFilename, int downScaleExp = 1,
+                         int downScaleZ = 1);
 
-    friend AGTextureCache *getTextureCache();
-  };
+  const AGTexture &get(const AGString &pTextureFilename, const AGRect2 &pSub);
+
+private:
+  std::map<AGString, AGTexture *> mTextures;
+
+  friend AGTextureCache *getTextureCache();
+};
 
 AGEXPORT AGTextureCache *getTextureCache();
-
 
 #endif

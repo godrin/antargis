@@ -23,17 +23,17 @@
 #ifndef AG_LAYOUTFACTORY_H
 #define AG_LAYOUTFACTORY_H
 
-#include <rk_utf8.h>
+#include <ag_layout.h>
 #include <ag_widget.h>
 #include <ag_xml.h>
-#include <ag_layout.h>
+#include <rk_utf8.h>
 
-class AGEXPORT AGLayoutCreator
-{
- public:
+class AGEXPORT AGLayoutCreator {
+public:
   AGLayoutCreator();
   virtual ~AGLayoutCreator();
-  virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode);
+  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+                      const Node &pNode);
   void setResult(AGWidget *pWidget);
   void setClient(AGWidget *pWidget);
   AGWidget *getResult();
@@ -41,34 +41,34 @@ class AGEXPORT AGLayoutCreator
 
   void clearResult();
 
- private:
-
-  AGWidget *mWidget,*mClient;
+private:
+  AGWidget *mWidget, *mClient;
 };
 
-class AGEXPORT AGLayoutFactory
-{
-  std::map<AGString,AGLayoutCreator*> mCreators;
+class AGEXPORT AGLayoutFactory {
+  std::map<AGString, AGLayoutCreator *> mCreators;
 
   AGLayoutFactory();
- public:
+
+public:
   ~AGLayoutFactory();
 
   // creators are claimed and will be deleted on destruction of AGLayoutFactory
-  void addCreator(const AGString &pName,AGLayoutCreator *creator);
+  void addCreator(const AGString &pName, AGLayoutCreator *creator);
 
-  std::pair<AGWidget*,AGWidget*> create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode);
+  std::pair<AGWidget *, AGWidget *>
+  create(AGWidget *pParent, const AGRect2 &pRect, const Node &pNode);
 
   friend AGLayoutFactory *getLayoutFactory();
 
   friend void AGLayout::loadXML(const std::string &pXMLData);
 
   AGLayout *getCurrentLayout();
- private:
-  std::list<AGLayout*> mCurrentLayouts;
+
+private:
+  std::list<AGLayout *> mCurrentLayouts;
   void pushLayout(AGLayout *pLayout);
   void popLayout();
-
 };
 
 AGEXPORT AGLayoutFactory *getLayoutFactory();

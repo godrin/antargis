@@ -4,11 +4,10 @@
 
 namespace Generator {
 
-  class Eroder {
-    Grid2d<float> water,terrain,sediment,
-  };
+class Eroder {
+  Grid2d<float> water, terrain, sediment,
+};
 
-}
+} // namespace Generator
 
 #endif
-

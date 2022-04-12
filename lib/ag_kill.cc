@@ -18,52 +18,38 @@
  * License along with this program.
  */
 
-
 // TODO: Is this still used ?
 
 #include "ag_kill.h"
 #include "rk_debug.h"
 
-AGInstanceKiller *mInstanceKiller=0;
-bool mIndirectInstance=false;
+AGInstanceKiller *mInstanceKiller = 0;
+bool mIndirectInstance = false;
 
-void newInstanceKiller()
-  {
-    assert(mInstanceKiller==0 || mIndirectInstance);
-    mInstanceKiller=new AGInstanceKiller;
-  }
-void deleteInstanceKiller()
-  {
-    assert(mInstanceKiller);
-    checkedDelete(mInstanceKiller);
-  }
+void newInstanceKiller() {
+  assert(mInstanceKiller == 0 || mIndirectInstance);
+  mInstanceKiller = new AGInstanceKiller;
+}
+void deleteInstanceKiller() {
+  assert(mInstanceKiller);
+  checkedDelete(mInstanceKiller);
+}
 
-AGInstanceKiller *getInstanceKiller()
-  {
-    if(!mInstanceKiller)
-      {
-        mIndirectInstance=true;
-        newInstanceKiller();
-      }
-    assert(mInstanceKiller);
-    return mInstanceKiller;
+AGInstanceKiller *getInstanceKiller() {
+  if (!mInstanceKiller) {
+    mIndirectInstance = true;
+    newInstanceKiller();
   }
+  assert(mInstanceKiller);
+  return mInstanceKiller;
+}
 
-
-AGInstanceKiller::AGInstanceKiller()
-  {
+AGInstanceKiller::AGInstanceKiller() {}
+AGInstanceKiller::~AGInstanceKiller() {
+  std::set<AGInstanceBase *>::iterator i = bs.begin();
+  for (; i != bs.end(); i++) {
+    (*i)->kill();
+    checkedDelete(*i);
   }
-AGInstanceKiller::~AGInstanceKiller()
-  {
-    std::set<AGInstanceBase*>::iterator i=bs.begin();
-    for(;i!=bs.end();i++)
-      {
-        (*i)->kill();
-          checkedDelete(*i);
-      }
-
-  }
-void AGInstanceKiller::reg(AGInstanceBase *b)
-  {
-    bs.insert(b);
-  }
+}
+void AGInstanceKiller::reg(AGInstanceBase *b) { bs.insert(b); }

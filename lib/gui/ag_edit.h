@@ -23,32 +23,33 @@
 #ifndef __AG_EDIT_H
 #define __AG_EDIT_H
 
-#include "ag_widget.h"
-#include "ag_font.h"
-#include "ag_surface.h"
 #include "ag_background.h"
-#include "rk_utf8.h"
+#include "ag_font.h"
 #include "ag_string_utf8.h"
+#include "ag_surface.h"
+#include "ag_widget.h"
+#include "rk_utf8.h"
 
-enum AGAlign {EDIT_LEFT,EDIT_RIGHT,EDIT_JUSTIFY,EDIT_CENTER};
-enum AGVAlign {EDIT_TOP,EDIT_BOTTOM,EDIT_VCENTER};
+enum AGAlign { EDIT_LEFT, EDIT_RIGHT, EDIT_JUSTIFY, EDIT_CENTER };
+enum AGVAlign { EDIT_TOP, EDIT_BOTTOM, EDIT_VCENTER };
 
-class AGEXPORT AGEditLine
-{
- public:
-  AGEditLine(const AGStringUtf8 &pText,AGFont pFont,bool pHardEnd);
+class AGEXPORT AGEditLine {
+public:
+  AGEditLine(const AGStringUtf8 &pText, AGFont pFont, bool pHardEnd);
   virtual ~AGEditLine();
 
   void setAlign(AGAlign pAlign);
   void setVAlign(AGVAlign pVAlign);
 
-  virtual void draw(AGPainter &p,const AGVector2 &pPoint,const AGRect2 &pClip);
-  virtual void drawCursor(AGPainter &p,int cx,const AGVector2 &pPoint,const AGRect2 &pClip,const AGColor &c);
+  virtual void draw(AGPainter &p, const AGVector2 &pPoint,
+                    const AGRect2 &pClip);
+  virtual void drawCursor(AGPainter &p, int cx, const AGVector2 &pPoint,
+                          const AGRect2 &pClip, const AGColor &c);
 
   int height() const;
   int width() const;
 
-  void insert(const AGStringUtf8 &c,int cx,bool pInsert);
+  void insert(const AGStringUtf8 &c, int cx, bool pInsert);
   void doDelete(int cx);
   AGEditLine split(int cx);
 
@@ -62,13 +63,13 @@ class AGEXPORT AGEditLine
 
   bool hardEnd() const;
   void setHardEnd(bool pHardEnd);
-  std::pair<AGStringUtf8,bool> checkUnwrap(int pW,const AGStringUtf8 &s);
+  std::pair<AGStringUtf8, bool> checkUnwrap(int pW, const AGStringUtf8 &s);
 
-  std::pair<AGStringUtf8,bool> checkWrap(int pW);
+  std::pair<AGStringUtf8, bool> checkWrap(int pW);
 
   void setFont(const AGFont &pFont);
 
- private:
+private:
   AGStringUtf8 mText;
   AGFont mFont;
   bool mHardEnd;
@@ -76,11 +77,10 @@ class AGEXPORT AGEditLine
   AGVAlign mVAlign;
 };
 
-class AGEXPORT AGEdit:public AGWidget
-{
- public:
-  AGEdit(AGWidget *pParent,const AGRect2 &pRect);
-  virtual ~AGEdit()  throw();
+class AGEXPORT AGEdit : public AGWidget {
+public:
+  AGEdit(AGWidget *pParent, const AGRect2 &pRect);
+  virtual ~AGEdit() throw();
 
   virtual void draw(AGPainter &p);
   virtual void drawBackground(AGPainter &p);
@@ -125,26 +125,25 @@ class AGEXPORT AGEdit:public AGWidget
 
   AGSignal sigModified;
 
- private:
-
+private:
   void getActLine();
   void insertLine(AGEditLine l);
   void mergeLine(int p);
   void checkWrap();
-  bool processKey(SDLKey k,Uint16 unicode);
+  bool processKey(SDLKey k, Uint16 unicode);
 
   std::list<AGEditLine> mLines;
   AGEditLine *actLine;
 
-  int mCx,mCy; // cursor position
+  int mCx, mCy; // cursor position
   int mViewCy;
 
   Uint32 mCursorTime;
   Uint32 mCursorLast;
   bool mShowCursor;
-  bool mLShift,mRShift;
-  bool mLCtrl,mRCtrl;
-  bool mLAlt,mRAlt;
+  bool mLShift, mRShift;
+  bool mLCtrl, mRCtrl;
+  bool mLAlt, mRAlt;
 
   bool mInserting;
 

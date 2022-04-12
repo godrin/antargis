@@ -27,21 +27,21 @@
 
 #include <map>
 
-class AGEXPORT AGConfig
-{
- public:
+class AGEXPORT AGConfig {
+public:
   AGConfig();
 
-  AGString get(const AGString &pValue,const AGString &pDefault,const AGString &pComment);
+  AGString get(const AGString &pValue, const AGString &pDefault,
+               const AGString &pComment);
 
   AGString get(const AGString &pValue) const;
-  void set(const AGString &pName,const AGString &pValue);
+  void set(const AGString &pName, const AGString &pValue);
 
- private:
+private:
   void writeToDisc();
 
-  std::map<AGString,AGString> singleValue;
-  std::map<AGString,AGString> comments;
+  std::map<AGString, AGString> singleValue;
+  std::map<AGString, AGString> comments;
 };
 
 AGEXPORT AGConfig *getConfig();

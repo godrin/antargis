@@ -21,9 +21,9 @@
 #ifndef AG_SURFACEMANAGER_H
 #define AG_SURFACEMANAGER_H
 
+#include <cstdlib>
 #include <rk_base.h>
 #include <set>
-#include <cstdlib>
 
 class AGRenderContext;
 class AGSurface;
@@ -31,9 +31,8 @@ class AGTexture;
 class AGInternalSurface;
 class AGGLTexture;
 
-class AGEXPORT AGSurfaceManager
-{
- public:
+class AGEXPORT AGSurfaceManager {
+public:
   ~AGSurfaceManager();
 
   // AGSurfaces are not owned - but SDL_Surfaces - so beware!!
@@ -52,23 +51,22 @@ class AGEXPORT AGSurfaceManager
   void registerMe(AGGLTexture *p);
   void deregisterMe(AGGLTexture *p);
 
-  void cleanup(bool force=false, bool nomem=false);
+  void cleanup(bool force = false, bool nomem = false);
   void clear();
 
   size_t getUsedTexMem() const;
 
- private:
+private:
   AGSurfaceManager();
 
-  std::set<AGSurface*> mSurfaces;
-  std::set<AGInternalSurface*> mSDLSurfaces;
-  std::set<AGTexture*> mTextures;
-  std::set<AGGLTexture*> mGLTextures;
-  std::set<AGRenderContext*> mRContext;
+  std::set<AGSurface *> mSurfaces;
+  std::set<AGInternalSurface *> mSDLSurfaces;
+  std::set<AGTexture *> mTextures;
+  std::set<AGGLTexture *> mGLTextures;
+  std::set<AGRenderContext *> mRContext;
 
   friend AGSurfaceManager *getSurfaceManager();
 };
 AGEXPORT AGSurfaceManager *getSurfaceManager();
 
 #endif
-

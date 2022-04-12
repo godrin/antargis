@@ -16,26 +16,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #ifndef ANT_MENU_APP_H
 #define ANT_MENU_APP_H
 
 #include <ag_application.h>
 
-class AntMenuApp:public AGApplication
-{
+class AntMenuApp : public AGApplication {
 public:
-    AntMenuApp();
-    virtual ~AntMenuApp() throw();
+  AntMenuApp();
+  virtual ~AntMenuApp() throw();
 
-    void init();
+  void init();
 
-    bool eventFrame(float pTime);
-    bool eventQuitClicked(AGEvent *pEvent);
-    bool eventTutorialClicked(AGEvent *pEvent);
-    bool eventMusicFinished(AGEvent *pEvent);
+  bool eventFrame(float pTime);
+  bool eventQuitClicked(AGEvent *pEvent);
+  bool eventTutorialClicked(AGEvent *pEvent);
+  bool eventMusicFinished(AGEvent *pEvent);
+
 private:
-    AGLayout *layout;
+  AGLayout *layout;
 };
 
 #endif // ANT_MENU_APP_H

@@ -28,20 +28,20 @@
 class AGRadio;
 
 // derive from AGWidget, so that it can be put into the hierarchy
-class AGEXPORT AGRadioGroup:public AGWidget
-{
- public:
-  AGRadioGroup(AGWidget *pParent,const AGRect2 &pr);
+class AGEXPORT AGRadioGroup : public AGWidget {
+public:
+  AGRadioGroup(AGWidget *pParent, const AGRect2 &pr);
   virtual ~AGRadioGroup() throw();
 
   virtual void eventChange(const AGString &p);
 
   void add(AGRadio *r);
   void erase(AGRadio *r);
-  
+
   AGSignal sigChanged;
- private:
-  std::set<AGRadio*> mChildren;
+
+private:
+  std::set<AGRadio *> mChildren;
 };
 
 #endif

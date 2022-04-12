@@ -27,20 +27,19 @@
 
 class AGRadioGroup;
 
-class AGEXPORT AGRadio:public AGCheckBox
-{
- public:
-  AGRadio(AGWidget *pParent,AGRect2 pRect);
+class AGEXPORT AGRadio : public AGCheckBox {
+public:
+  AGRadio(AGWidget *pParent, AGRect2 pRect);
   virtual ~AGRadio() throw();
 
   void setGroup(AGRadioGroup *pGroup);
   bool eventMouseClick(AGEvent *m);
-  
+
   void deselect();
 
   virtual void setChecked(bool pChecked);
 
- private:
+private:
   AGRadioGroup *mGroup;
 };
 

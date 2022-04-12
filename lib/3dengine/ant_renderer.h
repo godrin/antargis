@@ -6,10 +6,10 @@
 class Scene;
 class AGFBO;
 
-class Renderer
-{
+class Renderer {
   Renderer();
- public:
+
+public:
   ~Renderer();
 
   bool canMultitexture();
@@ -30,10 +30,8 @@ class Renderer
   void endShadowDrawing();
 
   bool badShadowMap();
-  
- private:
 
-  
+private:
   int mCanMultitexture;
   int mCanShadow;
   int mCanGLSL;
@@ -53,4 +51,3 @@ class Renderer
 Renderer *getRenderer();
 
 #endif
-

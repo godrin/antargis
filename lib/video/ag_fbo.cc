@@ -18,55 +18,55 @@
  * License along with this program.
  */
 
-
 #include "ag_fbo.h"
+#include "ag_config.h"
 #include "ag_surface.h"
 #include "ag_vdebug.h"
-#include "ag_config.h"
 
 #include <stdexcept>
 
 #define USE_FBO
 
-AGFBO::AGFBO(AGGLTexture *pTexture, bool withDepth) :
-mTexture(pTexture),
-mWithDepth(withDepth) {
+AGFBO::AGFBO(AGGLTexture *pTexture, bool withDepth)
+    : mTexture(pTexture), mWithDepth(withDepth) {
   mTextureID = mTexture->id();
   w = mTexture->width();
   h = mTexture->height();
   fb = depth_rb = 0;
 
-  std::cerr << "WARNING: FBOs can make problems on some cards and drivers. Disable them in ~/.Antargis/config.xml !" << std::endl;
+  std::cerr << "WARNING: FBOs can make problems on some cards and drivers. "
+               "Disable them in ~/.Antargis/config.xml !"
+            << std::endl;
 
   init();
 }
 
-
 // init for depth-only writing
 
-AGFBO::AGFBO(GLuint pTexture, size_t pW, size_t pH) :
-mTexture(0), mTextureID(pTexture),
-mWithDepth(false) {
-	assertGL;
+AGFBO::AGFBO(GLuint pTexture, size_t pW, size_t pH)
+    : mTexture(0), mTextureID(pTexture), mWithDepth(false) {
+  assertGL;
   fb = depth_rb = 0;
   w = pW;
   h = pH;
-  std::cerr << "WARNING: FBOs can make problems on some cards and drivers. Disable them in ~/.Antargis/config.xml !" << std::endl;
-
+  std::cerr << "WARNING: FBOs can make problems on some cards and drivers. "
+               "Disable them in ~/.Antargis/config.xml !"
+            << std::endl;
 
 #ifdef USE_FBO
 
   glGenFramebuffers(1, &fb);
   if (mWithDepth)
-    glGenFramebuffers(1, &depth_rb); // FIXME: this should read glGenRenderbuffersEXT
+    glGenFramebuffers(
+        1, &depth_rb); // FIXME: this should read glGenRenderbuffersEXT
 
   glBindFramebuffer(GL_FRAMEBUFFER_EXT, fb);
-
 
   glBindTexture(GL_TEXTURE_2D, mTextureID);
 
   assertGL;
-  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, mTextureID, 0);
+  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
+                            GL_TEXTURE_2D, mTextureID, 0);
   assertGL;
 
   {
@@ -76,20 +76,19 @@ mWithDepth(false) {
 
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depth_rb);
     glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA, w, h);
-    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, depth_rb);
-
-
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
+                                 GL_RENDERBUFFER_EXT, depth_rb);
   }
 
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	assertGL;
+  assertGL;
 
 #endif
-	assertGL;
+  assertGL;
 }
 
 void AGFBO::init() {
-	assertGL;
+  assertGL;
 #ifdef USE_FBO
   glGenFramebuffersEXT(1, &fb);
   if (mWithDepth)
@@ -97,19 +96,21 @@ void AGFBO::init() {
 
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
 
-
   glBindTexture(GL_TEXTURE_2D, mTextureID);
 
   assertGL;
-  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, mTextureID, 0);
+  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
+                            GL_TEXTURE_2D, mTextureID, 0);
   assertGL;
 
   if (mWithDepth) {
     throw std::runtime_error("AGFBO:not supported yet!");
     // initialize depth renderbuffer
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depth_rb);
-    glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT16, w, h); //pTexture->width(), pTexture->height());
-    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, depth_rb);
+    glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT16, w,
+                             h); // pTexture->width(), pTexture->height());
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
+                                 GL_RENDERBUFFER_EXT, depth_rb);
   }
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
   assertGL;
@@ -117,7 +118,7 @@ void AGFBO::init() {
 }
 
 AGFBO::~AGFBO() {
-	assertGL;
+  assertGL;
 #ifdef USE_FBO
   CTRACE;
   if (fb)
@@ -125,29 +126,28 @@ AGFBO::~AGFBO() {
   if (depth_rb)
     glDeleteRenderbuffersEXT(1, &depth_rb);
 #endif
-	assertGL;
+  assertGL;
 }
 
 void AGFBO::beginDraw() {
-	assertGL;
+  assertGL;
 #ifdef USE_FBO
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
   assertGL;
 
 #endif
-	assertGL;
+  assertGL;
 }
 
 void AGFBO::endDraw() {
-	assertGL;
+  assertGL;
 #ifdef USE_FBO
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
   assertGL;
 
 #endif
-	assertGL;
+  assertGL;
 }
-
 
 #warning "add global var for this!"
 
@@ -158,7 +158,9 @@ bool canFBO() {
     meCanFBO = 0; // FIXME: FBO painting does not work yet
 #else
 
-    if (getConfig()->get("useFBO", "false", "<!--enable Frame-Buffer-Objects - can make problems on some drivers. options:true,false -->") == "true")
+    if (getConfig()->get("useFBO", "false",
+                         "<!--enable Frame-Buffer-Objects - can make problems "
+                         "on some drivers. options:true,false -->") == "true")
       meCanFBO = GL_EXT_framebuffer_object ? 1 : 0;
     else
       meCanFBO = 0;

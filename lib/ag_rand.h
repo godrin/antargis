@@ -23,9 +23,9 @@
 #ifndef __AG_RAND
 #define __AG_RAND
 
-#include <string>
 #include "ag_rand_base.h"
 #include "mtwist.h"
+#include <string>
 
 // Randomizer using Mersenne Twister - it's even faster
 // than the common libc-implementation of rand()
@@ -33,9 +33,8 @@
 // the prng (pseudo-random-number generator)'s state
 // to a string and restore it. This way we can deterministically
 // rerun a "randomized" game
-class AGEXPORT AGRandomizer:public AGRandomizerBase
-{
- public:
+class AGEXPORT AGRandomizer : public AGRandomizerBase {
+public:
   // restore a randomizer from a state-string (pretty long)
   // for an initial seed - call with pSeed==""
   AGRandomizer(const std::string &pSeed);
@@ -60,6 +59,5 @@ AGEXPORT float agRand(float f);
 
 /// runs a small speed test
 AGEXPORT void randSpeed();
-
 
 #endif

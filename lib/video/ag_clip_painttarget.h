@@ -21,50 +21,59 @@
 #ifndef __AG_CLIP_PAINTTARGET_H
 #define __AG_CLIP_PAINTTARGET_H
 
-#include <ag_painttarget.h>
 #include <ag_clip.h>
+#include <ag_painttarget.h>
 
 /// virtual paint target - use this for advanced clipping !
-class AGEXPORT AGClipPaintTarget:public AGPaintTarget
-{
- public:
+class AGEXPORT AGClipPaintTarget : public AGPaintTarget {
+public:
   AGClipPaintTarget(AGPaintTarget *pTarget);
   ~AGClipPaintTarget() throw();
-  
-  
-  virtual void blitTri(const AGTexture &pSource,const AGTriangle2 &pSrc,const AGTriangle2 &pDest);
 
-  virtual void blit(const AGTexture &pSource,const AGRect2 &pDest,const AGRect2 &pSrc,const AGColor &pColor);
-  virtual void blit(const AGTexture &pSource,const AGRect2 &pDest,const AGRect2 &pSrc);
-  virtual void blit(const AGSurface &pSource,const AGRect2 &pDest,const AGRect2 &pSrc);
+  virtual void blitTri(const AGTexture &pSource, const AGTriangle2 &pSrc,
+                       const AGTriangle2 &pDest);
 
-  virtual void drawLine(const AGVector2 &p0,const AGVector2 &p1,const AGColor &c);
-  virtual void fillRect(const AGRect2 &pr,const AGColor &c);
+  virtual void blit(const AGTexture &pSource, const AGRect2 &pDest,
+                    const AGRect2 &pSrc, const AGColor &pColor);
+  virtual void blit(const AGTexture &pSource, const AGRect2 &pDest,
+                    const AGRect2 &pSrc);
+  virtual void blit(const AGSurface &pSource, const AGRect2 &pDest,
+                    const AGRect2 &pSrc);
 
-  virtual void fillRects(const std::vector<std::pair<AGRect2,AGVector4> > &pr);
-   
-  virtual void blit(const AGTexture &pSource,const std::vector<std::pair<AGRect2,AGRect2> > &pSrcDestRects,const AGColor &pColor);
+  virtual void drawLine(const AGVector2 &p0, const AGVector2 &p1,
+                        const AGColor &c);
+  virtual void fillRect(const AGRect2 &pr, const AGColor &c);
 
-  virtual void tile(const AGTexture &pSource,const AGRect2 &pTarget, const AGColor &pColor);
+  virtual void fillRects(const std::vector<std::pair<AGRect2, AGVector4>> &pr);
 
-  virtual void drawGradientAlpha(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr);
-  virtual void drawGradient(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr);
-   
+  virtual void
+  blit(const AGTexture &pSource,
+       const std::vector<std::pair<AGRect2, AGRect2>> &pSrcDestRects,
+       const AGColor &pColor);
+
+  virtual void tile(const AGTexture &pSource, const AGRect2 &pTarget,
+                    const AGColor &pColor);
+
+  virtual void drawGradientAlpha(const AGRect2 &rect, const AGColor &ul,
+                                 const AGColor &ur, const AGColor &dl,
+                                 const AGColor &dr);
+  virtual void drawGradient(const AGRect2 &rect, const AGColor &ul,
+                            const AGColor &ur, const AGColor &dl,
+                            const AGColor &dr);
+
   virtual AGRect2 getRect() const;
 
-  virtual void putPixel(int x,int y,const AGColor &c);
-  virtual AGColor getPixel(int x,int y) const;
+  virtual void putPixel(int x, int y, const AGColor &c);
+  virtual AGColor getPixel(int x, int y) const;
 
   // manage painting sessions
   virtual void clip(const AGClipping &c);
 
   virtual void unclip();
 
- private:
+private:
   AGPaintTarget *mTarget;
   AGClipping mClipping;
 };
 
-
 #endif
-

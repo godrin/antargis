@@ -16,24 +16,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #ifndef ANT_BLACK_FADE_WIDGET_H
 #define ANT_BLACK_FADE_WIDGET_H
 
 #include "ag_widget.h"
 
-class AntBlackFadeWidget:public AGWidget
-{
+class AntBlackFadeWidget : public AGWidget {
 
 public:
-    AntBlackFadeWidget(AGWidget *pParent,const AGRect2 &r);
-//    AntBlackFadeWidget(const AntBlackFadeWidget& other);
-    virtual ~AntBlackFadeWidget() throw();
-    //virtual AntBlackFadeWidget& operator=(const AntBlackFadeWidget& other);
-    
-    void draw(AGPainter &p);
-    
-    void setAlpha(float p);
+  AntBlackFadeWidget(AGWidget *pParent, const AGRect2 &r);
+  //    AntBlackFadeWidget(const AntBlackFadeWidget& other);
+  virtual ~AntBlackFadeWidget() throw();
+  // virtual AntBlackFadeWidget& operator=(const AntBlackFadeWidget& other);
+
+  void draw(AGPainter &p);
+
+  void setAlpha(float p);
+
 private:
   float alpha;
 };

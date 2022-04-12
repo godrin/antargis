@@ -25,14 +25,13 @@
 
 #include "ag_widget.h"
 
-class AGCell:public AGWidget
-  {
+class AGCell : public AGWidget {
 public:
-  AGCell(AGWidget *pParent,const AGRect2 &pRect);
+  AGCell(AGWidget *pParent, const AGRect2 &pRect);
   void setWidth(float w);
   void setHeight(float w);
-  //void setTop(float w);
-  //void setLeft(float w);
-  };
+  // void setTop(float w);
+  // void setLeft(float w);
+};
 
 #endif

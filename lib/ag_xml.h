@@ -23,122 +23,117 @@
 #ifndef __MY_SIMPLE_XML
 #define __MY_SIMPLE_XML
 
+#include "rk_debug.h"
 #include <rk_tools.h>
 #include <rk_utf8.h>
-#include "rk_debug.h"
 
-#include <vector>
-#include <map>
 #include <ag_stringstream.h>
+#include <map>
 #include <sstream>
+#include <vector>
 
+struct XMLParseError {
+  XMLParseError(const std::string &p) : problem(p) {}
+  std::string problem;
+};
 
-struct XMLParseError
-  {
-    XMLParseError(const std::string &p):problem(p){}
-    std::string problem;
-  };
+class AGEXPORT Node {
+public:
+  typedef std::map<AGString, AGString> Attributes;
 
-class AGEXPORT Node
-  {
-  public:
-    typedef std::map<AGString,AGString> Attributes;
+  typedef std::vector<Node *> NodeVector;
 
-    typedef std::vector<Node*> NodeVector;
+  typedef NodeVector::iterator iterator;
+  typedef NodeVector::const_iterator const_iterator;
 
-    typedef NodeVector::iterator iterator;
-    typedef NodeVector::const_iterator const_iterator;
+  Node();
+  Node(const AGString &name);
+  Node(const Node &n);
+  Node(const Node *n);
+  ~Node();
 
-    Node();
-    Node(const AGString &name);
-    Node(const Node &n);
-    Node(const Node *n);
-    ~Node();
+  void setName(const AGString &pName);
 
-    void setName(const AGString &pName);
-
-    NodeVector getChildren() const;
+  NodeVector getChildren() const;
 
 #ifndef SWIG
-    const Node &(operator*)() const;
-    const Node *(operator->)() const;
+  const Node &(operator*)() const;
+  const Node *(operator->)() const;
 #endif
-    NodeVector getChildren(const AGString &pName) const;
+  NodeVector getChildren(const AGString &pName) const;
 
-    const AGString &getName() const;
+  const AGString &getName() const;
 
-    void setAttributes(const Attributes &pAttrs);
-    Attributes getAttributes() const;
+  void setAttributes(const Attributes &pAttrs);
+  Attributes getAttributes() const;
 
-    Node &addChild(const AGString &pName);
+  Node &addChild(const AGString &pName);
 
-    void removeChild(Node &n);
+  void removeChild(Node &n);
 
-    iterator begin();
-    iterator end();
+  iterator begin();
+  iterator end();
 #ifndef SWIG
-    const_iterator begin() const;
-    const_iterator end() const;
+  const_iterator begin() const;
+  const_iterator end() const;
 #endif
 
-    void setContent(const AGString &s);
-    AGString getContent() const;
+  void setContent(const AGString &s);
+  AGString getContent() const;
 
-    void set(const AGString &pName,const AGString &pValue);
-    void set(const AGString &pName,float pValue);
-    void set(const AGString &pName,int pValue);
-    void set(const AGString &pName,bool pValue);
-    AGString get(const AGString &pName) const;
-    void clear();
+  void set(const AGString &pName, const AGString &pValue);
+  void set(const AGString &pName, float pValue);
+  void set(const AGString &pName, int pValue);
+  void set(const AGString &pName, bool pValue);
+  AGString get(const AGString &pName) const;
+  void clear();
 
-    static AGString escape(const AGString &s);
-    static AGString unescape(const AGString &s);
+  static AGString escape(const AGString &s);
+  static AGString unescape(const AGString &s);
 
-    // dumping functions
-    void getStart(AGStringStream &s,bool complete=false) const;
-    void getEnd(AGStringStream &s) const;
+  // dumping functions
+  void getStart(AGStringStream &s, bool complete = false) const;
+  void getEnd(AGStringStream &s) const;
 
-    void indent(AGStringStream &s,int depth) const;
-    void getContent(AGStringStream &s,int depth) const;
-    AGString toString(bool indent=true) const;
+  void indent(AGStringStream &s, int depth) const;
+  void getContent(AGStringStream &s, int depth) const;
+  AGString toString(bool indent = true) const;
 
-    bool isTextNode() const;
-    AGString getText() const;
+  bool isTextNode() const;
+  AGString getText() const;
 
-    /** me or direct children is text node */
-    bool hasTextNode() const; 
+  /** me or direct children is text node */
+  bool hasTextNode() const;
 
-    size_t size() const;
+  size_t size() const;
 
-  private:
-    AGString mName;
-    std::vector<Node*> mNodes;
-    Attributes mAttrs;
-    AGString mContent;
-  };
+private:
+  AGString mName;
+  std::vector<Node *> mNodes;
+  Attributes mAttrs;
+  AGString mContent;
+};
 
-class AGEXPORT Document
-  {
-    Node *mRoot;
-  public:
-    Document();
-    Document(const AGString &pFilename);
-    ~Document();
+class AGEXPORT Document {
+  Node *mRoot;
 
-    bool parseFile(const AGString &pFilename);
+public:
+  Document();
+  Document(const AGString &pFilename);
+  ~Document();
 
-    Node &root();
-    const Node &root() const;
+  bool parseFile(const AGString &pFilename);
 
-    AGString toString(bool forceIndent=false) const;
+  Node &root();
+  const Node &root() const;
 
-    void parseMemory(const AGString &s);
-  };
+  AGString toString(bool forceIndent = false) const;
 
-class AGEXPORT Parser
-{
-  struct AGEXPORT Data
-  {
+  void parseMemory(const AGString &s);
+};
+
+class AGEXPORT Parser {
+  struct AGEXPORT Data {
     std::list<size_t> stack;
     std::list<size_t> linestack;
     size_t pos;
@@ -157,8 +152,7 @@ class AGEXPORT Parser
     void eatBlanks();
   };
 
-  struct NodeStartInfo
-  {
+  struct NodeStartInfo {
     bool startTag;
     bool simple; // == <.../>
     AGString name;
@@ -179,27 +173,31 @@ class AGEXPORT Parser
 
   bool eod();
 
- public:
+public:
   virtual ~Parser();
 
   void parse(const AGString &pData);
   size_t getLine() const;
 
-  virtual void simpleTag(const AGString &pName,const Node::Attributes &pAttributes);
-  virtual void startTag(const AGString &pName,const Node::Attributes &pAttributes);
+  virtual void simpleTag(const AGString &pName,
+                         const Node::Attributes &pAttributes);
+  virtual void startTag(const AGString &pName,
+                        const Node::Attributes &pAttributes);
   virtual void endTag(const AGString &pName);
   virtual void text(const AGString &pText);
   virtual void comment(const AGString &pText);
   virtual void header(const AGString &pText);
 };
 
-class AGEXPORT DomParser:public Parser
-{
+class AGEXPORT DomParser : public Parser {
   Document *doc;
-  std::list<Node*> nodes;
- public:
-  virtual void simpleTag(const AGString &pName,const Node::Attributes &pAttributes);
-  virtual void startTag(const AGString &pName,const Node::Attributes &pAttributes);
+  std::list<Node *> nodes;
+
+public:
+  virtual void simpleTag(const AGString &pName,
+                         const Node::Attributes &pAttributes);
+  virtual void startTag(const AGString &pName,
+                        const Node::Attributes &pAttributes);
   virtual void endTag(const AGString &pName);
   virtual void text(const AGString &pText);
   virtual void comment(const AGString &pText);
@@ -207,8 +205,7 @@ class AGEXPORT DomParser:public Parser
 
   Document *parse(const AGString &pData);
 
-  Document *parse(const AGString &pData,Document *d);
+  Document *parse(const AGString &pData, Document *d);
 };
-
 
 #endif

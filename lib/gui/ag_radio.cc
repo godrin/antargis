@@ -18,72 +18,54 @@
  * License along with this program.
  */
 
-
 #include "ag_radio.h"
-#include "ag_local.h"
-#include "ag_theme.h"
 #include "ag_image.h"
 #include "ag_layoutfactory.h"
+#include "ag_local.h"
 #include "ag_radiogroup.h"
+#include "ag_theme.h"
 #include <typeinfo>
 
-
-AGRadio::AGRadio(AGWidget *pParent,AGRect2 pRect):
-  AGCheckBox(pParent,pRect),mGroup(0)
-  {
-    // search mGroup
-    AGWidget *w=pParent;
-    AGRadioGroup *g=0;
-    while(w && g==0)
-      {
-        g=dynamic_cast<AGRadioGroup*>(w);
-        w=w->getParent();
-      }
-    if(g)
-      mGroup=g;
-
-    if(mGroup)
-      mGroup->add(this);
+AGRadio::AGRadio(AGWidget *pParent, AGRect2 pRect)
+    : AGCheckBox(pParent, pRect), mGroup(0) {
+  // search mGroup
+  AGWidget *w = pParent;
+  AGRadioGroup *g = 0;
+  while (w && g == 0) {
+    g = dynamic_cast<AGRadioGroup *>(w);
+    w = w->getParent();
   }
+  if (g)
+    mGroup = g;
 
-AGRadio::~AGRadio() throw()
-  {
-    if(mGroup)
-      mGroup->erase(this);
+  if (mGroup)
+    mGroup->add(this);
+}
+
+AGRadio::~AGRadio() throw() {
+  if (mGroup)
+    mGroup->erase(this);
+}
+
+void AGRadio::setChecked(bool pChecked) {
+  bool c = isChecked();
+  if (c != pChecked) {
+    AGCheckBox::setChecked(pChecked);
+
+    if (pChecked) {
+      if (mGroup)
+        mGroup->eventChange(getName());
+    }
   }
+}
 
-void AGRadio::setChecked(bool pChecked)
-  {
-    bool c=isChecked();
-    if(c!=pChecked)
-      {
-        AGCheckBox::setChecked(pChecked);
+void AGRadio::deselect() { setChecked(false); }
 
-        if(pChecked)
-          {
-            if(mGroup)
-              mGroup->eventChange(getName());
-          }
-      }
-  }
+void AGRadio::setGroup(AGRadioGroup *pGroup) { mGroup = pGroup; }
 
-void AGRadio::deselect()
-  {
-    setChecked(false);
-  }
+bool AGRadio::eventMouseClick(AGEvent *m) {
+  if (!isChecked())
+    setChecked(true);
 
-void AGRadio::setGroup(AGRadioGroup *pGroup)
-  {
-    mGroup=pGroup;
-  }
-
-bool AGRadio::eventMouseClick(AGEvent *m)
-  {
-    if(!isChecked())
-      setChecked(true);
-
-    return AGButton::eventMouseClick(m);
-  }
-
-
-
+  return AGButton::eventMouseClick(m);
+}

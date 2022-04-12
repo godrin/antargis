@@ -18,78 +18,66 @@
  * License along with this program.
  */
 
-#include "rk_debug.h"
+#include "ag_rand.h"
 #include "ag_main.h"
 #include "ag_profiler.h"
-#include "ag_rand.h"
+#include "rk_debug.h"
 
 #include <sstream>
 
-//static mt_state mState;
+// static mt_state mState;
 
-
-AGRandomizer::AGRandomizer(const std::string &pSeed)
-{
+AGRandomizer::AGRandomizer(const std::string &pSeed) {
   std::istringstream is;
   is.str(pSeed);
 
-  mState.stateptr=0;
-  mState.initialized=0;
+  mState.stateptr = 0;
+  mState.initialized = 0;
 
+  is >> mState.stateptr;
+  is >> mState.initialized;
 
-  is>>mState.stateptr;
-  is>>mState.initialized;
-
-  for(unsigned long i=0;i<MT_STATE_SIZE;i++)
-  {
-    mState.statevec[i]=0;
-    is>>mState.statevec[i];
+  for (unsigned long i = 0; i < MT_STATE_SIZE; i++) {
+    mState.statevec[i] = 0;
+    is >> mState.statevec[i];
   }
 
-  assert(mState.stateptr<MT_STATE_SIZE && mState.stateptr>=0);
+  assert(mState.stateptr < MT_STATE_SIZE && mState.stateptr >= 0);
 }
 
-AGRandomizer::~AGRandomizer() throw()
-{
-}
+AGRandomizer::~AGRandomizer() throw() {}
 
-float AGRandomizer::operator()(float f)
-{
-  float d=(float)mts_drand(&mState);
-  d*=f;
+float AGRandomizer::operator()(float f) {
+  float d = (float)mts_drand(&mState);
+  d *= f;
 
   return d;
 }
-int AGRandomizer::operator()(int i)
-{
-  int r=mts_lrand(&mState);
-  r%=i;
+int AGRandomizer::operator()(int i) {
+  int r = mts_lrand(&mState);
+  r %= i;
   return r;
 }
 
-std::string AGRandomizer::stateToString() const
-{
+std::string AGRandomizer::stateToString() const {
   std::ostringstream os;
-  os<<mState.stateptr<<" "<<mState.initialized<<" ";
+  os << mState.stateptr << " " << mState.initialized << " ";
 
-  for(unsigned long i=0;i<MT_STATE_SIZE;i++)
-    os<<mState.statevec[i]<<" ";
+  for (unsigned long i = 0; i < MT_STATE_SIZE; i++)
+    os << mState.statevec[i] << " ";
 
   return os.str();
-
 }
 
-int agRand(int i)
-{
-  AGRandomizerBase *r=getMain()->getRand();
-  if(!r)
+int agRand(int i) {
+  AGRandomizerBase *r = getMain()->getRand();
+  if (!r)
     throw std::runtime_error("Randomizer not set!");
   return (*r)(i);
 }
-float agRand(float f)
-{
-  AGRandomizerBase *r=getMain()->getRand();
-  if(!r)
+float agRand(float f) {
+  AGRandomizerBase *r = getMain()->getRand();
+  if (!r)
     throw std::runtime_error("Randomizer not set!");
   return (*r)(f);
 }

@@ -3,28 +3,26 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
-
-#include <ag_widget.h>
 #include <ag_geometry.h>
+#include <ag_widget.h>
 
-class AGEXPORT AGGLWidget:public AGWidget
-{
- public:
-  AGGLWidget(AGWidget *pParent,const AGRect2 &r);
+class AGEXPORT AGGLWidget : public AGWidget {
+public:
+  AGGLWidget(AGWidget *pParent, const AGRect2 &r);
 
   virtual void drawGL();
-  
+
   virtual void drawAll(AGPainter &p);
-  
+
   float getRatio() const;
 
-  void setPerspective(float openAngle,float near,float far);
+  void setPerspective(float openAngle, float near, float far);
 
- private:
+private:
   void beginGL();
   void endGL();
 
-  AGMatrix4 pMatrix,mMatrix;
+  AGMatrix4 pMatrix, mMatrix;
 };
 
 #endif

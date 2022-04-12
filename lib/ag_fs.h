@@ -23,20 +23,19 @@
 #ifndef __FS_H
 #define __FS_H
 
-#include <rk_string.h>
 #include <rk_base.h>
+#include <rk_string.h>
 
 #include <vector>
 
-struct FileNotFound
-  {
-    FileNotFound(const std::string &f):filename(f){}
-    std::string filename;
-  };
+struct FileNotFound {
+  FileNotFound(const std::string &f) : filename(f) {}
+  std::string filename;
+};
 
 AGEXPORT void initFS(const char *argv0);
 AGEXPORT AGString loadFile(const AGString &pFilename);
-AGEXPORT bool saveFile(const AGString &pFilename,const AGString &pContent);
+AGEXPORT bool saveFile(const AGString &pFilename, const AGString &pContent);
 
 AGEXPORT bool fileExists(const AGString &pName);
 

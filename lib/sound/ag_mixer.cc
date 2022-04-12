@@ -19,13 +19,13 @@
  */
 
 #include "ag_mixer.h"
-#include "ag_kill.h"
-#include "rk_debug.h"
-#include "ag_mutex.h"
-#include "ag_fs.h"
 #include "ag_config.h"
+#include "ag_fs.h"
+#include "ag_kill.h"
 #include "ag_main.h"
+#include "ag_mutex.h"
 #include "ag_vdebug.h"
+#include "rk_debug.h"
 
 #define USE_RWOPS
 
@@ -33,79 +33,65 @@
 #include <map>
 #include <set>
 
-Mix_Music *mMusic=0;
-bool mMusicFinished=false;
-bool mMusicInited=false;
+Mix_Music *mMusic = 0;
+bool mMusicFinished = false;
+bool mMusicInited = false;
 
-bool mNoSound=false;
+bool mNoSound = false;
 
-const int cSoundChannels=16;
+const int cSoundChannels = 16;
 
-std::map<std::string,Mix_Chunk*> mSounds;
+std::map<std::string, Mix_Chunk *> mSounds;
 
 std::set<int> mFreeChannels;
 AGMutex *mSoundMutex;
 
-void musicFinished()
-{
-  mMusicFinished=true;
-}
-void channelDone(int channel)
-{
+void musicFinished() { mMusicFinished = true; }
+void channelDone(int channel) {
   mSoundMutex->enter();
   mFreeChannels.insert(channel);
   mSoundMutex->leave();
 }
-int getFreeChannel()
-{
+int getFreeChannel() {
   mSoundMutex->enter();
-  int c=-1;
-  if(mFreeChannels.size())
-  {
-    c=*mFreeChannels.begin();
+  int c = -1;
+  if (mFreeChannels.size()) {
+    c = *mFreeChannels.begin();
     mFreeChannels.erase(c);
   }
   mSoundMutex->leave();
   return c;
 }
 
-
-class AGPrivateSoundNotifier:public AGRepeatedCall
-{
-  public:
-    void call()
-    {
-      getSoundManager()->checkFinished();
-    }
+class AGPrivateSoundNotifier : public AGRepeatedCall {
+public:
+  void call() { getSoundManager()->checkFinished(); }
 };
 
-static AGPrivateSoundNotifier *privateSoundNotifier=0;
+static AGPrivateSoundNotifier *privateSoundNotifier = 0;
 
+void initSoundEngine() {
+  if (!mMusicInited) {
+    mSoundMutex = new AGMutex;
 
-void initSoundEngine()
-{
-  if(!mMusicInited)
-  {
-    mSoundMutex=new AGMutex;
-
-    size_t chunkSize=1024;
-    if(getConfig()->get("mixerChunkSize")=="2048")
-      chunkSize=2048;
-    if(getConfig()->get("mixerChunkSize")=="4096")
-      chunkSize=4096;
-    if(getConfig()->get("mixerChunkSize")=="8192")
-      chunkSize=8192;
+    size_t chunkSize = 1024;
+    if (getConfig()->get("mixerChunkSize") == "2048")
+      chunkSize = 2048;
+    if (getConfig()->get("mixerChunkSize") == "4096")
+      chunkSize = 4096;
+    if (getConfig()->get("mixerChunkSize") == "8192")
+      chunkSize = 8192;
 
     assertGL;
 
-    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, chunkSize)!=0) {
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, chunkSize) != 0) {
       printf("Mix_OpenAudio: %s\n", Mix_GetError());
       printf("Disabling sound\n");
-      mNoSound=true;
+      mNoSound = true;
       return;
     }
     assertGL;
-    mMusic=0;
+    mMusic = 0;
     Mix_HookMusicFinished(musicFinished);
     assertGL;
 
@@ -113,83 +99,68 @@ void initSoundEngine()
 
     Mix_AllocateChannels(cSoundChannels);
     assertGL;
-    for(int i=0;i<cSoundChannels;i++)
+    for (int i = 0; i < cSoundChannels; i++)
       mFreeChannels.insert(i);
 
     Mix_ChannelFinished(channelDone);
     assertGL;
-    mMusicInited=true;
+    mMusicInited = true;
   }
 
-  if(!privateSoundNotifier)
-  {
-    privateSoundNotifier=new AGPrivateSoundNotifier;
+  if (!privateSoundNotifier) {
+    privateSoundNotifier = new AGPrivateSoundNotifier;
   }
 }
 
-void closeSoundEngine()
-{
-  if(mNoSound)
+void closeSoundEngine() {
+  if (mNoSound)
     return;
-  if(mMusicInited)
-  {
-    if(mMusic)
-    {
+  if (mMusicInited) {
+    if (mMusic) {
       // free music
       Mix_FreeMusic(mMusic);
-      mMusic=0;
+      mMusic = 0;
     }
-    //FIXME: readd this
+    // FIXME: readd this
     Mix_CloseAudio();
     checkedDelete(mSoundMutex);
   }
 }
 
+AGSound::~AGSound() throw() { closeSoundEngine(); }
 
-AGSound::~AGSound() throw()
-{
-
-  closeSoundEngine();
-}
-
-bool AGSound::playMp3(const std::string &pFilename)
-{
-  if(mNoSound)
+bool AGSound::playMp3(const std::string &pFilename) {
+  if (mNoSound)
     return false;
-  if(mMusic)
-  {
+  if (mMusic) {
     return false;
   }
 
-  std::string filename=findFile(pFilename);
+  std::string filename = findFile(pFilename);
 
   initSoundEngine();
   // load the MP3 file "music.mp3" to play as music
-  mMusic=Mix_LoadMUS(filename.c_str());
-  if(!mMusic) {
-    printf("Mix_LoadMUS(\"%s\"): %s\n",filename.c_str(), Mix_GetError());
+  mMusic = Mix_LoadMUS(filename.c_str());
+  if (!mMusic) {
+    printf("Mix_LoadMUS(\"%s\"): %s\n", filename.c_str(), Mix_GetError());
     //    assertGL;
     return false;
   }
 
   // this might be a critical error...
 
-
-
   // play music forever
   // Mix_Music *music; // I assume this has been loaded already
   // -1 is forever
   // 0 is never
   // 1 is once
-  if(Mix_PlayMusic(mMusic, 1)==-1) {
+  if (Mix_PlayMusic(mMusic, 1) == -1) {
     printf("Mix_PlayMusic: %s\n", Mix_GetError());
     //    assertGL;
     // well, there's no music, but most games don't break without music...
   }
 
-
-
-  mMusicFinished=false;
+  mMusicFinished = false;
 
   // set hook
 
@@ -198,179 +169,145 @@ bool AGSound::playMp3(const std::string &pFilename)
   return true;
 }
 
-bool AGSound::isMusicPlaying() const
-{
-  return mMusicFinished;
-}
+bool AGSound::isMusicPlaying() const { return mMusicFinished; }
 
-void AGSound::stopMp3()
-{
-  if(mNoSound)
+void AGSound::stopMp3() {
+  if (mNoSound)
     return;
-  if(mMusic)
-  {
+  if (mMusic) {
     Mix_HaltMusic();
     Mix_FreeMusic(mMusic);
-    mMusic=0;
+    mMusic = 0;
   }
 }
-AGSound::AGSound():AGMessageObject(),sigMp3Finished(this,"sigMp3Finished")
-{
+AGSound::AGSound() : AGMessageObject(), sigMp3Finished(this, "sigMp3Finished") {
   REGISTER_SINGLETON(this);
-  soundVol=1.0f;
+  soundVol = 1.0f;
 
-  mNoSound=getConfig()->get("soundEnabled")=="false";
-  getConfig()->set("soundEnabled",mNoSound?"false":"true");
+  mNoSound = getConfig()->get("soundEnabled") == "false";
+  getConfig()->set("soundEnabled", mNoSound ? "false" : "true");
 }
 
-void AGSound::checkFinished()
-{
-  if(mNoSound)
+void AGSound::checkFinished() {
+  if (mNoSound)
     return;
-  if(mMusicInited)
-    if(mMusicFinished)
-    {
+  if (mMusicInited)
+    if (mMusicFinished) {
       Mix_FreeMusic(mMusic);
-      mMusic=0;
+      mMusic = 0;
 
-
-      sigMp3Finished(new AGEvent(this,"musicFinished"));
-      mMusicFinished=false;
+      sigMp3Finished(new AGEvent(this, "musicFinished"));
+      mMusicFinished = false;
     }
 }
 
-void AGSound::fadeOutMusic(int ms)
-{
-  if(mNoSound)
+void AGSound::fadeOutMusic(int ms) {
+  if (mNoSound)
     return;
-  assert(ms>0);
+  assert(ms > 0);
   Mix_FadeOutMusic(ms);
 }
 
-void AGSound::volumeSound(int i,float v)
-{
-  int mv=((int)(v*MIX_MAX_VOLUME));
-  mv=std::min(std::max(0,mv),MIX_MAX_VOLUME);
-  if(i>=0 && i<cSoundChannels)
-    Mix_Volume(i,mv);
+void AGSound::volumeSound(int i, float v) {
+  int mv = ((int)(v * MIX_MAX_VOLUME));
+  mv = std::min(std::max(0, mv), MIX_MAX_VOLUME);
+  if (i >= 0 && i < cSoundChannels)
+    Mix_Volume(i, mv);
 }
 
-
-void AGSound::volumeSound(float v)
-{
-  if(mNoSound)
+void AGSound::volumeSound(float v) {
+  if (mNoSound)
     return;
   initSoundEngine();
-  if(mNoSound)
+  if (mNoSound)
     return;
-  int mv=((int)(v*MIX_MAX_VOLUME));
-  mv=std::min(std::max(0,mv),MIX_MAX_VOLUME);
-  for(int i=0;i<cSoundChannels;++i)
-    Mix_Volume(i,mv);
-  soundVol=v;
+  int mv = ((int)(v * MIX_MAX_VOLUME));
+  mv = std::min(std::max(0, mv), MIX_MAX_VOLUME);
+  for (int i = 0; i < cSoundChannels; ++i)
+    Mix_Volume(i, mv);
+  soundVol = v;
 }
-void AGSound::volumeMusic(float v)
-{
-  if(mNoSound)
+void AGSound::volumeMusic(float v) {
+  if (mNoSound)
     return;
   initSoundEngine();
-  Mix_VolumeMusic(((int)(v*MIX_MAX_VOLUME)));
+  Mix_VolumeMusic(((int)(v * MIX_MAX_VOLUME)));
 }
 
-
-
-void AGSound::playWave(const std::string &pFilename,float volume)
-{
-  if(mNoSound)
+void AGSound::playWave(const std::string &pFilename, float volume) {
+  if (mNoSound)
     return;
   initSoundEngine();
   assertGL;
-  if(volume<0)
-    volume=soundVol;
+  if (volume < 0)
+    volume = soundVol;
   else
-    volume*=soundVol;
-  if(mFreeChannels.size()>0)
-  {
+    volume *= soundVol;
+  if (mFreeChannels.size() > 0) {
     loadWave(pFilename);
-    int channel=getFreeChannel();
-    if(channel>=0)
-    {
-      Mix_Chunk *c=mSounds[pFilename];
-      Mix_Volume(channel,(int)(std::min(1.0f,volume)*MIX_MAX_VOLUME));
-      Mix_PlayChannel(channel,c,0);
+    int channel = getFreeChannel();
+    if (channel >= 0) {
+      Mix_Chunk *c = mSounds[pFilename];
+      Mix_Volume(channel, (int)(std::min(1.0f, volume) * MIX_MAX_VOLUME));
+      Mix_PlayChannel(channel, c, 0);
     }
   }
-
 }
 
-
-int AGSound::loopPlay(const std::string &pFilename,float volume)
-{
-  if(mNoSound)
+int AGSound::loopPlay(const std::string &pFilename, float volume) {
+  if (mNoSound)
     return false;
   initSoundEngine();
-  if(volume<0)
-    volume=soundVol;
-  if(mFreeChannels.size()>0)
-  {
+  if (volume < 0)
+    volume = soundVol;
+  if (mFreeChannels.size() > 0) {
     loadWave(pFilename);
-    int channel=getFreeChannel();
-    if(channel>=0)
-    {
-      Mix_Chunk *c=mSounds[pFilename];
-      Mix_Volume(channel,(int)(std::min(1.0f,volume)*MIX_MAX_VOLUME));
-      Mix_PlayChannel(channel,c,-1);
+    int channel = getFreeChannel();
+    if (channel >= 0) {
+      Mix_Chunk *c = mSounds[pFilename];
+      Mix_Volume(channel, (int)(std::min(1.0f, volume) * MIX_MAX_VOLUME));
+      Mix_PlayChannel(channel, c, -1);
     }
     return channel;
   }
   return -1;
 }
-void AGSound::stopChannel(int i,int ms)
-{
-  if(mNoSound)
+void AGSound::stopChannel(int i, int ms) {
+  if (mNoSound)
     return;
-  if(i>=0 && i<cSoundChannels)
-    Mix_FadeOutChannel(i,ms);
+  if (i >= 0 && i < cSoundChannels)
+    Mix_FadeOutChannel(i, ms);
   channelDone(i);
 }
 
-void AGSound::stopAllChannels(int ms)
-{
-  if(mNoSound)
+void AGSound::stopAllChannels(int ms) {
+  if (mNoSound)
     return;
-  for(int i=0;i<cSoundChannels;i++)
-    if(mFreeChannels.find(i)==mFreeChannels.end())
-      stopChannel(i,ms);
+  for (int i = 0; i < cSoundChannels; i++)
+    if (mFreeChannels.find(i) == mFreeChannels.end())
+      stopChannel(i, ms);
 }
 
-
-
-void AGSound::loadWave(const std::string &pFilename)
-{
-  if(mNoSound)
+void AGSound::loadWave(const std::string &pFilename) {
+  if (mNoSound)
     return;
-  std::map<std::string,Mix_Chunk*>::iterator i=mSounds.find(pFilename);
-  if(i!=mSounds.end())
+  std::map<std::string, Mix_Chunk *>::iterator i = mSounds.find(pFilename);
+  if (i != mSounds.end())
     return;
 
   Mix_Chunk *sample;
-  std::string file=loadFile(pFilename);
-  sample=Mix_LoadWAV_RW(SDL_RWFromMem(const_cast<char*>(file.c_str()),file.length()),1);
+  std::string file = loadFile(pFilename);
+  sample = Mix_LoadWAV_RW(
+      SDL_RWFromMem(const_cast<char *>(file.c_str()), file.length()), 1);
 
-  mSounds[pFilename]=sample;
+  mSounds[pFilename] = sample;
 }
 
-
-
-AGSound *mSoundManager=0;
-AGSound *getSoundManager()
-{
-  if(!mSoundManager)
-  {
-    mSoundManager=new AGSound;
+AGSound *mSoundManager = 0;
+AGSound *getSoundManager() {
+  if (!mSoundManager) {
+    mSoundManager = new AGSound;
   }
 
   return mSoundManager;
 }
-
-

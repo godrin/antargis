@@ -23,18 +23,19 @@
 #ifndef AG_TEXT_H
 #define AG_TEXT_H
 
-#include "ag_widget.h"
 #include "ag_font.h"
+#include "ag_widget.h"
 
-class AGEXPORT AGText:public AGWidget
-{
- public:
-  AGText(AGWidget *pParent,const AGRect2 &pRect,const AGStringUtf8 &pText,const AGFont &pFont);
+class AGEXPORT AGText : public AGWidget {
+public:
+  AGText(AGWidget *pParent, const AGRect2 &pRect, const AGStringUtf8 &pText,
+         const AGFont &pFont);
 #ifndef SWIG
-  AGText(AGWidget *pParent,const AGVector2 &pPoint,const AGStringUtf8 &pText,const AGFont &pFont);
+  AGText(AGWidget *pParent, const AGVector2 &pPoint, const AGStringUtf8 &pText,
+         const AGFont &pFont);
 #endif
   virtual ~AGText() throw();
-  
+
   void setDeriveRect();
   virtual void draw(AGPainter &p);
 
@@ -43,12 +44,12 @@ class AGEXPORT AGText:public AGWidget
 
   void setFont(const AGFont &f);
 
- private:
+private:
   AGStringUtf8 mText;
   AGFont mFont;
   bool mFixedSize;
 };
 
-//AGText &toAGText(AGWidget &w);
+// AGText &toAGText(AGWidget &w);
 
 #endif

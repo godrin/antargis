@@ -1,13 +1,12 @@
 #ifndef MESH_DATA_H
 #define MESH_DATA_H
 
-#include "vertex_array.h"
 #include "ag_texture.h"
+#include "vertex_array.h"
 
 // Mesh organizing
 
-class AGEXPORT MeshData
-{
+class AGEXPORT MeshData {
   VertexArray mArray;
   AGTexture mTexture;
   bool mWithTexture;
@@ -23,11 +22,13 @@ class AGEXPORT MeshData
   bool mLighting;
   bool mCulling;
 
- public:
-  MeshData(const std::string &filename,float zoom,const std::string &pTexture="",bool pShadow=true);
-  MeshData(const VertexArray &va,const std::string &pTexture,bool pShadow=true);
+public:
+  MeshData(const std::string &filename, float zoom,
+           const std::string &pTexture = "", bool pShadow = true);
+  MeshData(const VertexArray &va, const std::string &pTexture,
+           bool pShadow = true);
   ~MeshData() throw();
-  
+
   void draw(const AGVector4 &pColor);
   void drawShadow();
   void drawDepth();
@@ -39,8 +40,7 @@ class AGEXPORT MeshData
 
   virtual size_t getTriangles() const;
 
-  virtual AGVector4 lineHit(const AGLine3 &pLine) const
-  {
+  virtual AGVector4 lineHit(const AGLine3 &pLine) const {
     return mArray.lineHit(pLine);
   }
   void texCoordFromPos(float scale);
@@ -53,11 +53,10 @@ class AGEXPORT MeshData
   void setOverdraw(bool o);
   void setCulling(bool c);
   void setColors(bool c);
-  
+
 private:
-  void loadFromAnt2File(const std::string &filename,float zoom,const std::string &pTexture,bool pShadow);
-
+  void loadFromAnt2File(const std::string &filename, float zoom,
+                        const std::string &pTexture, bool pShadow);
 };
-
 
 #endif

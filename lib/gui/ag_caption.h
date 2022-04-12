@@ -23,18 +23,19 @@
 #ifndef AG_CAPTION_H
 #define AG_CAPTION_H
 
-#include "ag_text.h"
 #include "ag_background.h"
+#include "ag_text.h"
 
-class AGEXPORT AGCaption:public AGText
-{
- public:
-  AGCaption(AGWidget *pParent,const AGRect2 &pRect,const AGStringUtf8 &pText,const AGFont &pFont,const AGBackground &pBG);
+class AGEXPORT AGCaption : public AGText {
+public:
+  AGCaption(AGWidget *pParent, const AGRect2 &pRect, const AGStringUtf8 &pText,
+            const AGFont &pFont, const AGBackground &pBG);
 
   void draw(AGPainter &p);
 
   void setBackground(AGBackground pBG);
- private:
+
+private:
   AGBackground mBG;
 };
 

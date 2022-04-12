@@ -20,23 +20,18 @@
 
 #include "ag_cell.h"
 
-AGCell::AGCell(AGWidget *pParent,const AGRect2 &pRect)
-:AGWidget(pParent,pRect)
-    {
-
-    }
-void AGCell::setWidth(float w)
-  {
-    AGWidget::setWidth(w);
-    for(Children::iterator i=mChildren.begin();i!=mChildren.end();i++)
-      (*i)->setWidth(w);
-  }
-void AGCell::setHeight(float w)
-  {
-    AGWidget::setHeight(w);
-    for(Children::iterator i=mChildren.begin();i!=mChildren.end();i++)
-      (*i)->setHeight(w);
-  }
+AGCell::AGCell(AGWidget *pParent, const AGRect2 &pRect)
+    : AGWidget(pParent, pRect) {}
+void AGCell::setWidth(float w) {
+  AGWidget::setWidth(w);
+  for (Children::iterator i = mChildren.begin(); i != mChildren.end(); i++)
+    (*i)->setWidth(w);
+}
+void AGCell::setHeight(float w) {
+  AGWidget::setHeight(w);
+  for (Children::iterator i = mChildren.begin(); i != mChildren.end(); i++)
+    (*i)->setHeight(w);
+}
 /*
 void AGCell::setTop(float w)
   {

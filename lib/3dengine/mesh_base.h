@@ -7,15 +7,11 @@
 
 #include <map>
 
-
-/** Meshbase is a common base class for all types of meshes 
-*/
-class AGEXPORT MeshBase:public SceneNode
-{
- public:
-  MeshBase(SceneBase *s,const AGVector4 &pPos,const AGBox3 &pBox);
+/** Meshbase is a common base class for all types of meshes
+ */
+class AGEXPORT MeshBase : public SceneNode {
+public:
+  MeshBase(SceneBase *s, const AGVector4 &pPos, const AGBox3 &pBox);
 };
 
 #endif
-
-

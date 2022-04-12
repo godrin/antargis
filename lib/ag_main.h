@@ -26,9 +26,8 @@
 #include <ag_rand_base.h>
 #include <ag_video_base.h>
 
-#include <string>
 #include <set>
-
+#include <string>
 
 /**
  * \defgroup AntargisGUI AntargisGUI
@@ -39,27 +38,26 @@
  * \see widgets
  * \see application
  * \see events
-*/
+ */
 
 class AGScreen;
 
 struct SDL_VideoInfo;
 
 // will be called repeatedely (by AGApplication - if available)
-// simply instantiate a subclass of this type - and it'll be registered within AGMain
-class AGEXPORT AGRepeatedCall
-{
- public:
+// simply instantiate a subclass of this type - and it'll be registered within
+// AGMain
+class AGEXPORT AGRepeatedCall {
+public:
   AGRepeatedCall();
   virtual ~AGRepeatedCall();
   virtual void call();
 };
 
-class AGEXPORT AGMain
-{
- public:
+class AGEXPORT AGMain {
+public:
   AGMain();
-  ~AGMain() throw ();
+  ~AGMain() throw();
 
   long getTicks() const;
 
@@ -74,15 +72,14 @@ class AGEXPORT AGMain
 
   void delay(int ms);
 
-
- private:
+private:
   AGVideoBase *mVideo;
 
   const SDL_VideoInfo *videoInfo;
 
   AGRandomizerBase *mRand;
 
-  std::set<AGRepeatedCall*> mCalls;
+  std::set<AGRepeatedCall *> mCalls;
   friend class AGRepeatedCall;
 };
 

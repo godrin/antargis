@@ -23,14 +23,13 @@
 #ifndef AG_IMAGE_H
 #define AG_IMAGE_H
 
-#include "ag_widget.h"
 #include "ag_texture.h"
+#include "ag_widget.h"
 
-class AGEXPORT AGImage:public AGWidget
-{
- public:
-  AGImage(AGWidget *pParent,const AGRect2 &r,AGSurface pSurface,bool pTile);
-  AGImage(AGWidget *pParent,const AGRect2 &r,AGTexture pTexture,bool pTile);
+class AGEXPORT AGImage : public AGWidget {
+public:
+  AGImage(AGWidget *pParent, const AGRect2 &r, AGSurface pSurface, bool pTile);
+  AGImage(AGWidget *pParent, const AGRect2 &r, AGTexture pTexture, bool pTile);
   virtual ~AGImage() throw();
 
   virtual void draw(AGPainter &p);
@@ -43,7 +42,7 @@ class AGEXPORT AGImage:public AGWidget
   void setCenter(bool c);
   void setScale(bool s);
 
- private:
+private:
   AGTexture mTexture;
   bool mTile;
   bool mScale;

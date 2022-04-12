@@ -31,21 +31,22 @@
 // this is virtually a pure virtual class ;-)
 // because swig directors have problems with this otherwise
 
-class AGEXPORT AGScreen:public AGPaintTarget
-{
- public:
-   AGScreen();
+class AGEXPORT AGScreen : public AGPaintTarget {
+public:
+  AGScreen();
   virtual ~AGScreen() throw();
   virtual void begin(); // call before start drawing
   virtual void flip();
-  virtual void update(const std::list<AGRect2> &rs); // call this instead of flip, if you want
+  virtual void update(
+      const std::list<AGRect2> &rs); // call this instead of flip, if you want
 
   virtual size_t getWidth() const;
   virtual size_t getHeight() const;
 
-  virtual AGSurface screenshotSurface(bool frontBuffer=true);
-  virtual AGTexture screenshot(bool frontBuffer=true);
+  virtual AGSurface screenshotSurface(bool frontBuffer = true);
+  virtual AGTexture screenshot(bool frontBuffer = true);
   virtual AGFontEngine *getFontEngine();
+
 private:
   AGFontEngine *mFontEngine;
 };

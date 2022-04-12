@@ -25,22 +25,20 @@
 
 #include "ag_widget.h"
 
-class AGScrollingWidget:public AGWidget
-  {
+class AGScrollingWidget : public AGWidget {
 public:
-  AGScrollingWidget(AGWidget *pParent, const AGRect2& pRect);
+  AGScrollingWidget(AGWidget *pParent, const AGRect2 &pRect);
   void setClientRect(const AGRect2 &pRect);
-  
+
   bool eventMouseButtonDown(AGEvent *pEvent);
   bool eventMouseButtonUp(AGEvent *pEvent);
-  bool eventDragBy(AGEvent *pEvent,const AGVector2 &pVector);
+  bool eventDragBy(AGEvent *pEvent, const AGVector2 &pVector);
 
   void setVector(const AGVector2 &p);
   AGVector2 getVector() const;
-  
- private:
+
+private:
   bool mDragging;
-  
-  };
+};
 
 #endif

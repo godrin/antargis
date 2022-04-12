@@ -23,12 +23,11 @@
 #ifndef AG_MIXER_H
 #define AG_MIXER_H
 
-#include <string>
 #include "ag_messageobject.h"
+#include <string>
 
-class AGEXPORT AGSound:public AGMessageObject
-{
- public:
+class AGEXPORT AGSound : public AGMessageObject {
+public:
   AGSound(); // NEVER use this! - it's only provided due to swig
   ~AGSound() throw();
   bool playMp3(const std::string &pFilename);
@@ -39,28 +38,25 @@ class AGEXPORT AGSound:public AGMessageObject
   void checkFinished();
   void fadeOutMusic(int ms);
 
-  void playWave(const std::string &pFilename,float v=-1.0);
-  int loopPlay(const std::string &pFilename,float v=-1.0);
-  void stopChannel(int i,int ms=200);
-  void stopAllChannels(int ms=200);
+  void playWave(const std::string &pFilename, float v = -1.0);
+  int loopPlay(const std::string &pFilename, float v = -1.0);
+  void stopChannel(int i, int ms = 200);
+  void stopAllChannels(int ms = 200);
 
-  void volumeSound(int i,float v); // 0 to 1
-  void volumeSound(float v); // 0 to 1
-  void volumeMusic(float v); // 0 to 1
+  void volumeSound(int i, float v); // 0 to 1
+  void volumeSound(float v);        // 0 to 1
+  void volumeMusic(float v);        // 0 to 1
 
   void loadWave(const std::string &pFilename);
 
-
   AGSignal sigMp3Finished;
- private:
 
+private:
   friend AGSound *getSoundManager();
   float soundVol;
-
 };
 
 AGEXPORT AGSound *getSoundManager();
 AGEXPORT void initSoundEngine();
 
 #endif
-

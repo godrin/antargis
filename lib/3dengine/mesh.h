@@ -3,8 +3,8 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
-#include "scene.h"
 #include "mesh_base.h"
+#include "scene.h"
 #include "vertex_array.h"
 
 #include <map>
@@ -17,17 +17,16 @@
     Actual drawing is done by MeshData.
 
 */
-class AGEXPORT Mesh:public MeshBase
-{
+class AGEXPORT Mesh : public MeshBase {
   MeshData *mData;
   float mRotation;
   AGVector4 mColor;
   bool mVisible;
-  
- public:
+
+public:
   Mesh(Scene *pScene);
-  Mesh(Scene *pScene,MeshData &data,const AGVector4 &pPos,float pRot);
-  virtual ~Mesh()  throw();
+  Mesh(Scene *pScene, MeshData &data, const AGVector4 &pPos, float pRot);
+  virtual ~Mesh() throw();
 
   void draw();
   void drawDepth();
@@ -41,15 +40,14 @@ class AGEXPORT Mesh:public MeshBase
   /// set rotation around y-axis (e.g. turn people)
   void setRotation(float r);
   /// set color (for rings)
-  void setColor(const AGVector4 &pColor); 
+  void setColor(const AGVector4 &pColor);
   void setVisible(bool v);
 
   MeshData *getData();
 
   virtual bool transparent();
 
-
- private:
+private:
   void begin();
   void end();
 };

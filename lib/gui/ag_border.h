@@ -23,29 +23,27 @@
 #ifndef __AG_BORDER_H__
 #define __AG_BORDER_H__
 
-#include <string>
-#include "ag_texture.h"
 #include "ag_geometry.h"
+#include "ag_texture.h"
+#include <string>
 
 class AGPainter;
 
+class AGEXPORT AGBorder {
+public:
+  AGBorder(const AGString &pTheme = "");
+  AGBorder(const AGSurface &pSurface, const AGString &pSurfaceName);
 
-class AGEXPORT AGBorder
-{
- public:
-  AGBorder(const AGString &pTheme="");
-  AGBorder(const AGSurface &pSurface,const AGString &pSurfaceName);
-
-  void draw(const AGRect2 &r,AGPainter &p);
+  void draw(const AGRect2 &r, AGPainter &p);
 
   size_t getWidth() const;
 
   void useTextures();
 
- private:
+private:
   const AGTexture *mTexture;
 
-  std::vector<const AGTexture*> mTextures;
+  std::vector<const AGTexture *> mTextures;
 
   AGString mTheme;
   bool mEnable;

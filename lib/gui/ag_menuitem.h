@@ -23,22 +23,21 @@
 #ifndef AG_MENUITEM_H
 #define AG_MENUITEM_H
 
-#include "ag_text.h"
 #include "ag_table.h"
+#include "ag_text.h"
 
 class AGMenu;
 
-class AGEXPORT AGMenuItem:public AGTable
-{
- public:
-  AGMenuItem(AGWidget *pParent,const AGStringUtf8 &pText);
+class AGEXPORT AGMenuItem : public AGTable {
+public:
+  AGMenuItem(AGWidget *pParent, const AGStringUtf8 &pText);
   virtual ~AGMenuItem() throw();
 
   void draw(AGPainter &p);
 
   virtual bool eventMouseEnter();
   virtual bool eventMouseLeave();
-  
+
   bool getSelected() const;
   void unSelect();
 
@@ -49,16 +48,15 @@ class AGEXPORT AGMenuItem:public AGTable
   virtual void eventSelect();
   virtual void eventUnselect();
 
- private:
+private:
   AGStringUtf8 mText;
   bool mMouseOver;
   bool mSelected;
 };
 
-class AGEXPORT AGSubMenu:public AGMenuItem
-{
- public:
-  AGSubMenu(AGWidget *pParent,const AGStringUtf8 &ptext);
+class AGEXPORT AGSubMenu : public AGMenuItem {
+public:
+  AGSubMenu(AGWidget *pParent, const AGStringUtf8 &ptext);
   virtual ~AGSubMenu() throw();
 
   AGMenu *getMenu();
@@ -68,8 +66,8 @@ class AGEXPORT AGSubMenu:public AGMenuItem
 
   virtual bool eventMouseClick(AGEvent *m);
 
- private:
-  void addChild(AGWidget*pWidget);
+private:
+  void addChild(AGWidget *pWidget);
 
   AGMenu *mSubMenu;
 };

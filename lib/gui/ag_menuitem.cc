@@ -20,152 +20,116 @@
 
 #include "ag_menuitem.h"
 #include "ag_draw.h"
-#include "ag_theme.h"
 #include "ag_image.h"
 #include "ag_menu.h"
+#include "ag_theme.h"
 
-AGMenuItem::AGMenuItem(AGWidget *pParent,const AGStringUtf8 &pText):
-  AGTable(pParent,AGRect2(0,0,0,0)),mText(pText),mMouseOver(false),mSelected(false)
-  {
-    AGFont font(getTheme()->getFont("Font.menu"));
+AGMenuItem::AGMenuItem(AGWidget *pParent, const AGStringUtf8 &pText)
+    : AGTable(pParent, AGRect2(0, 0, 0, 0)), mText(pText), mMouseOver(false),
+      mSelected(false) {
+  AGFont font(getTheme()->getFont("Font.menu"));
 
+  //  adaptWidthFromChildren(); // so that parent can adapt to this
 
-    //  adaptWidthFromChildren(); // so that parent can adapt to this
+  //  addChild(new AGText(this,AGVector2(0,0),"X",AGFont("Arial.ttf",25))); //
+  //  test
+  AGSurface surface = getTheme()->getSurface(
+      "menu.item.image"); // getScreen().loadSurface("/home/david/projects/oldantargis/graphics/menu_house_small.png");
 
-    //  addChild(new AGText(this,AGVector2(0,0),"X",AGFont("Arial.ttf",25))); // test
-    AGSurface surface=getTheme()->getSurface("menu.item.image");//getScreen().loadSurface("/home/david/projects/oldantargis/graphics/menu_house_small.png");
+  addFixedRow(surface.height());
+  addFixedColumn(surface.width());
+  addColumn(1);
+  arrange();
 
-    addFixedRow(surface.height());
-    addFixedColumn(surface.width());
-    addColumn(1);
-    arrange();
+  addChild(0, 0, new AGImage(this, getRect().origin(), surface, false));
+  addChild(1, 0, new AGText(this, getRect().origin(), pText, font));
+}
+AGMenuItem::~AGMenuItem() throw() {}
 
-    addChild(0,0,new AGImage(this,getRect().origin(),surface,false));
-    addChild(1,0,new AGText(this,getRect().origin(),pText,font));
-
-  }
-AGMenuItem::~AGMenuItem() throw()
-  {
-  }
-
-void AGMenuItem::draw(AGPainter &p)//const AGRect2 &pr)
-  {
-    //  AGRect2 r=pr.project(getRect());
-
-    AGColor c1,c2,c3,c4;
-
-    AGString style=".menu";
-    if(mSelected)//MouseOver)
-      {
-        style+=".lighted";
-
-        AGTheme *theme=getTheme();
-
-        c1=theme->getColor(AGString("gradientColor1")+style);
-        c2=theme->getColor(AGString("gradientColor2")+style);
-        c3=theme->getColor(AGString("gradientColor3")+style);
-        c4=theme->getColor(AGString("gradientColor4")+style);
-
-        //      AGSurface s(getScreen());
-        p.drawGradient(p.getRect(),c1,c2,c3,c4);
-      }
-
-
-  }
-
-bool AGMenuItem::eventMouseEnter()
-  {
-    mMouseOver=true;
-    mSelected=true;
-    eventSelect();
-
-    AGMenu *p=dynamic_cast<AGMenu*>(getParent());
-    //  cdebug(p);
-    if(p)
-      {
-        p->eventItemSelected(mText.toString());
-      }
-    return false;
-  }
-
-bool AGMenuItem::eventMouseLeave()
-  {
-    mMouseOver=false;
-    return false;
-  }
-
-AGString AGMenuItem::getName() const
+void AGMenuItem::draw(AGPainter &p) // const AGRect2 &pr)
 {
-  return mText.toString();
+  //  AGRect2 r=pr.project(getRect());
+
+  AGColor c1, c2, c3, c4;
+
+  AGString style = ".menu";
+  if (mSelected) // MouseOver)
+  {
+    style += ".lighted";
+
+    AGTheme *theme = getTheme();
+
+    c1 = theme->getColor(AGString("gradientColor1") + style);
+    c2 = theme->getColor(AGString("gradientColor2") + style);
+    c3 = theme->getColor(AGString("gradientColor3") + style);
+    c4 = theme->getColor(AGString("gradientColor4") + style);
+
+    //      AGSurface s(getScreen());
+    p.drawGradient(p.getRect(), c1, c2, c3, c4);
+  }
 }
 
-bool AGMenuItem::getSelected() const
-{
-  return mSelected;
+bool AGMenuItem::eventMouseEnter() {
+  mMouseOver = true;
+  mSelected = true;
+  eventSelect();
+
+  AGMenu *p = dynamic_cast<AGMenu *>(getParent());
+  //  cdebug(p);
+  if (p) {
+    p->eventItemSelected(mText.toString());
+  }
+  return false;
 }
-void AGMenuItem::unSelect()
-  {
-    mSelected=false;
-    eventUnselect();
-  }
 
-void AGMenuItem::eventSelect()
-  {
-  }
-void AGMenuItem::eventUnselect()
-  {
-  }
+bool AGMenuItem::eventMouseLeave() {
+  mMouseOver = false;
+  return false;
+}
 
-bool AGMenuItem::eventMouseClick(AGEvent *m)
-  {
-    AGMenu *me=dynamic_cast<AGMenu*>(getParent());
-    if(me)
-      {
-        me->eventItemClicked(mText.toString());
+AGString AGMenuItem::getName() const { return mText.toString(); }
 
-        return true;
-      }
-    return false;
+bool AGMenuItem::getSelected() const { return mSelected; }
+void AGMenuItem::unSelect() {
+  mSelected = false;
+  eventUnselect();
+}
+
+void AGMenuItem::eventSelect() {}
+void AGMenuItem::eventUnselect() {}
+
+bool AGMenuItem::eventMouseClick(AGEvent *m) {
+  AGMenu *me = dynamic_cast<AGMenu *>(getParent());
+  if (me) {
+    me->eventItemClicked(mText.toString());
+
+    return true;
   }
+  return false;
+}
 
 // AGSubMenu
 
-AGSubMenu::AGSubMenu(AGWidget *pParent,const AGStringUtf8 &pText):
-  AGMenuItem(pParent,pText)
-  {
-    AGSurface surface2=AGSurface::load("right_arrow.png");
-    addChildBack(new AGImage(this,getRect().origin(),surface2,false));
+AGSubMenu::AGSubMenu(AGWidget *pParent, const AGStringUtf8 &pText)
+    : AGMenuItem(pParent, pText) {
+  AGSurface surface2 = AGSurface::load("right_arrow.png");
+  addChildBack(new AGImage(this, getRect().origin(), surface2, false));
 
-    addChild(mSubMenu=new AGMenu(this,AGVector2(0,0),pText));
-    mSubMenu->hide();
-  }
+  addChild(mSubMenu = new AGMenu(this, AGVector2(0, 0), pText));
+  mSubMenu->hide();
+}
 
-AGSubMenu::~AGSubMenu() throw()
-  {
-  }
+AGSubMenu::~AGSubMenu() throw() {}
 
-AGMenu *AGSubMenu::getMenu()
-  {
-    return mSubMenu;
-  }
+AGMenu *AGSubMenu::getMenu() { return mSubMenu; }
 
-void AGSubMenu::addChild(AGWidget*pWidget)
-  {
-    AGWidget::addChild(pWidget);
-  }
+void AGSubMenu::addChild(AGWidget *pWidget) { AGWidget::addChild(pWidget); }
 
-void AGSubMenu::eventSelect()
-  {
-    AGRect2 r(getScreenRect());
+void AGSubMenu::eventSelect() {
+  AGRect2 r(getScreenRect());
 
-    getMenu()->show(r.getV10());
-  }
-void AGSubMenu::eventUnselect()
-  {
-    getMenu()->hide();
-  }
+  getMenu()->show(r.getV10());
+}
+void AGSubMenu::eventUnselect() { getMenu()->hide(); }
 
-bool AGSubMenu::eventMouseClick(AGEvent *m)
-  {
-    return false;
-  }
+bool AGSubMenu::eventMouseClick(AGEvent *m) { return false; }

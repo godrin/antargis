@@ -28,69 +28,48 @@
 #endif
 #include <SDL.h>
 
-bool quietLog=false;
+bool quietLog = false;
 
-void setQuiet()
-{
-    quietLog=true;
-}
+void setQuiet() { quietLog = true; }
 
+size_t gDebugLevel = 0;
 
-size_t gDebugLevel=0;
-
-size_t getDebugLevel()
-{
-    return gDebugLevel;
-}
-void setDebugLevel(size_t t)
-{
-    gDebugLevel=t;
-}
-
+size_t getDebugLevel() { return gDebugLevel; }
+void setDebugLevel(size_t t) { gDebugLevel = t; }
 
 #ifndef MNDEBUG
-int D::d=0;
+int D::d = 0;
 
 std::ofstream debugOFS("debug.txt");
 
-std::ostream &getDebug()
-{
-    if (quietLog)
-        return debugOFS;
-    else
-        return std::cout;
+std::ostream &getDebug() {
+  if (quietLog)
+    return debugOFS;
+  else
+    return std::cout;
 }
 
-size_t gDebugIndex=0;
+size_t gDebugIndex = 0;
 
-size_t getDebugIndex()
-{
-    return gDebugIndex;
+size_t getDebugIndex() { return gDebugIndex; }
+
+D::D(std::string c) : m(c) {
+  indent();
+  gDebugIndex++;
+
+  debugout_checked(2,
+                   "start of:" << c << "(" << gDebugIndex << ")" << std::endl);
+  d++;
 }
-
-
-
-D::D(std::string c):
-        m(c)
-{
-    indent();
-    gDebugIndex++;
-
-    debugout_checked(2,"start of:"<<c<<"("<<gDebugIndex<<")"<<std::endl);
-    d++;
+AGEXPORT D::~D() {
+  d--;
+  indent();
+  debugout_checked(2, "end   of:" << m << std::endl);
 }
-AGEXPORT D::~D()
-{
-    d--;
-    indent();
-    debugout_checked(2,"end   of:"<<m<<std::endl);
+void D::indent() {
+  for (int i = 0; i < d; i++)
+    debugout_checked(2, "  ");
 }
-void D::indent()
-{
-    for (int i=0;i<d;i++)
-        debugout_checked(2,"  ");
-}
-
 
 #endif
 
@@ -99,23 +78,19 @@ void D::indent()
 //#include <mach-o/nlist.h>
 
 #include "execinfo.h"
-void printStacktrace()
-{
-    void* callstack[128];
-    int i, frames = backtrace(callstack, 128);
-    char** strs = backtrace_symbols(callstack, frames);
-    printf("FRAMES:%d\n",frames);
-    for (i = 0; i < frames; ++i) {
-        printf("%s\n", strs[i]);
-    }
-    free(strs);
+void printStacktrace() {
+  void *callstack[128];
+  int i, frames = backtrace(callstack, 128);
+  char **strs = backtrace_symbols(callstack, frames);
+  printf("FRAMES:%d\n", frames);
+  for (i = 0; i < frames; ++i) {
+    printf("%s\n", strs[i]);
+  }
+  free(strs);
 }
 
 #else
 
-void printStacktrace()
-{
-}
+void printStacktrace() {}
 
 #endif
-

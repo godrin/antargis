@@ -3,20 +3,17 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
-#include <ag_fs.h>
 #include <SDL.h>
+#include <ag_fs.h>
 #include <sstream>
 
-class AGEXPORT SerialException
-{
-};
+class AGEXPORT SerialException {};
 
-class AGEXPORT BinaryIn
-{
- public:
+class AGEXPORT BinaryIn {
+public:
   BinaryIn();
   virtual ~BinaryIn();
-  
+
   virtual bool eof();
   virtual char read();
 
@@ -27,9 +24,8 @@ class AGEXPORT BinaryIn
   BinaryIn &operator>>(std::string &f);
 };
 
-class AGEXPORT BinaryOut
-{
- public:
+class AGEXPORT BinaryOut {
+public:
   BinaryOut();
   virtual ~BinaryOut();
 
@@ -42,9 +38,8 @@ class AGEXPORT BinaryOut
   BinaryOut &operator<<(const std::string &s);
 };
 
-class AGEXPORT BinaryFileIn:public BinaryIn
-{
- public:
+class AGEXPORT BinaryFileIn : public BinaryIn {
+public:
   BinaryFileIn(const std::string &pName);
   virtual ~BinaryFileIn();
 
@@ -52,7 +47,8 @@ class AGEXPORT BinaryFileIn:public BinaryIn
   virtual char read();
 
   size_t pos() const;
- private:
+
+private:
   FILE *f;
   std::istringstream is;
   bool mEof;
@@ -60,9 +56,8 @@ class AGEXPORT BinaryFileIn:public BinaryIn
   size_t size;
 };
 
-class AGEXPORT BinaryFileOut:public BinaryOut
-{
- public:
+class AGEXPORT BinaryFileOut : public BinaryOut {
+public:
   BinaryFileOut(const std::string &pName);
   virtual ~BinaryFileOut();
 
@@ -70,37 +65,37 @@ class AGEXPORT BinaryFileOut:public BinaryOut
   void flush();
 
   size_t pos() const;
- private:
+
+private:
   FILE *f;
   std::ostringstream buffer;
   size_t size;
   size_t p;
 };
 
-class AGEXPORT BinaryStringIn:public BinaryIn
-{
- public:
+class AGEXPORT BinaryStringIn : public BinaryIn {
+public:
   BinaryStringIn(const std::string &pText);
   virtual ~BinaryStringIn();
 
   virtual bool eof();
   virtual char read();
- private:
+
+private:
   std::istringstream is;
 };
 
-class AGEXPORT BinaryStringOut:public BinaryOut
-{
- public:
+class AGEXPORT BinaryStringOut : public BinaryOut {
+public:
   BinaryStringOut();
   virtual ~BinaryStringOut();
 
   virtual void write(char c);
 
   std::string getString() const;
- private:
+
+private:
   std::ostringstream os;
 };
-
 
 #endif

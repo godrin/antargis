@@ -25,25 +25,26 @@
 
 #include "ag_geometry.h"
 
-class AGEXPORT AntPlane
-{
- public:
-  AntPlane(const AGVector3 &dir,float offset);
+class AGEXPORT AntPlane {
+public:
+  AntPlane(const AGVector3 &dir, float offset);
 
   bool inside(const AGVector3 &v) const;
 
   AGString toString() const;
- private:
+
+private:
   AGVector3 mDir;
   float mOffset;
 };
 
-/// p0 is center - p1 is above and p2 at the right, then positive normal points into screen
-AGEXPORT AntPlane makePlane(const AGVector3 &p0,const AGVector3 &p1,const AGVector3 &p2);
+/// p0 is center - p1 is above and p2 at the right, then positive normal points
+/// into screen
+AGEXPORT AntPlane makePlane(const AGVector3 &p0, const AGVector3 &p1,
+                            const AGVector3 &p2);
 
-class AGEXPORT AntFrustum
-{
- public:
+class AGEXPORT AntFrustum {
+public:
   AntFrustum();
   AntFrustum(const std::vector<AntPlane> &pPlanes);
 
@@ -51,16 +52,16 @@ class AGEXPORT AntFrustum
   bool collides(const AGBox3 &v) const;
 
   AGString toString() const;
- private:
+
+private:
   std::vector<AntPlane> mPlanes;
 };
 
-AGEXPORT std::ostream &operator<<(std::ostream &o,const AntPlane &p);
-AGEXPORT std::ostream &operator<<(std::ostream &o,const AntFrustum &p);
+AGEXPORT std::ostream &operator<<(std::ostream &o, const AntPlane &p);
+AGEXPORT std::ostream &operator<<(std::ostream &o, const AntFrustum &p);
 
-inline bool AntPlane::inside(const AGVector3 &v) const
-{
-  return v*mDir-mOffset>0;
+inline bool AntPlane::inside(const AGVector3 &v) const {
+  return v * mDir - mOffset > 0;
 }
 
 #endif

@@ -13,5 +13,3 @@ def translate(type,value)
   a[i]
 
 end
-
-

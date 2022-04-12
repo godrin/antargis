@@ -26,10 +26,9 @@
 #include "ag_table.h"
 #include "ag_texture.h"
 
-class AGEXPORT AGMenu:public AGTable
-{
- public:
-  AGMenu(AGWidget *pParent,AGVector2 pWishPos,const AGStringUtf8 &pName);
+class AGEXPORT AGMenu : public AGTable {
+public:
+  AGMenu(AGWidget *pParent, AGVector2 pWishPos, const AGStringUtf8 &pName);
   virtual ~AGMenu() throw();
 
   void show(AGVector2 pWishPos);
@@ -44,12 +43,12 @@ class AGEXPORT AGMenu:public AGTable
 
   AGSignal sigSelected;
 
- private:
+private:
   AGTexture mBg;
   AGString mName;
   AGVector2 mWishPos;
 
-  float mW,mH;
+  float mW, mH;
 };
 
 #endif

@@ -23,26 +23,25 @@
 #ifndef AG_COLORBUTTON_H
 #define AG_COLORBUTTON_H
 
-#include "ag_widget.h"
 #include "ag_color.h"
+#include "ag_widget.h"
 #include <vector>
 
-class AGEXPORT AGColorButton:public AGWidget
-{
- public:
-  AGColorButton(AGWidget *pParent,const AGRect2 &r,int x,int y);
+class AGEXPORT AGColorButton : public AGWidget {
+public:
+  AGColorButton(AGWidget *pParent, const AGRect2 &r, int x, int y);
   virtual ~AGColorButton() throw();
 
   virtual void draw(AGPainter &p);
 
   AGColor getColor() const;
   void setColor(const AGColor &c);
-  void setColor(int x,int y,const AGColor &c);
+  void setColor(int x, int y, const AGColor &c);
 
   virtual bool eventMouseClick(AGEvent *m);
 
- private:
-  int gridx,gridy;
+private:
+  int gridx, gridy;
   std::vector<AGColor> mColors;
 
   AGColor mColor;

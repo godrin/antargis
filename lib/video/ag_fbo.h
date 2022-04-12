@@ -21,32 +21,30 @@
 #ifndef AG_FBO_H
 #define AG_FBO_H
 
-#include <rk_base.h>
 #include <ag_gl.h>
+#include <rk_base.h>
 
 class AGGLTexture;
 
-class AGEXPORT AGFBO
-{
+class AGEXPORT AGFBO {
 public:
-  AGFBO(AGGLTexture *pTexture, bool withDepth=false);
-  AGFBO(GLuint pTexture, size_t pW,size_t pH);
+  AGFBO(AGGLTexture *pTexture, bool withDepth = false);
+  AGFBO(GLuint pTexture, size_t pW, size_t pH);
   ~AGFBO();
 
   void beginDraw();
   void endDraw();
- private:
-  void init();
 
+private:
+  void init();
 
   AGGLTexture *mTexture;
   GLuint mTextureID;
-  size_t w,h;
+  size_t w, h;
 
   unsigned int fb, depth_rb;
 
   bool mWithDepth;
-
 };
 
 AGEXPORT bool canFBO();

@@ -23,15 +23,14 @@
 
 #include "ag_color.h"
 
-class AGGradient
-  {
+class AGGradient {
 public:
   AGGradient();
-  AGGradient(const AGColor &c0,const AGColor &c1,const AGColor &c2,const AGColor &c3);
-  
-  
+  AGGradient(const AGColor &c0, const AGColor &c1, const AGColor &c2,
+             const AGColor &c3);
+
 private:
   AGColor mColors[4];
-  };
+};
 
 #endif

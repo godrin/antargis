@@ -16,13 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #include "ant_black_fade_widget.h"
 
-AntBlackFadeWidget::AntBlackFadeWidget(AGWidget *pParent,const AGRect2 &r):
-        AGWidget(pParent,r)
-{
-    alpha=0;
+AntBlackFadeWidget::AntBlackFadeWidget(AGWidget *pParent, const AGRect2 &r)
+    : AGWidget(pParent, r) {
+  alpha = 0;
 }
 /*
 AntBlackFadeWidget::AntBlackFadeWidget(const AntBlackFadeWidget& other):
@@ -30,27 +28,19 @@ AntBlackFadeWidget::AntBlackFadeWidget(const AntBlackFadeWidget& other):
 
 }*/
 
-AntBlackFadeWidget::~AntBlackFadeWidget() throw()
-{
-
-}
+AntBlackFadeWidget::~AntBlackFadeWidget() throw() {}
 /*
-AntBlackFadeWidget& AntBlackFadeWidget::operator=(const AntBlackFadeWidget& other)
+AntBlackFadeWidget& AntBlackFadeWidget::operator=(const AntBlackFadeWidget&
+other)
 {
     AGWidget::operator=(other);
     return *this;
 }
 */
 
-
-void AntBlackFadeWidget::draw(AGPainter& p)
-{
-    AGWidget::draw(p);
-    p.fillRect(getClientRect(),AGColor(0,0,0,(int)(0xFF*alpha)));
-
+void AntBlackFadeWidget::draw(AGPainter &p) {
+  AGWidget::draw(p);
+  p.fillRect(getClientRect(), AGColor(0, 0, 0, (int)(0xFF * alpha)));
 }
 
-void AntBlackFadeWidget::setAlpha(float p)
-{
-    alpha=p;
-}
+void AntBlackFadeWidget::setAlpha(float p) { alpha = p; }

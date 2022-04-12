@@ -28,12 +28,11 @@
 class AGGLTexture;
 
 /**
-   AGInternalSurface links plain sdl-surfaces (in main-memory) and textures (both gl-textures and
-   sdl-screenlike-surfaces)
+   AGInternalSurface links plain sdl-surfaces (in main-memory) and textures
+   (both gl-textures and sdl-screenlike-surfaces)
 */
-struct AGEXPORT AGInternalSurface
-{
-  AGInternalSurface  *sdlTexture;
+struct AGEXPORT AGInternalSurface {
+  AGInternalSurface *sdlTexture;
   AGGLTexture *glTexture;
   SDL_Surface *surface;
   size_t version;
@@ -41,6 +40,5 @@ struct AGEXPORT AGInternalSurface
   AGInternalSurface();
   ~AGInternalSurface();
 };
-
 
 #endif

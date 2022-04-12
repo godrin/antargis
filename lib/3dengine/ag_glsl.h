@@ -21,63 +21,58 @@
 #ifndef AG_GLSL_H
 #define AG_GLSL_H
 
+#include "ag_geometry.h"
 #include "ag_gl.h"
 #include "rk_tools.h"
-#include "ag_geometry.h"
 
 #include <map>
 
 class Scene;
 
-class AGEXPORT AGVertexProgram
-{
- public:
+class AGEXPORT AGVertexProgram {
+public:
   AGVertexProgram(const std::string &pFile);
   ~AGVertexProgram();
 
- private:
+private:
   GLhandleARB vertexShader;
 
   friend class AGShaderProgram;
 };
 
-class AGEXPORT AGFragProgram
-{
- public:
+class AGEXPORT AGFragProgram {
+public:
   AGFragProgram(const std::string &pFile);
   AGFragProgram();
   ~AGFragProgram();
 
   bool valid() const;
 
- private:
+private:
   GLhandleARB fragShader;
   bool mValid;
 
   friend class AGShaderProgram;
 };
 
-
-class AGEXPORT AGShaderParameter
-{
- public:
-
+class AGEXPORT AGShaderParameter {
+public:
 };
 
-class AGEXPORT AGShaderProgram
-{
+class AGEXPORT AGShaderProgram {
   AGVertexProgram vertex;
   AGFragProgram frag;
-  std::map<std::string,GLint> locations;
-  std::map<std::string,GLint> attrs;
+  std::map<std::string, GLint> locations;
+  std::map<std::string, GLint> attrs;
   float *matrixBuf;
   bool on;
   std::string name;
- protected:
+
+protected:
   GLhandleARB p;
 
- public:
-  AGShaderProgram(const std::string &pVertexFile,const std::string &pFragFile);
+public:
+  AGShaderProgram(const std::string &pVertexFile, const std::string &pFragFile);
   virtual ~AGShaderProgram();
   virtual void enable();
   virtual void disable();
@@ -88,14 +83,14 @@ class AGEXPORT AGShaderProgram
   GLint getLoc(const std::string &pName);
   GLint getAttr(const std::string &pName);
 
-  void sendUniform(const std::string &pName,int i);
-  void sendUniform(const std::string &pName,float f);
-  void sendUniform(const std::string &pName,const AGVector3 &m);
-  void sendUniform(const std::string &pName,const AGVector4 &m);
-  void sendUniform(const std::string &pName,const AGMatrix4 &m);
-  void sendUniform(const std::string &pName,const std::vector<AGMatrix4> &m);
+  void sendUniform(const std::string &pName, int i);
+  void sendUniform(const std::string &pName, float f);
+  void sendUniform(const std::string &pName, const AGVector3 &m);
+  void sendUniform(const std::string &pName, const AGVector4 &m);
+  void sendUniform(const std::string &pName, const AGMatrix4 &m);
+  void sendUniform(const std::string &pName, const std::vector<AGMatrix4> &m);
 
-  void sendAttribute(const std::string &pName,const std::vector<float> &vf);
+  void sendAttribute(const std::string &pName, const std::vector<float> &vf);
 };
 
 AGEXPORT bool glslOk();

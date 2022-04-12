@@ -3,54 +3,47 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
-#include "vertex_array.h"
-#include "glsl.h"
 #include "ag_texture.h"
+#include "glsl.h"
+#include "vertex_array.h"
 
-struct AGEXPORT KeyFrame
-{
+struct AGEXPORT KeyFrame {
   float time;
   AGVector3 v;
 };
 
-struct AGEXPORT Bone
-{
+struct AGEXPORT Bone {
   size_t id;
-  AGVector3 pos,rot;
-  AGMatrix4 mRelative,mAbsolute,mFinal;
+  AGVector3 pos, rot;
+  AGMatrix4 mRelative, mAbsolute, mFinal;
 
   Bone *parent;
 
-  std::vector<KeyFrame> rFrames,tFrames;
-
+  std::vector<KeyFrame> rFrames, tFrames;
 
   AGVector3 interpolateRot(float t);
   AGVector3 interpolateTrans(float t);
 
-  AGVector3 interpolate(const std::vector<KeyFrame> &frames,float t);
+  AGVector3 interpolate(const std::vector<KeyFrame> &frames, float t);
 };
 
-struct AGEXPORT Animation
-{
+struct AGEXPORT Animation {
   float begin;
   float end;
   float fps;
   float len;
   bool loop;
 
-  Animation()
-  {
-    begin=end=fps=1;
-    len=0;
+  Animation() {
+    begin = end = fps = 1;
+    len = 0;
   }
-  Animation(float b,float e,float f):begin(b),end(e),fps(f)
-  {
-    len=end-begin;
+  Animation(float b, float e, float f) : begin(b), end(e), fps(f) {
+    len = end - begin;
   }
 };
 
-class AGEXPORT AnimMeshData
-{
+class AGEXPORT AnimMeshData {
   AntShaderProgram animShader;
   AntShaderProgram animShaderDepth;
   VertexArrayShader mArray;
@@ -65,9 +58,9 @@ class AGEXPORT AnimMeshData
 
   std::vector<size_t> indices;
 
-  std::vector<Bone*> bones;
+  std::vector<Bone *> bones;
 
-  std::map<int,AGString> frameEvents;
+  std::map<int, AGString> frameEvents;
 
   float animTime;
 
@@ -75,7 +68,7 @@ class AGEXPORT AnimMeshData
 
   AGMatrix4 mBase;
 
-  std::map<AGString,Animation> mAnimations;
+  std::map<AGString, Animation> mAnimations;
 
   AGBox3 mBBox;
 
@@ -85,12 +78,13 @@ class AGEXPORT AnimMeshData
 
   bool events;
 
- private:
+private:
   void setupJoints();
   void setupArray();
-  void loadAnt3(const AGString &instr,float scale,const AGString &pTextureFilename);
+  void loadAnt3(const AGString &instr, float scale,
+                const AGString &pTextureFilename);
 
- public:
+public:
   AnimMeshData(const AGString &xmlFilename);
   ~AnimMeshData() throw();
 

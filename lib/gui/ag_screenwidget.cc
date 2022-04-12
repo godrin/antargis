@@ -18,21 +18,14 @@
  * License along with this program.
  */
 
-#include "ag_screen.h"
 #include "ag_screenwidget.h"
+#include "ag_screen.h"
 #include "ag_surface.h"
 #include "ag_theme.h"
 
+AGScreenWidget::AGScreenWidget() : AGWidget(0, getScreen().getRect()) {}
+AGScreenWidget::~AGScreenWidget() throw() {}
 
-AGScreenWidget::AGScreenWidget():
-  AGWidget(0,getScreen().getRect())
-  {
-  }
-AGScreenWidget::~AGScreenWidget() throw()
-  {
-  }
-
-void AGScreenWidget::draw(AGPainter &p)
-  {
-    p.fillRect(p.getRect().origin(),AGColor(0,0,0));
-  }
+void AGScreenWidget::draw(AGPainter &p) {
+  p.fillRect(p.getRect().origin(), AGColor(0, 0, 0));
+}

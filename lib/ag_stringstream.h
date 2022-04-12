@@ -7,15 +7,13 @@
 
 #include <SDL.h>
 
-
 /// a text-based stream - you have to take care for separators yourself
 /// possible seperators are:
 ///  ' '    ','    '_'  ';' '\n'
 /// the standard behaviour on blanks and newlines is to eat them
-class AGEXPORT AGStringStream
-{
- public:
-  AGStringStream(const AGString &buffer="");
+class AGEXPORT AGStringStream {
+public:
+  AGStringStream(const AGString &buffer = "");
 
   AGStringStream &operator<<(const int &i);
   AGStringStream &operator<<(const Uint8 &i);
@@ -27,14 +25,11 @@ class AGEXPORT AGStringStream
 
   void precision(int i);
 
- private:
+private:
   AGString mBuffer;
   size_t readPos;
   int mPrecision;
   bool eatSeparators;
 };
-
-
-
 
 #endif

@@ -21,9 +21,9 @@
 #ifndef AG_TOOLS_H
 #define AG_TOOLS_H
 
-#include <string>
 #include <list>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #ifdef WIN32
@@ -33,32 +33,26 @@
 
 #include <rk_base.h>
 
-std::vector<std::string> AGEXPORT split(const std::string &n,const std::string &h);
+std::vector<std::string> AGEXPORT split(const std::string &n,
+                                        const std::string &h);
 
+std::string AGEXPORT replace(const std::string &s, const std::string &a,
+                             const std::string &b);
 
-std::string AGEXPORT replace(const std::string &s,const std::string &a,const std::string &b);
-
-template<class T>
-inline std::string toString(const T&t)
-{
+template <class T> inline std::string toString(const T &t) {
   std::ostringstream os;
-  os<<t;
+  os << t;
   return os.str();
 }
 
-template<>
-inline std::string toString(const bool&b)
-{
-  if(b)
+template <> inline std::string toString(const bool &b) {
+  if (b)
     return "true";
   else
     return "false";
 }
 
-inline bool toBool(const std::string &s)
-{
-  return(s=="true");
-}
+inline bool toBool(const std::string &s) { return (s == "true"); }
 
 AGEXPORT int toInt(const std::string &s);
 AGEXPORT long toLong(const std::string &s);
@@ -66,27 +60,21 @@ AGEXPORT float toFloat(const std::string &s);
 AGEXPORT int fromHex(const std::string &s);
 AGEXPORT std::string toHex(int i);
 
-template<class T>
-void append(std::list<T> &l1,const std::list<T> &l2)
-{
-  typename std::list<T>::const_iterator i=l2.begin();
-  for(;i!=l2.end();i++)
+template <class T> void append(std::list<T> &l1, const std::list<T> &l2) {
+  typename std::list<T>::const_iterator i = l2.begin();
+  for (; i != l2.end(); i++)
     l1.push_back(*i);
 }
 
-template<class T>
-void append(std::vector<T> &l1,const std::vector<T> &l2)
-{
-  typename std::vector<T>::const_iterator i=l2.begin();
-  for(;i!=l2.end();i++)
+template <class T> void append(std::vector<T> &l1, const std::vector<T> &l2) {
+  typename std::vector<T>::const_iterator i = l2.begin();
+  for (; i != l2.end(); i++)
     l1.push_back(*i);
 }
 
-
-AGEXPORT std::string binaryToHex(const std::string &s,bool separators=true);
+AGEXPORT std::string binaryToHex(const std::string &s, bool separators = true);
 AGEXPORT std::string hexToBinary(const std::string &s);
 
-
-#define AGsign(x) ((x)<0?-1:(x)>0?1:0)
+#define AGsign(x) ((x) < 0 ? -1 : (x) > 0 ? 1 : 0)
 
 #endif

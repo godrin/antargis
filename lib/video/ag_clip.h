@@ -5,14 +5,14 @@
 
 #include <ag_geometry.h>
 
-class AGEXPORT AGClipping
-{
- public:
+class AGEXPORT AGClipping {
+public:
   void include(const AGRect2 &r);
   void exclude(const AGRect2 &r);
-  
-  std::vector<AGRect2> clip(const AGRect2&r);
-  std::vector<std::pair<AGRect2,AGRect2> > clip(const AGRect2&r,const AGRect2 &sync);
+
+  std::vector<AGRect2> clip(const AGRect2 &r);
+  std::vector<std::pair<AGRect2, AGRect2>> clip(const AGRect2 &r,
+                                                const AGRect2 &sync);
 
   std::vector<AGLine2> clip(const AGLine2 &p);
 
@@ -22,8 +22,7 @@ class AGEXPORT AGClipping
 
   AGString toString() const;
 
- private:
-
+private:
   void optimize();
 
   //  std::vector<AGRect2> mInclude;

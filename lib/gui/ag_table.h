@@ -32,13 +32,13 @@
    At first you can adjust rows/columns - then you can insert some children.
    after that rows and columns are fixed.
 
-   Please call AGTable::arrange() whenever you changed extends and/or row/column-info.
+   Please call AGTable::arrange() whenever you changed extends and/or
+   row/column-info.
 */
 
-class AGEXPORT AGTable:public AGWidget
-{
- public:
-  AGTable(AGWidget *pWidget,const AGRect2 &pRect);
+class AGEXPORT AGTable : public AGWidget {
+public:
+  AGTable(AGWidget *pWidget, const AGRect2 &pRect);
   virtual ~AGTable() throw();
 
   void addFixedColumn(float size);
@@ -46,15 +46,15 @@ class AGEXPORT AGTable:public AGWidget
 
   void addColumn(float weight);
   void addRow(float weight);
-  
-  void modifyColumn(size_t index,float w);
-  void modifyRow(size_t index,float w);
-  
+
+  void modifyColumn(size_t index, float w);
+  void modifyRow(size_t index, float w);
+
   float getColumn(size_t c) const;
   float getRow(size_t c) const;
 
-  void addChild(int x,int y,AGWidget *pWidget);
-  AGRect2 getClientRect(int x,int y) const;
+  void addChild(int x, int y, AGWidget *pWidget);
+  AGRect2 getClientRect(int x, int y) const;
 
   void arrange();
 
@@ -64,13 +64,13 @@ class AGEXPORT AGTable:public AGWidget
   size_t getRows() const;
   size_t getColumns() const;
 
- private:
-  int w,h;
-  float xw,yw; // weights
+private:
+  int w, h;
+  float xw, yw; // weights
 
-  std::vector<std::pair<float,bool> > rows,cols;
+  std::vector<std::pair<float, bool>> rows, cols;
 
-  std::vector<AGWidget*> children;
+  std::vector<AGWidget *> children;
 
   bool mInserted;
   bool mRoundPositions;

@@ -3,13 +3,10 @@
 
 #include "rk_base.h"
 
-class AGEXPORT AGRandomizerBase
-{
- public:
+class AGEXPORT AGRandomizerBase {
+public:
   virtual float operator()(float f);
   virtual int operator()(int i);
-
 };
 
 #endif
-

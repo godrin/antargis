@@ -23,10 +23,10 @@
 #ifndef AG_BUTTON_H
 #define AG_BUTTON_H
 
-#include "ag_widget.h"
-#include "ag_surface.h"
 #include "ag_background.h"
 #include "ag_border.h"
+#include "ag_surface.h"
+#include "ag_widget.h"
 
 #include <iostream>
 #include <map>
@@ -38,86 +38,86 @@ class AGImage;
    \brief implements push-buttons
    \ingroup widgets
 
-   AGButton represents a button, which can hold a text-caption or an image-caption, but not both.
-   Further it can have following states:
+   AGButton represents a button, which can hold a text-caption or an
+   image-caption, but not both. Further it can have following states:
 */
 
-class AGEXPORT AGButton:public AGWidget
-{
+class AGEXPORT AGButton : public AGWidget {
 public:
-    static AGButton *create(AGWidget *pParent,const AGRect2 &pRect,AGStringUtf8 caption,AGString captionImage,bool enabled,AGString theme);
+  static AGButton *create(AGWidget *pParent, const AGRect2 &pRect,
+                          AGStringUtf8 caption, AGString captionImage,
+                          bool enabled, AGString theme);
 
+  /// the different drawing states
+  enum State {
+    NORMAL,         //!< the normal state of a button
+    LIGHTED,        //!< the button is lighted or hovered
+    PRESSED,        //!< the button is pressed (typically hovered)
+    CHECKED,        //!< the button is checked (and not pressed)
+    CHECKEDLIGHTED, //!< a hovered and checked button
+    CHECKEDPRESSED, //!< hovered, checked and pressed
+    DISABLED        //!< the button disabled (greyed)
+  };
 
-    /// the different drawing states
-    enum State {
-        NORMAL,         //!< the normal state of a button
-        LIGHTED,        //!< the button is lighted or hovered
-        PRESSED,        //!< the button is pressed (typically hovered)
-        CHECKED,        //!< the button is checked (and not pressed)
-        CHECKEDLIGHTED, //!< a hovered and checked button
-        CHECKEDPRESSED, //!< hovered, checked and pressed
-        DISABLED        //!< the button disabled (greyed)
-    };
+  AGButton(AGWidget *pParent, const AGRect2 &r, const AGStringUtf8 &pText = "",
+           int id = -1);
+  virtual ~AGButton() throw();
 
-    AGButton(AGWidget *pParent,const AGRect2 &r,const AGStringUtf8&pText="",int id=-1);
-    virtual ~AGButton() throw();
+  void setSurface(AGSurface pSurface, bool pChangeSize = false);
+  void setTexture(const AGTexture &pTexture);
 
-    void setSurface(AGSurface pSurface,bool pChangeSize=false);
-    void setTexture(const AGTexture &pTexture);
+  virtual void draw(AGPainter &p);
 
-    virtual void draw(AGPainter &p);
+  virtual bool eventMouseEnter();
+  virtual bool eventMouseLeave();
 
-    virtual bool eventMouseEnter();
-    virtual bool eventMouseLeave();
+  virtual bool eventMouseButtonDown(AGEvent *m);
+  virtual bool eventMouseButtonUp(AGEvent *m);
 
-    virtual bool eventMouseButtonDown(AGEvent *m);
-    virtual bool eventMouseButtonUp(AGEvent *m);
+  virtual void setWidth(float w);
+  virtual void setHeight(float w);
+  void setRect(const AGRect2 &r);
 
-    virtual void setWidth(float w);
-    virtual void setHeight(float w);
-    void setRect(const AGRect2 &r);
+  virtual AGStringUtf8 getCaption() const;
 
-    virtual AGStringUtf8 getCaption() const;
+  void setEnabled(bool pEnable);
 
-    void setEnabled(bool pEnable);
+  void setTheme(const AGString &pTheme);
 
-    void setTheme(const AGString &pTheme);
+  void setCaption(const AGStringUtf8 &pCaption);
 
-    void setCaption(const AGStringUtf8 &pCaption);
+  /// sets the current state and ensures a redraw
+  virtual void setState(const State &pState);
+  State getState() const;
 
-    /// sets the current state and ensures a redraw
-    virtual void setState(const State &pState);
-    State getState() const;
+  virtual void setChecked(bool pChecked);
+  bool isChecked() const;
 
-    virtual void setChecked(bool pChecked);
-    bool isChecked() const;
+  bool canFocus() const;
 
-    bool canFocus() const;
+  virtual void useTextures();
 
-    virtual void useTextures();
-
-    bool isOpaque() const;
+  bool isOpaque() const;
 
 private:
+  void updateClientRects();
+  AGStringUtf8 mText;
+  int mID;
+  AGString mTheme;
+  State mState;
+  int borderWidth;
+  AGSurface mSurface;
+  AGSurface mGrayedSurface;
+  bool mHasSurface;
+  AGEdit *mTextW;
+  AGImage *mImageW;
 
-    void updateClientRects();
-    AGStringUtf8 mText;
-    int mID;
-    AGString mTheme;
-    State mState;
-    int borderWidth;
-    AGSurface mSurface;
-    AGSurface mGrayedSurface;
-    bool mHasSurface;
-    AGEdit *mTextW;
-    AGImage *mImageW;
+  bool lower;
+  bool mChecked;
 
-    bool lower;
-    bool mChecked;
-
-    std::map<State,AGBackground> mBG;
-    std::map<State,AGBorder> mBorder;
-    bool mEnabled;
+  std::map<State, AGBackground> mBG;
+  std::map<State, AGBorder> mBorder;
+  bool mEnabled;
 };
 
 AGEXPORT AGButton &toAGButton(AGWidget &pWidget);

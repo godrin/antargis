@@ -25,22 +25,21 @@
 
 #include <rk_base.h>
 
-#include <ag_geometry.h>
-#include "ag_screen.h"
 #include "ag_gl.h"
+#include "ag_screen.h"
+#include <ag_geometry.h>
 
-#include <string>
+#include <SDL.h>
 #include <list>
 #include <set>
-#include <SDL.h>
+#include <string>
 
 class AGColor;
 
 typedef GLuint TextureID;
 
-class AGEXPORT AGGLObject
-{
- public:
+class AGEXPORT AGGLObject {
+public:
   AGGLObject();
   virtual ~AGGLObject();
 
@@ -48,47 +47,62 @@ class AGEXPORT AGGLObject
   virtual void onScreenUp();
 };
 
-class AGEXPORT AGGLScreen:public AGScreen
-{
- public:
-  AGGLScreen(int W,int H,int VW=-1,int VH=-1);
+class AGEXPORT AGGLScreen : public AGScreen {
+public:
+  AGGLScreen(int W, int H, int VW = -1, int VH = -1);
 
   virtual ~AGGLScreen() throw();
 
-  virtual void blitTri(const AGTexture &pSource,const AGTriangle2 &pSrc,const AGTriangle2 &pDest);
+  virtual void blitTri(const AGTexture &pSource, const AGTriangle2 &pSrc,
+                       const AGTriangle2 &pDest);
 
-  virtual void blit(const AGTexture &pSource,const AGRect2 &pDest,const AGRect2 &pSrc);
-  virtual void blit(const AGTexture &pSource,const AGRect2 &pDest,const AGRect2 &pSrc,const AGColor &pColor);
+  virtual void blit(const AGTexture &pSource, const AGRect2 &pDest,
+                    const AGRect2 &pSrc);
+  virtual void blit(const AGTexture &pSource, const AGRect2 &pDest,
+                    const AGRect2 &pSrc, const AGColor &pColor);
 
+  virtual void
+  blit(const AGTexture &pSource,
+       const std::vector<std::pair<AGRect2, AGRect2>> &pSrcDestRects,
+       const AGColor &pColor);
 
-  virtual void blit(const AGTexture &pSource,const std::vector<std::pair<AGRect2,AGRect2> > &pSrcDestRects,const AGColor &pColor);
+  virtual void tile(const AGTexture &pSource, const AGRect2 &pTarget,
+                    const AGColor &pColor);
 
-  virtual void tile(const AGTexture &pSource,const AGRect2 &pTarget,const AGColor &pColor);
+  virtual void fillRect(const AGRect2 &pRect, const AGColor &c);
+  virtual void
+  fillRects(const std::vector<std::pair<AGRect2, AGVector4>> &pRects);
+  virtual void fillPoly(const std::vector<AGVector2> &pPoly,
+                        const AGColor &pColor);
+  virtual void drawPoly(const std::vector<AGVector2> &pPoly,
+                        const AGColor &pColor);
+  virtual void drawLine(const AGVector2 &p0, const AGVector2 &p1,
+                        const AGColor &c);
 
-
-  virtual void fillRect(const AGRect2 &pRect,const AGColor &c);
-  virtual void fillRects(const std::vector<std::pair<AGRect2,AGVector4> > &pRects);
-  virtual void fillPoly(const std::vector<AGVector2> &pPoly,const AGColor &pColor);
-  virtual void drawPoly(const std::vector<AGVector2> &pPoly,const AGColor &pColor);
-  virtual void drawLine(const AGVector2 &p0,const AGVector2 &p1,const AGColor &c);
-
-  void blit3dTri(const AGTexture &pSource,const AGTriangle2 &pSrc,const AGTriangle3 &pDest);
+  void blit3dTri(const AGTexture &pSource, const AGTriangle2 &pSrc,
+                 const AGTriangle3 &pDest);
 
   virtual AGRect2 getRect() const;
 
-  virtual void drawGradient(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr);
+  virtual void drawGradient(const AGRect2 &rect, const AGColor &ul,
+                            const AGColor &ur, const AGColor &dl,
+                            const AGColor &dr);
 
-  virtual void drawGradientAlpha(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr);
-  virtual void drawBorder(const AGRect2& rect,int W, const AGColor& c1, const AGColor& c2);
-  virtual void putPixel(int x,int y,const AGColor &c);
+  virtual void drawGradientAlpha(const AGRect2 &rect, const AGColor &ul,
+                                 const AGColor &ur, const AGColor &dl,
+                                 const AGColor &dr);
+  virtual void drawBorder(const AGRect2 &rect, int W, const AGColor &c1,
+                          const AGColor &c2);
+  virtual void putPixel(int x, int y, const AGColor &c);
 
   virtual void begin(); // call before start drawing
 
-  AGSurface screenshotSurface(bool frontBuffer=true);
-  AGTexture screenshot(bool frontBuffer=true);
+  AGSurface screenshotSurface(bool frontBuffer = true);
+  AGTexture screenshot(bool frontBuffer = true);
 
   void flip();
-  virtual void update(const std::list<AGRect2> &rs); // call this instead of flip, if you want
+  virtual void update(
+      const std::list<AGRect2> &rs); // call this instead of flip, if you want
   bool inScreen(const AGRect2 &r) const;
 
   virtual size_t getWidth() const;
@@ -108,18 +122,18 @@ class AGEXPORT AGGLScreen:public AGScreen
   static void addGLObject(AGGLObject *pObject);
   static void removeGLObject(AGGLObject *pObject);
 
- private:
+private:
   AGRect2 getRect(SDL_Surface *s);
   void checkUnusedTextures();
 
-  int w,h;
-  int rw,rh;
+  int w, h;
+  int rw, rh;
 
   float mLineWidth;
 
   friend class AGTexture;
 
-  static std::set<AGGLObject*> msObjects;
+  static std::set<AGGLObject *> msObjects;
 };
 
 #endif

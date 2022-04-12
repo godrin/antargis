@@ -16,59 +16,50 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #include "ant_menu_app.h"
 #include "ag_layout.h"
 #include "ag_mixer.h"
-#include "ant_game_app.h"
 #include "ag_video.h"
+#include "ant_game_app.h"
 
-AntMenuApp::AntMenuApp() :AGApplication() {
+AntMenuApp::AntMenuApp() : AGApplication() {}
 
-}
-
-AntMenuApp::~AntMenuApp() throw() {
-
-}
-
+AntMenuApp::~AntMenuApp() throw() {}
 
 void AntMenuApp::init() {
-    layout=new AGLayout ( 0 );
-    layout->loadXML ( loadFile ( "data/gui/layout/mainmenu.xml" ) );
-    setMainWidget ( layout );
+  layout = new AGLayout(0);
+  layout->loadXML(loadFile("data/gui/layout/mainmenu.xml"));
+  setMainWidget(layout);
 
-    layout->getChild ( "quit" )->sigClick.connect ( slot ( this,&AntMenuApp::eventQuitClicked ) );
-    getSoundManager()->sigMp3Finished.connect ( slot ( this,&AntMenuApp::eventMusicFinished ) );
+  layout->getChild("quit")->sigClick.connect(
+      slot(this, &AntMenuApp::eventQuitClicked));
+  getSoundManager()->sigMp3Finished.connect(
+      slot(this, &AntMenuApp::eventMusicFinished));
 
-    layout->getChild ( "tutorial" )->sigClick.connect ( slot ( this,&AntMenuApp::eventTutorialClicked ) );
-
+  layout->getChild("tutorial")
+      ->sigClick.connect(slot(this, &AntMenuApp::eventTutorialClicked));
 }
 
-bool AntMenuApp::eventTutorialClicked ( AGEvent* pEvent ) {
-    AntGameApp app ( getVideo()->width(),getVideo()->height() );
-    app.init("data/levels/tutorial/tutorial0.antlvl");
-    app.run();
-    return false;
+bool AntMenuApp::eventTutorialClicked(AGEvent *pEvent) {
+  AntGameApp app(getVideo()->width(), getVideo()->height());
+  app.init("data/levels/tutorial/tutorial0.antlvl");
+  app.run();
+  return false;
 }
 
-
-bool AntMenuApp::eventMusicFinished ( AGEvent* pEvent ) {
-//    if @sound
-    getSoundManager()->playMp3 ( "data/music/calm1.ogg" );
-    //  end
-    return false;
+bool AntMenuApp::eventMusicFinished(AGEvent *pEvent) {
+  //    if @sound
+  getSoundManager()->playMp3("data/music/calm1.ogg");
+  //  end
+  return false;
 }
 
-
-bool AntMenuApp::eventQuitClicked ( AGEvent* pEvent ) {
-    tryQuit();
-    return false;
+bool AntMenuApp::eventQuitClicked(AGEvent *pEvent) {
+  tryQuit();
+  return false;
 }
 
-
-
-bool AntMenuApp::eventFrame ( float pTime ) {
-    SDL_Delay ( 10 );
-    return AGApplication::eventFrame ( pTime );
+bool AntMenuApp::eventFrame(float pTime) {
+  SDL_Delay(10);
+  return AGApplication::eventFrame(pTime);
 }
-

@@ -21,76 +21,55 @@
 #include "ag_image.h"
 #include "rk_debug.h"
 
-AGImage::AGImage(AGWidget *pParent,const AGRect2 &r,AGSurface pSurface,bool pTile):
-  AGWidget(pParent,r),
-  mTexture(pSurface),mTile(pTile),mScale(false)
-    {
-      mCenter=true;
-    }
+AGImage::AGImage(AGWidget *pParent, const AGRect2 &r, AGSurface pSurface,
+                 bool pTile)
+    : AGWidget(pParent, r), mTexture(pSurface), mTile(pTile), mScale(false) {
+  mCenter = true;
+}
 
-AGImage::AGImage(AGWidget *pParent,const AGRect2 &r,AGTexture pTexture,bool pTile):
-  AGWidget(pParent,r),
-  mTexture(pTexture),mTile(pTile),mScale(false)
-  {
-    mCenter=true;
-  }
+AGImage::AGImage(AGWidget *pParent, const AGRect2 &r, AGTexture pTexture,
+                 bool pTile)
+    : AGWidget(pParent, r), mTexture(pTexture), mTile(pTile), mScale(false) {
+  mCenter = true;
+}
 
+AGImage::~AGImage() throw() {}
 
+void AGImage::draw(AGPainter &p) {
+  // do always center for now
+  bool center = true;
 
-AGImage::~AGImage() throw()
-  {
-  }
+  if (mTile) {
+    p.tile(mTexture, getRect().origin());
+  } else if (center) {
 
-void AGImage::draw(AGPainter &p)
-  {
-    // do always center for now
-    bool center=true;
+    AGRect2 mr = getRect().origin();
+    AGRect2 fr = mTexture.getRect();
 
-    if(mTile)
-      {
-        p.tile(mTexture,getRect().origin());
-      }
-    else if(center)
-      {
+    if (mCenter && !mScale)
+      mr += AGVector2((width() - mTexture.width()) / 2,
+                      (height() - mTexture.height()) / 2);
 
-        AGRect2 mr=getRect().origin();
-        AGRect2 fr=mTexture.getRect();
-
-        if(mCenter && !mScale)
-          mr+=AGVector2((width()-mTexture.width())/2,(height()-mTexture.height())/2);
-
-        if(mScale)
-          p.blit(mTexture,mr,fr);
-        else
-          p.blit(mTexture,mr);
-      }
+    if (mScale)
+      p.blit(mTexture, mr, fr);
     else
-      p.blit(mTexture,getRect().origin());
-  }
+      p.blit(mTexture, mr);
+  } else
+    p.blit(mTexture, getRect().origin());
+}
 
-void AGImage::setSurface(const AGSurface &pSurface)
-  {
-    AGTexture t(pSurface);
-    mTexture=t;
-    queryRedraw();
-  }
-void AGImage::setTexture(const AGTexture &pTexture)
-  {
-    mTexture=pTexture;
-    queryRedraw();
-  }
+void AGImage::setSurface(const AGSurface &pSurface) {
+  AGTexture t(pSurface);
+  mTexture = t;
+  queryRedraw();
+}
+void AGImage::setTexture(const AGTexture &pTexture) {
+  mTexture = pTexture;
+  queryRedraw();
+}
 
-void AGImage::useTextures()
-  {
-    mTexture.useTexture();
-  }
+void AGImage::useTextures() { mTexture.useTexture(); }
 
-void AGImage::setCenter(bool c)
-  {
-    mCenter=c;
-  }
+void AGImage::setCenter(bool c) { mCenter = c; }
 
-void AGImage::setScale(bool c)
-  {
-    mScale=c;
-  }
+void AGImage::setScale(bool c) { mScale = c; }

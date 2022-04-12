@@ -23,10 +23,10 @@
 #ifndef AG_BACKGROUND_H
 #define AG_BACKGROUND_H
 
-#include <string>
+#include "ag_color.h"
 #include "ag_geometry.h"
 #include "ag_texture.h"
-#include "ag_color.h"
+#include <string>
 
 class AGPainter;
 class AGLocalTheme;
@@ -35,25 +35,25 @@ class AGLocalTheme;
     It is used to draw gradients and tiled backgrounds of widgets.
     It is themable.
  */
-class AGEXPORT AGBackground
-  {
-  public:
-    AGBackground(const AGString &pThemeName="");
-    AGBackground(const AGLocalTheme &pTheme,const AGString &pThemeName="");
-    AGBackground(const AGColor &pColor);
+class AGEXPORT AGBackground {
+public:
+  AGBackground(const AGString &pThemeName = "");
+  AGBackground(const AGLocalTheme &pTheme, const AGString &pThemeName = "");
+  AGBackground(const AGColor &pColor);
 
-    void draw(const AGRect2 &r,AGPainter &p);
+  void draw(const AGRect2 &r, AGPainter &p);
 
-    void useTextures();
-  private:
-    
-    void loadFromTheme(const AGLocalTheme &pTheme,const AGString &pThemeName="");
-    
-    const AGTexture *mTexture;
-    AGColor mColors[4];
+  void useTextures();
 
-    bool mColor;
-    int mBorder;
-  };
+private:
+  void loadFromTheme(const AGLocalTheme &pTheme,
+                     const AGString &pThemeName = "");
+
+  const AGTexture *mTexture;
+  AGColor mColors[4];
+
+  bool mColor;
+  int mBorder;
+};
 
 #endif

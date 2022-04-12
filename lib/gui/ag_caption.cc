@@ -19,23 +19,18 @@
  */
 
 #include "ag_caption.h"
-#include "rk_debug.h"
 #include "ag_screen.h"
+#include "rk_debug.h"
 
-AGCaption::AGCaption(AGWidget *pParent,const AGRect2 &pRect,const AGStringUtf8 &pText,const AGFont &pFont,const AGBackground &pBG):
-  AGText(pParent,pRect,pText,pFont),
-  mBG(pBG)
-  {
-  }
+AGCaption::AGCaption(AGWidget *pParent, const AGRect2 &pRect,
+                     const AGStringUtf8 &pText, const AGFont &pFont,
+                     const AGBackground &pBG)
+    : AGText(pParent, pRect, pText, pFont), mBG(pBG) {}
 
-void AGCaption::draw(AGPainter &p)
-  {
-    // draw bg
-    mBG.draw(getRect().origin(),p);
-    AGText::draw(p);
-  }
+void AGCaption::draw(AGPainter &p) {
+  // draw bg
+  mBG.draw(getRect().origin(), p);
+  AGText::draw(p);
+}
 
-void AGCaption::setBackground(AGBackground pBG)
-  {
-    mBG=pBG;
-  }
+void AGCaption::setBackground(AGBackground pBG) { mBG = pBG; }

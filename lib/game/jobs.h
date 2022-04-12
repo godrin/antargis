@@ -32,15 +32,15 @@ class AntEntity;
    Job class won't be exported to Ruby, because their constant
    creation and deletion fills up the GC otherwise.
 */
-class AGEXPORT Job
-{
+class AGEXPORT Job {
   int priority;
   bool inited;
- public:
+
+public:
   Job();
   Job(int p);
   virtual ~Job();
-  virtual void move(AntEntity *,float ptime);
+  virtual void move(AntEntity *, float ptime);
 
   virtual void saveXML(Node &pNode) const;
   virtual void loadXML(const Node &pNode);
@@ -55,88 +55,86 @@ class AGEXPORT Job
   bool valid() const;
 };
 
-class AGEXPORT RestJob:public Job
-{
+class AGEXPORT RestJob : public Job {
   float mTime;
   bool mWork;
- public:
+
+public:
   RestJob();
-  RestJob(float pTime,bool pWork=false);
+  RestJob(float pTime, bool pWork = false);
   virtual ~RestJob();
-  void move(AntEntity *e,float ptime);
+  void move(AntEntity *e, float ptime);
 
   virtual void saveXML(Node &pNode) const;
   virtual void loadXML(const Node &pNode);
   virtual AGString xmlName() const;
 };
 
-class AGEXPORT MoveJob:public Job
-{
+class AGEXPORT MoveJob : public Job {
   AGVector2 mTarget;
   AGVector3 mTarget3;
-  //AGVector2 mNearTarget;
+  // AGVector2 mNearTarget;
   int mTargetEntityID;
   float mNear;
   bool mRun;
 
   bool m3d;
- public:
+
+public:
   MoveJob();
-  MoveJob(int p,AntEntity *pTarget,float pnear=0,bool pRun=false);
-  MoveJob(int p,const AGVector2 &pTarget,float pnear=0,bool pRun=false);
-  MoveJob(int p,const AGVector3 &pTarget,float pnear=0,bool pRun=false);
+  MoveJob(int p, AntEntity *pTarget, float pnear = 0, bool pRun = false);
+  MoveJob(int p, const AGVector2 &pTarget, float pnear = 0, bool pRun = false);
+  MoveJob(int p, const AGVector3 &pTarget, float pnear = 0, bool pRun = false);
 
   virtual ~MoveJob();
-  void move(AntEntity *e,float ptime);
+  void move(AntEntity *e, float ptime);
   AGVector2 getDirection(const AntEntity *e) const;
-  
+
   virtual void saveXML(Node &pNode) const;
   virtual void loadXML(const Node &pNode);
   virtual AGString xmlName() const;
 
   AntEntity *getTarget(AntMap *map);
   AGVector2 getTargetPos2D() const;
-  
- private:
-  void moveBy(AntEntity *e,float ptime,float aspeed);
+
+private:
+  void moveBy(AntEntity *e, float ptime, float aspeed);
 };
 
 // FIXME: implement near and far fighting (arrows)
-class AGEXPORT FightJob:public Job
-{
+class AGEXPORT FightJob : public Job {
   int mTargetID;
   float fightDistance;
   bool moving;
-  
- public:
+
+public:
   FightJob();
-  FightJob(int p,AntEntity *pTarget, float pDistance=1);
-  
+  FightJob(int p, AntEntity *pTarget, float pDistance = 1);
+
   virtual ~FightJob();
-  void move(AntEntity *e,float ptime);
+  void move(AntEntity *e, float ptime);
   virtual bool needsMorale() const;
   AntEntity *getTarget(AntMap *map);
-  
+
   virtual void saveXML(Node &pNode) const;
   virtual void loadXML(const Node &pNode);
   virtual AGString xmlName() const;
-  
 };
 
 // FIXME: check if this can be discarded ???
-class AGEXPORT FetchJob:public MoveJob
-{
+class AGEXPORT FetchJob : public MoveJob {
   AGString mWhat;
   AntEntity *mTarget;
   int mTargetID;
- public:
+
+public:
   FetchJob();
-  FetchJob(int p,const AGVector2 &pTarget,AGString what);
-  FetchJob(int p,AntEntity *pTarget,AGString what);
+  FetchJob(int p, const AGVector2 &pTarget, AGString what);
+  FetchJob(int p, AntEntity *pTarget, AGString what);
   virtual ~FetchJob();
-  void move(AntEntity *e,float ptime);
+  void move(AntEntity *e, float ptime);
   virtual void jobFinished(AntEntity *e);
-  
+
   virtual void saveXML(Node &pNode) const;
   virtual void loadXML(const Node &pNode);
   virtual AGString xmlName() const;

@@ -1,29 +1,27 @@
 #ifndef AG_STRING
 #define AG_STRING
 
+#include <SDL.h>
 #include <rk_base.h>
 #include <string>
 #include <vector>
-#include <SDL.h>
-
 
 /** A string class that natively supports UTF-8 */
-class AGEXPORT AGString:public std::string
-{
+class AGEXPORT AGString : public std::string {
 public:
   static const size_t npos = static_cast<size_t>(-1);
 
   AGString();
   AGString(const std::string &p);
-  AGString(const std::string &p,size_t many);
+  AGString(const std::string &p, size_t many);
   AGString(const AGString &p);
   explicit AGString(int i);
   explicit AGString(size_t i);
   explicit AGString(long i);
   explicit AGString(float f);
-  AGString(const char c,size_t many=1);
-  AGString(const char*c);
-  AGString(const char*c,size_t size);
+  AGString(const char c, size_t many = 1);
+  AGString(const char *c);
+  AGString(const char *c, size_t size);
 
 #ifndef SWIiG
   AGString &operator=(const AGString &s);
@@ -34,7 +32,7 @@ public:
   // size in bytes
   size_t memory() const;
 
-  AGString substr(size_t from,size_t len) const;
+  AGString substr(size_t from, size_t len) const;
 
   std::vector<AGString> split(const AGString &p) const;
 

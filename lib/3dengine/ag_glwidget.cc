@@ -5,18 +5,12 @@
 #include <GL/glu.h>
 #include <ag_vdebug.h>
 
-AGGLWidget::AGGLWidget(AGWidget *pParent,const AGRect2 &r):
-  AGWidget(pParent,r)
-{
-}
+AGGLWidget::AGGLWidget(AGWidget *pParent, const AGRect2 &r)
+    : AGWidget(pParent, r) {}
 
-void AGGLWidget::drawGL()
-{
+void AGGLWidget::drawGL() {}
 
-}
-
-void AGGLWidget::drawAll(AGPainter &p)
-{
+void AGGLWidget::drawAll(AGPainter &p) {
   beginGL();
   drawGL();
   endGL();
@@ -26,81 +20,77 @@ void AGGLWidget::drawAll(AGPainter &p)
   p2.translate(getRect()[0]);
   p2.clip(getRect().origin());
 
-  std::list<AGWidget*>::reverse_iterator i=mChildren.rbegin(); // draw from back to front
-  for(;i!=mChildren.rend();i++)
+  std::list<AGWidget *>::reverse_iterator i =
+      mChildren.rbegin(); // draw from back to front
+  for (; i != mChildren.rend(); i++)
     (*i)->drawAll(p2);
-
 }
 
-void AGGLWidget::beginGL()
-{
-	assertGL;
+void AGGLWidget::beginGL() {
+  assertGL;
 
-  getScreen().fillRect(getRect(),AGColor(0,0,0)); // draw bg-color
+  getScreen().fillRect(getRect(), AGColor(0, 0, 0)); // draw bg-color
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glMatrixMode(GL_PROJECTION);
-  setPerspective(45.0,1,100);
+  setPerspective(45.0, 1, 100);
   glMatrixMode(GL_MODELVIEW);
 
-  AGRect2 r=getRect();
+  AGRect2 r = getRect();
 
-  glViewport(GLint(r.x()),GLint(getScreen().getHeight()-r.y1()),GLsizei(r.w()),GLsizei(r.h()));
+  glViewport(GLint(r.x()), GLint(getScreen().getHeight() - r.y1()),
+             GLsizei(r.w()), GLsizei(r.h()));
   glDepthMask(true);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHTING);
-	assertGL;
+  assertGL;
 }
 
-float AGGLWidget::getRatio() const
-{
-  AGRect2 r=getRect();
-  return float(r.w())/float(r.h());
+float AGGLWidget::getRatio() const {
+  AGRect2 r = getRect();
+  return float(r.w()) / float(r.h());
 }
 
-
-void AGGLWidget::endGL()
-{
-	assertGL;
+void AGGLWidget::endGL() {
+  assertGL;
   glDisable(GL_LIGHTING);
   glEnable(GL_TEXTURE_2D);
   glShadeModel(GL_SMOOTH);
 
   glEnable(GL_DEPTH_TEST); // enable depth test
-  glDepthFunc(GL_LEQUAL); // set type depth test
-  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // GL_NICEST // best perspective correction
+  glDepthFunc(GL_LEQUAL);  // set type depth test
+  glHint(GL_PERSPECTIVE_CORRECTION_HINT,
+         GL_NICEST); // GL_NICEST // best perspective correction
   glEnable(GL_BLEND);
 
-  glViewport( 0, 0, getScreen().getWidth(), getScreen().getHeight() );
-  glMatrixMode( GL_PROJECTION );
-  glLoadIdentity( );
+  glViewport(0, 0, getScreen().getWidth(), getScreen().getHeight());
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
 
-  gluOrtho2D(0,getScreen().getWidth(),0,getScreen().getHeight());
+  gluOrtho2D(0, getScreen().getWidth(), 0, getScreen().getHeight());
 
-  glMatrixMode( GL_MODELVIEW );
-  glLoadIdentity( );
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 
-
-  glEnable( GL_BLEND );
-  glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   glDisable(GL_DEPTH_TEST); // enable depth test
 
   glDepthMask(false);
-  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);//NEAREST);//LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                  GL_LINEAR); // NEAREST);//LINEAR);
   glEnable(GL_COLOR_MATERIAL);
-	assertGL;
+  assertGL;
 }
 
-void AGGLWidget::setPerspective(float openAngle,float pnear,float pfar)
-{
-	assertGL;
+void AGGLWidget::setPerspective(float openAngle, float pnear, float pfar) {
+  assertGL;
   glMatrixMode(GL_PROJECTION);
-  GLdouble r=getRatio();
-  gluPerspective(openAngle,r,pnear,pfar);
+  GLdouble r = getRatio();
+  gluPerspective(openAngle, r, pnear, pfar);
   glGetFloatv(GL_PROJECTION_MATRIX, pMatrix);
-	assertGL;
+  assertGL;
 }
-

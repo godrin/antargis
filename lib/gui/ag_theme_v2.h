@@ -25,39 +25,39 @@
 
 #include "rk_base.h"
 
-#include "ag_font.h"
-#include "ag_surface.h"
-#include "ag_gradient.h"
-#include "ag_xml.h"
-#include "ag_border.h"
 #include "ag_background.h"
+#include "ag_border.h"
+#include "ag_font.h"
+#include "ag_gradient.h"
+#include "ag_surface.h"
+#include "ag_xml.h"
 
 #include <map>
 
 class AGThemeV2;
 
-class AGEXPORT AGThemeItem
-  {
-    const AGThemeV2 *mTheme;
-    Node *mNode;
+class AGEXPORT AGThemeItem {
+  const AGThemeV2 *mTheme;
+  Node *mNode;
+
 public:
   AGBorder getBorder() const;
   AGBackground getBackground() const;
   AGFont getFont() const;
 
 private:
-  AGThemeItem(const AGThemeV2 *pTheme,Node *pNode);
+  AGThemeItem(const AGThemeV2 *pTheme, Node *pNode);
 
   friend class AGThemeV2;
-  };
+};
 
-class AGEXPORT AGThemeV2
-  {
+class AGEXPORT AGThemeV2 {
 public:
-  AGThemeV2(const std::string &pFilename,const std::string &pTheme="");
+  AGThemeV2(const std::string &pFilename, const std::string &pTheme = "");
   virtual ~AGThemeV2();
 
-  static AGThemeV2 *getTheme(const std::string &pFilename="",const std::string &pTheme="");
+  static AGThemeV2 *getTheme(const std::string &pFilename = "",
+                             const std::string &pTheme = "");
 
   AGFont getFont(const AGString &pName) const;
   AGColor getColor(const AGString &pName) const;
@@ -69,8 +69,9 @@ public:
   bool hasSurface(const AGString &pName) const;
   bool hasColor(const AGString &pName) const;
 
-  AGThemeItem getItem(const AGString &pClass,const AGString &pState) const;
-  AGThemeItem getItem(const AGString &pClass,const AGString &pState,const AGString &pElement) const;
+  AGThemeItem getItem(const AGString &pClass, const AGString &pState) const;
+  AGThemeItem getItem(const AGString &pClass, const AGString &pState,
+                      const AGString &pElement) const;
 
 private:
 #ifndef SWIG
@@ -86,10 +87,7 @@ private:
 
   bool checkColor(const AGString &p) const;
 
-  template<class T>
-  class Cont:public std::map<AGString,T>
-  {};
-
+  template <class T> class Cont : public std::map<AGString, T> {};
 
   typedef Cont<AGFont> Fonts;
   typedef Cont<AGColor> Colors;
@@ -112,8 +110,8 @@ private:
   int mDefaultInteger;
   std::string mSurfaceName;
 
-  static std::map<AGString,AGThemeV2*> gThemes;
+  static std::map<AGString, AGThemeV2 *> gThemes;
 #endif
-  };
+};
 
 #endif

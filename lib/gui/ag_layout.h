@@ -28,32 +28,31 @@
 
 class AGTable;
 
-class AGEXPORT AGLayout:public AGWidget
-{
- public:
+class AGEXPORT AGLayout : public AGWidget {
+public:
   AGLayout(AGWidget *pgParent);
   virtual ~AGLayout() throw();
-  
+
   virtual void loadXML(const std::string &pXMLData);
 
-  void addTabIndex(int i,AGWidget *pWidget);
+  void addTabIndex(int i, AGWidget *pWidget);
 
   virtual bool eventKeyDown(AGEvent *m);
   int getNextTabIndex() const;
 
   static void registerLayouts();
 
- private:
+private:
   void insertTempWidget(AGWidget *pWidget);
-   
-  std::map<int,AGWidget*> mTabIndices;
-  
-  std::set<AGWidget*> mTempWidgets;
+
+  std::map<int, AGWidget *> mTabIndices;
+
+  std::set<AGWidget *> mTempWidgets;
 };
 
-AGEXPORT AGWidget *parseNode(AGWidget *pParent,const Node &pNode);
-AGEXPORT void parseChildren(AGWidget *pParent,const Node &pNode);
-//AGTable *parseTable(AGWidget *pParent,const Node &pNode,const AGRect2 &geom);
-AGEXPORT AGRect2 getLayoutGeometry(AGWidget *pParent,const Node &pNode);
+AGEXPORT AGWidget *parseNode(AGWidget *pParent, const Node &pNode);
+AGEXPORT void parseChildren(AGWidget *pParent, const Node &pNode);
+// AGTable *parseTable(AGWidget *pParent,const Node &pNode,const AGRect2 &geom);
+AGEXPORT AGRect2 getLayoutGeometry(AGWidget *pParent, const Node &pNode);
 
 #endif

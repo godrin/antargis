@@ -23,19 +23,19 @@
 #ifndef AG_TEXTURE_H
 #define AG_TEXTURE_H
 
-#include "ag_surface.h"
 #include "ag_gltexture.h"
 #include "ag_painttarget.h"
+#include "ag_surface.h"
 
 class AGFBO;
 
-class AGEXPORT AGTexture:public AGPaintTarget
-{
- public:
+class AGEXPORT AGTexture : public AGPaintTarget {
+public:
   AGTexture();
-  AGTexture(const AGSurface &pSurface,bool p3d=false);
-  AGTexture(const AGTexture &t);         // shallow copy, uses same tex-id or sdl-surface
-  AGTexture(int W,int H);
+  AGTexture(const AGSurface &pSurface, bool p3d = false);
+  AGTexture(
+      const AGTexture &t); // shallow copy, uses same tex-id or sdl-surface
+  AGTexture(int W, int H);
   ~AGTexture() throw();
 
 #ifndef SWIG
@@ -49,7 +49,7 @@ class AGEXPORT AGTexture:public AGPaintTarget
 
   AGRect2 getRect() const;
 
-  AGColor getPixel(int x,int y) const;
+  AGColor getPixel(int x, int y) const;
 
   float getSurfaceWidth() const;
   float getSurfaceHeight() const;
@@ -67,22 +67,28 @@ class AGEXPORT AGTexture:public AGPaintTarget
   void clearTextureUsed();
 
   void useTexture();
- 
+
   virtual void beginPaint();
   virtual void endPaint();
 
-  virtual void putPixel(int x,int y,const AGColor &c);
-  virtual void fillRect(const AGRect2 &pRect,const AGColor &c);
-  virtual void blit(const AGTexture &pSource,const AGRect2 &pDest,const AGRect2 &pSrc);
-  virtual void blit(const AGTexture &pSource,const AGRect2 &pDest,const AGRect2 &pSrc,const AGColor &pColor);
-  virtual void drawLine(const AGVector2 &p0,const AGVector2 &p1,const AGColor &c);
-  virtual void drawGradient(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr);
-  virtual void drawGradientAlpha(const AGRect2& rect, const AGColor& ul, const AGColor& ur, const AGColor& dl, const AGColor& dr);
-
+  virtual void putPixel(int x, int y, const AGColor &c);
+  virtual void fillRect(const AGRect2 &pRect, const AGColor &c);
+  virtual void blit(const AGTexture &pSource, const AGRect2 &pDest,
+                    const AGRect2 &pSrc);
+  virtual void blit(const AGTexture &pSource, const AGRect2 &pDest,
+                    const AGRect2 &pSrc, const AGColor &pColor);
+  virtual void drawLine(const AGVector2 &p0, const AGVector2 &p1,
+                        const AGColor &c);
+  virtual void drawGradient(const AGRect2 &rect, const AGColor &ul,
+                            const AGColor &ur, const AGColor &dl,
+                            const AGColor &dr);
+  virtual void drawGradientAlpha(const AGRect2 &rect, const AGColor &ul,
+                                 const AGColor &ur, const AGColor &dl,
+                                 const AGColor &dr);
 
   void setWrapping(bool pWrap);
-  void setFilter(GLuint mag,GLuint min);
-  void setClamp(GLuint s,GLuint t,GLuint r);
+  void setFilter(GLuint mag, GLuint min);
+  void setClamp(GLuint s, GLuint t, GLuint r);
 
   AGGLTexture *glTexture();
   AGInternalSurface *sdlTexture();
@@ -90,11 +96,10 @@ class AGEXPORT AGTexture:public AGPaintTarget
   bool is3d() const;
 
   void clearContent();
-  
+
   AGSurface getSurface() const;
 
- private:
-
+private:
   void bindTexture();
 
   AGGLTexture *mTexture;
@@ -103,7 +108,7 @@ class AGEXPORT AGTexture:public AGPaintTarget
   bool mCleared;
 
   bool m3d;
-  int w,h;
+  int w, h;
 
   AGInternalSurface *s;
   AGInternalSurface *mSDLTexture;
@@ -111,12 +116,10 @@ class AGEXPORT AGTexture:public AGPaintTarget
   AGFBO *mFBO; // used for render-to-texture
 
   size_t version;
-  
 
   friend class AGTexturePainter;
   friend class AGSDLScreen;
   friend class AGGLScreen;
 };
-
 
 #endif

@@ -28,5 +28,4 @@
 AGEXPORT std::string toPNG(const SDL_Surface *s);
 AGEXPORT SDL_Surface *fromPNG(std::string s);
 
-
 #endif

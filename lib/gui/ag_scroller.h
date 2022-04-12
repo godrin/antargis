@@ -29,10 +29,9 @@ class AGButton;
 class AGBorder;
 class AGBackground;
 
-class AGEXPORT AGScroller:public AGWidget
-{
- public:
-  AGScroller(AGWidget *pParent,const AGRect2 &pRect,bool pHor);
+class AGEXPORT AGScroller : public AGWidget {
+public:
+  AGScroller(AGWidget *pParent, const AGRect2 &pRect, bool pHor);
   ~AGScroller() throw();
 
   void draw(AGPainter &p);
@@ -45,15 +44,14 @@ class AGEXPORT AGScroller:public AGWidget
 
   void setValue(float pValue);
   void setScrollerSize(float pSize);
-  void setInterval(float pMin,float pMax);
+  void setInterval(float pMin, float pMax);
   void setStepping(float pStep);
 
   float getValue() const;
   float getMin() const;
   float getMax() const;
 
- private:
-
+private:
   /// width of scroller if hor (otherwise height)
   float getScrollerWidth();
   /// height of scroller if hor (otherwise width)
@@ -62,10 +60,9 @@ class AGEXPORT AGScroller:public AGWidget
 
   void updateScroller();
 
-
   float mValue;
   float mValueWidth;
-  float mMin,mMax;
+  float mMin, mMax;
   float mStepping;
 
   float mVirtualValue;
@@ -73,11 +70,10 @@ class AGEXPORT AGScroller:public AGWidget
   float mBorderWidth;
 
   bool mHorizontal;
-  AGButton *mB1,*mB2;
+  AGButton *mB1, *mB2;
   AGButton *mScroller;
   AGBorder *mBorder;
   AGBackground *mBackground;
 };
-
 
 #endif

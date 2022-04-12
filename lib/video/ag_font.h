@@ -23,22 +23,20 @@
 #ifndef __AG_FONT_H
 #define __AG_FONT_H
 
+#include <ag_color.h>
 #include <rk_base.h>
 #include <rk_utf8.h>
-#include <ag_color.h>
 
 #include <ag_string_utf8.h>
 
 class AGFontEngine;
 
-class AGEXPORT AGFont
-{
- public:
-
-  enum Style {NORMAL,BOLD,UNDERLINE,ITALIC};
+class AGEXPORT AGFont {
+public:
+  enum Style { NORMAL, BOLD, UNDERLINE, ITALIC };
 
   AGFont();
-  AGFont(const std::string &pFile,int size=14);//,int index=0);
+  AGFont(const std::string &pFile, int size = 14); //,int index=0);
 
   void setColor(const AGColor &pColor);
   AGColor getColor() const;
@@ -74,7 +72,7 @@ class AGEXPORT AGFont
 
   std::string toString() const;
 
- private:
+private:
   Style mStyle;
   std::string mName;
   int mSize;
@@ -86,10 +84,10 @@ class AGEXPORT AGFont
   bool inset;
 
 #ifndef SWIG
-  friend bool operator<(const AGFont&f1,const AGFont &f2);
+  friend bool operator<(const AGFont &f1, const AGFont &f2);
 #endif
 };
 
-AGEXPORT bool operator<(const AGFont&f1,const AGFont &f2);
+AGEXPORT bool operator<(const AGFont &f1, const AGFont &f2);
 
 #endif

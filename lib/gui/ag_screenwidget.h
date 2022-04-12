@@ -23,17 +23,17 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
-#include "ag_widget.h"
 #include "ag_texture.h"
+#include "ag_widget.h"
 
-class AGEXPORT AGScreenWidget:public AGWidget
-{
- public:
+class AGEXPORT AGScreenWidget : public AGWidget {
+public:
   AGScreenWidget();
   virtual ~AGScreenWidget() throw();
 
   virtual void draw(AGPainter &p);
- private:
+
+private:
   AGTexture mTexture;
 };
 

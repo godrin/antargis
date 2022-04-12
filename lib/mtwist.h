@@ -122,9 +122,9 @@
 #ifndef MT_MACHINE_BITS
 #include <limits.h>
 #if INT_MAX == 2147483647
-#define MT_MACHINE_BITS  32
+#define MT_MACHINE_BITS 32
 #else /* INT_MAX */
-#define MT_MACHINE_BITS  64
+#define MT_MACHINE_BITS 64
 #endif /* INT_MAX */
 #endif /* MT_MACHINE_BITS */
 
@@ -133,7 +133,7 @@
  * It was found experimentally using methods described in Matsumoto
  * and Nishimura's paper.  It is exceedingly magic; don't change it.
  */
-#define MT_STATE_SIZE  624    /* Size of the MT state vector */
+#define MT_STATE_SIZE 624 /* Size of the MT state vector */
 
 /*
  * Internal state for an MT RNG.  The user can keep multiple mt_state
@@ -151,100 +151,95 @@
  * vector to zero (either with memset or by statically allocating it)
  * will cause the RNG to operate properly.
  */
-typedef struct
-{
-  unsigned long  statevec[MT_STATE_SIZE];
+typedef struct {
+  unsigned long statevec[MT_STATE_SIZE];
   /* Vector holding current state */
-  int      stateptr;  /* Next state entry to be used */
-  int      initialized;  /* NZ if state was initialized */
-}
-mt_state;
+  int stateptr;    /* Next state entry to be used */
+  int initialized; /* NZ if state was initialized */
+} mt_state;
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-  /*
-   * Functions for manipulating any generator (given a state pointer).
-   */
-  extern void    mts_mark_initialized(mt_state* state);
-  /* Mark a PRNG state as initialized */
-  extern void    mts_seed32(mt_state* state, unsigned long seed);
-  /* Set random seed for any generator */
-  extern void    mts_seed32new(mt_state* state, unsigned long seed);
-  /* Set random seed for any generator */
-  extern void    mts_seedfull(mt_state* state,
-      unsigned long seeds[MT_STATE_SIZE]);
-  /* Set complicated seed for any gen. */
-  extern void    mts_seed(mt_state* state);
-  /* Choose seed from random input. */
-  /* ..Prefers /dev/urandom; uses time */
-  /* ..if /dev/urandom unavailable. */
-  /* ..Only gives 32 bits of entropy. */
-  extern void    mts_goodseed(mt_state* state);
-  /* Choose seed from more random */
-  /* ..input than mts_seed.  Prefers */
-  /* ../dev/random; uses time if that */
-  /* ..is unavailable.  Only gives 32 */
-  /* ..bits of entropy. */
-  extern void    mts_bestseed(mt_state* state);
-  /* Choose seed from extremely random */
-  /* ..input (can be *very* slow). */
-  /* ..Prefers /dev/random and reads */
-  /* ..the entire state from there. */
-  /* ..If /dev/random is unavailable, */
-  /* ..falls back to mt_goodseed().  */
-  /* ..Not usually worth the cost.  */
+/*
+ * Functions for manipulating any generator (given a state pointer).
+ */
+extern void mts_mark_initialized(mt_state *state);
+/* Mark a PRNG state as initialized */
+extern void mts_seed32(mt_state *state, unsigned long seed);
+/* Set random seed for any generator */
+extern void mts_seed32new(mt_state *state, unsigned long seed);
+/* Set random seed for any generator */
+extern void mts_seedfull(mt_state *state, unsigned long seeds[MT_STATE_SIZE]);
+/* Set complicated seed for any gen. */
+extern void mts_seed(mt_state *state);
+/* Choose seed from random input. */
+/* ..Prefers /dev/urandom; uses time */
+/* ..if /dev/urandom unavailable. */
+/* ..Only gives 32 bits of entropy. */
+extern void mts_goodseed(mt_state *state);
+/* Choose seed from more random */
+/* ..input than mts_seed.  Prefers */
+/* ../dev/random; uses time if that */
+/* ..is unavailable.  Only gives 32 */
+/* ..bits of entropy. */
+extern void mts_bestseed(mt_state *state);
+/* Choose seed from extremely random */
+/* ..input (can be *very* slow). */
+/* ..Prefers /dev/random and reads */
+/* ..the entire state from there. */
+/* ..If /dev/random is unavailable, */
+/* ..falls back to mt_goodseed().  */
+/* ..Not usually worth the cost.  */
 
+// was extern
 
-  // was extern
+AGEXPORT void mts_refresh(mt_state *state);
+/* Generate 624 more random values */
+extern int mts_savestate(FILE *statefile, mt_state *state);
+/* Save state to a file (ASCII). */
+/* ..Returns NZ if succeeded. */
+extern int mts_loadstate(FILE *statefile, mt_state *state);
+/* Load state from a file (ASCII). */
+/* ..Returns NZ if succeeded. */
 
-  AGEXPORT void    mts_refresh(mt_state* state);
-  /* Generate 624 more random values */
-  extern int    mts_savestate(FILE* statefile, mt_state* state);
-  /* Save state to a file (ASCII). */
-  /* ..Returns NZ if succeeded. */
-  extern int    mts_loadstate(FILE* statefile, mt_state* state);
-  /* Load state from a file (ASCII). */
-  /* ..Returns NZ if succeeded. */
-
-  /*
-   * Functions for manipulating the default generator.
-   */
-  extern void    mt_seed32(unsigned long seed);
-  /* Set random seed for default gen. */
-  extern void    mt_seed32new(unsigned long seed);
-  /* Set random seed for default gen. */
-  extern void    mt_seedfull(unsigned long seeds[MT_STATE_SIZE]);
-  /* Set complicated seed for default */
-  extern void    mt_seed(void);  /* Choose seed from random input. */
-  /* ..Prefers /dev/urandom; uses time */
-  /* ..if /dev/urandom unavailable. */
-  /* ..Only gives 32 bits of entropy. */
-  extern void    mt_goodseed(void);
-  /* Choose seed from more random */
-  /* ..input than mts_seed.  Prefers */
-  /* ../dev/random; uses time if that */
-  /* ..is unavailable.  Only gives 32 */
-  /* ..bits of entropy. */
-  extern void    mt_bestseed(void);
-  /* Choose seed from extremely random */
-  /* ..input (can be *very* slow). */
-  /* ..Prefers /dev/random and reads */
-  /* ..the entire state from there. */
-  /* ..If /dev/random is unavailable, */
-  /* ..falls back to mt_goodseed().  */
-  /* ..Not usually worth the cost.  */
-  extern mt_state*  mt_getstate(void);
-  /* Get current state of default */
-  /* ..generator */
-  extern int    mt_savestate(FILE* statefile);
-  /* Save state to a file (ASCII) */
-  /* ..Returns NZ if succeeded. */
-  extern int    mt_loadstate(FILE* statefile);
-  /* Load state from a file (ASCII) */
-  /* ..Returns NZ if succeeded. */
+/*
+ * Functions for manipulating the default generator.
+ */
+extern void mt_seed32(unsigned long seed);
+/* Set random seed for default gen. */
+extern void mt_seed32new(unsigned long seed);
+/* Set random seed for default gen. */
+extern void mt_seedfull(unsigned long seeds[MT_STATE_SIZE]);
+/* Set complicated seed for default */
+extern void mt_seed(void); /* Choose seed from random input. */
+/* ..Prefers /dev/urandom; uses time */
+/* ..if /dev/urandom unavailable. */
+/* ..Only gives 32 bits of entropy. */
+extern void mt_goodseed(void);
+/* Choose seed from more random */
+/* ..input than mts_seed.  Prefers */
+/* ../dev/random; uses time if that */
+/* ..is unavailable.  Only gives 32 */
+/* ..bits of entropy. */
+extern void mt_bestseed(void);
+/* Choose seed from extremely random */
+/* ..input (can be *very* slow). */
+/* ..Prefers /dev/random and reads */
+/* ..the entire state from there. */
+/* ..If /dev/random is unavailable, */
+/* ..falls back to mt_goodseed().  */
+/* ..Not usually worth the cost.  */
+extern mt_state *mt_getstate(void);
+/* Get current state of default */
+/* ..generator */
+extern int mt_savestate(FILE *statefile);
+/* Save state to a file (ASCII) */
+/* ..Returns NZ if succeeded. */
+extern int mt_loadstate(FILE *statefile);
+/* Load state from a file (ASCII) */
+/* ..Returns NZ if succeeded. */
 
 #ifdef __cplusplus
 }
@@ -259,33 +254,31 @@ extern "C"
  * definitions will be needed here, so we give them.
  */
 #ifdef __cplusplus
-#undef MT_NO_INLINE      /* C++ definitely has inlining */
-#endif /* __cplusplus */
+#undef MT_NO_INLINE /* C++ definitely has inlining */
+#endif              /* __cplusplus */
 
-extern unsigned long  mts_lrand(mt_state* state);
+extern unsigned long mts_lrand(mt_state *state);
 /* Generate 32-bit value, any gen. */
 #ifndef MT_NO_LONGLONG
-extern unsigned long long
-mts_llrand(mt_state* state);
+extern unsigned long long mts_llrand(mt_state *state);
 /* Generate 64-bit value, any gen. */
 #endif /* MT_NO_LONGLONG */
-extern double    mts_drand(mt_state* state);
+extern double mts_drand(mt_state *state);
 /* Generate floating value, any gen. */
 /* Fast, with only 32-bit precision */
-extern double    mts_ldrand(mt_state* state);
+extern double mts_ldrand(mt_state *state);
 /* Generate floating value, any gen. */
 /* Slower, with 64-bit precision */
 
-extern unsigned long  mt_lrand(void);  /* Generate 32-bit random value */
+extern unsigned long mt_lrand(void); /* Generate 32-bit random value */
 #ifndef MT_NO_LONGLONG
-extern unsigned long long
-mt_llrand(void);
+extern unsigned long long mt_llrand(void);
 /* Generate 64-bit random value */
 #endif /* MT_NO_LONGLONG */
-extern double    mt_drand(void);
+extern double mt_drand(void);
 /* Generate floating value */
 /* Fast, with only 32-bit precision */
-extern double    mt_ldrand(void);
+extern double mt_ldrand(void);
 /* Generate floating value */
 /* Slower, with 64-bit precision */
 
@@ -300,14 +293,10 @@ extern double    mt_ldrand(void);
  */
 #define MT_TEMPERING_MASK_B 0x9d2c5680
 #define MT_TEMPERING_MASK_C 0xefc60000
-#define MT_TEMPERING_SHIFT_U(y) \
-  (y >> 11)
-#define MT_TEMPERING_SHIFT_S(y) \
-  (y << 7)
-#define MT_TEMPERING_SHIFT_T(y) \
-  (y << 15)
-#define MT_TEMPERING_SHIFT_L(y) \
-  (y >> 18)
+#define MT_TEMPERING_SHIFT_U(y) (y >> 11)
+#define MT_TEMPERING_SHIFT_S(y) (y << 7)
+#define MT_TEMPERING_SHIFT_T(y) (y << 15)
+#define MT_TEMPERING_SHIFT_L(y) (y >> 18)
 
 /*
  * Macros to do the tempering.  MT_PRE_TEMPER does all but the last step;
@@ -316,31 +305,25 @@ extern double    mt_ldrand(void);
  * an assignment).  MT_TEMPER does the entire process.  Note that
  * MT_PRE_TEMPER and MT_TEMPER both modify their arguments.
  */
-#define MT_PRE_TEMPER(value)            \
-  do                  \
-  {                \
-    value ^= MT_TEMPERING_SHIFT_U(value);        \
-    value ^= MT_TEMPERING_SHIFT_S(value) & MT_TEMPERING_MASK_B;  \
-    value ^= MT_TEMPERING_SHIFT_T(value) & MT_TEMPERING_MASK_C;  \
-  }                \
-  while (0)
-#define MT_FINAL_TEMPER(value) \
-  ((value) ^ MT_TEMPERING_SHIFT_L(value))
-#define MT_TEMPER(value)            \
-  do                  \
-  {                \
-    value ^= MT_TEMPERING_SHIFT_U(value);        \
-    value ^= MT_TEMPERING_SHIFT_S(value) & MT_TEMPERING_MASK_B;  \
-    value ^= MT_TEMPERING_SHIFT_T(value) & MT_TEMPERING_MASK_C;  \
-    value ^= MT_TEMPERING_SHIFT_L(value);        \
-  }                \
-  while (0)
+#define MT_PRE_TEMPER(value)                                                   \
+  do {                                                                         \
+    value ^= MT_TEMPERING_SHIFT_U(value);                                      \
+    value ^= MT_TEMPERING_SHIFT_S(value) & MT_TEMPERING_MASK_B;                \
+    value ^= MT_TEMPERING_SHIFT_T(value) & MT_TEMPERING_MASK_C;                \
+  } while (0)
+#define MT_FINAL_TEMPER(value) ((value) ^ MT_TEMPERING_SHIFT_L(value))
+#define MT_TEMPER(value)                                                       \
+  do {                                                                         \
+    value ^= MT_TEMPERING_SHIFT_U(value);                                      \
+    value ^= MT_TEMPERING_SHIFT_S(value) & MT_TEMPERING_MASK_B;                \
+    value ^= MT_TEMPERING_SHIFT_T(value) & MT_TEMPERING_MASK_C;                \
+    value ^= MT_TEMPERING_SHIFT_L(value);                                      \
+  } while (0)
 
-extern mt_state    mt_default_state;
-
+extern mt_state mt_default_state;
 
 #ifdef __cplusplus
-//extern "C" {
+// extern "C" {
 extern "C"
 #ifdef WIN32
 /*
@@ -350,9 +333,9 @@ __declspec(dllexport)
 __declspec(dllimport)
 #endif*/
 #endif
-double    mt_32_to_double;
+    double mt_32_to_double;
 #else
-extern double    mt_32_to_double;
+extern double mt_32_to_double;
 #endif
 #ifdef __cplusplus
 //}
@@ -373,7 +356,7 @@ __declspec(dllexport)
 extern   double    mt_32_to_double;
 #endif*/
 /* Multiplier to convert long to dbl */
-extern double    mt_64_to_double;
+extern double mt_64_to_double;
 /* Mult'r to cvt long long to dbl */
 
 /*
@@ -383,11 +366,11 @@ extern double    mt_64_to_double;
  */
 #ifndef MT_EXTERN
 #ifdef __cplusplus
-#define MT_EXTERN      /* C++ doesn't need static */
-#else /* __cplusplus */
-#define MT_EXTERN  extern    /* C (at least gcc) needs extern */
-#endif /* __cplusplus */
-#endif /* MT_EXTERN */
+#define MT_EXTERN        /* C++ doesn't need static */
+#else                    /* __cplusplus */
+#define MT_EXTERN extern /* C (at least gcc) needs extern */
+#endif                   /* __cplusplus */
+#endif                   /* MT_EXTERN */
 
 /*
  * Make it possible for mtwist.c to disable the inline keyword.  We
@@ -395,8 +378,8 @@ extern double    mt_64_to_double;
  * C/C++ header files, above.
  */
 #ifndef MT_INLINE
-#define MT_INLINE  inline    /* Compiler has inlining */
-#endif /* MT_INLINE */
+#define MT_INLINE inline /* Compiler has inlining */
+#endif                   /* MT_INLINE */
 
 /*
  * Generate a random number in the range 0 to 2^32-1, inclusive, working
@@ -406,19 +389,18 @@ extern double    mt_64_to_double;
  * the pseudorandom numbers are generated in batches of MT_STATE_SIZE.  This
  * saves the cost of a modulus operation in the critical path.
  */
-MT_EXTERN MT_INLINE unsigned long mts_lrand(
-    register mt_state*  state)    /* State for the PRNG */
-  {
-    register unsigned long
-    random_value;  /* Pseudorandom value generated */
+MT_EXTERN MT_INLINE unsigned long
+mts_lrand(register mt_state *state) /* State for the PRNG */
+{
+  register unsigned long random_value; /* Pseudorandom value generated */
 
-    if (state->stateptr <= 0)
-      mts_refresh(state);
+  if (state->stateptr <= 0)
+    mts_refresh(state);
 
-    random_value = state->statevec[--state->stateptr];
-    MT_PRE_TEMPER(random_value);
-    return MT_FINAL_TEMPER(random_value);
-  }
+  random_value = state->statevec[--state->stateptr];
+  MT_PRE_TEMPER(random_value);
+  return MT_FINAL_TEMPER(random_value);
+}
 
 #ifndef MT_NO_LONGLONG
 /*
@@ -436,43 +418,36 @@ MT_EXTERN MT_INLINE unsigned long mts_lrand(
  * optimize it out.  Doing so would be messy, since it would require two
  * nearly-identical internal implementations of mts_lrand.
  */
-MT_EXTERN MT_INLINE unsigned long long mts_llrand(
-    register mt_state*  state)    /* State for the PRNG */
-  {
-    register unsigned long
-    random_value_1;  /* 1st pseudorandom value generated */
-    register unsigned long
-    random_value_2;  /* 2nd pseudorandom value generated */
+MT_EXTERN MT_INLINE unsigned long long
+mts_llrand(register mt_state *state) /* State for the PRNG */
+{
+  register unsigned long random_value_1; /* 1st pseudorandom value generated */
+  register unsigned long random_value_2; /* 2nd pseudorandom value generated */
 
-    /*
-     * For maximum speed, we'll handle the two overflow cases
-     * together.  That will save us one test in the common case, at
-     * the expense of an extra one in the overflow case.
-     */
-    if (--state->stateptr <= 0)
-      {
-        if (state->stateptr < 0)
-          {
-            mts_refresh(state);
-            random_value_1 = state->statevec[--state->stateptr];
-          }
-        else
-          {
-            random_value_1 = state->statevec[state->stateptr];
-            mts_refresh(state);
-          }
-      }
-    else
+  /*
+   * For maximum speed, we'll handle the two overflow cases
+   * together.  That will save us one test in the common case, at
+   * the expense of an extra one in the overflow case.
+   */
+  if (--state->stateptr <= 0) {
+    if (state->stateptr < 0) {
+      mts_refresh(state);
       random_value_1 = state->statevec[--state->stateptr];
+    } else {
+      random_value_1 = state->statevec[state->stateptr];
+      mts_refresh(state);
+    }
+  } else
+    random_value_1 = state->statevec[--state->stateptr];
 
-    MT_TEMPER(random_value_1);
+  MT_TEMPER(random_value_1);
 
-    random_value_2 = state->statevec[--state->stateptr];
-    MT_PRE_TEMPER(random_value_2);
+  random_value_2 = state->statevec[--state->stateptr];
+  MT_PRE_TEMPER(random_value_2);
 
-    return ((unsigned long long) random_value_1 << 32)
-    | (unsigned long long) MT_FINAL_TEMPER(random_value_2);
-  }
+  return ((unsigned long long)random_value_1 << 32) |
+         (unsigned long long)MT_FINAL_TEMPER(random_value_2);
+}
 #endif /* MT_NO_LONGLONG */
 
 /*
@@ -480,71 +455,63 @@ MT_EXTERN MT_INLINE unsigned long long mts_llrand(
  * (exclusive).  This function is optimized for speed, but it only generates
  * 32 bits of precision.  Use mts_ldrand to get 64 bits of precision.
  */
-MT_EXTERN MT_INLINE double mts_drand(
-    register mt_state*  state)    /* State for the PRNG */
-  {
-    register unsigned long
-    random_value;  /* Pseudorandom value generated */
+MT_EXTERN MT_INLINE double
+mts_drand(register mt_state *state) /* State for the PRNG */
+{
+  register unsigned long random_value; /* Pseudorandom value generated */
 
-    if (state->stateptr <= 0)
-      mts_refresh(state);
+  if (state->stateptr <= 0)
+    mts_refresh(state);
 
-    random_value = state->statevec[--state->stateptr];
-    MT_TEMPER(random_value);
+  random_value = state->statevec[--state->stateptr];
+  MT_TEMPER(random_value);
 
-    return random_value * mt_32_to_double;
-  }
+  return random_value * mt_32_to_double;
+}
 
 /*
  * Generate a double-precision random number between 0 (inclusive) and 1.0
  * (exclusive).  This function generates 64 bits of precision.  Use
  * mts_drand for more speed but less precision.
  */
-MT_EXTERN MT_INLINE double mts_ldrand(
-    register mt_state*  state)    /* State for the PRNG */
-  {
+MT_EXTERN MT_INLINE double
+mts_ldrand(register mt_state *state) /* State for the PRNG */
+{
 #if MT_MACHINE_BITS == 64
-    unsigned long long  final_value;  /* Final (integer) value */
-#endif /* MT_MACHINE_BITS */
-    register unsigned long
-    random_value_1;  /* 1st pseudorandom value generated */
-    register unsigned long
-    random_value_2;  /* 2nd pseudorandom value generated */
+  unsigned long long final_value;        /* Final (integer) value */
+#endif                                   /* MT_MACHINE_BITS */
+  register unsigned long random_value_1; /* 1st pseudorandom value generated */
+  register unsigned long random_value_2; /* 2nd pseudorandom value generated */
 
-    /*
-     * For maximum speed, we'll handle the two overflow cases
-     * together.  That will save us one test in the common case, at
-     * the expense of an extra one in the overflow case.
-     */
-    if (--state->stateptr <= 0)
-      {
-        if (state->stateptr < 0)
-          {
-            mts_refresh(state);
-            random_value_1 = state->statevec[--state->stateptr];
-          }
-        else
-          {
-            random_value_1 = state->statevec[state->stateptr];
-            mts_refresh(state);
-          }
-      }
-    else
+  /*
+   * For maximum speed, we'll handle the two overflow cases
+   * together.  That will save us one test in the common case, at
+   * the expense of an extra one in the overflow case.
+   */
+  if (--state->stateptr <= 0) {
+    if (state->stateptr < 0) {
+      mts_refresh(state);
       random_value_1 = state->statevec[--state->stateptr];
+    } else {
+      random_value_1 = state->statevec[state->stateptr];
+      mts_refresh(state);
+    }
+  } else
+    random_value_1 = state->statevec[--state->stateptr];
 
-    MT_TEMPER(random_value_1);
+  MT_TEMPER(random_value_1);
 
-    random_value_2 = state->statevec[--state->stateptr];
-    MT_TEMPER(random_value_2);
+  random_value_2 = state->statevec[--state->stateptr];
+  MT_TEMPER(random_value_2);
 
 #if MT_MACHINE_BITS == 64
-    final_value = ((unsigned long long) random_value_1 << 32)
-    | (unsigned long long) random_value_2;
-    return final_value * mt_64_to_double;
-#else /* MT_MACHINE_BITS */
-    return random_value_1 * mt_32_to_double + random_value_2 * mt_64_to_double;
+  final_value = ((unsigned long long)random_value_1 << 32) |
+                (unsigned long long)random_value_2;
+  return final_value * mt_64_to_double;
+#else  /* MT_MACHINE_BITS */
+  return random_value_1 * mt_32_to_double + random_value_2 * mt_64_to_double;
 #endif /* MT_MACHINE_BITS */
-  }
+}
 
 /*
  * Generate a random number in the range 0 to 2^32-1, inclusive, working
@@ -552,19 +519,17 @@ MT_EXTERN MT_INLINE double mts_ldrand(
  *
  * See mts_lrand for full commentary.
  */
-MT_EXTERN MT_INLINE unsigned long mt_lrand()
-  {
-    register unsigned long
-    random_value;  /* Pseudorandom value generated */
+MT_EXTERN MT_INLINE unsigned long mt_lrand() {
+  register unsigned long random_value; /* Pseudorandom value generated */
 
-    if (mt_default_state.stateptr <= 0)
-      mts_refresh(&mt_default_state);
+  if (mt_default_state.stateptr <= 0)
+    mts_refresh(&mt_default_state);
 
-    random_value = mt_default_state.statevec[--mt_default_state.stateptr];
-    MT_PRE_TEMPER(random_value);
+  random_value = mt_default_state.statevec[--mt_default_state.stateptr];
+  MT_PRE_TEMPER(random_value);
 
-    return MT_FINAL_TEMPER(random_value);
-  }
+  return MT_FINAL_TEMPER(random_value);
+}
 
 #ifndef MT_NO_LONGLONG
 /*
@@ -573,45 +538,34 @@ MT_EXTERN MT_INLINE unsigned long mt_lrand()
  *
  * See mts_llrand for full commentary.
  */
-MT_EXTERN MT_INLINE unsigned long long mt_llrand()
-  {
-    register unsigned long
-    random_value_1;  /* 1st pseudorandom value generated */
-    register unsigned long
-    random_value_2;  /* 2nd pseudorandom value generated */
+MT_EXTERN MT_INLINE unsigned long long mt_llrand() {
+  register unsigned long random_value_1; /* 1st pseudorandom value generated */
+  register unsigned long random_value_2; /* 2nd pseudorandom value generated */
 
-    /*
-     * For maximum speed, we'll handle the two overflow cases
-     * together.  That will save us one test in the common case, at
-     * the expense of an extra one in the overflow case.
-     */
-    if (--mt_default_state.stateptr <= 0)
-      {
-        if (mt_default_state.stateptr < 0)
-          {
-            mts_refresh(&mt_default_state);
-            random_value_1 =
-              mt_default_state.statevec[--mt_default_state.stateptr];
-          }
-        else
-          {
-            random_value_1 =
-              mt_default_state.statevec[mt_default_state.stateptr];
-            mts_refresh(&mt_default_state);
-          }
-      }
-    else
-      random_value_1 =
-        mt_default_state.statevec[--mt_default_state.stateptr];
+  /*
+   * For maximum speed, we'll handle the two overflow cases
+   * together.  That will save us one test in the common case, at
+   * the expense of an extra one in the overflow case.
+   */
+  if (--mt_default_state.stateptr <= 0) {
+    if (mt_default_state.stateptr < 0) {
+      mts_refresh(&mt_default_state);
+      random_value_1 = mt_default_state.statevec[--mt_default_state.stateptr];
+    } else {
+      random_value_1 = mt_default_state.statevec[mt_default_state.stateptr];
+      mts_refresh(&mt_default_state);
+    }
+  } else
+    random_value_1 = mt_default_state.statevec[--mt_default_state.stateptr];
 
-    MT_TEMPER(random_value_1);
+  MT_TEMPER(random_value_1);
 
-    random_value_2 = mt_default_state.statevec[--mt_default_state.stateptr];
-    MT_PRE_TEMPER(random_value_2);
+  random_value_2 = mt_default_state.statevec[--mt_default_state.stateptr];
+  MT_PRE_TEMPER(random_value_2);
 
-    return ((unsigned long long) random_value_1 << 32)
-    | (unsigned long long) MT_FINAL_TEMPER(random_value_2);
-  }
+  return ((unsigned long long)random_value_1 << 32) |
+         (unsigned long long)MT_FINAL_TEMPER(random_value_2);
+}
 #endif /* MT_NO_LONGLONG */
 
 /*
@@ -619,72 +573,59 @@ MT_EXTERN MT_INLINE unsigned long long mt_llrand()
  * (exclusive).  This function is optimized for speed, but it only generates
  * 32 bits of precision.  Use mt_ldrand to get 64 bits of precision.
  */
-MT_EXTERN MT_INLINE double mt_drand()
-  {
-    register unsigned long
-    random_value;  /* Pseudorandom value generated */
+MT_EXTERN MT_INLINE double mt_drand() {
+  register unsigned long random_value; /* Pseudorandom value generated */
 
-    if (mt_default_state.stateptr <= 0)
-      mts_refresh(&mt_default_state);
+  if (mt_default_state.stateptr <= 0)
+    mts_refresh(&mt_default_state);
 
-    random_value = mt_default_state.statevec[--mt_default_state.stateptr];
-    MT_TEMPER(random_value);
+  random_value = mt_default_state.statevec[--mt_default_state.stateptr];
+  MT_TEMPER(random_value);
 
-    return random_value * mt_32_to_double;
-  }
+  return random_value * mt_32_to_double;
+}
 
 /*
  * Generate a double-precision random number between 0 (inclusive) and 1.0
  * (exclusive).  This function generates 64 bits of precision.  Use
  * mts_drand for more speed but less precision.
  */
-MT_EXTERN MT_INLINE double mt_ldrand(void)
-  {
+MT_EXTERN MT_INLINE double mt_ldrand(void) {
 #if MT_MACHINE_BITS == 64
-    unsigned long long  final_value;  /* Final (integer) value */
-#endif /* MT_MACHINE_BITS */
-    register unsigned long
-    random_value_1;  /* 1st pseudorandom value generated */
-    register unsigned long
-    random_value_2;  /* 2nd pseudorandom value generated */
+  unsigned long long final_value;        /* Final (integer) value */
+#endif                                   /* MT_MACHINE_BITS */
+  register unsigned long random_value_1; /* 1st pseudorandom value generated */
+  register unsigned long random_value_2; /* 2nd pseudorandom value generated */
 
-    /*
-     * For maximum speed, we'll handle the two overflow cases
-     * together.  That will save us one test in the common case, at
-     * the expense of an extra one in the overflow case.
-     */
-    if (--mt_default_state.stateptr <= 0)
-      {
-        if (mt_default_state.stateptr < 0)
-          {
-            mts_refresh(&mt_default_state);
-            random_value_1 =
-              mt_default_state.statevec[--mt_default_state.stateptr];
-          }
-        else
-          {
-            random_value_1 =
-              mt_default_state.statevec[mt_default_state.stateptr];
-            mts_refresh(&mt_default_state);
-          }
-      }
-    else
-      random_value_1 =
-        mt_default_state.statevec[--mt_default_state.stateptr];
+  /*
+   * For maximum speed, we'll handle the two overflow cases
+   * together.  That will save us one test in the common case, at
+   * the expense of an extra one in the overflow case.
+   */
+  if (--mt_default_state.stateptr <= 0) {
+    if (mt_default_state.stateptr < 0) {
+      mts_refresh(&mt_default_state);
+      random_value_1 = mt_default_state.statevec[--mt_default_state.stateptr];
+    } else {
+      random_value_1 = mt_default_state.statevec[mt_default_state.stateptr];
+      mts_refresh(&mt_default_state);
+    }
+  } else
+    random_value_1 = mt_default_state.statevec[--mt_default_state.stateptr];
 
-    MT_TEMPER(random_value_1);
+  MT_TEMPER(random_value_1);
 
-    random_value_2 = mt_default_state.statevec[--mt_default_state.stateptr];
-    MT_TEMPER(random_value_2);
+  random_value_2 = mt_default_state.statevec[--mt_default_state.stateptr];
+  MT_TEMPER(random_value_2);
 
 #if MT_MACHINE_BITS == 64
-    final_value = ((unsigned long long) random_value_1 << 32)
-    | (unsigned long long) random_value_2;
-    return final_value * mt_64_to_double;
-#else /* MT_MACHINE_BITS */
-    return random_value_1 * mt_32_to_double + random_value_2 * mt_64_to_double;
+  final_value = ((unsigned long long)random_value_1 << 32) |
+                (unsigned long long)random_value_2;
+  return final_value * mt_64_to_double;
+#else  /* MT_MACHINE_BITS */
+  return random_value_1 * mt_32_to_double + random_value_2 * mt_64_to_double;
 #endif /* MT_MACHINE_BITS */
-  }
+}
 
 #endif /* MT_NO_INLINE */
 
@@ -695,8 +636,7 @@ MT_EXTERN MT_INLINE double mt_ldrand(void)
  * functions are provided.  All functions are inlined, both for speed
  * and so that the same implementation code can be used in C and C++.
  */
-class mt_prng
-{
+class mt_prng {
 public:
   /*
    * Constructors and destructors.  The default constructor
@@ -706,31 +646,31 @@ public:
    * constructors accept either a 32-bit seed, or a full
    * 624-long seed.
    */
-  mt_prng(  // Default constructor
+  mt_prng( // Default constructor
       bool pickSeed = false)
   // True to get seed from /dev/urandom
   // ..or time
-    {
-      state.stateptr = 0;
-      state.initialized = 0;
-      if (pickSeed)
-        mts_seed(&state);
-    }
+  {
+    state.stateptr = 0;
+    state.initialized = 0;
+    if (pickSeed)
+      mts_seed(&state);
+  }
   mt_prng(unsigned long seed)
   // Construct with 32-bit seeding
-    {
-      state.stateptr = 0;
-      state.initialized = 0;
-      mts_seed32(&state, seed);
-    }
+  {
+    state.stateptr = 0;
+    state.initialized = 0;
+    mts_seed32(&state, seed);
+  }
   mt_prng(unsigned long seeds[MT_STATE_SIZE])
   // Construct with full seeding
-    {
-      state.stateptr = 0;
-      state.initialized = 0;
-      mts_seedfull(&state, seeds);
-    }
-  ~mt_prng() { }
+  {
+    state.stateptr = 0;
+    state.initialized = 0;
+    mts_seedfull(&state, seeds);
+  }
+  ~mt_prng() {}
 
   /*
    * Copy and assignment are best left defaulted.
@@ -739,60 +679,57 @@ public:
   /*
    * PRNG seeding functions.
    */
-  void    seed32(unsigned long seed)
+  void seed32(unsigned long seed)
   // Set 32-bit random seed
-    {
-      mts_seed32(&state, seed);
-    }
-  void    seed32new(unsigned long seed)
+  {
+    mts_seed32(&state, seed);
+  }
+  void seed32new(unsigned long seed)
   // Set 32-bit random seed
-    {
-      mts_seed32new(&state, seed);
-    }
-  void    seedfull(unsigned long seeds[MT_STATE_SIZE])
+  {
+    mts_seed32new(&state, seed);
+  }
+  void seedfull(unsigned long seeds[MT_STATE_SIZE])
   // Set complicated random seed
-    {
-      mts_seedfull(&state, seeds);
-    }
-  void    seed()    // Choose seed from random input
-    {
-      mts_seed(&state);
-    }
-  void    goodseed()  // Choose better seed from random input
-    {
-      mts_goodseed(&state);
-    }
-  void    bestseed()  // Choose best seed from random input
-    {
-      mts_bestseed(&state);
-    }
-  friend std::ostream&
-  operator<<(std::ostream& stream, const mt_prng& rng);
-  friend std::istream&
-  operator>>(std::istream& stream, mt_prng& rng);
+  {
+    mts_seedfull(&state, seeds);
+  }
+  void seed() // Choose seed from random input
+  {
+    mts_seed(&state);
+  }
+  void goodseed() // Choose better seed from random input
+  {
+    mts_goodseed(&state);
+  }
+  void bestseed() // Choose best seed from random input
+  {
+    mts_bestseed(&state);
+  }
+  friend std::ostream &operator<<(std::ostream &stream, const mt_prng &rng);
+  friend std::istream &operator>>(std::istream &stream, mt_prng &rng);
 
   /*
    * PRNG generation functions
    */
-  unsigned long  lrand()    // Generate 32-bit pseudo-random value
-    {
-      return mts_lrand(&state);
-    }
+  unsigned long lrand() // Generate 32-bit pseudo-random value
+  {
+    return mts_lrand(&state);
+  }
 #ifndef MT_NO_LONGLONG
-  unsigned long long
-  llrand()  // Generate 64-bit pseudo-random value
-    {
-      return mts_llrand(&state);
-    }
-#endif /* MT_NO_LONGLONG */
-  double    drand()    // Generate fast 32-bit floating value
-    {
-      return mts_drand(&state);
-    }
-  double    ldrand()  // Generate slow 64-bit floating value
-    {
-      return mts_ldrand(&state);
-    }
+  unsigned long long llrand() // Generate 64-bit pseudo-random value
+  {
+    return mts_llrand(&state);
+  }
+#endif           /* MT_NO_LONGLONG */
+  double drand() // Generate fast 32-bit floating value
+  {
+    return mts_drand(&state);
+  }
+  double ldrand() // Generate slow 64-bit floating value
+  {
+    return mts_ldrand(&state);
+  }
 
   /*
    * Following Richard J. Wagner's example, we overload the
@@ -804,66 +741,58 @@ public:
    *  // ...
    *  coinFlip = ranno() >= 0.5 ? heads : tails;
    */
-  double    operator()()
-  {
-    return mts_drand(&state);
-  }
+  double operator()() { return mts_drand(&state); }
+
 protected:
   /*
    * Protected data
    */
-  mt_state  state;    // Current state of the PRNG
+  mt_state state; // Current state of the PRNG
 };
 
 /*
  * Save state to a stream.  See mts_savestate.
  */
-MT_INLINE std::ostream& operator<<(
-    std::ostream&  stream,    // Stream to save to
-    const mt_prng&  rng)    // PRNG to save
-  {
-    for (int i = MT_STATE_SIZE;  --i >= 0;  )
-      {
-        if (!(stream << rng.state.statevec[i] << ' '))
-          return stream;
-      }
-
-    return stream << rng.state.stateptr;
+MT_INLINE std::ostream &operator<<(std::ostream &stream, // Stream to save to
+                                   const mt_prng &rng)   // PRNG to save
+{
+  for (int i = MT_STATE_SIZE; --i >= 0;) {
+    if (!(stream << rng.state.statevec[i] << ' '))
+      return stream;
   }
+
+  return stream << rng.state.stateptr;
+}
 
 /*
  * Restore state from a stream.  See mts_loadstate.
  */
-MT_INLINE std::istream& operator>>(
-    std::istream&  stream,    // Stream to laod from
-    mt_prng&    rng)    // PRNG to load
-  {
-    rng.state.initialized = rng.state.stateptr = 0;
-    for (int i = MT_STATE_SIZE;  --i >= 0;  )
-      {
-        if (!(stream >> rng.state.statevec[i]))
-          return stream;
-      }
+MT_INLINE std::istream &operator>>(std::istream &stream, // Stream to laod from
+                                   mt_prng &rng)         // PRNG to load
+{
+  rng.state.initialized = rng.state.stateptr = 0;
+  for (int i = MT_STATE_SIZE; --i >= 0;) {
+    if (!(stream >> rng.state.statevec[i]))
+      return stream;
+  }
 
-    if (!(stream >> rng.state.stateptr))
-      {
-        rng.state.stateptr = 0;
-        return stream;
-      }
-
-    /*
-     * If the state is invalid, all we can do is to make it uninitialized.
-     */
-    if (rng.state.stateptr < 0  ||  rng.state.stateptr > MT_STATE_SIZE)
-      {
-        rng.state.stateptr = 0;
-        return stream;
-      }
-
-    mts_mark_initialized(&rng.state);
-
+  if (!(stream >> rng.state.stateptr)) {
+    rng.state.stateptr = 0;
     return stream;
   }
+
+  /*
+   * If the state is invalid, all we can do is to make it uninitialized.
+   */
+  if (rng.state.stateptr < 0 || rng.state.stateptr > MT_STATE_SIZE) {
+    rng.state.stateptr = 0;
+    return stream;
+  }
+
+  mts_mark_initialized(&rng.state);
+
+  return stream;
+}
 #endif
 
 #endif /* MTWIST_H */

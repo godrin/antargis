@@ -28,16 +28,16 @@
 
 class AGImage;
 
-class AGEXPORT AGCheckBox:public AGButton
-{
- public:
-  AGCheckBox(AGWidget *pParent,AGRect2 pRect);
+class AGEXPORT AGCheckBox : public AGButton {
+public:
+  AGCheckBox(AGWidget *pParent, AGRect2 pRect);
 
-  void setSurfaces(AGSurface pDisabledSurface,AGSurface pEnabledSurface);
+  void setSurfaces(AGSurface pDisabledSurface, AGSurface pEnabledSurface);
 
   void setState(const State &pState);
   virtual bool eventMouseClick(AGEvent *m);
- private:
+
+private:
   AGSurface *mSurfaces[2];
 };
 

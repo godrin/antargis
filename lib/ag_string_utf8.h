@@ -5,20 +5,19 @@
 
 #include <rk_base.h>
 
+#include <SDL.h>
 #include <string>
 #include <vector>
-#include <SDL.h>
 
 class AGStringUtf8;
 class AGString;
 
-class AGEXPORT AGCharUtf8
-{
- public:
+class AGEXPORT AGCharUtf8 {
+public:
   explicit AGCharUtf8(const char p);
   explicit AGCharUtf8(const std::string &p);
   AGCharUtf8(const AGCharUtf8 &p);
-  AGCharUtf8(AGStringUtf8 *ps,size_t ppos);
+  AGCharUtf8(AGStringUtf8 *ps, size_t ppos);
 
   bool operator==(const AGCharUtf8 &c) const;
   bool operator==(const char pChar) const;
@@ -31,50 +30,44 @@ class AGEXPORT AGCharUtf8
   bool operator!=(const char pChar) const;
 #endif
 
-
   std::string getString() const;
 
   size_t memory() const;
 
- private:
+private:
   std::string c;
   AGStringUtf8 *s;
   size_t pos;
 };
 
-class AGEXPORT AGStringUtf8Iterator
-{
-
-};
+class AGEXPORT AGStringUtf8Iterator {};
 
 /** A string class that natively supports UTF-8 */
-class AGEXPORT AGStringUtf8
-{
- public:
+class AGEXPORT AGStringUtf8 {
+public:
 #ifdef SWIG
    %rename(Npos) npos;
 #endif
-   static const size_t npos = static_cast<size_t>(-1);
+  static const size_t npos = static_cast<size_t>(-1);
 
   AGStringUtf8();
 #ifndef SWIG
   explicit AGStringUtf8(const std::string &p);
-  explicit AGStringUtf8(const std::string &p,size_t many);
+  explicit AGStringUtf8(const std::string &p, size_t many);
 #endif
   AGStringUtf8(const AGStringUtf8 &p);
 #ifndef SWIG
-  explicit AGStringUtf8(AGCharUtf8 c,size_t many=1);
+  explicit AGStringUtf8(AGCharUtf8 c, size_t many = 1);
 #endif
   explicit AGStringUtf8(int i);
   explicit AGStringUtf8(size_t i);
   explicit AGStringUtf8(long i);
   explicit AGStringUtf8(float f);
 #ifndef SWIG
-  AGStringUtf8(const char c,size_t many=1);
+  AGStringUtf8(const char c, size_t many = 1);
 #endif
-  AGStringUtf8(const char*c);
-  AGStringUtf8(const char*c,size_t size);
-
+  AGStringUtf8(const char *c);
+  AGStringUtf8(const char *c, size_t size);
 
 #ifdef SWIG
   %rename(set) operator=(const AGStringUtf8 &s);
@@ -93,7 +86,7 @@ class AGEXPORT AGStringUtf8
   // size in bytes
   size_t memory() const;
 
-  AGStringUtf8 substr(size_t from,size_t len) const;
+  AGStringUtf8 substr(size_t from, size_t len) const;
 
 #ifndef SWIG
   AGCharUtf8 operator[](size_t i) const;
@@ -107,19 +100,17 @@ class AGEXPORT AGStringUtf8
 #ifdef SWIG
   %rename(__setitem__) set(size_t i,const AGCharUtf8 &c);
 #endif
-  void set(size_t i,const AGCharUtf8 &c);
-
+  void set(size_t i, const AGCharUtf8 &c);
 
   std::vector<AGStringUtf8> split(const AGStringUtf8 &p) const;
 
-  size_t find(const AGStringUtf8 &p,size_t pos=0) const;
+  size_t find(const AGStringUtf8 &p, size_t pos = 0) const;
 
   AGStringUtf8 replace(const AGStringUtf8 &what, const AGStringUtf8 &by) const;
 
   AGStringUtf8 operator+(const AGStringUtf8 &s) const;
   AGStringUtf8 operator+(const AGString &s) const;
   AGStringUtf8 operator+(const char *s) const;
-
 
   bool operator==(const AGStringUtf8 &p) const;
 
@@ -147,19 +138,16 @@ class AGEXPORT AGStringUtf8
 
   static AGStringUtf8 toHex(int i);
 
- private:
-
+private:
   std::string get(size_t pos) const;
-  void set(size_t pos,const std::string &s);
+  void set(size_t pos, const std::string &s);
 
   std::string s;
   mutable size_t mLength;
 
   friend class AGCharUtf8;
-
 };
 
-AGEXPORT std::ostream &operator<<(std::ostream &o,const AGStringUtf8 &s);
-
+AGEXPORT std::ostream &operator<<(std::ostream &o, const AGStringUtf8 &s);
 
 #endif

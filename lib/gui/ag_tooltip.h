@@ -25,14 +25,14 @@
 
 #include <ag_widget.h>
 
-class AGEXPORT AGTooltip:public AGWidget
-{
- public:
-  AGTooltip(const AGRect2 &pRect,const AGStringUtf8 &pText);
+class AGEXPORT AGTooltip : public AGWidget {
+public:
+  AGTooltip(const AGRect2 &pRect, const AGStringUtf8 &pText);
   virtual ~AGTooltip() throw();
 
   virtual void draw(AGPainter &p);
- private:
+
+private:
   AGStringUtf8 mText;
   AGFont mFont;
   AGColor mBgColor;

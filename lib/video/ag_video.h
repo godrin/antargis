@@ -8,9 +8,8 @@
 #include <string>
 class AGScreen;
 
-class AGEXPORT AGVideoManager:public AGVideoBase
-{
- public:
+class AGEXPORT AGVideoManager : public AGVideoBase {
+public:
   AGVideoManager();
 
   void flip();
@@ -19,7 +18,8 @@ class AGEXPORT AGVideoManager:public AGVideoBase
       vw and vh describe virtual screen resolutions which implies scaling
       This is supported in opengl-mode only.
    */
-  void initVideo(int w,int h,int d,bool fs,bool gl,int vw=-1,int vh=-1);
+  void initVideo(int w, int h, int d, bool fs, bool gl, int vw = -1,
+                 int vh = -1);
   void toggleFull();
 
   int width() const;
@@ -33,17 +33,13 @@ class AGEXPORT AGVideoManager:public AGVideoBase
 
   bool fullscreen() const;
 
-
- private:
+private:
   AGScreen *mScreen;
-
 };
 
-//bool glMode();
+// bool glMode();
 AGEXPORT bool opengl();
 
 AGEXPORT AGVideoManager *getVideo();
 
 #endif
-
-

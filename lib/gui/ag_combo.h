@@ -29,29 +29,28 @@ class AGEdit;
 class AGButton;
 class AGListBox;
 
-class AGEXPORT AGComboBox:public AGWidget
-{
- public:
-  AGComboBox(AGWidget *pParent,const AGRect2 &pRect);
+class AGEXPORT AGComboBox : public AGWidget {
+public:
+  AGComboBox(AGWidget *pParent, const AGRect2 &pRect);
   virtual ~AGComboBox() throw();
 
-  void insertItem(const AGString &pID,const AGStringUtf8 &pContent);
+  void insertItem(const AGString &pID, const AGStringUtf8 &pContent);
 
   bool eventButtonClicked(AGEvent *pEvent);
   bool eventSelected(AGEvent *pEvent);
 
   AGSignal sigSelect;
-  
+
   AGString getSelected() const;
   void setSelected(const AGString &pID);
 
   void clear() throw();
-  
+
   virtual void setWidth(float w);
   virtual void setHeight(float w);
   void setRect(const AGRect2 &r);
 
- private:
+private:
   void update();
   void updateClientRects();
 
@@ -61,7 +60,7 @@ class AGEXPORT AGComboBox:public AGWidget
 
   AGString mID;
 
-  std::list<std::pair<AGString,AGStringUtf8> > ops;
+  std::list<std::pair<AGString, AGStringUtf8>> ops;
 };
 
 #endif

@@ -23,16 +23,14 @@
 #ifndef AG_LOCAL_H
 #define AG_LOCAL_H
 
-#include <rk_string.h>
 #include <ag_string_utf8.h>
+#include <rk_string.h>
 
-class AGEXPORT AGLocalizer
-{
- public:
+class AGEXPORT AGLocalizer {
+public:
   virtual ~AGLocalizer() throw();
 
   virtual AGStringUtf8 find(const AGString &p);
-
 };
 
 AGEXPORT void setLocalizer(AGLocalizer *p);

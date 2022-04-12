@@ -20,49 +20,41 @@
 
 #include "ag_checkbox.h"
 #include "ag_image.h"
+#include "ag_layoutfactory.h"
+#include "ag_local.h"
 #include "ag_text.h"
 #include "ag_theme.h"
 #include "rk_debug.h"
-#include "ag_layoutfactory.h"
-#include "ag_local.h"
 
-AGCheckBox::AGCheckBox(AGWidget *pParent,AGRect2 pRect):
-  AGButton(pParent,pRect,"")
-  {
-    mSurfaces[0]=mSurfaces[1]=0;
+AGCheckBox::AGCheckBox(AGWidget *pParent, AGRect2 pRect)
+    : AGButton(pParent, pRect, "") {
+  mSurfaces[0] = mSurfaces[1] = 0;
+}
+
+bool AGCheckBox::eventMouseClick(AGEvent *m) {
+  CTRACE;
+  setChecked(!isChecked());
+  return AGButton::eventMouseClick(m); // false;//true; // eat
+}
+
+void AGCheckBox::setSurfaces(AGSurface pDisabledSurface,
+                             AGSurface pEnabledSurface) {
+  checkedDelete(mSurfaces[0]);
+  checkedDelete(mSurfaces[1]);
+  mSurfaces[0] = new AGSurface(pDisabledSurface);
+  mSurfaces[1] = new AGSurface(pEnabledSurface);
+
+  //  setState(getState());
+  queryRedraw();
+}
+
+void AGCheckBox::setState(const State &pState) {
+  if (mSurfaces[0]) {
+    if (pState == NORMAL || pState == LIGHTED || pState == PRESSED)
+      setSurface(*(mSurfaces[0]));
+    else
+      setSurface(*(mSurfaces[1]));
   }
 
-bool AGCheckBox::eventMouseClick(AGEvent *m)
-  {
-    CTRACE;
-    setChecked(!isChecked());
-    return AGButton::eventMouseClick(m);//false;//true; // eat
-  }
-
-
-
-void AGCheckBox::setSurfaces(AGSurface pDisabledSurface,AGSurface pEnabledSurface)
-  {
-    checkedDelete(mSurfaces[0]);
-    checkedDelete(mSurfaces[1]);
-    mSurfaces[0]=new AGSurface(pDisabledSurface);
-    mSurfaces[1]=new AGSurface(pEnabledSurface);
-
-    //  setState(getState());
-    queryRedraw();
-  }
-
-void AGCheckBox::setState(const State &pState)
-  {
-    if(mSurfaces[0])
-      {
-        if(pState==NORMAL || pState==LIGHTED || pState==PRESSED)
-          setSurface(*(mSurfaces[0]));
-        else
-          setSurface(*(mSurfaces[1]));
-      }
-
-    AGButton::setState(pState);
-  }
-
-
+  AGButton::setState(pState);
+}

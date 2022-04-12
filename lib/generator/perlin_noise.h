@@ -17,24 +17,21 @@
 typedef unsigned int uint;
 typedef unsigned short ushort;
 
-class PerlinNoise
-{
+class PerlinNoise {
 public:
-    PerlinNoise(uint seed=0);
-    ~PerlinNoise() {}
+  PerlinNoise(uint seed = 0);
+  ~PerlinNoise() {}
 
-    float Sample(float x, float y=0, float z=0) const;
+  float Sample(float x, float y = 0, float z = 0) const;
 
 protected:
+  float grad(int x, int y, int z, float dx, float dy, float dz) const;
 
-    float grad(int x, int y, int z, float dx, float dy, float dz) const;
+  float smoothWeight(float v) const;
 
-    float smoothWeight(float v) const;
+  static const int TABLE_SIZE = 256;
 
-    static const int TABLE_SIZE = 256;
-
-    std::vector<ushort> PermTable;
-
+  std::vector<ushort> PermTable;
 };
 
 #endif // PERLINNOISE_H

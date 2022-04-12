@@ -25,62 +25,41 @@
 
 #include <set>
 
-class AGEXPORT AGInstanceBase
-{
- public:
-  virtual ~AGInstanceBase()
-    {
-    }
-  virtual void kill()=0;
+class AGEXPORT AGInstanceBase {
+public:
+  virtual ~AGInstanceBase() {}
+  virtual void kill() = 0;
 
-  virtual bool operator<(const AGInstanceBase &b) const =0;
-  virtual void *ptr() const=0;
+  virtual bool operator<(const AGInstanceBase &b) const = 0;
+  virtual void *ptr() const = 0;
 };
 
-template<class T>
-class AGEXPORT AGInstance:public AGInstanceBase
-{
+template <class T> class AGEXPORT AGInstance : public AGInstanceBase {
   T *instance;
- public:
-  AGInstance(T *t)
-    {
-      instance=t;
-    }
-  virtual void kill()
-  {
-    checkedDelete(instance);
-  }
 
-  virtual void*ptr() const
-  {
-    return (void*)instance;
-  }
-  virtual bool operator<(const AGInstanceBase &b) const
-  {
-    return ptr()<b.ptr();
-  }
+public:
+  AGInstance(T *t) { instance = t; }
+  virtual void kill() { checkedDelete(instance); }
 
+  virtual void *ptr() const { return (void *)instance; }
+  virtual bool operator<(const AGInstanceBase &b) const {
+    return ptr() < b.ptr();
+  }
 };
 
-template<class T>
-AGEXPORT AGInstanceBase *createKiller(T *t)
-{
+template <class T> AGEXPORT AGInstanceBase *createKiller(T *t) {
   return new AGInstance<T>(t);
 }
 
-class AGEXPORT ContentCompare
-{
- public:
-  bool operator()(AGInstanceBase*a,AGInstanceBase *b)
-  {
-    return *a<*b;
-  }
+class AGEXPORT ContentCompare {
+public:
+  bool operator()(AGInstanceBase *a, AGInstanceBase *b) { return *a < *b; }
 };
 
-class AGEXPORT AGInstanceKiller
-{
-  std::set<AGInstanceBase*,ContentCompare> bs;
- public:
+class AGEXPORT AGInstanceKiller {
+  std::set<AGInstanceBase *, ContentCompare> bs;
+
+public:
   AGInstanceKiller();
   ~AGInstanceKiller();
   void reg(AGInstanceBase *b);

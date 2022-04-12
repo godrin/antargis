@@ -23,31 +23,28 @@
 #ifndef __AG_LISTBOX_H
 #define __AG_LISTBOX_H
 
+#include "ag_background.h"
+#include "ag_widget.h"
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
-#include "ag_widget.h"
-#include "ag_background.h"
 
 class AGEdit;
 class AGScroller;
 
-struct AGEXPORT AGListBoxItem
-{
-  AGListBoxItem(AGString pID,AGStringUtf8 pValue);
+struct AGEXPORT AGListBoxItem {
+  AGListBoxItem(AGString pID, AGStringUtf8 pValue);
   AGString id;
   AGStringUtf8 value;
 };
 
-
 // Single selection for a start
-class AGEXPORT AGListBox:public AGWidget
-{
- public:
-  AGListBox(AGWidget *pParent,const AGRect2 &pRect);
+class AGEXPORT AGListBox : public AGWidget {
+public:
+  AGListBox(AGWidget *pParent, const AGRect2 &pRect);
   virtual ~AGListBox() throw();
-  
-  void insertItem(AGString pID,AGStringUtf8 pValue);
+
+  void insertItem(AGString pID, AGStringUtf8 pValue);
   void selectItem(AGString pID);
 
   AGString getSelectedID() const;
@@ -68,28 +65,26 @@ class AGEXPORT AGListBox:public AGWidget
   void clearList();
 
   void updateScroller();
-  
-  std::map<AGString,AGStringUtf8> getValues() const;
+
+  std::map<AGString, AGStringUtf8> getValues() const;
 
   void setTheme(const AGString &pTheme);
 
- private:
-
-   void rearrange();
-   void arrange();
+private:
+  void rearrange();
+  void arrange();
 
   int mY;
   std::vector<AGListBoxItem> mItems;
   int mSelected;
   int mHeight;
   int mItemHeight;
-  std::vector<AGEdit*> mEdits;
-  AGBackground mBackground,mHilight;
+  std::vector<AGEdit *> mEdits;
+  AGBackground mBackground, mHilight;
 
   AGScroller *mScroller;
 };
 
-
-//AGListBox &toAGListBox(AGWidget &w);
+// AGListBox &toAGListBox(AGWidget &w);
 
 #endif

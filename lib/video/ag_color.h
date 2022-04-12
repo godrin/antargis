@@ -31,23 +31,21 @@
 class AGSurface;
 class AGVector4;
 
-class AGEXPORT AGColor:public SDL_Color
-{
- public:
+class AGEXPORT AGColor : public SDL_Color {
+public:
+  static AGColor WHITE;
 
-   static AGColor WHITE;
-
-  explicit AGColor(int pr,int pg,int pb,int pa=255);
+  explicit AGColor(int pr, int pg, int pb, int pa = 255);
 
   AGColor(const AGColor &c);
   AGColor(const AGVector4 &v);
-  AGColor(Uint32 c,const AGSurface &pSurface);
+  AGColor(Uint32 c, const AGSurface &pSurface);
   AGColor(const AGString &s);
 
   AGColor();
 
 #ifndef SWIG
-  AGColor &operator=(const AGColor&c);
+  AGColor &operator=(const AGColor &c);
   AGColor &operator*=(float f);
 #endif
 
@@ -75,16 +73,13 @@ class AGEXPORT AGColor:public SDL_Color
 };
 
 #ifndef SWIG
-bool operator<(const AGColor &c1,const AGColor &c2);
-bool operator==(const AGColor &c1,const AGColor &c2);
-bool operator!=(const AGColor &c1,const AGColor &c2);
+bool operator<(const AGColor &c1, const AGColor &c2);
+bool operator==(const AGColor &c1, const AGColor &c2);
+bool operator!=(const AGColor &c1, const AGColor &c2);
 
-std::ostream &operator<<(std::ostream &o,const AGColor &c);
+std::ostream &operator<<(std::ostream &o, const AGColor &c);
 #endif
 
-inline int toInt(Uint8 u)
-{
-  return u;
-}
+inline int toInt(Uint8 u) { return u; }
 
 #endif

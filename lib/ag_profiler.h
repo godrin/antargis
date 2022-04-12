@@ -18,8 +18,8 @@
 
 #include <rk_base.h>
 
-#include <string>
 #include <SDL.h>
+#include <string>
 
 #if CPU_FAMILY == PPC
 #ifdef MPROFILE
@@ -27,14 +27,12 @@
 #endif
 #endif
 
-
 #ifdef MPROFILE
 
 #define Uint64 long long
 #define Sint64 signed long long
 
-struct SOURCE_LINE
-{
+struct SOURCE_LINE {
   Uint64 time;       ///< Total time spent in function
   Uint64 count;      ///< Total function calls
   int line;          ///< __LINE__
@@ -45,23 +43,24 @@ struct SOURCE_LINE
 
 /// \brief Call stack tracker
 ///
-/// Object of this class is created on stack in STACKTRACE macro, so it's creating/destruction can
-/// be used to manage  call stack.
-class AGEXPORT UserStackTraceHelper
-{
- public:
-  UserStackTraceHelper( SOURCE_LINE* srcline);
+/// Object of this class is created on stack in STACKTRACE macro, so it's
+/// creating/destruction can be used to manage  call stack.
+class AGEXPORT UserStackTraceHelper {
+public:
+  UserStackTraceHelper(SOURCE_LINE *srcline);
   ~UserStackTraceHelper();
 
   ///  get stack trace string
-    static std::string getStackTraceString();
-    static std::string getProfilerString();
+  static std::string getStackTraceString();
+  static std::string getProfilerString();
 };
 
-
-#define STACKTRACE static SOURCE_LINE _srcline = { 0, 0, __LINE__, __FILE__, __FUNCTION__, 0 }; UserStackTraceHelper _stacktrace_ ( &_srcline );
-#define _STACKTRACE(A) static SOURCE_LINE _srcline = {0, 0, __LINE__, __FILE__, __FUNCTION__, A }; UserStackTraceHelper _stacktrace_ ( &_srcline );
-
+#define STACKTRACE                                                             \
+  static SOURCE_LINE _srcline = {0, 0, __LINE__, __FILE__, __FUNCTION__, 0};   \
+  UserStackTraceHelper _stacktrace_(&_srcline);
+#define _STACKTRACE(A)                                                         \
+  static SOURCE_LINE _srcline = {0, 0, __LINE__, __FILE__, __FUNCTION__, A};   \
+  UserStackTraceHelper _stacktrace_(&_srcline);
 
 #else // MPROFILE
 #define STACKTRACE

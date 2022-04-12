@@ -21,42 +21,32 @@
 #include "ag_local.h"
 #include "rk_debug.h"
 
+AGLocalizer *gLocalizer = 0;
 
-AGLocalizer *gLocalizer=0;
+AGLocalizer::~AGLocalizer() throw() {
+  if (gLocalizer == this)
+    gLocalizer = 0;
+}
 
-AGLocalizer::~AGLocalizer() throw()
-  {
-    if(gLocalizer==this)
-      gLocalizer=0;
+AGStringUtf8 AGLocalizer::find(const AGString &p) {
+  cdebug("WARNING: Default Localizer used!");
+  return AGStringUtf8(p);
+}
+
+void setLocalizer(AGLocalizer *p) { gLocalizer = p; }
+
+AGLocalizer *getLocalizer() { return gLocalizer; }
+
+bool localizerWarning = false;
+
+AGStringUtf8 translate(const AGString &s) {
+  AGLocalizer *l = getLocalizer();
+
+  if (l)
+    return l->find(s);
+  else if (!localizerWarning) {
+    cdebug("No Localizer found!");
+    localizerWarning = true;
   }
-
-AGStringUtf8 AGLocalizer::find(const AGString &p)
-  {
-    cdebug("WARNING: Default Localizer used!");
-    return AGStringUtf8(p);
-  }
-
-void setLocalizer(AGLocalizer *p)
-  {
-    gLocalizer=p;
-  }
-
-AGLocalizer *getLocalizer()
-  {
-    return gLocalizer;
-  }
-
-bool localizerWarning=false;
-
-AGStringUtf8 translate(const AGString &s)
-  {
-    AGLocalizer *l=getLocalizer();
-
-    if(l)
-      return l->find(s);
-    else if(!localizerWarning) {
-      cdebug("No Localizer found!");
-      localizerWarning=true;
-    }
-    return AGStringUtf8(s);
-  }
+  return AGStringUtf8(s);
+}
