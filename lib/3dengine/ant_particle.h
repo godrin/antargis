@@ -6,6 +6,7 @@
 #include "ag_texture.h"
 #include "scenenode.h"
 
+class Scene;
 /**
    some very simple particle engine for displaying
    smoke and ugly fire.

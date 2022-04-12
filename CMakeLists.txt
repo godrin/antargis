@@ -21,9 +21,13 @@ find_package(Curses)
 if ( NOT SDL_FOUND )
    message ( FATAL_ERROR "Make sure that SDL is installed" )
 endif ( NOT SDL_FOUND )
+
+find_library(SGE_LIBRARY NAMES SGE)
+
 enable_testing ()
 link_libraries (
    ${SDL_LIBRARY}
+   ${SGE_LIBRARY}
    ${SDLIMAGE_LIBRARY}
    ${SDLMIXER_LIBRARY}
    ${SDLTTF_LIBRARY}

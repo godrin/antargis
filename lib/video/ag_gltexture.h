@@ -22,7 +22,7 @@
 #define AG_GLTEXTURE
 
 #include "ag_surface.h"
-
+class AGSurface;
 class AGInternalSurface;
 
 /**
