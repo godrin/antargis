@@ -69,6 +69,7 @@ public:
   AGVector2 getRelMousePosition() const;
 
   AGVector2 getMousePosition() const;
+  AGVector2 getSize() const;
   SDLKey getKey() const;
   MSDLMod getMod() const;
   Uint16 getUnicode() const;

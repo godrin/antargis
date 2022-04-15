@@ -152,6 +152,8 @@ public:
   virtual void setTop(float y);
   virtual void setLeft(float x);
 
+  virtual void arrange();
+
   bool fixedWidth() const;
   bool fixedHeight() const;
 

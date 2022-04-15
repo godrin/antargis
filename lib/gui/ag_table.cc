@@ -167,101 +167,111 @@ AGRect2 AGTable::getClientRect(int x, int y) const {
 
 void AGTable::arrange() {
   CTRACE;
-  int mx, my;
+  if(children.size() == w*h) {
+    cdebug("W:"<<width());
+    int mx, my;
 
-  // first get the fixed sizes
-  int fx, fy;
-  int mfx, mfy; // max
-  fx = fy = 0;
-  mfx = mfy = 0;
+    // first get the fixed sizes
+    int fx, fy;
+    int mfx, mfy; // max
+    fx = fy = 0;
+    mfx = mfy = 0;
 
-  // in y dir
-  for (mx = 0; mx < w; mx++) {
-    fy = 0;
-    //      if(cols[mx]==0.0)
-    for (my = 0; my < h; my++) {
-      if (rows[my].second)
-        fy += (int)(rows[my].first);
-    }
-    mfy = std::max(mfy, fy);
-  }
-
-  // x dir
-  for (my = 0; my < h; my++) {
-    fx = 0;
-    //      if(rows[my]==0.0) // only check fixed
+    // in y dir
     for (mx = 0; mx < w; mx++) {
-      if (cols[mx].second) {
-        fx += (int)(cols[mx].first);
+      fy = 0;
+      //      if(cols[mx]==0.0)
+      for (my = 0; my < h; my++) {
+        if (rows[my].second) {
+          fy += (int)(rows[my].first);
+        }
       }
+      mfy = std::max(mfy, fy);
     }
-    mfx = std::max(mfx, fx);
-  }
 
-  // TODO: assign width's and heights for all fixed !!!
-  for (mx = 0; mx < w; mx++)
+    // x dir
     for (my = 0; my < h; my++) {
-      if (cols[mx].second) {
-        AGWidget *wd = children[mx + my * w];
-        if (wd) {
-          wd->setWidth(cols[mx].first);
+      fx = 0;
+      //      if(rows[my]==0.0) // only check fixed
+      for (mx = 0; mx < w; mx++) {
+        if (cols[mx].second) {
+          fx += (int)(cols[mx].first);
         }
       }
-      if (rows[my].second) {
-        AGWidget *wd = children[mx + my * w];
-        if (wd) {
-          wd->setHeight(rows[my].first);
-        }
-      }
+      mfx = std::max(mfx, fx);
     }
 
-  // assign width's and height's for all non-fixed
-  for (mx = 0; mx < w; mx++)
-    for (my = 0; my < h; my++) {
-      if (!cols[mx].second) {
-        AGWidget *wd = children[mx + my * w];
-        if (wd) {
-          wd->setWidth((int)((width() - mfx) * cols[mx].first / xw));
+    cdebug("MFX:"<<mfx<<" y:"<<mfy);
+
+    // TODO: assign width's and heights for all fixed !!!
+    for (mx = 0; mx < w; mx++)
+      for (my = 0; my < h; my++) {
+        if (cols[mx].second) {
+          cdebug("MX:"<<mx<<" my:"<<my<<" w:"<<w);
+          AGWidget *wd = children[mx + my * w];
+          if (wd) {
+            wd->setWidth(cols[mx].first);
+          }
+        }
+        if (rows[my].second) {
+          AGWidget *wd = children[mx + my * w];
+          if (wd) {
+            wd->setHeight(rows[my].first);
+          }
         }
       }
-      if (!rows[my].second) {
-        AGWidget *wd = children[mx + my * w];
-        if (wd) {
-          wd->setHeight((int)((height() - mfy) * rows[my].first / yw));
+
+    // assign width's and height's for all non-fixed
+    for (mx = 0; mx < w; mx++)
+      for (my = 0; my < h; my++) {
+        if (!cols[mx].second) {
+          AGWidget *wd = children[mx + my * w];
+          if (wd) {
+            wd->setWidth((int)((width() - mfx) * cols[mx].first / xw));
+          }
+        }
+        if (!rows[my].second) {
+          AGWidget *wd = children[mx + my * w];
+          if (wd) {
+            wd->setHeight((int)((height() - mfy) * rows[my].first / yw));
+          }
         }
       }
-    }
 
-  // assign positions
-  // first x
-  float ax = 0;
-  for (mx = 0; mx < w; mx++) {
-    float maxx = 0;
-    for (my = 0; my < h; my++) {
-      AGWidget *wd = children[mx + my * w];
-      if (wd) {
-        wd->setLeft(ax);
-
-        maxx = std::max(maxx, wd->width());
-      }
-    }
-    ax += maxx;
-  }
-
-  // now y
-  float ay = 0;
-  for (my = 0; my < h; my++) {
-    float maxy = 0;
+    // assign positions
+    // first x
+    float ax = 0;
     for (mx = 0; mx < w; mx++) {
-      AGWidget *wd = children[mx + my * w];
-      if (wd) {
-        wd->setTop(ay);
+      float maxx = 0;
+      for (my = 0; my < h; my++) {
+        AGWidget *wd = children[mx + my * w];
+        if (wd) {
+          wd->setLeft(ax);
 
-        maxy = std::max(maxy, wd->height());
+          maxx = std::max(maxx, wd->width());
+        }
       }
+      ax += maxx;
     }
-    ay += maxy;
+
+    // now y
+    float ay = 0;
+    for (my = 0; my < h; my++) {
+      float maxy = 0;
+      for (mx = 0; mx < w; mx++) {
+        AGWidget *wd = children[mx + my * w];
+        if (wd) {
+          wd->setTop(ay);
+
+          maxy = std::max(maxy, wd->height());
+        }
+      }
+      ay += maxy;
+    }
+  } else {
+    cdebug("children size not correct:"<<children.size()<<" w:"<<w<<" h:"<<h);
   }
+  AGWidget::arrange();
 }
 
 void AGTable::setWidth(float w) {
@@ -297,4 +307,13 @@ void AGTable::modifyRow(size_t index, float w) {
     rows[index].first = w;
   }
   arrange();
+}
+void AGTable::addChild(AGWidget *w) {
+  AGWidget::addChild(w);
+}
+void AGTable::addChildBack(AGWidget *w) {
+  AGWidget::addChildBack(w);
+}
+void AGTable::removeChild(AGWidget *w) {
+  AGWidget::removeChild(w);
 }

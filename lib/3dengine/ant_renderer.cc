@@ -188,7 +188,6 @@ void Renderer::endShadowComputation() {
 void Renderer::beginShadowDrawing() {
   assertGL;
   glActiveTexture(getShadowUnit());
-  cdebug(getShadowUnit());
   assertGL;
 
   glMatrixMode(GL_MODELVIEW);

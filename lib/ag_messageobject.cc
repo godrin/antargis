@@ -53,6 +53,15 @@ void AGEvent::setVector(const AGVector2 &v) { mVector = v; }
 /// returns the drag-vector in case of a drag-event
 AGVector2 AGEvent::getVector() const { return mVector; }
 
+AGVector2 AGEvent::getSize() const {
+  AGVector2 pos;
+  if(mEvent.type == SDL_VIDEORESIZE) {
+    const SDL_ResizeEvent *rEvent = (const SDL_ResizeEvent*)&mEvent;
+    pos.setX(rEvent->w);
+    pos.setY(rEvent->h);
+  }
+  return pos;
+}
 /// sets the caller of this event - shouldn't be used outside of AGWidget
 void AGEvent::setCaller(AGListener *pCaller) { mCaller = pCaller; }
 

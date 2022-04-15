@@ -206,3 +206,11 @@ void parseChildren(AGWidget *pParent, const Node &pNode) {
 void AGLayout::insertTempWidget(AGWidget *pWidget) {
   mTempWidgets.insert(pWidget);
 }
+  
+void AGLayout::arrange() {
+  float w = width(), h=height(); 
+  for_each(mChildren.begin(), mChildren.end(), [w,h](AGWidget *i){
+      i->setWidth(w);
+      i->setHeight(h);
+  });
+}

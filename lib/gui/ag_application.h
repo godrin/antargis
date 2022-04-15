@@ -94,6 +94,7 @@ public:
   virtual bool eventQuit(AGEvent *m);
   virtual bool eventKeyDown(AGEvent *m2);
   virtual bool eventMouseMotion(AGEvent *m);
+  virtual bool eventResize(AGEvent *m);
 
   virtual void eventChangedRes();
 

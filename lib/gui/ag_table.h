@@ -64,7 +64,12 @@ public:
   size_t getRows() const;
   size_t getColumns() const;
 
+protected:
+  void addChild(AGWidget *w);
+  void addChildBack(AGWidget *w);
+  void removeChild(AGWidget *w);
 private:
+
   int w, h;
   float xw, yw; // weights
 

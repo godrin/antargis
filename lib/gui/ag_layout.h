@@ -41,6 +41,7 @@ public:
   int getNextTabIndex() const;
 
   static void registerLayouts();
+  void arrange();
 
 private:
   void insertTempWidget(AGWidget *pWidget);

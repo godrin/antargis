@@ -73,6 +73,8 @@ void AGVideoManager::initVideo(int w, int h, int d, bool fs, bool gl, int vw,
   if (gl)
     videoFlags |= SDL_DOUBLEBUF;
 
+  videoFlags |= SDL_RESIZABLE;
+
   SDL_Surface *ms =
       SDL_SetVideoMode(w, h, videoInfo->vfmt->BitsPerPixel, videoFlags);
   if (!ms) {

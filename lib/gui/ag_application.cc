@@ -443,6 +443,13 @@ void AGApplication::setNormalCursor() {
   checkedDelete(mCursor);
   mCursor = 0;
 }
+  
+bool AGApplication::eventResize(AGEvent *m) {
+  AGVector2 size = m->getSize();
+  mainWidget->setWidth(size.getX());
+  mainWidget->setHeight(size.getY());
+  mainWidget->arrange();
+}
 
 bool AGApplication::hardwareCursor() const { return mCursor == 0; }
 

@@ -1097,4 +1097,8 @@ void AGWidget::setAlpha(float alpha) {
     setCaching(true);
 }
 
+void AGWidget::arrange() {
+  for_each(mChildren.begin(), mChildren.end(), [](AGWidget *i){i->arrange();});
+}
+
 float AGWidget::getAlpha() const { return mAlpha; }
