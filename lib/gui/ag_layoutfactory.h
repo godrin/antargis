@@ -28,21 +28,35 @@
 #include <ag_xml.h>
 #include <rk_utf8.h>
 
+class AGEXPORT AGLayoutCreationResult {
+  public:
+  AGLayoutCreationResult(AGWidget *pWidget) {
+    mWidget = pWidget;
+    mClient = 0;
+  }
+  AGLayoutCreationResult(AGWidget *pWidget, AGWidget *pClient) :mWidget(pWidget), mClient(pClient) {
+    }
+  AGWidget*getWidget() {
+    return mWidget;
+  }
+  AGWidget*getClient() {
+    if(mClient) {
+      return mClient;
+    }
+    return mWidget;
+  }
+
+  private:
+  AGWidget *mWidget;
+  AGWidget *mClient;
+};
+
 class AGEXPORT AGLayoutCreator {
 public:
   AGLayoutCreator();
   virtual ~AGLayoutCreator();
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
-                      const Node &pNode);
-  void setResult(AGWidget *pWidget);
-  void setClient(AGWidget *pWidget);
-  AGWidget *getResult();
-  AGWidget *getClient();
-
-  void clearResult();
-
-private:
-  AGWidget *mWidget, *mClient;
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
+      const Node &pNode)=0;
 };
 
 class AGEXPORT AGLayoutFactory {

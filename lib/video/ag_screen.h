@@ -47,6 +47,9 @@ public:
   virtual AGTexture screenshot(bool frontBuffer = true);
   virtual AGFontEngine *getFontEngine();
 
+  virtual void setWidth(size_t width)=0;
+  virtual void setHeight(size_t height)=0;
+
 private:
   AGFontEngine *mFontEngine;
 };

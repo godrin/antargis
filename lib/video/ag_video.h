@@ -25,6 +25,9 @@ public:
   int width() const;
   int height() const;
 
+  void setWidth(int width);
+  void setHeight(int height);
+
   int realWidth() const;
   int realHeight() const;
 

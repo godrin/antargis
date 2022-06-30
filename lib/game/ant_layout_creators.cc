@@ -4,10 +4,9 @@
 
 template <class T> class AntGenericCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
-    AGWidget *w = new T(pParent, pRect);
-    setResult(w);
+    return AGLayoutCreationResult(new T(pParent, pRect));
   }
 };
 

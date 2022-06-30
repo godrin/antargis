@@ -375,6 +375,14 @@ void AGGLScreen::blitTri(const AGTexture &pSource, const AGTriangle2 &pSrc,
 
 size_t AGGLScreen::getWidth() const { return w; }
 size_t AGGLScreen::getHeight() const { return h; }
+  
+void AGGLScreen::setWidth(size_t width) {
+  rw = w = width;
+}
+void AGGLScreen::setHeight(size_t height) {
+  rh = h = height;
+}
+
 void AGGLScreen::clip(const AGRect2 &r) {
   // return;
 #warning "insert clipping facility for opengl"

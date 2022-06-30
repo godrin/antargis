@@ -142,6 +142,13 @@ int AGVideoManager::realHeight() const { return lastHeight; }
 int AGVideoManager::width() const { return lastVWidth; }
 int AGVideoManager::height() const { return lastVHeight; }
 
+void AGVideoManager::setWidth(int width) {
+  mScreen->setWidth(width);
+}
+
+void AGVideoManager::setHeight(int height) {
+  mScreen->setHeight(height);
+}
 AGVideoManager *getVideo() {
   AGVideoManager *m = dynamic_cast<AGVideoManager *>(getMain()->getVideo());
   assert(m);

@@ -449,6 +449,8 @@ bool AGApplication::eventResize(AGEvent *m) {
   mainWidget->setWidth(size.getX());
   mainWidget->setHeight(size.getY());
   mainWidget->arrange();
+  getVideo()->setWidth(size.getX());
+  getVideo()->setHeight(size.getY());
 }
 
 bool AGApplication::hardwareCursor() const { return mCursor == 0; }

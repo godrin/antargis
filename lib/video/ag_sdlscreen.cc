@@ -133,6 +133,13 @@ void AGSDLScreen::drawLine(const AGVector2 &pp0, const AGVector2 &pp1,
 
 size_t AGSDLScreen::getWidth() const { return s->w; }
 size_t AGSDLScreen::getHeight() const { return s->h; }
+  
+void AGSDLScreen::setWidth(size_t width) {
+  throw std::runtime_error("don't know if it's already changed");
+}
+void AGSDLScreen::setHeight(size_t height) {
+  throw std::runtime_error("don't know if it's already changed");
+}
 
 void AGSDLScreen::clip(const AGRect2 &r) {
   //  cdebug(r);

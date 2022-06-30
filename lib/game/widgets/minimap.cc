@@ -375,9 +375,9 @@ class AGMiniMapLayoutCreator:public AGLayoutCreator
   {
     public:
 
-      virtual void create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
+      virtual AGLayoutCreationResult create(AGWidget *pParent,const AGRect2 &pRect,const Node &pNode)
         {
-          setResult(new MiniMap(pParent,pRect,0));
+          return AGLayoutCreationResult(new MiniMap(pParent,pRect,0));
         }
   };
 

@@ -24,30 +24,27 @@ AGWidget *parseNode(AGWidget *pParent, const Node &pNode);
 // Layout-Factories
 class AGButtonLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
-    AGButton *b = AGButton::create(
+    return AGButton::create(
         pParent, pRect, _(pNode.get("caption")), pNode.get("caption-image"),
         pNode.get("enabled") != "false", pNode.get("theme"));
-    setResult(b);
   }
 };
 
 class AGTableLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     AGWidget *w = parseTable(pParent, pNode, pRect);
     pParent->addChild(w);
-    w = 0;
-    setResult(0);
+    return AGLayoutCreationResult(w);
   }
 
   AGTable *parseTable(AGWidget *pParent, const Node &pNode,
                       const AGRect2 &geom) {
     AGTable *t;
     t = new AGTable(pParent, geom);
-    setResult(t); // set result - so garbage collector gets to know this one
 
     int w, h;
     w = pNode.get("cols").toInt();
@@ -127,24 +124,23 @@ public:
 
 class AGWindowLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     AGStringUtf8 title = _(pNode.get("title"));
     AGString theme = pNode.get("theme");
 
     AGWidget *w = new AGWindow(pParent, pRect, AGStringUtf8(title), theme);
-    setResult(w);
+    return AGLayoutCreationResult(w);
   }
 };
 
 // AGText creator
 class AGTextLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     //    AGWidget *w=new AGText(pParent,pRect,text,font);
     AGEdit *w = new AGEdit(pParent, pRect);
-    setResult(w);
 
     AGStringUtf8 text = _(pNode.get("caption"));
     text = text.replace("\\n", "\n");
@@ -174,13 +170,14 @@ public:
     //    w->setAlign(EDIT_CENTER);
     w->setMutable(false);
     w->setBackground(false);
+    return AGLayoutCreationResult(w);
   }
 };
 
 // AGText creator
 class AGEditLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     CTRACE;
     AGString text = pNode.get("text");
@@ -188,7 +185,6 @@ public:
 
     //    AGWidget *w=new AGText(pParent,pRect,text,font);
     AGEdit *w = new AGEdit(pParent, pRect);
-    setResult(w);
     w->setText(AGStringUtf8(text));
     if (pNode.get("font") != "") {
       AGFont font;
@@ -199,58 +195,60 @@ public:
     w->setMutable(true);    // false);
     w->setBackground(true); // false);
     w->setMulti(multi);
-    if (!multi)
+    if (!multi) {
       w->setVAlign(EDIT_VCENTER);
+    }
+    return AGLayoutCreationResult(w);
   }
 };
 
 // AGListBox creator
 class AGListBoxLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     AGListBox *l = new AGListBox(pParent, pRect);
     if (pNode.get("theme").length() > 0)
       l->setTheme(pNode.get("theme"));
-    setResult(l);
+    return AGLayoutCreationResult(l);
   }
 };
 
 // AGComboBox creator
 class AGComboBoxLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     CTRACE;
     AGComboBox *l = new AGComboBox(pParent, pRect);
-    setResult(l);
 
     Node::const_iterator i = pNode.begin();
     for (; i != pNode.end(); i++) {
       if ((*i)->getName() == "item")
         l->insertItem((*i)->get("id"), AGStringUtf8((*i)->get("text")));
     }
+    return AGLayoutCreationResult(l);
   }
 };
 
 // AGLayout creator
 class AGLayoutLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     AGString filename = pNode.get("filename");
     AGWidget *w = new AGWidget(pParent, pRect);
-    setResult(w);
     AGLayout *l = new AGLayout(w);
     l->loadXML(loadFile(filename));
     w->addChild(l);
+    return AGLayoutCreationResult(w);
   }
 };
 
 // AGLayout creator
 class AGImageLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     AGString filename = pNode.get("filename");
 
@@ -280,14 +278,14 @@ public:
 
     w->setScale(pNode.get("scale") == "true");
 
-    setResult(w);
+    return AGLayoutCreationResult(w);
   }
 };
 
 // AGLayout creator
 class AGFrameLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     AGString border = pNode.get("border");
     size_t width = pNode.get("width").toInt();
@@ -302,20 +300,20 @@ public:
     else
       w = new AGFrame(pParent, pRect, width, height);
 
-    setResult(w);
     if (pNode.get("background").length())
       w->setBackground(AGBackground(pNode.get("background")));
     if (pNode.get("alpha").length() > 0)
       w->setAlpha(pNode.get("alpha").toFloat());
     if (pNode.get("cache") == "true")
       w->setCaching(true);
+    return AGLayoutCreationResult(w);
   }
 };
 
 // AGLayout creator
 class AGCellLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     AGCell *cell = new AGCell(pParent, pRect);
     if (pNode.get("padding") != "") {
@@ -323,17 +321,17 @@ public:
       int pady = pNode.get("padding").toInt();
       AGFrame *frame = new AGFrame(cell, cell->getRect().origin(), padx, pady);
       cell->addChild(frame);
-      setClient(frame);
+      return AGLayoutCreationResult(cell,frame);
     }
 
-    setResult(cell);
+    return AGLayoutCreationResult(cell);
   }
 };
 
 // AGRadio creator
 class AGCheckBoxLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     AGCheckBox *b = new AGCheckBox(pParent, pRect);
     AGStringUtf8 caption = _(pNode.get("caption"));
@@ -355,16 +353,17 @@ public:
                      AGSurface::load(pNode.get("enabledImage")));
     }
 
-    setResult(b);
+    return AGLayoutCreationResult(b);
   }
 };
 
 // Layout-Factories
 class AGColorButtonLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
-    setResult(new AGColorButton(pParent, pRect, pNode.get("gridx").toInt(),
+    return AGLayoutCreationResult(
+        new AGColorButton(pParent, pRect, pNode.get("gridx").toInt(),
                                 pNode.get("gridy").toInt()));
   }
 };
@@ -372,16 +371,16 @@ public:
 // AGRadioGroup creator
 class AGRadioGroupLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
-    setResult(new AGRadioGroup(pParent, pRect));
+    return AGLayoutCreationResult(new AGRadioGroup(pParent, pRect));
   }
 };
 
 // AGRadio creator
 class AGRadioLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     AGRadio *b = new AGRadio(pParent, pRect);
     AGStringUtf8 caption = _(pNode.get("caption"));
@@ -397,32 +396,31 @@ public:
       b->setTheme(pNode.get("theme"));
     if (pNode.get("checked") == "true")
       b->setChecked(true);
-    setResult(b);
+    return AGLayoutCreationResult(b);
   }
 };
 
 class AGScreenWidgetLayoutCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
-    CTRACE;
-    setResult(new AGScreenWidget());
+    return AGLayoutCreationResult(new AGScreenWidget());
   }
 };
 
 class AGScrollingWidgetCreator : public AGLayoutCreator {
 public:
-  virtual void create(AGWidget *pParent, const AGRect2 &pRect,
+  virtual AGLayoutCreationResult create(AGWidget *pParent, const AGRect2 &pRect,
                       const Node &pNode) {
     CTRACE;
-    AGScrollingWidget *w;
-    setResult(w = new AGScrollingWidget(pParent, pRect));
+    AGScrollingWidget *w = new AGScrollingWidget(pParent, pRect);
     AGRect2 r = pRect.origin();
     AGString s = (pNode.get("clientRect"));
     if (s.length() > 0) {
       r = AGRect2(s);
     }
     w->setClientRect(r);
+    return AGLayoutCreationResult(w);
   }
 };
 

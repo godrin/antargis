@@ -22,32 +22,20 @@
 #include "ag_kill.h"
 #include "rk_debug.h"
 
-AGLayoutCreator::AGLayoutCreator() : mWidget(0), mClient(0) {}
+AGLayoutCreator::AGLayoutCreator() {
+}
+AGLayoutCreator::~AGLayoutCreator() {
+}
 
-AGLayoutCreator::~AGLayoutCreator() {}
-
-void AGLayoutCreator::create(AGWidget *pParent, const AGRect2 &pRect,
-                             const Node &pNode) {}
-
+/*
+ * FIXME
 void AGLayoutCreator::setResult(AGWidget *pWidget) {
   mWidget = pWidget;
   if (mWidget)
     getLayoutFactory()->getCurrentLayout()->addChildRef(mWidget);
 }
+*/
 
-void AGLayoutCreator::setClient(AGWidget *pWidget) {
-  mClient = pWidget;
-  if (pWidget)
-    getLayoutFactory()->getCurrentLayout()->addChildRef(pWidget);
-}
-
-AGWidget *AGLayoutCreator::getResult() { return mWidget; }
-AGWidget *AGLayoutCreator::getClient() { return mClient; }
-
-void AGLayoutCreator::clearResult() {
-  mWidget = 0;
-  mClient = 0;
-}
 
 AGLayoutFactory::AGLayoutFactory() { REGISTER_SINGLETON(this); }
 
@@ -75,10 +63,9 @@ std::pair<AGWidget *, AGWidget *> AGLayoutFactory::create(AGWidget *pParent,
 
   if (creator) {
     AGWidget *outer, *inner;
-    creator->create(pParent, pRect, pNode);
-    outer = creator->getResult();
-    inner = creator->getClient();
-    creator->clearResult();
+    AGLayoutCreationResult result = creator->create(pParent, pRect, pNode);
+    outer = result.getWidget();
+    inner = result.getClient();
     if (inner == 0)
       inner = outer;
 

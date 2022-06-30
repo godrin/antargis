@@ -63,6 +63,9 @@ public:
 
   virtual size_t getWidth() const;
   virtual size_t getHeight() const;
+  
+  virtual void setWidth(size_t width);
+  virtual void setHeight(size_t height);
 
   virtual void clip(const AGRect2 &r);
   virtual void unclip();
