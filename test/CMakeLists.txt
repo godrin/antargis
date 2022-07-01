@@ -4,5 +4,5 @@ add_executable(ant_test ${TEST_SOURCES})
 target_link_libraries(ant_test antlib)
 add_test (NAME MyAntTest COMMAND ant_test)
 
-add_executable(ant_gltest gl_test.cc)
-target_link_libraries(ant_gltest antlib)
+#add_executable(ant_gltest gl_test.cc)
+#target_link_libraries(ant_gltest antlib)

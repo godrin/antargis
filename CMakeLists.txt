@@ -1,9 +1,9 @@
-
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 project(antargis)
 
 # when linking boost statically use the following line:
 set(Boost_USE_STATIC_LIBS "ON")
+set(OpenGL_GL_PREFERENCE "LEGACY")
 # otherwise use the following line to support dynamic linking within tests
 # add_definitions (-DBOOST_TEST_DYN_LINK)
 
