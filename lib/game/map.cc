@@ -351,7 +351,7 @@ void AntMap::newMap(int w, int h) {
 }
 
 AntMap::EntityList
-AntMap::getSelectedEntities(auto_ptr<AntEntitySelector> selector) {
+AntMap::getSelectedEntities(unique_ptr<AntEntitySelector> selector) {
   AntMap::EntityList l;
   for (EntityList::iterator i = mEntities.begin(); i != mEntities.end(); i++) {
     if (selector->ok(*i)) {

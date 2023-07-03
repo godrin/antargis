@@ -25,7 +25,7 @@
 #include <boost/bind.hpp>
 
 std::vector<AntActionWidget::Action> getActions(AntHero *hero,
-                                                AntEntity *selectedEntity);
+    AntEntity *selectedEntity);
 
 AntGameApp::AntGameApp(int w, int h) : AntBasicGameApp(w, h) {
   // REVIEWED
@@ -55,30 +55,30 @@ void AntGameApp::init(const std::string &level) {
   setCamera(currentHero->getPos2D());
 
   AntHeroFaces *heroFaces =
-      dynamic_cast<AntHeroFaces *>(layout->getChild("ant_hero_faces"));
+    dynamic_cast<AntHeroFaces *>(layout->getChild("ant_hero_faces"));
   myPlayer->sigHeroesChanged.connect(
       [heroFaces](AntPlayer *player) { heroFaces->update(player); });
   myPlayer->sigHeroesChanged(myPlayer);
   heroFaces->sigHeroClicked.connect([this](AntHero *hero) {
-    std::cout << "Hero clicked:" << hero << std::endl;
-    this->setCamera(hero->getPos2D());
-  });
+      std::cout << "Hero clicked:" << hero << std::endl;
+      this->setCamera(hero->getPos2D());
+      });
 
   // QUIT on door click
   layout->getChild("quit")->sigClickBoost.connect([this](AGWidget *caller) {
-    this->tryQuit();
-    return true;
-  });
+      this->tryQuit();
+      return true;
+      });
   // toggle pause
   AGButton *pauseButton = dynamic_cast<AGButton *>(layout->getChild("pause"));
   pauseButton->sigClickBoost.connect([this, pauseButton](AGWidget *caller) {
-    this->mPaused = !this->mPaused;
-    pauseButton->setSurface(AGSurface::load(AGString("data/gui/") +
-                                            (this->mPaused ? "play" : "pause") +
-                                            ".png"),
-                            false);
-    return true;
-  });
+      this->mPaused = !this->mPaused;
+      pauseButton->setSurface(AGSurface::load(AGString("data/gui/") +
+            (this->mPaused ? "play" : "pause") +
+            ".png"),
+          false);
+      return true;
+      });
 }
 
 bool AntGameApp::eventFrame(float pTime) {
@@ -100,7 +100,7 @@ void AntGameApp::eventEntitiesClicked(const PickResult &pNodes, int button) {
   // find first entity that's nearest to the camera
   selectEntity(0);
   for (PickResult::const_iterator pickIterator = pNodes.begin();
-       pickIterator != pNodes.end(); pickIterator++) {
+      pickIterator != pNodes.end(); pickIterator++) {
     SceneNode *sceneNode = pickIterator->node;
     if (dynamic_cast<Mesh *>(sceneNode) ||
         dynamic_cast<AnimMesh *>(sceneNode)) {
@@ -141,13 +141,13 @@ void AntGameApp::showActionWidget() {
   CTRACE;
   if (actionWidget == 0) {
     actionWidget =
-        new AntActionWidget(getMainWidget(), AGRect2(50, 200, 140, 40));
+      new AntActionWidget(getMainWidget(), AGRect2(50, 200, 140, 40));
     actionWidget->setHandler(this);
     getMainWidget()->addChildBack(actionWidget);
   }
 
   std::vector<AntActionWidget::Action> actions =
-      getActions(getCurrentHero(), getSelectedEntity());
+    getActions(getCurrentHero(), getSelectedEntity());
   AGVector4 mpos = getMap()->getVertex(targetPos.getX(), targetPos.getY());
   AGVector2 pos;
   auto selectedEntity = getSelectedEntity();
@@ -180,12 +180,12 @@ void AntGameApp::selectEntity(AntEntity *e) {
 
 void AntGameApp::printOutEntityInfo(AntEntity *e) {
   std::cout << "==============================" << std::endl
-            << "Type   :" << typeid(*e).name() << std::endl
-            << "------------------------------" << std::endl
-            << "health :" << e->getEnergy() << std::endl
-            << "food   :" << e->getFood() << std::endl
-            << "morale :" << e->getMorale() << std::endl
-            << "aggres :" << e->getAggression() << std::endl;
+    << "Type   :" << typeid(*e).name() << std::endl
+    << "------------------------------" << std::endl
+    << "health :" << e->getEnergy() << std::endl
+    << "food   :" << e->getFood() << std::endl
+    << "morale :" << e->getMorale() << std::endl
+    << "aggres :" << e->getAggression() << std::endl;
 
   AntBoss *boss = dynamic_cast<AntBoss *>(e);
   if (boss) {
@@ -198,7 +198,7 @@ void AntGameApp::printOutEntityInfo(AntEntity *e) {
     if (myBoss) {
       std::cout << "boss   :" << myBoss->getEntity()->getName() << std::endl;
       std::cout << "bossjob:" << typeid(*myBoss->getHlJob()).name()
-                << std::endl;
+        << std::endl;
     }
   }
   std::cout << "job    :" << e->getJobName() << std::endl;
@@ -259,7 +259,7 @@ void AntGameApp::eventMapClicked(const AGVector2 &pos, int button) {
 AntMap *AntGameApp::getMap() { return mMap; }
 
 std::vector<AntActionWidget::Action> getActions(AntHero *hero,
-                                                AntEntity *target) {
+    AntEntity *target) {
   std::vector<AntActionWidget::Action> actions;
 
   actions.push_back(AntActionWidget::STOP);
@@ -313,44 +313,62 @@ void AntGameApp::actionClicked(AntActionWidget::Action action) {
   if (hero && target) {
 
     switch (action) {
-    case AntActionWidget::FIGHT: {
-      if (targetBoss) {
-        std::cout << "Fight other boss" << std::endl;
-        hero->setHlJob(new AntHlJobFighting(hero, targetBoss));
-      } else if (targetAnimal) {
-        hero->setHlJob(new AntHLJobFightAnimal(hero, targetAnimal));
-        // TODO
-      }
-    } break;
-    case AntActionWidget::DROP_FOOD: {
-      if (targetBoss)
-        hero->setHlJob(new AntHLJobDrop(targetBoss, AntHLJobDrop::DROP_FOOD));
-    } break;
-    case AntActionWidget::DROP_WEAPONS: {
-      if (targetBoss)
-        hero->setHlJob(
-            new AntHLJobDrop(targetBoss, AntHLJobDrop::DROP_WEAPONS));
-    } break;
-    case AntActionWidget::TAKE_FOOD: {
-      if (targetBoss)
-        hero->setHlJob(new AntHLJobPickupFrom(hero, targetBoss, "food"));
-    } break;
-    case AntActionWidget::TAKE_WEAPONS: {
-      if (targetBoss)
-        hero->setHlJob(new AntHLJobPickupFrom(hero, targetBoss, "weapons"));
-    } break;
-    case AntActionWidget::DISMISS: {
-      if (targetBoss) {
-        std::cout << "recruit..." << std::endl;
-        hero->setHlJob(new AntHLJobDismiss(hero));
-      }
-    } break;
-    case AntActionWidget::RECRUIT: {
-      if (targetBoss) {
-        std::cout << "recruit..." << std::endl;
-        hero->setHlJob(new AntHlJobRecruit(hero, targetBoss));
-      }
-    } break;
+      case AntActionWidget::FIGHT: 
+        {
+          if (targetBoss) {
+            std::cout << "Fight other boss" << std::endl;
+            hero->setHlJob(new AntHlJobFighting(hero, targetBoss));
+          } else if (targetAnimal) {
+            hero->setHlJob(new AntHLJobFightAnimal(hero, targetAnimal));
+            // TODO
+          }
+        } 
+        break;
+      case AntActionWidget::DROP_FOOD:
+        {
+          if (targetBoss)
+            hero->setHlJob(new AntHLJobDrop(targetBoss, AntHLJobDrop::DROP_FOOD));
+        }
+        break;
+      case AntActionWidget::DROP_WEAPONS:
+        {
+          if (targetBoss)
+            hero->setHlJob(
+                new AntHLJobDrop(targetBoss, AntHLJobDrop::DROP_WEAPONS));
+        }
+        break;
+      case AntActionWidget::TAKE_FOOD:
+        {
+          if (targetBoss)
+            hero->setHlJob(new AntHLJobPickupFrom(hero, targetBoss, "food"));
+        }
+        break;
+      case AntActionWidget::TAKE_WEAPONS:
+        {
+          if (targetBoss)
+            hero->setHlJob(new AntHLJobPickupFrom(hero, targetBoss, "weapons"));
+        }
+        break;
+      case AntActionWidget::DISMISS:
+        {
+          if (targetBoss) {
+            std::cout << "recruit..." << std::endl;
+            hero->setHlJob(new AntHLJobDismiss(hero));
+          }
+        }
+        break;
+      case AntActionWidget::RECRUIT:
+        {
+          if (targetBoss) {
+            std::cout << "recruit..." << std::endl;
+            hero->setHlJob(new AntHlJobRecruit(hero, targetBoss));
+          }
+        }
+        break;
+      default:
+        throw new std::runtime_error("Not implemented");
+
+        break;
     }
   } else if (hero) {
     if (action == AntActionWidget::MOVE_TO)

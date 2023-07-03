@@ -66,7 +66,7 @@ public:
   void newMap(int w, int h);
 
   EntityList getEntities(const AGRect2 &r);
-  EntityList getSelectedEntities(std::auto_ptr<AntEntitySelector> selector);
+  EntityList getSelectedEntities(std::unique_ptr<AntEntitySelector> selector);
   EntityList getAllEntities();
   std::vector<AntEntity *> getEntities(const AGString &pName);
 

@@ -134,7 +134,7 @@ void AntCamera::updateMatrices() {
     glLoadIdentity();
 
     {
-#warning "add some decent calculation here"
+      // FIXME add some decent calculation here
       // use getFrustum for estimating a good light-frustum
 
       float near0 = 20, near1 = 60;

@@ -45,7 +45,7 @@ bool AntAnimal::giveBirth()
   mLastBirth+=1;
   // BIRTHRATE is here:
   if (mLastBirth>40) {
-    AntMap::EntityList fishList=getMap()->getSelectedEntities(std::auto_ptr<AntEntitySelector>(new AntEntityClassSelector<AntAnimal>()));
+    AntMap::EntityList fishList=getMap()->getSelectedEntities(std::unique_ptr<AntEntitySelector>(new AntEntityClassSelector<AntAnimal>()));
     if (fishList.size()>50)
       return false;
     // make child
