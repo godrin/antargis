@@ -5,6 +5,7 @@
 
 #include "ag_geometry.h"
 #include "ag_surface.h"
+#include "ant_renderer.h"
 #include "mesh_base.h"
 #include "scene.h"
 #include "scenenode.h"
@@ -50,9 +51,9 @@ public:
 
   AnimMeshData *getData();
 
-  virtual void draw();
-  virtual void drawDepth();
-  virtual void drawPick();
+  virtual void draw(Renderer *renderer);
+  virtual void drawDepth(Renderer *renderer);
+  virtual void drawPick(Renderer *renderer);
   virtual void advance(float time);
 
   void setEntity(AntEntity *e);
@@ -60,7 +61,7 @@ public:
   virtual size_t getTriangles() const;
 
 private:
-  void drawPrivate(bool textured, bool mem);
+  void drawPrivate(Renderer *renderer, bool textured, bool mem);
 
   void update();
 };

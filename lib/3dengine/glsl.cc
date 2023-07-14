@@ -1,6 +1,7 @@
 #include "glsl.h"
 #include "ag_main.h"
 #include "ag_vdebug.h"
+#include "ant_renderer.h"
 #include "scene.h"
 
 bool glslOk();
@@ -112,7 +113,7 @@ void AntShaderProgram::takeDown() {
   assertGL;
 }
 
-void AntShaderProgram::enable() {
+void AntShaderProgram::enable(Renderer *renderer) {
   assertGL;
   if (glslOk()) {
     glUseProgramObjectARB(p);
@@ -129,15 +130,15 @@ void AntShaderProgram::disable() {
   assertGL;
 }
 
-void AntShaderProgram::update(float time) {
+void AntShaderProgram::update(Renderer *renderer, float time) {
   if (glslOk()) {
-    enable();
-    doUpdate(time);
+    enable(renderer);
+    doUpdate(renderer, time);
     disable();
   }
 }
 
-void AntShaderProgram::doUpdate(float time) {}
+void AntShaderProgram::doUpdate(Renderer * renderer, float time) {}
 
 void AntShaderProgram::sendUniform(const std::string &pName, int i) {
   assertGL;
@@ -240,22 +241,21 @@ AntShadowShader::AntShadowShader(const std::string &pVertexFile,
                                  const std::string &pFragFile)
     : AntShaderProgram(pVertexFile, pFragFile) {}
 
-void AntShadowShader::doUpdate(float time) {
+void AntShadowShader::doUpdate(Renderer *renderer, float time) {
   if (glslOk()) {
-    Renderer *r = getRenderer();
-    sendUniform("shadowTex", r->getShadowUnit());
-    sendUniform("normalTex", r->getNormalUnit());
-    sendUniform("lightComplete", r->getCurrentScene()->getLightComplete());
+    sendUniform("shadowTex", renderer->getShadowUnit());
+    sendUniform("normalTex", renderer->getNormalUnit());
+    sendUniform("lightComplete", renderer->getCurrentScene()->getLightComplete());
   }
 }
 
-void AntShadowShader::enable() {
+void AntShadowShader::enable(Renderer *renderer) {
   assertGL;
-  AntShaderProgram::enable();
+  AntShaderProgram::enable(renderer);
   if (glslOk()) {
-    Scene *scene = getRenderer()->getCurrentScene();
+    Scene *scene = renderer->getCurrentScene();
 
-    glActiveTexture(getRenderer()->getShadowUnit()); // shadow unit
+    glActiveTexture(renderer->getShadowUnit()); // shadow unit
 
     glMatrixMode(GL_TEXTURE);
     glPushMatrix();
@@ -269,21 +269,21 @@ void AntShadowShader::enable() {
     glMultMatrixf(scene->getLightProj());
     glMultMatrixf(scene->getLightView());
 
-    glActiveTexture(getRenderer()->getNormalUnit()); // tex unit
+    glActiveTexture(renderer->getNormalUnit()); // tex unit
 
     glMatrixMode(GL_MODELVIEW);
   }
   assertGL;
 }
-void AntShadowShader::disable() {
+void AntShadowShader::disable(Renderer *renderer) {
   assertGL;
   AntShaderProgram::disable();
   if (glslOk()) {
-    glActiveTexture(getRenderer()->getShadowUnit()); // shadow unit
+    glActiveTexture(renderer->getShadowUnit()); // shadow unit
     glMatrixMode(GL_TEXTURE);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
-    glActiveTexture(getRenderer()->getNormalUnit()); // tex unit
+    glActiveTexture(renderer->getNormalUnit()); // tex unit
   }
   assertGL;
 }
@@ -296,9 +296,9 @@ void AntShadowShader::disable() {
 AntWaterShader::AntWaterShader()
     : AntShaderProgram("data/shaders/simplewater.vert",
                        "data/shaders/simplewater.frag") {}
-void AntWaterShader::doUpdate(float time) {
+void AntWaterShader::doUpdate(Renderer *renderer, float time) {
   if (glslOk()) {
-    AntShaderProgram::doUpdate(time);
+    AntShaderProgram::doUpdate(renderer, time);
 
     t += time;
     sendUniform("time", t);

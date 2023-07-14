@@ -1,6 +1,7 @@
 #include "anim_mesh.h"
 #include "ag_rendercontext.h"
 #include "ag_texturecache.h"
+#include "ant_renderer.h"
 #include "scene.h"
 
 #include "ag_config.h"
@@ -80,22 +81,22 @@ AnimMesh::~AnimMesh() throw() {}
 
 void AnimMesh::setEntity(AntEntity *e) { mEntity = e; }
 
-void AnimMesh::drawDepth() {
+void AnimMesh::drawDepth(Renderer *renderer) {
   STACKTRACE;
-  drawPrivate(false, false);
+  drawPrivate(renderer, false, false);
 }
 
-void AnimMesh::draw() {
+void AnimMesh::draw(Renderer *renderer) {
   STACKTRACE;
   // return;
-  drawPrivate(true, false);
+  drawPrivate(renderer, true, false);
 }
-void AnimMesh::drawPick() {
+void AnimMesh::drawPick(Renderer *renderer) {
   STACKTRACE;
-  drawPrivate(false, true);
+  drawPrivate(renderer, false, true);
 }
 
-void AnimMesh::drawPrivate(bool textured, bool mem) {
+void AnimMesh::drawPrivate(Renderer *renderer, bool textured, bool mem) {
   assertGL;
   AGRenderContext c;
   if (textured) {
@@ -115,25 +116,25 @@ void AnimMesh::drawPrivate(bool textured, bool mem) {
   if (useShaderAnimation() && !pick) {
     glMultMatrixf(mData->getTransform());
     if (textured) {
-      mData->animShader.enable();
+      mData->animShader.enable(renderer);
 
       mData->animShader.sendUniform("matrices", mShaderMatrices);
 
       // mData->mArrayDepth.setColors(false);
-      mData->mArray.draw();
+      mData->mArray.draw(renderer);
 
       mData->animShader.disable();
 
     } else if (mem) {
       mData->mArray.drawPick();
     } else {
-      mData->animShaderDepth.enable();
+      mData->animShaderDepth.enable(renderer);
 
       mData->animShaderDepth.sendUniform("matrices", mShaderMatrices);
 
       mData->mArrayDepth.setColors(false);
 
-      mData->mArrayDepth.draw(); // FIXME: drawDepth makes some problems here
+      mData->mArrayDepth.draw(renderer); // FIXME: drawDepth makes some problems here
 
       mData->animShaderDepth.disable();
     }

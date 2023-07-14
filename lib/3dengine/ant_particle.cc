@@ -105,7 +105,7 @@ void AntParticle::advance(float time) {
   }
 }
 
-void AntParticle::draw() {
+void AntParticle::draw(Renderer *renderer) {
   STACKTRACE;
   assertGL;
 
@@ -113,7 +113,7 @@ void AntParticle::draw() {
     return;
 
   AGVector3 dir =
-      getRenderer()->getCurrentScene()->getCameraDirTo(getPos().dim3());
+      renderer->getCurrentScene()->getCameraDirTo(getPos().dim3());
 
   AGVector3 pdown(0, 0, -1);
   AGVector3 side = dir % pdown;

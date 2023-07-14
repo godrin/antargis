@@ -20,14 +20,11 @@ bool PickNode::operator<(const PickNode &n) const {
   return camDist < n.camDist;
 }
 
-Scene::Scene(int w, int h) : SceneBase(w, h) {
+Scene::Scene(int w, int h, int useShadows) : SceneBase(w, h) {
   white = AGVector4(1, 1, 1, 1);
   black = AGVector4(0, 0, 0, 1);
 
-  if (getRenderer()->canShadow())
-    mShadow = 1;
-  else
-    mShadow = 0;
+  mShadow = useShadows;
 
   mEnabled = true;
 }
@@ -40,13 +37,13 @@ size_t Scene::getTriangles() const { return mTriangles; }
 
 size_t Scene::getPickTriangles() const { return mPickTriangles; }
 
-void Scene::draw() {
+void Scene::draw(Renderer *renderer) {
   if (!mEnabled)
     return;
   AGRenderContext c;
   c.begin(); // reset gl-state
 
-  getRenderer()->setCurrentScene(this);
+  renderer->setCurrentScene(this);
   assertGL;
 
   mMeshes = 0;
@@ -57,22 +54,20 @@ void Scene::draw() {
     (*i)->sort(AGVector4(mCamera.getPosition(), 1));
 
   if (mShadow) {
-    calcShadowMap();
-    initScene();
-    drawShadow();
+    calcShadowMap(renderer);
+    //FIXME: set camera position in renderer
+    initScene(renderer);
+    drawShadow(renderer);
   } else {
-    initScene();
-    drawScene();
+    initScene(renderer);
+    drawScene(renderer);
   }
 
-  getRenderer()->setCurrentScene(0);
+  renderer->setCurrentScene(0);
 }
 
 void Scene::setShadow(int v) {
-  if (getRenderer()->canShadow()) {
-    mShadow = v;
-    cdebug(mShadow);
-  }
+  mShadow = v;
 }
 int Scene::getShadow() const { return mShadow; }
 
@@ -90,13 +85,13 @@ SceneNodeList Scene::getCurrentNodes() {
   return l;
 }
 
-void Scene::calcShadowMap() {
+void Scene::calcShadowMap(Renderer *renderer) {
   STACKTRACE;
   assertGL;
   //  AGMatrix4 frustum=getFrustum();
   size_t shadowMeshes = 0;
 
-  getRenderer()->beginShadowComputation();
+  renderer->beginShadowComputation();
 
   {
     STACKTRACE;
@@ -129,14 +124,14 @@ void Scene::calcShadowMap() {
   }
   //  cdebug("shadowMeshes:"<<shadowMeshes);
 
-  getRenderer()->endShadowComputation();
+  renderer->endShadowComputation();
   assertGL;
 }
 
 /**
   setups up lighting and gl-matrices (projection and such)
   */
-void Scene::initScene() {
+void Scene::initScene(Renderer *renderer) {
   assertGL;
   glClear(GL_DEPTH_BUFFER_BIT);
 
@@ -194,7 +189,7 @@ static GLuint displayList = 0;
 static bool dlInited = false;
 #endif
 
-void Scene::drawScene() {
+void Scene::drawScene(Renderer *renderer) {
   assertGL;
 #ifdef TEST_DL
   // this was for testing only - to check if display-lists are any good.
@@ -245,7 +240,7 @@ void Scene::drawScene() {
     for (Nodes::iterator i = sorted.begin(); i != sorted.end(); i++) {
       if (!(*i)->transparent()) {
         if ((*i)->visible()) {
-          (*i)->draw();
+          (*i)->draw(renderer);
           mTriangles += (*i)->getTriangles();
           drawn++;
           mMeshes++;
@@ -258,7 +253,7 @@ void Scene::drawScene() {
     for (Nodes::reverse_iterator i = sorted.rbegin(); i != sorted.rend(); i++) {
       if ((*i)->transparent()) {
         if ((*i)->visible()) {
-          (*i)->draw();
+          (*i)->draw(renderer);
           mTriangles += (*i)->getTriangles();
           drawn++;
           mMeshes++;
@@ -276,14 +271,14 @@ void Scene::drawScene() {
 
 /// deprecated function - this is done in one pass with "normal" drawing
 /// it was used to paint the shadow afterwards in a 3rd pass
-void Scene::drawShadow() {
+void Scene::drawShadow(Renderer *renderer) {
   assertGL;
 
-  getRenderer()->beginShadowDrawing();
+  renderer->beginShadowDrawing();
 
-  drawScene();
+  drawScene(renderer);
 
-  getRenderer()->endShadowDrawing();
+  renderer->endShadowDrawing();
 
   assertGL;
 }

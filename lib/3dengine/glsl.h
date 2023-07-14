@@ -58,11 +58,11 @@ public:
   AntShaderProgram(const std::string &pVertexFile,
                    const std::string &pFragFile);
   virtual ~AntShaderProgram();
-  virtual void enable();
+  virtual void enable(Renderer *renderer);
   virtual void disable();
 
-  void update(float time);
-  virtual void doUpdate(float time);
+  void update(Renderer *renderer, float time);
+  virtual void doUpdate(Renderer * renderer, float time);
 
   GLint getLoc(const std::string &pName);
   GLint getAttr(const std::string &pName);
@@ -88,9 +88,9 @@ private:
 class AGEXPORT AntShadowShader : public AntShaderProgram {
 public:
   AntShadowShader(const std::string &pVertexFile, const std::string &pFragFile);
-  void doUpdate(float time);
-  virtual void enable();
-  virtual void disable();
+  void doUpdate(Renderer *renderer, float time);
+  virtual void enable(Renderer *renderer);
+  virtual void disable(Renderer *renderer);
 };
 
 class AGEXPORT AntWaterShader : public AntShaderProgram {
@@ -98,7 +98,7 @@ class AGEXPORT AntWaterShader : public AntShaderProgram {
 
 public:
   AntWaterShader();
-  void doUpdate(float time);
+  void doUpdate(Renderer * renderer, float time);
 };
 
 AGEXPORT bool glslOk();

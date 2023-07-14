@@ -499,9 +499,9 @@ void VertexArrayShader::onScreenDown() {
   // FIXME: cleanup gl-objects
 }
 
-void VertexArrayShader::draw() {
+void VertexArrayShader::draw(Renderer *renderer) {
   assertGL;
-  p->enable();
+  p->enable(renderer);
   assertGL;
   if (!aInited)
     aInit();

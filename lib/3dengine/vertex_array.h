@@ -1,6 +1,7 @@
 #ifndef __vertex_array_h
 #define __vertex_array_h
 
+#include "ant_renderer.h"
 #include "glsl.h"
 #include "scene.h"
 #include <ag_geometry.h>
@@ -118,7 +119,7 @@ public:
   void addAttribute(const std::string &pName, const std::vector<float> &a);
   void addAttribute(const std::string &pName, const std::vector<Uint16> &a);
 
-  virtual void draw();
+  virtual void draw(Renderer *renderer);
 
   virtual void onScreenUp();
   virtual void onScreenDown();

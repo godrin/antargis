@@ -1,4 +1,5 @@
 #include "scenenode.h"
+#include "ant_renderer.h"
 #include "rk_debug.h"
 #include "scene.h"
 
@@ -33,7 +34,7 @@ void SceneNode::drawShadow() {}
 /// This functions is used in the 1st depth-drawing render-pass,
 /// so you should not use colors or textures, when not needed
 void SceneNode::drawDepth() {}
-void SceneNode::draw() {}
+void SceneNode::draw(Renderer *renderer) {}
 
 /// this function is used for picking objects.
 /// Picking is done one CPU, so shader-animated models are

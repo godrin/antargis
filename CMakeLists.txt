@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.0)
-project(antargis)
+cmake_minimum_required(VERSION 3.13)
+project(antargis LANGUAGES CXX VERSION 1.0.0)
 
 # when linking boost statically use the following line:
 set(Boost_USE_STATIC_LIBS "ON")
@@ -65,7 +65,7 @@ include_directories(${SDL_INCLUDE_DIR} ${RUBY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOUR
 #list( APPEND CMAKE_CXX_FLAGS " -fopenmp -lpthread -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs -Wall") #-dH -da
 
 # typical
-list( APPEND CMAKE_CXX_FLAGS " -lpthread -std=c++0x ${CMAKE_CXX_FLAGS}") #-dH -da
+list( APPEND CMAKE_CXX_FLAGS " -lpthread ${CMAKE_CXX_FLAGS}") #-dH -da
 # set debugging
 SET(CMAKE_CXX_FLAGS_DEBUG "-g -Wall") #-dH -da
 
@@ -76,6 +76,7 @@ SET(CMAKE_CXX_FLAGS_DEBUG "-g -Wall") #-dH -da
 
 #list( APPEND CMAKE_CXX_FLAGS " -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
 SET(CMAKE_SWIG_FLAGS "")
+SET(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 #SET_SOURCE_FILES_PROPERTIES(example.i PROPERTIES CPLUSPLUS ON)
 #SET_SOURCE_FILES_PROPERTIES(example.i PROPERTIES SWIG_FLAGS "-includeall")
@@ -146,13 +147,13 @@ SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl-image1.2 (>=1.2.10-2.1), libsdl-mixer1.
  libsdl-ttf2.0-0 (>=2.0.9-1build2)")
 
 SET(CPACK_SOURCE_GENERATOR "TGZ")
-SET(DEBIAN_PACKAGE_BUILDS_DEPENDS " libsdl-image1.2-dev (>=1.2.10-2.1)
- libsdl-mixer1.2-dev (>=1.2.8-6.3build1)
- libsdl-ttf2.0-dev (>=2.0.9-1build2)
- libsdl1.2-dev (>=1.2.14-6.1ubuntu4)
- libpng12-dev (>=1.2.46-3ubuntu1)
- zlib1g-dev (>=1:1.2.3.4.dfsg-3ubuntu3)
-   g++ (>=4:4.6.1-2ubuntu5)")
+#SET(DEBIAN_PACKAGE_BUILDS_DEPENDS " libsdl-image1.2-dev (>=1.2.10-2.1)
+# libsdl-mixer1.2-dev (>=1.2.8-6.3build1)
+# libsdl-ttf2.0-dev (>=2.0.9-1build2)
+# libsdl1.2-dev (>=1.2.14-6.1ubuntu4)
+# libpng12-dev (>=1.2.46-3ubuntu1)
+# zlib1g-dev (>=1:1.2.3.4.dfsg-3ubuntu3)
+#   g++ (>=4:4.6.1-2ubuntu5)")
 include(CPack)
 
 #add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)

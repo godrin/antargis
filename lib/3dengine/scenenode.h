@@ -3,6 +3,7 @@
 
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
+#include "ant_renderer.h"
 #include <ag_geometry.h>
 
 class SceneBase;
@@ -38,7 +39,7 @@ public:
   virtual void resetScene();
   virtual void drawShadow();
   virtual void drawDepth();
-  virtual void draw();
+  virtual void draw(Renderer *renderer);
   virtual void drawPick();
 
   /// advance mesh - e.g. animation

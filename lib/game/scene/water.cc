@@ -1,22 +1,21 @@
 #include "water.h"
 #include "ag_vdebug.h"
-#include "ag_kill.h"
 #include "ag_rendercontext.h"
 #include "ag_profiler.h"
 #include "ag_config.h"
-
+#include "ant_renderer.h"
+/*
 AntWaterShader *gWaterShader=0;
 AntWaterShader *getWaterShader()
   {
     if(!gWaterShader)
       {
         gWaterShader=new AntWaterShader;
-        REGISTER_SINGLETON(gWaterShader);
       }
     assert(gWaterShader);
     return gWaterShader;
   }
-
+*/
 static int gWaterAnim=-10;
 bool useWaterAnimation()
   {
@@ -97,7 +96,7 @@ void WaterPiece::addTriangle(int x0,int y0,int x1,int y1,int x2, int y2)
     mArray.addTriangle(x2+y2*w,x1+y1*w,x0+y0*w);
   }
 
-void WaterPiece::draw()
+void WaterPiece::draw(Renderer *renderer)
   {
     STACKTRACE;
     assertGL;
@@ -114,11 +113,15 @@ void WaterPiece::draw()
     glDisable(GL_CULL_FACE);
     glDisable(GL_ALPHA_TEST);
     glColor4f(1,1,1,1);
-    if(useWaterAnimation())
-      getWaterShader()->enable();
+    if(useWaterAnimation()) {
+      renderer->enableWaterShader();
+    //  getWaterShader()->enable();
+    }
     mArray.draw();
-    if(useWaterAnimation())
-      getWaterShader()->disable();
+    if(useWaterAnimation()) {
+      renderer->disableWaterShader();
+    //  getWaterShader()->disable();
+    }
     assertGL;
   }
 

@@ -4,6 +4,7 @@
 // INCLUDE_SWIG - used to filter, which files are included in swig-interfacing
 
 #include "ag_texture.h"
+#include "ant_renderer.h"
 #include "scenenode.h"
 
 class Scene;
@@ -49,7 +50,7 @@ public:
   /// let Scene take care of drawing order for transparency
   virtual bool transparent() { return true; }
 
-  void draw();
+  void draw(Renderer *renderer);
 
   /// disable the generation of new particles (smoke will fade slowly)
   void setEnabled(bool f);

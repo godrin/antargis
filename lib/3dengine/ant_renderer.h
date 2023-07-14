@@ -5,11 +5,12 @@
 
 class Scene;
 class AGFBO;
+class AntCamera;
 
 class Renderer {
-  Renderer();
 
 public:
+  Renderer();
   ~Renderer();
 
   bool canMultitexture();
@@ -30,8 +31,10 @@ public:
   void endShadowDrawing();
 
   bool badShadowMap();
+  void updateMatricesFromCamera(AntCamera &camera);
 
 private:
+
   int mCanMultitexture;
   int mCanShadow;
   int mCanGLSL;
@@ -45,9 +48,7 @@ private:
 
   Scene *mScene;
 
-  friend Renderer *getRenderer();
 };
 
-Renderer *getRenderer();
 
 #endif

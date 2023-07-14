@@ -1,9 +1,12 @@
 #include "gl_app.h"
 #include "ag_profiler.h"
 #include "ag_vdebug.h"
+#include "ant_renderer.h"
 #include "ant_sound.h"
 
-GLApp::GLApp(int w, int h) : scene(new Scene(w, h)) {
+GLApp::GLApp(int w, int h) {
+  renderer = new Renderer();
+  scene = new Scene(w, h, renderer->canShadow());
   shadow = true;
   mx = my = 0;
   omx = -1;
@@ -28,7 +31,7 @@ void GLApp::drawGL() {
   glDepthMask(true);
 
   assertGL;
-  scene->draw();
+  scene->draw(renderer);
   assertGL;
 }
 

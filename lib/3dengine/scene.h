@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "ant_camera.h"
+#include "ant_renderer.h"
 #include "scene_base.h"
 #include "scenenode.h"
 
@@ -37,10 +38,10 @@
 
 class AGEXPORT Scene : public SceneBase {
 public:
-  Scene(int w, int h);
+  Scene(int w, int h, int shadowMode);
   virtual ~Scene() throw();
 
-  void draw();
+  void draw(Renderer *renderer);
 
   // 0 == none, 1 == shadow mapping, 2 == perspective shadow mapping
   void setShadow(int v);
@@ -79,10 +80,10 @@ public:
   void setEnabled(bool p);
 
 private:
-  void calcShadowMap();
-  void drawScene();
-  void drawShadow();
-  void initScene();
+  void calcShadowMap(Renderer *renderer);
+  void drawScene(Renderer *renderer);
+  void drawShadow(Renderer *renderer);
+  void initScene(Renderer *renderer);
 
   void pickDraw();
   PickResult processHits(int hits, GLuint *buffer, float x, float y);

@@ -56,6 +56,11 @@ public:
   AGVector4 getLightPosition() const;
   AGVector3 getPosition() const;
 
+  void setModelView(const AGMatrix4 &m);
+  void setProjection(const AGMatrix4 &m);
+  void setLightView(const AGMatrix4 &m);
+  void setLightProjection(const AGMatrix4 &m);
+
   int getWidth() const;
   int getHeight() const;
 
@@ -70,7 +75,6 @@ public:
   AntProjection getLightProjection() const;
 
 private:
-  void updateMatrices();
 
   /// this position is changed when moving around
   AGVector4 scenePosition;
@@ -83,9 +87,6 @@ private:
   AGMatrix4 cameraView, cameraProjection;
 
   AGMatrix4 cameraPick;
-
-  /// use perspective shadow maps ?
-  bool mPSM;
 
   int mWidth, mHeight;
 };

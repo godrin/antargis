@@ -46,6 +46,7 @@ class AGEXPORT GLApp : public AGApplication {
 
 protected:
   Scene *scene;
+  Renderer *renderer;
 
 public:
   GLApp(int w, int h);

@@ -1,18 +1,20 @@
 #include "ant_renderer.h"
 #include "ag_config.h"
 #include "ag_fbo.h"
-#include "ag_kill.h"
+#include "ag_geometry.h"
 #include "ag_vdebug.h"
+#include "ant_camera.h"
 #include "scene.h"
 
-Renderer *gRenderer = 0;
+#include <cmath>
 
 bool usePlainGL = true;
 
+
+#define USE_PERSPECTIVE_SHADOW_MAPS false
+
 Renderer::Renderer() : mCanMultitexture(-1), mCanShadow(-1), mCanGLSL(-1) {
   mFBO = 0;
-  assert(gRenderer == 0);
-  gRenderer = this;
   mScene = 0;
 
   AGString shadowType = getConfig()->get("shadowType");
@@ -44,8 +46,6 @@ Renderer::Renderer() : mCanMultitexture(-1), mCanShadow(-1), mCanGLSL(-1) {
 }
 
 Renderer::~Renderer() {
-  assert(gRenderer == this);
-  gRenderer = 0;
   checkedDelete(mFBO); // checked - no agrubyobject
 }
 
@@ -336,11 +336,125 @@ void Renderer::endShadowDrawing() {
 
 bool Renderer::badShadowMap() { return shadowMapSize == 1024; }
 
-Renderer *getRenderer() {
-  if (!gRenderer) {
-    gRenderer = new Renderer;
-    REGISTER_SINGLETON(gRenderer);
+void Renderer::updateMatricesFromCamera(AntCamera &camera) {
+  assertGL;
+
+  const AGVector4 &cameraPosition = camera.getCameraPosition();
+  const AGVector3 &scenePosition = camera.getPosition();
+
+  // 1. init camera view matrix
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  gluLookAt(cameraPosition[0] + scenePosition[0],
+            cameraPosition[1] + scenePosition[1],
+            cameraPosition[2] + scenePosition[2], scenePosition[0],
+            scenePosition[1], scenePosition[2], 0, 0, 1);
+  AGMatrix4 modelView, projection;
+  glGetFloatv(GL_MODELVIEW_MATRIX, modelView);
+  camera.setModelView(modelView);
+
+  // 2. init camera projection matrix
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(45.0f, ((float)camera.getWidth())/camera.getHeight(), 3.0f, 63.0f);
+  glGetFloatv(GL_PROJECTION_MATRIX, projection);
+  camera.setProjection(projection);
+  glMatrixMode(GL_MODELVIEW);
+  assertGL;
+  if (USE_PERSPECTIVE_SHADOW_MAPS) {
+    // PSM
+    // calculation of lightposition is somehow crappy
+
+    // PSMs
+    //  lightPosition=AGVector4( -2.0, -3, 5.1,1)*100;
+
+    // light View Matrix
+    glLoadIdentity();
+
+    AGVector4 lp = camera.getLightPosition();
+    //    lp[
+    lp[3] = 1;
+    lp = projection * modelView * lp;
+
+    lp /= lp[3];
+
+    // it is something like (12,-10,10)
+
+    lp = AGVector4(-0.5, 1.5, -0.5, 1); // should be something like this
+    lp *= 100;
+
+    // lp=AGVector4(-2,2,-2,1);
+    gluLookAt(lp[0], lp[1], lp[2], 0, 0, 0, 0.0f, 1.0f, 0.0f);
+
+    AGMatrix4 lightView;
+    glGetFloatv(GL_MODELVIEW_MATRIX, lightView);
+
+    lightView = lightView * projection * modelView;
+
+    camera.setLightView(lightView);
+    // light projection Matrix
+    glLoadIdentity();
+    //    glOrtho(-10,10,-15,20,10,1000);
+    cdebug(lp.toString());
+    float s2 = sqrt(2.0f);
+    float ldist = lp.length3();
+
+    glOrtho(-s2, s2, -s2, s2, ldist - 2 * s2,
+            ldist + 10); // 1,10);//ldist-2*s2,ldist+10*s2);
+
+    // very old:glOrtho(-1,2,-1.5,3,700,750);
+    //       glOrtho(-1,2,-1,1,2,8);
+AGMatrix4 lightProjection;
+    glGetFloatv(GL_MODELVIEW_MATRIX, lightProjection);
+
+    camera.setLightProjection(lightProjection);
   }
-  assert(gRenderer);
-  return gRenderer;
+
+  {
+    //  lightPosition=AGVector4( -1.0, -3, 5.1,1);
+
+    // calc light view,too
+    // light View Matrix
+    glLoadIdentity();
+    AGVector3 eye = camera.getLightPosition().dim3() + camera.getPosition();
+    AGVector3 scenePosition = camera.getPosition();
+    AGMatrix4 lightView, lightProjection;
+    gluLookAt(eye[0], eye[1], eye[2], 
+        scenePosition[0],
+              scenePosition[1], scenePosition[2], 0.0f, 0.0f, 1.0f);
+    glGetFloatv(GL_MODELVIEW_MATRIX, lightView);
+    camera.setLightView(lightView);
+
+    // light projection Matrix
+    glLoadIdentity();
+
+    {
+      // FIXME add some decent calculation here
+      // use getFrustum for estimating a good light-frustum
+
+      float near0 = 20, near1 = 60;
+      float far0 = 20, far1 = 110;
+
+      float mnear = sqrt(near0 * near0 + near1 * near1);
+      float mfar = sqrt(far0 * far0 + far1 * far1);
+
+      float left = -25;
+      float right = 14;
+      float bottom = -15;
+      float top = 14;
+
+      if (badShadowMap())
+        top = bottom + (top - bottom) * 1024.0f / 768.0f;
+
+      glFrustum(left, right, bottom, top, mnear, mfar);
+    }
+
+    glGetFloatv(GL_MODELVIEW_MATRIX, lightProjection);
+    camera.setLightProjection(lightProjection);
+  }
+
+  // viewport
+  glMatrixMode(GL_MODELVIEW);
+  assertGL;
 }
